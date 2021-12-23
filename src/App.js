@@ -5,20 +5,32 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import SidebarNav from './SidebarNav';
-import Home from "./Pages/Home";
-import About from "./Pages/About";
+import AdminIndex from "./Pages/Admin";
+import UserIndex from "./Pages/User";
 
 function App() {
+
+  const admin = true;
+  const login = true;
+
   return (
 
-      <Router>
-        <SidebarNav />
-        <Routes>
-          <Route path="/home" exact element={<Home />} />
-          <Route path="/about" exact element={<About />} />
-        </Routes>
-      </Router>
+      // <Router>
+      //   <SidebarNav />
+      //   <Routes>
+      //     <Route path="/home" exact element={<Home />} />
+      //     <Route path="/about" exact element={<About />} />
+      //   </Routes>
+      // </Router>
+      <div>
+      {admin && login ?
+      
+        <AdminIndex path = "/admin" name = "admin" />
+        :
+        <UserIndex path = "/user" name = "user" />
+
+      }
+      </div>
 
   );
 }
