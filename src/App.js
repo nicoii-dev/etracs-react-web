@@ -5,36 +5,29 @@ import {
   Route,
   Link
 } from "react-router-dom";
+
 import AdminIndex from "./pages/admin";
 import UserIndex from "./pages/user";
-import LoginUser from "./pages/auth/LoginUser";
+import Authentication from "./pages/auth";
+
 
 function App() {
 
-  const admin = true;
+  const admin = false;
   const login = true;
   const user = false;
 
-  const aaa = () => {
-
+  const CheckCredentials = () => {
       if(admin && login){
-        return <AdminIndex path = "/admin" name = "admin" />
+        return <AdminIndex path = "/" name = "admin" />
       } else if(user && login) {
-        return <UserIndex path = "/user" name = "user" />
+        return <UserIndex path = "/" name = "user" />
       } else {
-        return <LoginUser path = "/login" name = "login" />
+        return <Authentication path = "/" name = "auth" />
       }
   }
   return (
-
-      <div>
-        {
-          aaa()
-        }
-      </div>
-
-      
-
+      CheckCredentials()
   );
 }
 

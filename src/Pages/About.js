@@ -1,14 +1,13 @@
 import React from 'react';
 
-
-const ForgotPass = () => {
+const About = () => {
     return (
         <div>
             <h1>
-                Forgot Password
+                About page
             </h1>
         </div>
-    );
-}
+    )
+};
 
-export default ForgotPass;
+export default About;

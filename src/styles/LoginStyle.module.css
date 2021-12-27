@@ -1,0 +1,8 @@
+.errorText {
+    color: red;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    font-size: 15px;
+}
