@@ -10,19 +10,20 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useForm, Controller } from "react-hook-form";
+
+import LoginStyle from '../../styles/LoginStyle.module.css';
+import { CheckEmail } from '../../helpers/EmailValidator';
 
 const theme = createTheme();
 
 const CreateUser = () => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  
+  const { control, handleSubmit, watch, formState: { errors } } = useForm();
+  const onSubmit = data => console.log(data);
+
+  const password = React.useRef({});
+  password.current = watch('password', '');
 
   return (
     <ThemeProvider theme={theme}>
@@ -42,49 +43,154 @@ const CreateUser = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
+                <Controller
+                  control={control}
+                  rules={{
+                      required: {
+                          value: true,
+                          message: 'First name is required',
+                      },
+                  }}
+                  render={({field: {onChange, onBlur, value}}) => (
+                    <TextField
+                        fullWidth
+                        label="First Name *"
+                        id="firstName"
+                        autoComplete="given-name"
+                        name="firstName"
+                        autoFocus
+                        onBlur={onBlur}
+                        onChange={onChange}
+                        value={value}
+                    />
+                  )}
                   name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
+                  defaultValue=""
                 />
+                {errors.firstName && (<div><p className={LoginStyle.errorText}>{errors.firstName?.message}</p></div>)}
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
+                <Controller
+                    control={control}
+                    rules={{
+                        required: {
+                            value: true,
+                            message: 'Last name is required',
+                        },
+                    }}
+                    render={({field: {onChange, onBlur, value}}) => (
+                      <TextField
+                          fullWidth
+                          label="Last Name *"
+                          id="lastName"
+                          autoComplete="family-name"
+                          name="lastName"
+                          autoFocus
+                          onBlur={onBlur}
+                          onChange={onChange}
+                          value={value}
+                      />
+                    )}
+                    name="lastName"
+                    defaultValue=""
+                  />
+                  {errors.lastName && (<div><p className={LoginStyle.errorText}>{errors.lastName?.message}</p></div>)}
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
+                <Controller
+                  control={control}
+                  rules={{
+                      required: {
+                          value: true,
+                          message: 'Email is required',
+                      },
+                      pattern: {
+                          value: CheckEmail(),
+                          message: 'Invalid email',
+                      },
+                  }}
+                  render={({field: {onChange, onBlur, value}}) => (
+                    <TextField
+                        fullWidth
+                        label="Email *"
+                        id="email"
+                        autoComplete="email"
+                        name="email"
+                        autoFocus
+                        onBlur={onBlur}
+                        onChange={onChange}
+                        value={value}
+                    />
+                  
+                  )}
                   name="email"
-                  autoComplete="email"
-                />
+                  defaultValue=""
+                  />
+                  {errors.email && (<div><p className={LoginStyle.errorText}>{errors.email?.message}</p></div>)}
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
+                <Controller
+                  control={control}
+                  rules={{
+                      required: {
+                          value: true,
+                          message: 'Password is required',
+                      },
+                      minLength: {
+                          value: 6,
+                          message: 'Password must be atleast 6 characters.',
+                      },
+                    }}
+                    render={({field: {onChange, onBlur, value}}) => (
+                        <TextField
+                            fullWidth
+                            label="Password *"
+                            type="password"
+                            id="password"
+                            onBlur={onBlur}
+                            onChange={onChange}
+                            value={value}
+                            autoFocus
+                        />
+                    )}
+                    name="password"
+                    defaultValue=""
                 />
+              {errors.password && (<p className={LoginStyle.errorText}>{errors.password?.message}</p>)}
+              </Grid>
+              <Grid item xs={12}>
+                <Controller
+                  control={control}
+                  rules={{
+                      required: {
+                          value: true,
+                          message: 'Confirm password is required',
+                      },
+                      minLength: {
+                          value: 6,
+                          message: 'Password must be atleast 6 characters.',
+                      },
+                      validate: value => value === password.current ? null : 'Password did not match.',
+                    }}
+                    render={({field: {onChange, onBlur, value}}) => (
+                        <TextField
+                            fullWidth
+                            label="Confirm Password *"
+                            type="password"
+                            id="confirmPassword"
+                            onBlur={onBlur}
+                            onChange={onChange}
+                            value={value}
+                            autoFocus
+                        />
+                    )}
+                    name="confirmPassword"
+                    defaultValue=""
+                />
+              {errors.confirmPassword && (<p className={LoginStyle.errorText}>{errors.confirmPassword?.message}</p>)}
               </Grid>
             </Grid>
             <Button
