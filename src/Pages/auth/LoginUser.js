@@ -15,23 +15,12 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useForm, Controller } from "react-hook-form";
 
 import LoginStyle from '../../styles/LoginStyle.module.css';
-import { CheckEmail } from '../../helpers/EmailValidator';
 
 const theme = createTheme();
 
 const LoginUser = () => {
     const { register, control, handleSubmit, watch, formState: { errors } } = useForm();
     const onSubmit = data => console.log(data);
-
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     const data = new FormData(event.currentTarget);
-    //     // eslint-disable-next-line no-console
-    //     console.log({
-    //       email: data.get('email'),
-    //       password: data.get('password'),
-    //     });
-    //   };
 
     return (
         <ThemeProvider theme={theme}>
@@ -56,10 +45,6 @@ const LoginUser = () => {
                                             required: {
                                                 value: true,
                                                 message: 'Email is required',
-                                            },
-                                            pattern: {
-                                                value: CheckEmail(),
-                                                message: 'Invalid email',
                                             },
                                         }}
                                         render={({field: {onChange, onBlur, value}}) => (
@@ -89,10 +74,6 @@ const LoginUser = () => {
                                             required: {
                                                 value: true,
                                                 message: 'Password is required',
-                                            },
-                                            minLength: {
-                                                value: 6,
-                                                message: 'Password must be atleast 6 characters.',
                                             },
                                         }}
                                         render={({field: {onChange, onBlur, value}}) => (
