@@ -32,17 +32,22 @@ const PageItemList = ({
 }) => {
     return (
         <div>
-         <List>
+         <List
+           component="nav"
+           aria-labelledby="nested-list-subheader"
+           >
             {PageData.map((page, index) => (
               page.pageName === "Transaction" ?
-                  <ListItem button onClick={() =>{setExpand(!expand)}} key = {page.pageName}>
+                <div key = {page.pageName}>
+                  <ListItemButton onClick={() =>{setExpand(!expand)}}>
                     <ListItemIcon>
                       {page.pageIcon}
                     </ListItemIcon>
                     <ListItemText primary={page.pageName} />
                     {expand ? <ExpandLess /> : <ExpandMore />}
-                  
-                    <Collapse in={expand} timeout="auto" unmountOnExit>
+                    </ListItemButton>
+
+                      <Collapse in={expand} timeout="auto" unmountOnExit>
                       <List component="div" disablePadding style={{marginLeft: open ? 30 : -15}}>
                         <ListItemButton sx={{ pl: 4 }} key = {1}>
                           <ListItemIcon>
@@ -58,14 +63,16 @@ const PageItemList = ({
                         </ListItemButton>
                       </List>
                     </Collapse>
-                  </ListItem> 
+                  </div>
                   :
-                  <ListItem button key={page.pageName}>
-                      <ListItemIcon>
-                        {page.pageIcon}
-                      </ListItemIcon>
-                      <ListItemText primary={page.pageName} />
-                  </ListItem>
+                  <div key = {page.pageName}>
+                    <ListItem button key={page.pageName}>
+                        <ListItemIcon>
+                          {page.pageIcon}
+                        </ListItemIcon>
+                        <ListItemText primary={page.pageName} />
+                    </ListItem>
+                  </div>
                 ))}
             </List>
           <Divider />
