@@ -6,16 +6,16 @@ import {
     Link
   } from "react-router-dom";
 
-import SidebarNav from '../../nav';
-import Home from '../Home';
-import About from '../About';
+import SidebarNav from '../nav/admin';
+import Home from '../Pages/Home';
+import About from '../Pages/About';
 
-const AdminIndex = ({props}) => {
+const AdminLayout = ({ ...props }) => {
 
     const [expanded, setExpanded] = useState(true);
 
     return (
-        <div>
+        <Router>
             <SidebarNav 
                 expanded = {expanded}
                 setExpanded = {setExpanded}
@@ -26,13 +26,14 @@ const AdminIndex = ({props}) => {
                     padding: '15px 20px 0 20px'
                 }}
             >
-
-                   {props}
-
+              <Routes>
+                    <Route path = "/about" element={<About />} />
+                    <Route path = "/home" element={<Home />} />
+              </Routes>
             </div>
-        </div>
+        </Router>
     );
 
 }
 
-export default AdminIndex;
+export default AdminLayout;
