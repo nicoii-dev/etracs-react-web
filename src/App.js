@@ -10,48 +10,41 @@ import {
 import LoginUser from "./pages/auth/LoginUser";
 import CreateUser from "./pages/auth/CreateUser";
 import AdminIndex from "./pages/admin";
-import Home from "./pages/Home";
 
-import Profile from "./pages/user/Profile";
-import { AdminPanelSettingsOutlined } from "@mui/icons-material";
+import Profile from './pages/user/Profile'
+import AdminRoutes from "./routes/AdminRoutes";
+import UserRoutes from "./routes/UserRoutes";
+import Error404 from "./pages/error/Error404";
 
 function App() {
 
-  const [auth, setAuth] = useState(false);
-  const [admin, setAdmin] = useState(false);
-  const [user, setUser] = useState(true);
+  const [auth, setAuth] = useState(true);
+  const [admin, setAdmin] = useState(true);
+  const [user, setUser] = useState(false);
+
   return (
     <div>
       <Router>
-        <Routes>
-          {!auth && (
+
+        {!auth && 
+          (<Routes>
             <Route path="/login" element={<LoginUser />} />
+            <Route path="*" element={<Error404 />} />
+          </Routes>)}
+        {auth && user && 
+          (
+            <UserRoutes />
           )}
-
-        {admin && (
-          <>     
-            <Route path="/createuser" element={<CreateUser />} />
-            <Route path="/admin" element={<AdminIndex props={<Home />}/>} />
-          </>
-        )}
-
-        {user && (
-            <>     
-              <Route path="/profile" element={<Profile />} />
-            </>
+        {auth && admin && 
+          (
+            <AdminRoutes />
           )}
-
-
-          <Route path="*" element={<Navigate to={auth? "/admin" : "/login"} />} />
-
-        </Routes>
+        
       </Router>
 
     </div>
    
-    
   )
-
 }
 
 export default App;

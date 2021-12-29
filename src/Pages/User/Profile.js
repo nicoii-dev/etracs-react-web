@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Outlet } from 'react-router-dom'
 
 const Profile = () => {
     return (
@@ -7,6 +7,7 @@ const Profile = () => {
             <h1>
                 Profile Page
             </h1>
+            <Outlet />
         </div>
     )
 }
