@@ -1,15 +1,13 @@
 import React from 'react';
 
-
-const UserIndex = ({ ...props }) => {
+const Error404 = () => {
     return (
         <div>
             <h1>
-                User Home Page
+                Error404 page
             </h1>
         </div>
-    );
+    )
+};
 
-}
-
-export default UserIndex;
+export default Error404;

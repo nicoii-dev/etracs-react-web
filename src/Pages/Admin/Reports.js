@@ -1,13 +1,13 @@
 import React from 'react';
 
-const Home = () => {
+const Reports = () => {
     return (
         <div>
             <h1>
-                Home page
+                Reports page
             </h1>
         </div>
     )
 };
 
-export default Home
+export default Reports;

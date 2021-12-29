@@ -1,15 +1,13 @@
 import React from 'react';
 
-
-const UserIndex = ({ ...props }) => {
+const Dashboard = () => {
     return (
         <div>
             <h1>
-                User Home Page
+                Dashboard page
             </h1>
         </div>
-    );
+    )
+};
 
-}
-
-export default UserIndex;
+export default Dashboard;
