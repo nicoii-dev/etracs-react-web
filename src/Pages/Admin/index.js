@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import SidebarNav from '../../nav';
+import AdminSidebarNav from '../../nav/admin';
 
 const AdminIndex = ({props}) => {
 
@@ -8,7 +8,7 @@ const AdminIndex = ({props}) => {
 
     return (
         <div>
-            <SidebarNav 
+            <AdminSidebarNav 
                 expanded = {expanded}
                 setExpanded = {setExpanded}
             />

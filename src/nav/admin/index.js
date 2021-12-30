@@ -81,7 +81,7 @@ import PageItemList from './PageItemList';
     }),
   );
   
-  const SidebarNav = ({
+  const AdminSidebarNav = ({
     expanded,
     setExpanded
   }) => {
@@ -141,4 +141,4 @@ import PageItemList from './PageItemList';
     );
   }
 
-export default SidebarNav
+export default AdminSidebarNav;

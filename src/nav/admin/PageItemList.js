@@ -23,6 +23,10 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import ListItemButton from '@mui/material/ListItemButton';
 import { Wifi, WifiOff } from '@mui/icons-material';
 
+import {
+  useNavigate
+} from 'react-router-dom';
+
 import { PageData } from './PageData';
 
 const PageItemList = ({
@@ -30,6 +34,7 @@ const PageItemList = ({
     expand,
     open
 }) => {
+    const navigate = useNavigate();
     return (
         <div>
          <List
@@ -39,23 +44,23 @@ const PageItemList = ({
             {PageData.map((page, index) => (
               page.pageName === "Transaction" ?
                 <div key = {page.pageName}>
-                  <ListItemButton onClick={() =>{setExpand(!expand)}}>
-                    <ListItemIcon>
-                      {page.pageIcon}
-                    </ListItemIcon>
-                    <ListItemText primary={page.pageName} />
-                    {expand ? <ExpandLess /> : <ExpandMore />}
-                    </ListItemButton>
+                    <ListItemButton onClick={() =>{setExpand(!expand)}}>
+                      <ListItemIcon>
+                        {page.pageIcon}
+                      </ListItemIcon>
+                      <ListItemText primary={page.pageName} />
+                      {expand ? <ExpandLess /> : <ExpandMore />}
+                      </ListItemButton>
 
                       <Collapse in={expand} timeout="auto" unmountOnExit>
                       <List component="div" disablePadding style={{marginLeft: open ? 30 : -15}}>
-                        <ListItemButton sx={{ pl: 4 }} key = {1}>
+                        <ListItemButton sx={{ pl: 4 }} onClick={() => {navigate('transaction/online')}}>
                           <ListItemIcon>
                             <Wifi />
                           </ListItemIcon>
                           <ListItemText primary="Online" />
                         </ListItemButton>
-                        <ListItemButton sx={{ pl: 4 }} key = {2}>
+                        <ListItemButton sx={{ pl: 4 }} onClick={() => {navigate('transaction/offline')}}>
                           <ListItemIcon>
                             <WifiOff />
                           </ListItemIcon>
@@ -66,12 +71,12 @@ const PageItemList = ({
                   </div>
                   :
                   <div key = {page.pageName}>
-                    <ListItem button key={page.pageName}>
-                        <ListItemIcon>
-                          {page.pageIcon}
-                        </ListItemIcon>
-                        <ListItemText primary={page.pageName} />
-                    </ListItem>
+                      <ListItem button key={page.pageName} onClick={() => {navigate(page.link)}}>
+                          <ListItemIcon>
+                            {page.pageIcon}
+                          </ListItemIcon>
+                          <ListItemText primary={page.pageName} />
+                      </ListItem>
                   </div>
                 ))}
             </List>
