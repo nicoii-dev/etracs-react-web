@@ -3,15 +3,13 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
-  Navigate,
 } from "react-router-dom";
 
-import LoginUser from "./pages/auth/LoginUser";
-import CreateUser from "./pages/auth/CreateUser";
-import AdminIndex from "./pages/admin";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import Profile from './pages/user/Profile'
+
+
+import LoginUser from "./pages/auth/LoginUser";
 import AdminRoutes from "./routes/AdminRoutes";
 import UserRoutes from "./routes/UserRoutes";
 import Error404 from "./pages/error/Error404";
