@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
     Routes,
     Route,
+    Navigate,
   } from "react-router-dom";
 import AdminIndex from '../pages/admin';
 
@@ -16,6 +17,7 @@ const AdminRoutes = () => {
 
         <Routes>
             <Route path="/" element = {<AdminIndex />} >
+                <Route path="/" element={<Dashboard />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="reports" element={<Reports />} />
                 <Route path="transaction/online" element={<OnlineTransaction />} />
