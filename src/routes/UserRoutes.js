@@ -15,11 +15,10 @@ import UserIndex from '../pages/user';
 const UserRoutes = () => {
     return (
         <Routes>
-            <Route path="/" element={<UserIndex />}>
-                <Route path="/profile" element = {<Profile />} />
-                <Route path="/about" element={<About />} />
-                <Route path="*" element={<Error404 />} />
-            </Route>
+            <Route path="/" element={<UserIndex />} />
+            <Route path="/profile" element = {<Profile />} />
+            <Route path="/about" element={<About />} />
+            <Route path="*" element={<Error404 />} />          
         </Routes>
 
     )

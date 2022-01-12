@@ -1,57 +1,45 @@
 import React from 'react';
-import {
-    Card,
-    Row,
-    Col,
-  } from "react-bootstrap";
-import Container from 'react-bootstrap/Container'
+// /import Head from 'next/head';
+import { Box, Container, Grid } from '@mui/material';
 import HeaderData from '../../components/dashboard/HeaderData';
 import BarChart from '../../components/dashboard/BarChart';
-import SplineChart from '../../components/dashboard/SplineChart';
 import PieChart from '../../components/dashboard/PieChart';
+import SplineChart from '../../components/dashboard/SplineChart';
 import NewlyAddedUserTable from '../../components/dashboard/NewlyAddedUserTable';
 
 const Dashboard = () => {
     return (
-        <Container fluid style={{marginTop:30}}>
-            <HeaderData />
-            <Row style={{marginTop:20}}>
-                <Col lg="12" sm="6">
-                    <Row>
-                        <Col lg="8" sm="2">
-                            <Card className="card-stats">
-                                <Card.Body>
-                                    <BarChart />
-                                </Card.Body>
-                                
-                            </Card>
-                        </Col>
-                        <Col lg="4" sm="2">
-                            <Card className="card-stats">
-                                <Card.Body>
-                                    <PieChart />
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row>
-                </Col>
-                <Col lg="12" sm="6" style={{marginTop:20}}>
-                    <Row>
-                        <Col lg="6" sm="2">
-                            <Card className="card-stats">
-                                <SplineChart />
-                            </Card>
-                        </Col>
-                        <Col lg="6" sm="2">
-                            <Card className="card-stats">
-                                <NewlyAddedUserTable />
-                            </Card>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-           
-        </Container>
+        <>
+        {/* <Head>
+          <title>
+            Dashboard | Material Kit
+          </title>
+        </Head> */}
+        <Box
+          component="main"
+          sx={{
+            py: 3,
+          }}
+        >
+          <Container maxWidth={false}>
+          <HeaderData />
+            <Grid container >
+              <Grid item xl={8} lg={6} sm={3} xs={12} sx={{marginTop:5}}>
+                <BarChart />
+              </Grid>
+              <Grid item xl={4} lg={6} sm={3} xs={12} sx={{marginTop:5}}>
+                <PieChart sx={{ height: '100%', width: '100%' }} />
+              </Grid>
+              <Grid item xl={6} lg={6} sm={3} xs={12} sx={{marginTop:5}}>
+                <SplineChart sx={{ height: '100%', width: '100%' }} />
+              </Grid>
+              <Grid item xl={6} lg={6} sm={3} xs={12} sx={{marginTop:5}}>
+                <NewlyAddedUserTable sx={{ height: '100%', width: '100%' }} />
+              </Grid>
+            </Grid>
+          </Container>
+        </Box>
+      </>
     )
 };
 

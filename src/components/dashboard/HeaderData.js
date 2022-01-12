@@ -12,11 +12,11 @@ const HeaderData = () => {
     return (
         <Row>
             <Col lg="3" sm="6">
-                <Card className="card-stats" style={{borderColor:'red', color:'red'}}>
+                <Card className="card-stats">
                     <Card.Body>
                         <Row>
                             <Col xs="5">
-                                <AccountBoxOutlined style={{fontSize:70, color:'red'}} />
+                                <AccountBoxOutlined style={{fontSize:70, color:'#CD5C5C'}} />
                             </Col>
                             <Col xs="7" >
                             <div className="numbers" style={{textAlign:'end'}}>
@@ -33,11 +33,11 @@ const HeaderData = () => {
                 </Card>
             </Col>
             <Col lg="3" sm="6">
-                <Card className="card-stats" style={{borderColor:'green', color:'green'}}>
+                <Card className="card-stats">
                     <Card.Body>
                         <Row>
                             <Col xs="5">
-                                <ReceiptOutlined style={{fontSize:70, color:'green'}} />
+                                <ReceiptOutlined style={{fontSize:70, color:'#6B8E23'}} />
                             </Col>
                             <Col xs="7" >
                             <div className="numbers" style={{textAlign:'end'}}>
@@ -54,11 +54,11 @@ const HeaderData = () => {
                 </Card>
             </Col>
             <Col lg="3" sm="6">
-                <Card className="card-stats" style={{borderColor:'blue', color:'blue'}}>
+                <Card className="card-stats">
                     <Card.Body>
                         <Row>
                             <Col xs="5">
-                                <AccountBoxOutlined style={{fontSize:70, color:'blue'}} />
+                                <AccountBoxOutlined style={{fontSize:70, color:'#20B2AA'}} />
                             </Col>
                             <Col xs="7" >
                             <div className="numbers" style={{textAlign:'end'}}>
@@ -75,11 +75,11 @@ const HeaderData = () => {
                 </Card>
             </Col>
             <Col lg="3" sm="6">
-                <Card className="card-stats" style={{borderColor:'#00CCCC', color:'#00CCCC'}} >
+                <Card className="card-stats">
                     <Card.Body>
                         <Row>
                             <Col xs="5">
-                                <AccountBoxOutlined style={{fontSize:70, color:'#00CCCC'}} />
+                                <AccountBoxOutlined style={{fontSize:70, color:'#9370DB'}} />
                             </Col>
                             <Col xs="7" >
                             <div className="numbers" style={{textAlign:'end'}}>
