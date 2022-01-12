@@ -26,6 +26,7 @@ function App() {
 
         {!auth && 
           (<Routes>
+            <Route path="/" element={<LoginUser />} />
             <Route path="/login" element={<LoginUser />} />
             <Route path="*" element={<Error404 />} />
           </Routes>)}

@@ -7,7 +7,7 @@ export const PageData = [
         id: 1,
         pageName: 'Dashboard',
         pageIcon: <Dashboard />,
-        link: 'dashboard'
+        link: '/'
     },
     {
         id: 2,
