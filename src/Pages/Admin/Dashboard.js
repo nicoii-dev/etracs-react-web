@@ -24,17 +24,17 @@ const Dashboard = () => {
           <Container maxWidth={false}>
           <HeaderData />
             <Grid container >
-              <Grid item xl={8} lg={6} sm={3} xs={12} sx={{marginTop:5}}>
+              <Grid item xl={8} lg={12} sm={9} xs={12} sx={{marginTop:5}}>
                 <BarChart />
               </Grid>
               <Grid item xl={4} lg={6} sm={3} xs={12} sx={{marginTop:5}}>
-                <PieChart sx={{ height: '100%', width: '100%' }} />
+                <PieChart sx={{ height: '100%'}} />
               </Grid>
               <Grid item xl={6} lg={6} sm={3} xs={12} sx={{marginTop:5}}>
-                <SplineChart sx={{ height: '100%', width: '100%' }} />
+                <SplineChart sx={{ height: '100%'}} />
               </Grid>
               <Grid item xl={6} lg={6} sm={3} xs={12} sx={{marginTop:5}}>
-                <NewlyAddedUserTable sx={{ height: '100%', width: '100%' }} />
+                <NewlyAddedUserTable sx={{ height: '100%'}} />
               </Grid>
             </Grid>
           </Container>

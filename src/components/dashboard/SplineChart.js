@@ -1,44 +1,109 @@
-import React from 'react';
-import {CanvasJSChart} from 'canvasjs-react-charts'
+import { formatDistanceToNow, subHours } from 'date-fns';
+import { v4 as uuid } from 'uuid';
+import {
+  Box,
+  Button,
+  Card,
+  CardHeader,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText
+} from '@mui/material';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-const SplineChart = () => {
-    const options = {
-        animationEnabled: true,
-        title:{
-            text: "Monthly Sales - 2017"
+const SplineChart = (props) => {
+
+    const products = [
+        {
+          id: 1,
+          name: 'Dropbox',
+          imageUrl: '/assets/images/products/product_1.png',
+          updatedAt: subHours(Date.now(), 2)
         },
-        axisX: {
-            valueFormatString: "MMM"
+        {
+          id: 2,
+          name: 'Medium Corporation',
+          imageUrl: '/assets/images/products/product_2.png',
+          updatedAt: subHours(Date.now(), 2)
         },
-        axisY: {
-            title: "Sales (in USD)",
-            prefix: "$"
+        {
+          id: 3,
+          name: 'Slack',
+          imageUrl: '/assets/images/products/product_3.png',
+          updatedAt: subHours(Date.now(), 3)
         },
-        data: [{
-            yValueFormatString: "$#,###",
-            xValueFormatString: "MMMM",
-            type: "spline",
-            dataPoints: [
-                { x: new Date(2017, 0), y: 25060 },
-                { x: new Date(2017, 1), y: 27980 },
-                { x: new Date(2017, 2), y: 42800 },
-                { x: new Date(2017, 3), y: 32400 },
-                { x: new Date(2017, 4), y: 35260 },
-                { x: new Date(2017, 5), y: 33900 },
-                { x: new Date(2017, 6), y: 40000 },
-                { x: new Date(2017, 7), y: 52500 },
-                { x: new Date(2017, 8), y: 32300 },
-                { x: new Date(2017, 9), y: 42000 },
-                { x: new Date(2017, 10), y: 37160 },
-                { x: new Date(2017, 11), y: 38400 }
-            ]
-        }]
-    }
+        {
+          id: 4,
+          name: 'Lyft',
+          imageUrl: '/assets/images/products/product_4.png',
+          updatedAt: subHours(Date.now(), 5)
+        },
+        {
+          id: 5,
+          name: 'GitHub',
+          imageUrl: '/assets/images/products/product_5.png',
+          updatedAt: subHours(Date.now(), 9)
+        }
+      ];
 
     return (
-        <CanvasJSChart 
-            options = {options}
+        <Card {...props}>
+        <CardHeader
+          subtitle={`${products.length} in total`}
+          title="Latest Products"
         />
+        <Divider />
+        <List>
+          {products.map((product, i) => (
+            <ListItem
+              divider={i < products.length - 1}
+              key={product.id}
+            >
+              <ListItemAvatar>
+                <img
+                  alt={product.name}
+                  src={product.imageUrl}
+                  style={{
+                    height: 48,
+                    width: 48
+                  }}
+                />
+              </ListItemAvatar>
+              <ListItemText
+                primary={product.name}
+                secondary={`Updated ${formatDistanceToNow(product.updatedAt)}`}
+              />
+              <IconButton
+                edge="end"
+                size="small"
+              >
+                <MoreVertIcon />
+              </IconButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            p: 2
+          }}
+        >
+          <Button
+            color="primary"
+            endIcon={<ArrowRightIcon />}
+            size="small"
+            variant="text"
+          >
+            View all
+          </Button>
+        </Box>
+      </Card>
     )
 }
 
