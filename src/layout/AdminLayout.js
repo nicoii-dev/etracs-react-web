@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Link
-  } from "react-router-dom";
+import { Outlet } from 'react-router-dom';
+import AdminSidebarNav from '../nav/admin';
 
-import SidebarNav from '../nav/admin';
-import Home from '../Pages/Home';
-import About from '../Pages/About';
-
-const AdminLayout = ({ ...props }) => {
+const AdminLayout = ({props}) => {
 
     const [expanded, setExpanded] = useState(true);
 
     return (
-        <Router>
-            <SidebarNav 
+        <div>
+            <AdminSidebarNav 
                 expanded = {expanded}
                 setExpanded = {setExpanded}
             />
@@ -26,12 +18,10 @@ const AdminLayout = ({ ...props }) => {
                     padding: '15px 20px 0 20px'
                 }}
             >
-              <Routes>
-                    <Route path = "/about" element={<About />} />
-                    <Route path = "/home" element={<Home />} />
-              </Routes>
+               <Outlet />
+              
             </div>
-        </Router>
+        </div>
     );
 
 }

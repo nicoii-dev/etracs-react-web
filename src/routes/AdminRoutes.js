@@ -4,8 +4,10 @@ import {
     Route,
     Navigate,
   } from "react-router-dom";
-import AdminIndex from '../pages/admin';
+// * layout
+import AdminLayout from '../layout/AdminLayout';
 
+// * pages
 import Dashboard from '../pages/admin/Dashboard';
 import OfflineTransaction from '../pages/admin/OfflineTransaction';
 import OnlineTransaction from '../pages/admin/OnlineTransaction';
@@ -16,7 +18,7 @@ const AdminRoutes = () => {
     return (
 
         <Routes>
-            <Route path="/" element = {<AdminIndex />} >
+            <Route path="/" element = {<AdminLayout />} >
                 <Route path="/" element={<Dashboard />} />
                 <Route path="reports" element={<Reports />} />
                 <Route path="transaction/online" element={<OnlineTransaction />} />
