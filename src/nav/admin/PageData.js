@@ -12,7 +12,16 @@ export const PageData = [
     {
         id: 2,
         pageName: 'Transaction',
-        pageIcon: <SaveAs />,       
+        pageIcon: <SaveAs />, 
+        subPage: 
+        [{
+            subPageName: 'Online',
+            link: 'transaction/online'
+        },
+        {
+            subPageName: 'Offline',
+            link: 'transaction/offline'
+        }] 
     },
     {
         id: 3,
@@ -22,6 +31,20 @@ export const PageData = [
     },
     {
         id: 4,
+        pageName: 'General Revision',
+        pageIcon: <SaveAs />,
+        subPage: 
+        [{
+            subPageName: 'Land',
+            link: 'generalrevision/online'
+        },
+        {
+            subPageName: 'Building',
+            link: 'generalrevision/offline'
+        }] 
+    },
+    {
+        id: 10,
         pageName: 'Reports',
         pageIcon: <DateRange />,
         link: 'reports'

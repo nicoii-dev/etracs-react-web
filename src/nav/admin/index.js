@@ -14,7 +14,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import PageItemList from './PageItemList';
 
-  const drawerWidth = 240;
+  const drawerWidth = 320;
   
   const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -134,7 +134,7 @@ import PageItemList from './PageItemList';
                 open = {open}
               />
         </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Box component="main" sx={{ flexGrow: 1, p: 3,}}>
           
         </Box>
       </Box>

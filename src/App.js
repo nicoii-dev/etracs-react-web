@@ -8,11 +8,10 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 
 
-
-import LoginUser from "./pages/auth/LoginUser";
+import AuthRoutes from "./routes/AuthRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
 import UserRoutes from "./routes/UserRoutes";
-import Error404 from "./pages/error/Error404";
+
 
 function App() {
 
@@ -25,11 +24,8 @@ function App() {
       <Router>
 
         {!auth && 
-          (<Routes>
-            <Route path="/" element={<LoginUser />} />
-            <Route path="/login" element={<LoginUser />} />
-            <Route path="*" element={<Error404 />} />
-          </Routes>)}
+         (<AuthRoutes />)  
+        }
         {auth && user && 
           (
             <UserRoutes />

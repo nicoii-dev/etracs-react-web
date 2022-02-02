@@ -9,8 +9,9 @@ import AdminLayout from '../layout/AdminLayout';
 
 // * pages
 import Dashboard from '../pages/admin/Dashboard';
-import OfflineTransaction from '../pages/admin/OfflineTransaction';
 import OnlineTransaction from '../pages/admin/OnlineTransaction';
+import OfflineTransaction from '../pages/admin/OfflineTransaction';
+import LandRevision from '../pages/common/general-revision/land';
 import Reports from '../pages/admin/Reports';
 import Error404 from '../pages/error/Error404';
 
@@ -23,6 +24,7 @@ const AdminRoutes = () => {
                 <Route path="reports" element={<Reports />} />
                 <Route path="transaction/online" element={<OnlineTransaction />} />
                 <Route path="transaction/offline" element={<OfflineTransaction />} />
+                <Route path="generalrevision/land" element={<LandRevision />} />
                 <Route path="*" element={<Error404 />} />
             </Route>
         </Routes>

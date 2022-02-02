@@ -1,95 +1,52 @@
 import React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import ListItemButton from '@mui/material/ListItemButton';
-import { Wifi, WifiOff } from '@mui/icons-material';
 
 import {
   useNavigate
 } from 'react-router-dom';
 
-import { PageData } from './PageData';
+import { Dashboard, Logout } from '@mui/icons-material';
 
-const PageItemList = ({
-    setExpand,
-    expand,
-    open
-}) => {
+import GeneralRevisionNav from '../common/general-revision'
+import EntityNav from '../common/entity';
+import FaasNav from '../common/faas';
+
+const PageItemList = ({open}) => {
     const navigate = useNavigate();
+
+
     return (
         <div>
          <List
            component="nav"
            aria-labelledby="nested-list-subheader"
            >
-            {PageData.map((page, index) => (
-              page.pageName === "Transaction" ?
-                <div key = {page.pageName}>
-                    <ListItemButton onClick={() =>{setExpand(!expand)}}>
-                      <ListItemIcon>
-                        {page.pageIcon}
-                      </ListItemIcon>
-                      <ListItemText primary={page.pageName} />
-                      {expand ? <ExpandLess /> : <ExpandMore />}
-                      </ListItemButton>
-
-                      <Collapse in={expand} timeout="auto" unmountOnExit>
-                      <List component="div" disablePadding style={{marginLeft: open ? 30 : -15}}>
-                        <ListItemButton sx={{ pl: 4 }} onClick={() => {navigate('transaction/online')}}>
-                          <ListItemIcon>
-                            <Wifi />
-                          </ListItemIcon>
-                          <ListItemText primary="Online" />
-                        </ListItemButton>
-                        <ListItemButton sx={{ pl: 4 }} onClick={() => {navigate('transaction/offline')}}>
-                          <ListItemIcon>
-                            <WifiOff />
-                          </ListItemIcon>
-                          <ListItemText primary="Offline" />
-                        </ListItemButton>
-                      </List>
-                    </Collapse>
-                  </div>
-                  :
-                  <div key = {page.pageName}>
-                      <ListItem button key={page.pageName} onClick={() => {navigate(page.link)}}>
-                          <ListItemIcon>
-                            {page.pageIcon}
-                          </ListItemIcon>
-                          <ListItemText primary={page.pageName} />
-                      </ListItem>
-                  </div>
-                ))}
+              <div>
+                <ListItem button key={'Dashboard'} onClick={() => {navigate('/')}}>
+                    <ListItemIcon>
+                      <Dashboard />
+                    </ListItemIcon>
+                    <ListItemText primary={'Dashboard'} />
+                </ListItem>
+              </div>
+              <EntityNav open={open} />
+              <FaasNav open={open} />
+              <GeneralRevisionNav open={open} />
             </List>
           <Divider />
           <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
+            <div style={{position:'fixed', bottom:20}}>
+              <ListItem button key={'Logout'} onClick={() => {navigate('/')}}>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  <Logout />
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={'Logout'} />
               </ListItem>
-            ))}
+            </div>
           </List>
         </div>
     );
