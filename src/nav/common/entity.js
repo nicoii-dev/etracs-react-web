@@ -6,7 +6,7 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ListItemButton from '@mui/material/ListItemButton';
-import { PeopleAlt, AccountBox, AssignmentInd, AccountCircle } from '@mui/icons-material';
+import { PeopleAlt, AccountBox, AssignmentInd, AccountCircle, CoPresent } from '@mui/icons-material';
 
 import {
   useNavigate
@@ -29,21 +29,27 @@ const EntityNav = ({open}) => {
                 <List component="div" disablePadding style={{marginLeft: open ? 30 : -15}}>
                     <ListItemButton sx={{ pl: 4 }} onClick={() => {navigate('entity/individual')}}>
                         <ListItemIcon>
-                        <AccountCircle />
+                            <AccountCircle />
                         </ListItemIcon>
                         <ListItemText primary="Individual" />
                     </ListItemButton>
                     <ListItemButton sx={{ pl: 4 }} onClick={() => {navigate('entity/juridical')}}>
                         <ListItemIcon>
-                        <AssignmentInd />
+                            <AssignmentInd />
                         </ListItemIcon>
                         <ListItemText primary="Juridical" />
                     </ListItemButton>
                     <ListItemButton sx={{ pl: 4 }} onClick={() => {navigate('entity/multiple')}}>
                         <ListItemIcon>
-                        <PeopleAlt />
+                            <PeopleAlt />
                         </ListItemIcon>
                         <ListItemText primary="Multiple" />
+                    </ListItemButton>
+                    <ListItemButton sx={{ pl: 4 }} onClick={() => {navigate('entity/reconcile')}}>
+                        <ListItemIcon>
+                            <CoPresent />
+                        </ListItemIcon>
+                        <ListItemText primary="Reconcile" />
                     </ListItemButton>
                 </List>
             </Collapse>

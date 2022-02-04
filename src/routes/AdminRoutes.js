@@ -5,7 +5,7 @@ import {
     Navigate,
   } from "react-router-dom";
 // * layout
-import AdminLayout from '../layout/AdminLayout';
+import _Layout from '../layout';
 
 // * pages
 import Dashboard from '../pages/admin/Dashboard';
@@ -19,7 +19,7 @@ const AdminRoutes = () => {
     return (
 
         <Routes>
-            <Route path="/" element = {<AdminLayout />} >
+            <Route path="/" element = {<_Layout />} >
                 <Route path="/" element={<Dashboard />} />
                 <Route path="reports" element={<Reports />} />
                 <Route path="transaction/online" element={<OnlineTransaction />} />

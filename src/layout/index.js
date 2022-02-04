@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import AdminSidebarNav from '../nav/admin';
+import SideNavBar from '../nav'
 
-const AdminLayout = ({props}) => {
+const _Layout = ({props}) => {
 
     const [expanded, setExpanded] = useState(true);
 
     return (
         <div>
-            <AdminSidebarNav 
+            <SideNavBar 
                 expanded = {expanded}
                 setExpanded = {setExpanded}
             />
@@ -26,4 +26,4 @@ const AdminLayout = ({props}) => {
 
 }
 
-export default AdminLayout;
+export default _Layout;
