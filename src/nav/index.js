@@ -123,6 +123,9 @@ import AdminPageList from './admin';
         </AppBar>
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
+            <Typography variant="h6" noWrap component="div" style={{alignContent:'left', width:'100%', fontWeight:'bold'}}>
+              ETRACS
+            </Typography>
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </IconButton>
