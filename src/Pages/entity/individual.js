@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 
 // components
-import EnhancedTable from '../../components/entity/table'
+import EnhancedTable from '../../components/table/entity';
 
 // api
 import ProductApi from '../../library/api/products-api';

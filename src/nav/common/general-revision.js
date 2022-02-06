@@ -22,7 +22,7 @@ const GeneralRevisionNav = ({open}) => {
                 <ListItemIcon>
                     <Grading />
                 </ListItemIcon>
-                <ListItemText primary={'General Revision'} />
+                <ListItemText primary={'General Revision Schedule'} />
                 {expand ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={expand} timeout="auto" unmountOnExit>

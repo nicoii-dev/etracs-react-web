@@ -20,9 +20,10 @@ const GeneralRevisionTabs = ({
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Item One" value="1" />
-            <Tab label="Item Two" value="2" />
-            <Tab label="Item Three" value="3" />
+            <Tab label="Assessment Levels" value="1" />
+            <Tab label="LCUV" value="2" />
+            <Tab label="Land Adjustment" value="3" />
+            <Tab label="Applied to the following LGUs" value="4" />
           </TabList>
         </Box>
         <TabPanel value="1">Item 1One</TabPanel>
