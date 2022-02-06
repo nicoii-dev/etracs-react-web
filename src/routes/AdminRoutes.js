@@ -9,9 +9,7 @@ import _Layout from '../layout';
 
 // * pages
 import Dashboard from '../pages/admin/Dashboard';
-import OnlineTransaction from '../pages/admin/OnlineTransaction';
-import OfflineTransaction from '../pages/admin/OfflineTransaction';
-import LandRevision from '../pages/common/general-revision/land';
+import LandRevision from '../pages/general-revision/land';
 import Reports from '../pages/admin/Reports';
 import Error404 from '../pages/error/Error404';
 import IndividualPage from '../pages/entity/individual';

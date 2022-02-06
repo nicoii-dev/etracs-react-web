@@ -14,6 +14,7 @@ import { Dashboard, Assignment, ManageAccounts, Logout} from '@mui/icons-materia
 import GeneralRevisionNav from '../common/general-revision'
 import EntityNav from '../common/entity';
 import FaasNav from '../common/faas';
+import UtilitiesNav from './utilities';
 
 const AdminPageList = ({open}) => {
     const navigate = useNavigate();
@@ -54,16 +55,7 @@ const AdminPageList = ({open}) => {
                 <ListItemText primary={'Account'} />
               </ListItem>
             </div>
-          </List>
-          <List>
-            <div style={{position:'fixed', bottom:20}}>
-              <ListItem button key={'Logout'} onClick={() => {navigate('/')}}>
-                <ListItemIcon>
-                  <Logout />
-                </ListItemIcon>
-                <ListItemText primary={'Logout'} />
-              </ListItem>
-            </div>
+           <UtilitiesNav open={open} />
           </List>
         </div>
     );

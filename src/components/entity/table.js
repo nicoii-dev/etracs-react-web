@@ -16,9 +16,6 @@ import Switch from '@mui/material/Switch';
 import EnhancedTableHead from '../table/enhanced-table-head';
 import EnhancedTableToolbar from '../table/enhanced-table-toolbar';
 
-//api
-import ProductApi from '../../library/api/products-api';
-
 function createData(name, calories, fat, carbs, protein) {
   return {
     name,
@@ -46,44 +43,46 @@ const rows = [
 ];
 
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-const EnhancedTable = () => {
+const EnhancedTable = ({
+  products
+}) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [products, setProducts] = useState();
+
+  console.log(products)
+function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
+  }
+  
+  function getComparator(order, orderBy) {
+    return order === 'desc'
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  }
+  
+  // This method is created for cross-browser compatibility, if you don't
+  // need to support IE11, you can use Array.prototype.sort() directly
+  function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) {
+        return order;
+      }
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -136,111 +135,99 @@ const EnhancedTable = () => {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-    const getData = useCallback(async() => {
-        try {
-            const _products = await ProductApi.getProduct();
-            console.log(_products)
-            setProducts(_products)
-        
-        } catch (error) {
-            console.log(error.message);
-        }
-    }, [setProducts]);
-
-    useEffect(() => {
-        getData();
-    }, [getData])
-    
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
-        <Paper sx={{ width: '100%', mb: 2 }}>
-            <EnhancedTableToolbar numSelected={selected.length} />
-            <TableContainer>
-            <Table
-                sx={{ minWidth: 750 }}
-                aria-labelledby="tableTitle"
-                size={dense ? 'small' : 'medium'}
-            >
-                <EnhancedTableHead
-                    numSelected={selected.length}
-                    order={order}
-                    orderBy={orderBy}
-                    onSelectAllClick={handleSelectAllClick}
-                    onRequestSort={handleRequestSort}
-                    rowCount={products.length}
-                />
-                <TableBody>
-                {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                    rows.slice().sort(getComparator(order, orderBy)) */}
-                {stableSort(products, getComparator(order, orderBy))
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, index) => {
-                    const isItemSelected = isSelected(row.title);
-                    const labelId = `enhanced-table-checkbox-${index}`;
+        {products ?
+          <div>
+            <Paper sx={{ width: '100%', mb: 2 }}>
+                <EnhancedTableToolbar numSelected={selected.length} />
+                <TableContainer>
+                <Table
+                    sx={{ minWidth: 750 }}
+                    aria-labelledby="tableTitle"
+                    size={dense ? 'small' : 'medium'}
+                >
+                    <EnhancedTableHead
+                        numSelected={selected.length}
+                        order={order}
+                        orderBy={orderBy}
+                        onSelectAllClick={handleSelectAllClick}
+                        onRequestSort={handleRequestSort}
+                        rowCount={products.length}
+                    />
+                    <TableBody>
+                    {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+                        rows.slice().sort(getComparator(order, orderBy)) */}
+                    {stableSort(products, getComparator(order, orderBy))
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((row, index) => {
+                        const isItemSelected = isSelected(row.name);
+                        const labelId = `enhanced-table-checkbox-${index}`;
 
-                    return (
-                        <TableRow
-                            hover
-                            onClick={(event) => handleClick(event, row.title)}
-                            role="checkbox"
-                            aria-checked={isItemSelected}
-                            tabIndex={-1}
-                            key={row.title}
-                            selected={isItemSelected}
-                        >
-                        <TableCell padding="checkbox">
-                            <Checkbox
-                                color="primary"
-                                checked={isItemSelected}
-                                inputProps={{
-                                    'aria-labelledby': labelId,
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell
-                            component="th"
-                            id={labelId}
-                            scope="row"
-                            padding="none"
-                        >
-                            {row.title  }
-                        </TableCell>
-                        <TableCell align="right">{row.price}</TableCell>
-                        <TableCell align="right">{row.price}</TableCell>
-                        <TableCell align="right">{row.price}</TableCell>
-                        <TableCell align="right">{row.price}</TableCell>
-                        </TableRow>
-                    );
+                            return (
+                                <TableRow
+                                    hover
+                                    onClick={(event) => handleClick(event, row.title)}
+                                    role="checkbox"
+                                    aria-checked={isItemSelected}
+                                    tabIndex={-1}
+                                    key={row.title}
+                                    selected={isItemSelected}
+                                >
+                                <TableCell padding="checkbox">
+                                    <Checkbox
+                                        color="primary"
+                                        checked={isItemSelected}
+                                        inputProps={{
+                                            'aria-labelledby': labelId,
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell
+                                    component="th"
+                                    id={labelId}
+                                    scope="row"
+                                    padding="none"
+                                >
+                                    {row.title}
+                                </TableCell>
+                                <TableCell align="right">{row.price}</TableCell>
+                                <TableCell align="right">{row.price}</TableCell>
+                                <TableCell align="right">{row.price}</TableCell>
+                                <TableCell align="right">{row.price}</TableCell>
+                                </TableRow>
+                            );
                     })}
-                {emptyRows > 0 && (
-                    <TableRow
-                        style={{
-                            height: (dense ? 33 : 53) * emptyRows,
-                        }}
-                        >
-                        <TableCell colSpan={6} />
-                    </TableRow>
-                )}
-                </TableBody>
-            </Table>
-            </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={products.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+                    {emptyRows > 0 && (
+                        <TableRow
+                            style={{
+                                height: (dense ? 33 : 53) * emptyRows,
+                            }}
+                            >
+                            <TableCell colSpan={6} />
+                        </TableRow>
+                    )}
+                    </TableBody>
+                </Table>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={products.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+            </Paper>
+            <FormControlLabel
+                control={<Switch checked={dense} onChange={handleChangeDense} />}
+                label="Dense padding"
             />
-        </Paper>
-        <FormControlLabel
-            control={<Switch checked={dense} onChange={handleChangeDense} />}
-            label="Dense padding"
-        />
+        </div>
+      : null}
     </Box>
   );
 }

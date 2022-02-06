@@ -13,6 +13,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import AdminPageList from './admin';
+import MenuListComposition from '../components/header/drop-down-menu';
 
   const drawerWidth = 320;
   
@@ -102,7 +103,7 @@ import AdminPageList from './admin';
     return (
       <Box sx={{ display: 'flex' }} component="nav">
         <CssBaseline />
-        <AppBar position="fixed" open={open}>
+        <AppBar position="absolute" open={open}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -116,14 +117,16 @@ import AdminPageList from './admin';
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
-              Mini variant drawer
-            </Typography>
+            <div style={{display:'flex', width:'100%',justifyContent:'flex-end' }}>
+              <MenuListComposition />
+            </div>
+
+              
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
-            <Typography variant="h6" noWrap component="div" style={{alignContent:'left', width:'100%', fontWeight:'bold'}}>
+            <Typography variant="h6" noWrap component="div" style={{width:'100%', fontWeight:'bold'}}>
               ETRACS
             </Typography>
             <IconButton onClick={handleDrawerClose}>
