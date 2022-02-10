@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useCallback} from 'react';
+import Button from '@mui/material/Button';
 
 // components
 import EnhancedTable from '../../components/table/entity';
-
+import AccountProfileDetails from '../../components/entity/individual';
 // api
 import ProductApi from '../../library/api/products-api';
 
@@ -24,11 +25,27 @@ const IndividualPage = () => {
       getData();
   }, [getData])
 
+  const addIndividual = () => {
+    console.log(1)
+  }
+
 
     return (
         <div>
             <h1>Individual Page</h1>
-            <EnhancedTable products={products}/>
+            <div style={{width:'100%', display:'flex', justifyContent:'flex-end'}}>
+                <Button href="#add" variant="contained" style={{color:'white'}}>
+                    Add Individual
+                </Button>
+            </div>
+
+            <div>
+                <EnhancedTable products={products}/>
+            </div>
+            
+            <div style={{marginTop:30}} id="add">
+                <AccountProfileDetails />
+            </div>
         </div>
     );  
 };

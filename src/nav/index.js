@@ -103,27 +103,26 @@ import MenuListComposition from '../components/header/drop-down-menu';
     return (
       <Box sx={{ display: 'flex' }} component="nav">
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              sx={{
-                marginRight: '36px',
-                ...(open && { display: 'none' }),
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <div style={{display:'flex', width:'100%',justifyContent:'flex-end' }}>
-              <MenuListComposition />
-            </div>
+          <AppBar position='sticky' open={open} >
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                sx={{
+                  marginRight: '36px',
+                  ...(open && { display: 'none' }),
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <div style={{display:'flex', width:'100%',justifyContent:'flex-end' }}>
+                <MenuListComposition />
+              </div>
+            </Toolbar>
+          </AppBar>
 
-              
-          </Toolbar>
-        </AppBar>
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
             <Typography variant="h6" noWrap component="div" style={{width:'100%', fontWeight:'bold'}}>
@@ -140,9 +139,6 @@ import MenuListComposition from '../components/header/drop-down-menu';
                 open = {open}
               />
         </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, p: 3,}}>
-          
-        </Box>
       </Box>
     );
   }

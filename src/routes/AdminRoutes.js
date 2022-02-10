@@ -29,6 +29,8 @@ const AdminRoutes = () => {
                 <Route path="entity/reconcile" element={<ReconcilePage />} />
                 <Route path="generalrevision/land" element={<LandRevision />} />
                 <Route path="reports" element={<Reports />} />
+
+
                 <Route path="*" element={<Error404 />} />
             </Route>
         </Routes>
