@@ -103,7 +103,7 @@ import MenuListComposition from '../components/header/drop-down-menu';
     return (
       <Box sx={{ display: 'flex' }} component="nav">
         <CssBaseline />
-          <AppBar position='sticky' open={open} >
+          <AppBar position='fixed' open={open}>
             <Toolbar>
               <IconButton
                 color="inherit"
@@ -122,7 +122,6 @@ import MenuListComposition from '../components/header/drop-down-menu';
               </div>
             </Toolbar>
           </AppBar>
-
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
             <Typography variant="h6" noWrap component="div" style={{width:'100%', fontWeight:'bold'}}>

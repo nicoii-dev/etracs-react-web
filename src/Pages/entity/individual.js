@@ -42,8 +42,8 @@ const IndividualPage = () => {
             <div>
                 <EnhancedTable products={products}/>
             </div>
-            
-            <div style={{marginTop:30}} id="add">
+            <div id="add" style={{height:30}}></div>
+            <div id="s" style={{marginTop:30}}>
                 <AccountProfileDetails />
             </div>
         </div>

@@ -47,8 +47,8 @@ const AccountProfileDetails = (props) => {
     <form autoComplete="off" noValidate {...props}>
       <Card>
         <CardHeader
-          subheader="The information can be edited"
           title="Personal Information"
+          subheader="The information can be edited"
         />
         <Divider />
         <CardContent>
@@ -109,8 +109,8 @@ const AccountProfileDetails = (props) => {
                 variant="outlined"
               />
             </Grid>
-            <Divider />
-            <Grid item md={6} xs={12}>
+   
+            <Grid item md={4} xs={12}>
               <TextField
                 fullWidth
                 label="House Number"
@@ -121,7 +121,7 @@ const AccountProfileDetails = (props) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid item md={6} xs={12}>
+            <Grid item md={4} xs={12}>
               <TextField
                 fullWidth
                 label="Street"
@@ -132,7 +132,7 @@ const AccountProfileDetails = (props) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid item md={6} xs={12}>
+            <Grid item md={4} xs={12}>
               <TextField
                 fullWidth
                 label="Barangay"
