@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import Button from '@mui/material/Button';
-
+import Modal from '@mui/material/Modal';
+import Backdrop from '@mui/material/Backdrop';
 // components
 import EnhancedTable from '../../components/table/entity';
 import AddIndividual from '../../components/entity/individual/add-individual';
@@ -25,16 +26,15 @@ const IndividualPage = () => {
       getData();
   }, [getData])
 
-  const addIndividual = () => {
-    console.log(1)
-  }
-
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
     return (
         <div>
             <h1>Individual Page</h1>
             <div style={{width:'100%', display:'flex', justifyContent:'flex-end'}}>
-                <Button href="#add" variant="contained" style={{color:'white'}}>
+                <Button variant="contained" style={{color:'white'}} onClick={handleOpen}>
                     Add Individual
                 </Button>
             </div>
@@ -42,10 +42,19 @@ const IndividualPage = () => {
             <div>
                 <EnhancedTable products={products}/>
             </div>
-            <div id="add" style={{height:30}}></div>
-            <div id="s" style={{marginTop:30}}>
-                <AddIndividual />
-            </div>
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                timeout: 500,
+                }}
+            >
+                <AddIndividual open={open} />
+            </Modal>
         </div>
     );  
 };

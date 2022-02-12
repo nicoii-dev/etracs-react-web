@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -8,7 +8,16 @@ import {
   Divider,
   Grid,
   TextField,
+
 } from '@mui/material';
+import Fade from '@mui/material/Fade';
+
+// components
+import PersonalInformation from './personal-information'
+
+// styles
+import IndividualModalStyles from '../../../styles/modal/individual-modal';
+import OtherInformation from './other-information';
 
 const states = [
   {
@@ -25,7 +34,7 @@ const states = [
   }
 ];
 
-const AddIndividual = (props) => {
+const AddIndividual = ({open}) => {
   const [values, setValues] = useState({
     firstName: 'Katarina',
     middleName: 'BB',
@@ -44,165 +53,45 @@ const AddIndividual = (props) => {
   };
 
   return (
-    <form autoComplete="off" noValidate {...props}>
-      <Card>
-        <CardHeader
-          title="Personal Information"
-          subheader="The information can be edited"
-        />
-        <Divider />
-        <CardContent>
+    <Fade in={open}>
+      <Box sx={IndividualModalStyles.modal} style={{borderRadius:5}}>
+          <Card>
           <Grid container spacing={3}>
+            <Grid item md={8} xs={12}>
+              <PersonalInformation
+                handleChange={handleChange}
+                values={values}
+                states={states}
+              />
+            </Grid>
+            <Divider />
             <Grid item md={4} xs={12}>
-              <TextField
-                fullWidth
-                label="First name"
-                name="firstName"
-                onChange={handleChange}
-                required
-                value={values.firstName}
-                variant="outlined"
+            
+
+
+              <OtherInformation 
+                handleChange={handleChange}
+                values={values}
+                states={states}
               />
-            </Grid>
-            <Grid item md={4} xs={12}>
-              <TextField
-                fullWidth
-                label="Middle name"
-                name="middleName"
-                onChange={handleChange}
-                required
-                value={values.middleName}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={4} xs={12}>
-              <TextField
-                fullWidth
-                label="Last name"
-                name="lastName"
-                onChange={handleChange}
-                required
-                value={values.lastName}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Email Address"
-                name="email"
-                onChange={handleChange}
-                required
-                value={values.email}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Phone Number"
-                name="phone"
-                onChange={handleChange}
-                type="number"
-                value={values.phone}
-                variant="outlined"
-              />
-            </Grid>
-   
-            <Grid item md={4} xs={12}>
-              <TextField
-                fullWidth
-                label="House Number"
-                name="country"
-                onChange={handleChange}
-                required
-                value={values.country}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={4} xs={12}>
-              <TextField
-                fullWidth
-                label="Street"
-                name="country"
-                onChange={handleChange}
-                required
-                value={values.country}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={4} xs={12}>
-              <TextField
-                fullWidth
-                label="Barangay"
-                name="country"
-                onChange={handleChange}
-                required
-                value={values.country}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="City/Municipality"
-                name="country"
-                onChange={handleChange}
-                required
-                value={values.country}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Country"
-                name="country"
-                onChange={handleChange}
-                required
-                value={values.country}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Select State"
-                name="state"
-                onChange={handleChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                value={values.state}
-                variant="outlined"
-              >
-                {states.map((option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
             </Grid>
           </Grid>
-        </CardContent>
-        <Divider />
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            p: 2,
-          }}
-        >
-          <Button color="primary" variant="contained">
-            Save details
-          </Button>
+
+
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                p: 4,
+              }}
+            >
+              <Button color="primary" variant="contained">
+                Save details
+              </Button>
+            </Box>
+          </Card>
         </Box>
-      </Card>
-    </form>
+    </Fade>
   );
 };
 
