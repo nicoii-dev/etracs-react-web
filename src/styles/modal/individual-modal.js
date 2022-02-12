@@ -1,4 +1,3 @@
-
 const IndividualModalStyles = {
     modal: {
         position: 'absolute',

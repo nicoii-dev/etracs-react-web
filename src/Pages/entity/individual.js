@@ -2,15 +2,21 @@ import React, {useState, useEffect, useCallback} from 'react';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Backdrop from '@mui/material/Backdrop';
+import Fade from '@mui/material/Fade';
+import {Box} from '@mui/material';
 // components
 import EnhancedTable from '../../components/table/entity';
 import AddIndividual from '../../components/entity/individual/add-individual';
 // api
 import ProductApi from '../../library/api/products-api';
 
+// styles
+import IndividualModalStyles from '../../styles/modal/individual-modal';
+
 const IndividualPage = () => {
 
     const [products, setProducts] = useState();
+    const [payload, setPayload] = useState([]);
 
     const getData = useCallback(async() => {
       try {
@@ -30,6 +36,7 @@ const IndividualPage = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  console.log(payload.firstName)
     return (
         <div>
             <h1>Individual Page</h1>
@@ -53,7 +60,15 @@ const IndividualPage = () => {
                 timeout: 500,
                 }}
             >
-                <AddIndividual open={open} />
+                <Fade in={open}>
+                    <Box sx={IndividualModalStyles.modal} style={{borderRadius:5}} component="form">
+                        <AddIndividual
+                            payload={payload}
+                            setPayload={setPayload}
+                        />
+                    </Box>
+                </Fade>
+               
             </Modal>
         </div>
     );  

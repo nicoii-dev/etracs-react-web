@@ -6,15 +6,21 @@ import {
     Grid,
     TextField,
 } from '@mui/material';
+import { useForm, Controller } from "react-hook-form";
 
+// components
 import CivilStatus from '../../../library/constants/informations/civil-status';
 import Gender from '../../../library/constants/informations/gender';
+import Citizenship from '../../../library/constants/informations/citizenship';
 
 const PersonalInformation = ({
     handleChange,
     values,
     states,
 }) => {
+
+    const { control, handleSubmit, watch, formState: { errors } } = useForm();
+    const onSubmit = data => console.log(data);
 
     return (
         <>
@@ -86,7 +92,7 @@ const PersonalInformation = ({
                         <TextField
                             fullWidth
                             label="House Number"
-                            name="country"
+                            name="houseNumber"
                             onChange={handleChange}
                             required
                             value={values.country}
@@ -97,7 +103,7 @@ const PersonalInformation = ({
                         <TextField
                             fullWidth
                             label="Street"
-                            name="country"
+                            name="street"
                             onChange={handleChange}
                             required
                             value={values.country}
@@ -108,7 +114,7 @@ const PersonalInformation = ({
                         <TextField
                             fullWidth
                             label="Barangay"
-                            name="country"
+                            name="barangay"
                             onChange={handleChange}
                             required
                             value={values.country}
@@ -119,7 +125,7 @@ const PersonalInformation = ({
                         <TextField
                             fullWidth
                             label="City/Municipality"
-                            name="country"
+                            name="cityMunicipality"
                             onChange={handleChange}
                             required
                             value={values.country}
@@ -130,7 +136,7 @@ const PersonalInformation = ({
                         <TextField
                             fullWidth
                             label="Zip Code"
-                            name="country"
+                            name="zipCode"
                             onChange={handleChange}
                             type="number"
                             required
@@ -141,6 +147,7 @@ const PersonalInformation = ({
                     <Grid item md={4} xs={12}>
                         <TextField
                             id="date"
+                            name="birthdate"
                             label="Birthday"
                             type="date"
                             defaultValue="2017-05-24"
@@ -155,7 +162,7 @@ const PersonalInformation = ({
                         <TextField
                             fullWidth
                             label="Place of Birth"
-                            name="country"
+                            name="placeOfBirth"
                             onChange={handleChange}
                             required
                             value={values.country}
@@ -166,21 +173,30 @@ const PersonalInformation = ({
                         <TextField
                             fullWidth
                             label="Citizenship"
-                            name="country"
+                            name="citizenship"
                             onChange={handleChange}
-                            type="number"
                             required
+                            select
+                            SelectProps={{ native: true }}
                             value={values.country}
                             variant="outlined"
-                        />
+                        >
+                            {Citizenship.map((option) => (
+                                <option
+                                    key={option.nationality}
+                                    value={option.nationality}
+                                >
+                                    {option.nationality}
+                                </option>
+                            ))}
+                        </TextField>
                     </Grid>
                     <Grid item md={6} xs={12}>
                         <TextField
                             fullWidth
                             label="Gender"
-                            name="country"
+                            name="gender"
                             onChange={handleChange}
-                            type="number"
                             required
                             select
                             SelectProps={{ native: true }}
@@ -201,7 +217,7 @@ const PersonalInformation = ({
                         <TextField
                             fullWidth
                             label="Civil Status"
-                            name="state"
+                            name="civilStatus"
                             onChange={handleChange}
                             required
                             select

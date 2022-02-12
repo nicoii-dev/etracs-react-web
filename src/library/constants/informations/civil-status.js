@@ -1,5 +1,9 @@
 const CivilStatus = [
     {
+      id: '0',
+      status: '-Select-',
+    },
+    {
       id: '1',
       status: 'Single',
     },
