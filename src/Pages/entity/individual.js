@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 
 // components
 import EnhancedTable from '../../components/table/entity';
-import AccountProfileDetails from '../../components/entity/individual';
+import AddIndividual from '../../components/entity/individual/add-individual';
 // api
 import ProductApi from '../../library/api/products-api';
 
@@ -44,7 +44,7 @@ const IndividualPage = () => {
             </div>
             <div id="add" style={{height:30}}></div>
             <div id="s" style={{marginTop:30}}>
-                <AccountProfileDetails />
+                <AddIndividual />
             </div>
         </div>
     );  
