@@ -7,6 +7,7 @@ import {Box} from '@mui/material';
 // components
 import EnhancedTable from '../../components/table/entity';
 import AddMultiple from '../../components/entity/multiple/add-multiple';
+import AddMultipleEntity from '../../components/entity/multiple/add-multiple-entity';
 // api
 import ProductApi from '../../library/api/products-api';
 
@@ -66,7 +67,11 @@ const MultiplePage = () => {
             >
                 <Fade in={open}>
                     <Box sx={IndividualModalStyles.modal} style={{borderRadius:5}} component="form">
-                        <AddMultiple
+                        {/* <AddMultipleEntity
+                            payload={payload}
+                            setPayload={setPayload}
+                        /> */}
+                        <AddMultiple 
                             payload={payload}
                             setPayload={setPayload}
                         />

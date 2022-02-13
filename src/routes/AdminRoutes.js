@@ -22,17 +22,16 @@ const AdminRoutes = () => {
 
         <Routes>
             <Route path="/" element = {<_Layout />} >
-                <Route path="/" element={<Dashboard />} />
+                <Route path="dashboard" element={<Dashboard />} />
                 <Route path="entity/individual" element={<IndividualPage />} />
                 <Route path="entity/juridical" element={<JuridicalPage />} />
                 <Route path="entity/multiple" element={<MultiplePage />} />
                 <Route path="entity/reconcile" element={<ReconcilePage />} />
                 <Route path="generalrevision/land" element={<LandRevision />} />
                 <Route path="reports" element={<Reports />} />
-
-
-                <Route path="*" element={<Error404 />} />
+                
             </Route>
+            <Route path="*" element={<Error404 />} />
         </Routes>
 
     )

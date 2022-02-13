@@ -103,7 +103,7 @@ import MenuListComposition from '../components/header/drop-down-menu';
     return (
       <Box sx={{ display: 'flex' }} component="nav">
         <CssBaseline />
-          <AppBar position='fixed' open={open}>
+          <AppBar position='inherit' open={open}>
             <Toolbar>
               <IconButton
                 color="inherit"

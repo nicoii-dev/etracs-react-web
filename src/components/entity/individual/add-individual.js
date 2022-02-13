@@ -24,6 +24,7 @@ import InputErrorStyles from '../../../styles/error-text/InputErrorStyles.module
 import Citizenship from '../../../library/constants/informations/citizenship';
 import Gender from '../../../library/constants/informations/gender';
 import CivilStatus from '../../../library/constants/informations/civil-status';
+import Professions from '../../../library/constants/informations/professions';
 
 const AddIndividual = ({
   payload,
@@ -397,6 +398,21 @@ const AddIndividual = ({
                     />
                     {errors.civilStatus && (<div><p className={InputErrorStyles.errorText}>{errors.civilStatus?.message}</p></div>)}
                   </Grid>
+                  <Grid item md={12} xs={12}>
+                    <TextInputController
+                      label="Remarks"
+                      name="remarks"
+                      variant="outlined"
+                      control={control}
+                      rules={{
+                        required: {
+                          value: false,
+                          message: 'Remarks is required',
+                        },
+                      }}
+                    />
+                    {errors.remarks && (<div><p className={InputErrorStyles.errorText}>{errors.remarks?.message}</p></div>)}
+                  </Grid>
               </Grid>
           </CardContent>
         </Grid>
@@ -409,6 +425,42 @@ const AddIndividual = ({
           <Divider />
           <CardContent>
             <Grid container spacing={3}>
+              <Grid item md={12} xs={12}>
+                    <Controller
+                      name={'profession'}
+                      control={control}
+                      rules={{
+                        required: {
+                          value: false,
+                          message: 'Profession required',
+                        },
+                      }}
+                      defaultValue=""
+                      render={({field: {onChange, onBlur, value}}) => (
+                        <TextField
+                          fullWidth
+                          label="Profession"
+                          name="profession"
+                          select
+                          SelectProps={{ native: true }}
+                          variant="outlined"
+                          onBlur={onBlur}
+                          onChange={onChange}
+                          value={value}
+                        >
+                          {Professions.map((option) => (
+                              <option
+                                  key={option}
+                                  value={option}
+                              >
+                                  {option}
+                              </option>
+                          ))}
+                        </TextField>
+                      )}
+                    />
+                    {errors.profession && (<div><p className={InputErrorStyles.errorText}>{errors.profession?.message}</p></div>)}
+                </Grid>
                 <Grid item md={12} xs={12}>
                   <TextInputController
                     label="ID Presented*"

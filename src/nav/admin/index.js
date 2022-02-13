@@ -5,9 +5,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
-import {
-  useNavigate
-} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import { Dashboard, Assignment, ManageAccounts, Logout} from '@mui/icons-material';
 
@@ -26,7 +24,7 @@ const AdminPageList = ({open}) => {
             aria-labelledby="nested-list-subheader"
           >
               <div>
-                <ListItem button key={'Dashboard'} onClick={() => {navigate('/')}}>
+                <ListItem button key={'Dashboard'} onClick={() => {navigate('dashboard')}}>
                     <ListItemIcon>
                       <Dashboard />
                     </ListItemIcon>
@@ -37,7 +35,7 @@ const AdminPageList = ({open}) => {
               <FaasNav open={open} />
               <GeneralRevisionNav open={open} />
               <div>
-                <ListItem button key={'Reports'} onClick={() => {navigate('/reports')}}>
+                <ListItem button key={'Reports'} onClick={() => {navigate('reports')}}>
                     <ListItemIcon>
                       <Assignment />
                     </ListItemIcon>
@@ -48,7 +46,7 @@ const AdminPageList = ({open}) => {
           <Divider />
           <List>
             <div>
-              <ListItem button onClick={() => {navigate('/account')}}>
+              <ListItem button onClick={() => {navigate('account')}}>
                 <ListItemIcon>
                   <ManageAccounts />
                 </ListItemIcon>
