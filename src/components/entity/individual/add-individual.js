@@ -32,7 +32,7 @@ const AddIndividual = ({
 
   const { control, handleSubmit, watch, formState: { errors } } = useForm();
   const addIndividualForm = data => setPayload(data);
-
+  console.log(payload)
   return (
     <Card>
       <Grid container spacing={3}>
@@ -46,6 +46,7 @@ const AddIndividual = ({
               <Grid container spacing={3}>
                   <Grid item md={4} xs={12}>
                     <TextInputController
+                      defaultData={payload}
                       label="First name*"
                       name="firstName"
                       variant="outlined"

@@ -17,7 +17,9 @@ import EnhancedTableHead from '../enhanced-table-head';
 import EnhancedTableToolbar from '../enhanced-table-toolbar';
 
 const EnhancedTable = ({
-  products
+  products,
+  payload,
+  setPayload
 }) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
@@ -26,7 +28,6 @@ const EnhancedTable = ({
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  console.log(products)
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -88,7 +89,7 @@ function descendingComparator(a, b, orderBy) {
         selected.slice(selectedIndex + 1),
       );
     }
-
+    setPayload(newSelected)
     setSelected(newSelected);
   };
 
@@ -136,7 +137,7 @@ function descendingComparator(a, b, orderBy) {
                     {stableSort(products, getComparator(order, orderBy))
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row, index) => {
-                        const isItemSelected = isSelected(row.name);
+                        const isItemSelected = isSelected(row.title);
                         const labelId = `enhanced-table-checkbox-${index}`;
 
                             return (

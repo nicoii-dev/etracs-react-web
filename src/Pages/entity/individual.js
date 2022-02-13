@@ -36,18 +36,22 @@ const IndividualPage = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  console.log(payload.firstName)
+  console.log(payload)
     return (
         <div>
             <h1>Individual Page</h1>
-            <div style={{width:'100%', display:'flex', justifyContent:'flex-end'}}>
+            <div style={{width:'100%', display:'flex', justifyContent:'flex-end', marginBottom: 10}}>
                 <Button variant="contained" style={{color:'white'}} onClick={handleOpen}>
                     Add Individual
                 </Button>
             </div>
 
             <div>
-                <EnhancedTable products={products}/>
+                <EnhancedTable 
+                    products={products}
+                    payload={payload}
+                    setPayload={setPayload}
+                />
             </div>
             <Modal
                 aria-labelledby="transition-modal-title"

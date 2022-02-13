@@ -3,6 +3,7 @@ import { Controller } from "react-hook-form";
 import {TextField} from '@mui/material';
 
 const TextInputController = ({
+    defaultData,
     label,
     control,
     type = null,
@@ -16,7 +17,7 @@ const TextInputController = ({
             name={name}
             control={control}
             rules={rules}
-            defaultValue=""
+            defaultValue={defaultData}
             render={({field: {onChange, onBlur, value}}) => (
                 <TextField
                     fullWidth

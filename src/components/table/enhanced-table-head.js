@@ -10,8 +10,7 @@ import { visuallyHidden } from '@mui/utils';
 import TableHeadData from '../../library/constants/table/table-head-data'
 
 const EnhancedTableHead = (props) => {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-    props;
+    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
