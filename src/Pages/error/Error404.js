@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {Button} from '@mui/material';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 
 const Error404 = () => {
@@ -30,7 +30,7 @@ const Error404 = () => {
                 <p style={{fontSize:30}}>
                     Page not found
                 </p>
-                <Button color="primary" onClick={() => {navigate('dashboard')}}>
+                <Button color="primary" onClick={() => navigate(-1)}>
                    <ArrowBack /> Go back
                 </Button>
             </div>

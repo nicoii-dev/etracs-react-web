@@ -7,38 +7,54 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ListItemButton from '@mui/material/ListItemButton';
 import { Apartment, Terrain, Grading } from '@mui/icons-material';
+import {useLocation} from 'react-router-dom';
 
-import {
-  useNavigate
-} from 'react-router-dom';
+import NavItem from '../../components/nav/nav-item';
 
 const GeneralRevisionNav = ({open}) => {
-    const navigate = useNavigate();
+    const location = useLocation();
+
     const [expand, setExpand] = useState(false);
+    const currentLocation = location.pathname.toLocaleLowerCase();
 
     return (
         <div>
             <ListItemButton onClick={() =>{setExpand(!expand)}}>
-                <ListItemIcon>
+                <ListItemIcon
+                    style={{
+                        color: currentLocation.includes('utilities') ? '#0066CC' : null,
+                        fontWeight:'bold',
+                        fontSize:50
+                    }}
+                >
                     <Grading />
                 </ListItemIcon>
-                <ListItemText primary={'General Revision Schedule'} />
+                <p             
+                    style={{
+                        color: currentLocation.includes('generalrevision') ? '#0066CC' : null,
+                        fontWeight:'bolder', 
+                        fontSize:15,
+                        fontFamily:'revert',
+                        marginTop:0, 
+                        marginBottom:0,
+                        width:'100%'
+                    }}>
+                        GeneralRevision
+                </p>
                 {expand ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={expand} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding style={{marginLeft: open ? 30 : -15}}>
-                    <ListItemButton sx={{ pl: 4 }} onClick={() => {navigate('generalrevision/land')}}>
-                        <ListItemIcon>
-                        <Terrain />
-                        </ListItemIcon>
-                        <ListItemText primary="Land" />
-                    </ListItemButton>
-                    <ListItemButton sx={{ pl: 4 }} onClick={() => {navigate('generalrevision/building')}}>
-                        <ListItemIcon>
-                        <Apartment />
-                        </ListItemIcon>
-                        <ListItemText primary="Building" />
-                    </ListItemButton>
+                    <NavItem 
+                        link={'generalrevision/land'}
+                        icon={<Terrain />}
+                        title={'Land'}
+                    />
+                    <NavItem 
+                        link={'generalrevision/building'}
+                        icon={<Apartment />}
+                        title={'Building'}
+                    />
                 </List>
             </Collapse>
         </div>

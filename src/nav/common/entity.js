@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import List from '@mui/material/List';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -8,49 +8,73 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import ListItemButton from '@mui/material/ListItemButton';
 import { PeopleAlt, AccountBox, AssignmentInd, AccountCircle, CoPresent } from '@mui/icons-material';
 
-import {
-  useNavigate
-} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
+
+import NavItem from '../../components/nav/nav-item';
 
 const EntityNav = ({open}) => {
-    const navigate = useNavigate();
+    const location = useLocation();
+    const currentLocation = location.pathname.toLowerCase();
+
     const [expand, setExpand] = useState(false);
+
+    const checkCurrentLocation = useCallback(() => {
+        if(currentLocation.includes('entity')){
+            setExpand(!expand);
+        }
+    }, []);
+
+    useEffect(()=>{
+        checkCurrentLocation();
+    }, [])
 
     return (
         <div>
             <ListItemButton onClick={() =>{setExpand(!expand)}}>
-                <ListItemIcon>
+                <ListItemIcon
+                  style={{
+                    color: currentLocation.includes('entity') ? '#0066CC' : null,
+                    fontWeight:'bold',
+                    fontSize:50
+                    }}>
                     <AccountBox />
                 </ListItemIcon>
-                <ListItemText primary={'Entity'} />
+                <p             
+                    style={{
+                        color: currentLocation.includes('entity') ? '#0066CC' : null,
+                        fontWeight:'bolder', 
+                        fontSize:15,
+                        fontFamily:'revert',
+                        marginTop:0, 
+                        marginBottom:0,
+                        width:'100%'
+                    }}>
+                        Entity
+                </p>
                 {expand ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={expand} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding style={{marginLeft: open ? 30 : -15}}>
-                    <ListItemButton sx={{ pl: 4 }} onClick={() => {navigate('entity/individual')}}>
-                        <ListItemIcon>
-                            <AccountCircle />
-                        </ListItemIcon>
-                        <ListItemText primary="Individual" />
-                    </ListItemButton>
-                    <ListItemButton sx={{ pl: 4 }} onClick={() => {navigate('entity/juridical')}}>
-                        <ListItemIcon>
-                            <AssignmentInd />
-                        </ListItemIcon>
-                        <ListItemText primary="Juridical" />
-                    </ListItemButton>
-                    <ListItemButton sx={{ pl: 4 }} onClick={() => {navigate('entity/multiple')}}>
-                        <ListItemIcon>
-                            <PeopleAlt />
-                        </ListItemIcon>
-                        <ListItemText primary="Multiple" />
-                    </ListItemButton>
-                    <ListItemButton sx={{ pl: 4 }} onClick={() => {navigate('entity/reconcile')}}>
-                        <ListItemIcon>
-                            <CoPresent />
-                        </ListItemIcon>
-                        <ListItemText primary="Reconcile" />
-                    </ListItemButton>
+                    <NavItem 
+                        link={'entity/individual'}
+                        icon={<AccountCircle />}
+                        title={'Individual'}
+                    />
+                    <NavItem 
+                        link={'entity/juridical'}
+                        icon={<AssignmentInd />}
+                        title={'Juridical'}
+                    />
+                    <NavItem 
+                        link={'entity/multiple'}
+                        icon={<PeopleAlt />}
+                        title={'Multiple'}
+                    />
+                    <NavItem 
+                        link={'entity/reconcile'}
+                        icon={<CoPresent />}
+                        title={'Reconcile'}
+                    />
                 </List>
             </Collapse>
         </div>

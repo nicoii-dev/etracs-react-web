@@ -61,8 +61,10 @@ const IndividualPage = () => {
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
-                timeout: 500,
+                    timeout: 500,
                 }}
+                style={{overflow:'scroll'}}
+                
             >
                 <Fade in={open}>
                     <Box sx={IndividualModalStyles.modal} style={{borderRadius:5}} component="form">

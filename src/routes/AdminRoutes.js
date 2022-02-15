@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Routes,
     Route,
-    Navigate,
   } from "react-router-dom";
 // * layout
 import _Layout from '../layout';
@@ -18,10 +17,12 @@ import MultiplePage from '../pages/entity/multiple';
 import ReconcilePage from '../pages/entity/reconcile';
 
 const AdminRoutes = () => {
+
     return (
 
         <Routes>
             <Route path="/" element = {<_Layout />} >
+                <Route path="/" element={<Dashboard />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="entity/individual" element={<IndividualPage />} />
                 <Route path="entity/juridical" element={<JuridicalPage />} />

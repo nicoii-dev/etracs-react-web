@@ -5,7 +5,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 
 import { Dashboard, Assignment, ManageAccounts, Logout} from '@mui/icons-material';
 
@@ -16,6 +16,9 @@ import UtilitiesNav from './utilities';
 
 const AdminPageList = ({open}) => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const currentLocation = location.pathname.toLowerCase();
 
     return (
         <div>
@@ -25,10 +28,27 @@ const AdminPageList = ({open}) => {
           >
               <div>
                 <ListItem button key={'Dashboard'} onClick={() => {navigate('dashboard')}}>
-                    <ListItemIcon>
+                    <ListItemIcon
+                      style={{
+                        color: currentLocation.includes('dashboard') ? '#0066CC' : null,
+                        fontWeight:'bold',
+                        fontSize:50
+                        }}
+                    >
                       <Dashboard />
                     </ListItemIcon>
-                    <ListItemText primary={'Dashboard'} />
+                    <p        
+                      style={{
+                          color: currentLocation.includes('dashboard') ? '#0066CC' : null,
+                          fontWeight:'bolder', 
+                          fontSize:15,
+                          fontFamily:'revert',
+                          marginTop:0, 
+                          marginBottom:0,
+                          width:'100%'
+                      }}>
+                        Dashboard
+                    </p>
                 </ListItem>
               </div>
               <EntityNav open={open} />
@@ -36,10 +56,27 @@ const AdminPageList = ({open}) => {
               <GeneralRevisionNav open={open} />
               <div>
                 <ListItem button key={'Reports'} onClick={() => {navigate('reports')}}>
-                    <ListItemIcon>
+                    <ListItemIcon
+                      style={{
+                        color: currentLocation.includes('reports') ? '#0066CC' : null,
+                        fontWeight:'bold',
+                        fontSize:50
+                        }}
+                    >
                       <Assignment />
                     </ListItemIcon>
-                    <ListItemText primary={'Reports'} />
+                    <p        
+                      style={{
+                          color: currentLocation.includes('reports') ? '#0066CC' : null,
+                          fontWeight:'bolder', 
+                          fontSize:15,
+                          fontFamily:'revert',
+                          marginTop:0, 
+                          marginBottom:0,
+                          width:'100%'
+                      }}>
+                        Reports
+                    </p>
                 </ListItem>
               </div>
           </List>
@@ -47,10 +84,27 @@ const AdminPageList = ({open}) => {
           <List>
             <div>
               <ListItem button onClick={() => {navigate('account')}}>
-                <ListItemIcon>
+                <ListItemIcon
+                  style={{
+                    color: currentLocation.includes('account') ? '#0066CC' : null,
+                    fontWeight:'bold',
+                    fontSize:50
+                    }}
+                  >
                   <ManageAccounts />
                 </ListItemIcon>
-                <ListItemText primary={'Account'} />
+                  <p        
+                    style={{
+                        color: currentLocation.includes('account') ? '#0066CC' : null,
+                        fontWeight:'bolder', 
+                        fontSize:15,
+                        fontFamily:'revert',
+                        marginTop:0, 
+                        marginBottom:0,
+                        width:'100%'
+                    }}>
+                      Account
+                  </p>
               </ListItem>
             </div>
            <UtilitiesNav open={open} />
