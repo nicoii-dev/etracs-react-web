@@ -5,7 +5,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
 import {Box} from '@mui/material';
 // components
-import EnhancedTable from '../../components/table/entity';
+import MultipleTable from '../../components/table/entity/multiple-table';
 import AddMultiple from '../../components/entity/multiple/add-multiple';
 import AddMultipleEntity from '../../components/entity/multiple/add-multiple-entity';
 // api
@@ -37,7 +37,6 @@ const MultiplePage = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  console.log(payload)
     return (
         <div>
             <h1>Juridical Page</h1>
@@ -48,7 +47,7 @@ const MultiplePage = () => {
             </div>
 
             <div>
-                <EnhancedTable 
+                <MultipleTable 
                     products={products}
                     payload={payload}
                     setPayload={setPayload}

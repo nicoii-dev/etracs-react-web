@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import Box from '@mui/material/Box';
 import TableCell from '@mui/material/TableCell';
@@ -7,34 +7,68 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { visuallyHidden } from '@mui/utils';
-import TableHeadData from '../../library/constants/table/table-head-data'
 
 const EnhancedTableHead = (props) => {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, tableHead } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
+  const [tableHeadArray, setTableHeadArray] = useState([]);
+
+
+  const PropertyNames = Object.getOwnPropertyNames(...tableHead); //getting all property names in the array data
+
+  // create new array for table head
+  const SetTableHead = useCallback(() => {
+    let _tableHeadArray = [];
+    let newObject = {};
+
+    //adding action manually
+    _tableHeadArray.push({
+      id: 'action',
+      numeric: false,
+      disablePadding: true,
+      label: 'ACTIONS',
+    })
+
+    for(let i = 1; i < PropertyNames.length; i++){
+      console.log(PropertyNames[i]);
+      if(PropertyNames[i] === 'created_at' || PropertyNames[i] === 'updated_at' || PropertyNames[i] === 'individual_id'){
+
+      } else {
+        newObject = {
+          id: PropertyNames[i],
+          numeric: true,
+          disablePadding: false,
+          label: PropertyNames[i].toLocaleUpperCase(),
+        }
+        _tableHeadArray.push(newObject)
+      }
+
+    }
+
+    console.log(_tableHeadArray)
+    setTableHeadArray(_tableHeadArray);
+  }, [setTableHeadArray]);
+
+
+  useEffect(() => {
+    SetTableHead();
+  }, [])
 
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
+        <TableCell padding="normal">
+
         </TableCell>
-        {TableHeadData.map((headCell) => (
+        {tableHeadArray.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
+            style={{fontWeight:'bolder'}}
           >
             <TableSortLabel
               active={orderBy === headCell.id}

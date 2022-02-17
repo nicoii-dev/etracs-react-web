@@ -16,7 +16,7 @@ import Switch from '@mui/material/Switch';
 import EnhancedTableHead from '../enhanced-table-head';
 import EnhancedTableToolbar from '../enhanced-table-toolbar';
 
-const EnhancedTable = ({
+const MultipleTable = ({
   products,
   payload,
   setPayload
@@ -65,6 +65,7 @@ function descendingComparator(a, b, orderBy) {
   };
 
   const handleSelectAllClick = (event) => {
+    console.log(event)
     if (event.target.checked) {
       const newSelecteds = products.map((n) => n.title);
       setSelected(newSelecteds);
@@ -73,12 +74,12 @@ function descendingComparator(a, b, orderBy) {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -116,7 +117,7 @@ function descendingComparator(a, b, orderBy) {
         {products ?
           <div>
             <Paper sx={{ width: '100%', mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} />
+                <EnhancedTableToolbar numSelected={selected.length} selected={selected} />
                 <TableContainer>
                 <Table
                     sx={{ minWidth: 750 }}
@@ -130,6 +131,7 @@ function descendingComparator(a, b, orderBy) {
                         onSelectAllClick={handleSelectAllClick}
                         onRequestSort={handleRequestSort}
                         rowCount={products.length}
+                        products={products}
                     />
                     <TableBody>
                     {/* if you don't need to support IE11, you can replace the `stableSort` call with:
@@ -137,17 +139,17 @@ function descendingComparator(a, b, orderBy) {
                     {stableSort(products, getComparator(order, orderBy))
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row, index) => {
-                        const isItemSelected = isSelected(row.title);
+                        const isItemSelected = isSelected(row.id);
                         const labelId = `enhanced-table-checkbox-${index}`;
-
+                          console.log(row)
                             return (
                                 <TableRow
                                     hover
-                                    onClick={(event) => handleClick(event, row.title)}
+                                    onClick={(event) => {handleClick(event, row.id)}}
                                     role="checkbox"
                                     aria-checked={isItemSelected}
                                     tabIndex={-1}
-                                    key={row.title}
+                                    key={row.id}
                                     selected={isItemSelected}
                                 >
                                 <TableCell padding="checkbox">
@@ -170,6 +172,8 @@ function descendingComparator(a, b, orderBy) {
                                 <TableCell align="right">{row.price}</TableCell>
                                 <TableCell align="right">{row.price}</TableCell>
                                 <TableCell align="right">{row.price}</TableCell>
+                                <TableCell align="right">{row.price}</TableCell>
+                                <TableCell align="right">{row.id}</TableCell>
                                 <TableCell align="right">{row.price}</TableCell>
                                 </TableRow>
                             );
@@ -206,4 +210,4 @@ function descendingComparator(a, b, orderBy) {
   );
 }
 
-export default EnhancedTable;
+export default MultipleTable;

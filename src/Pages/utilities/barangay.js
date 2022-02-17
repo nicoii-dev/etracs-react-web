@@ -4,52 +4,29 @@ import Modal from '@mui/material/Modal';
 import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
 import {Box} from '@mui/material';
-// components
-import JuridicalTable from '../../components/table/entity/juridical-table';
-import AddJuridical from '../../components/entity/juridical/add-juridical';
-// api
-import ProductApi from '../../library/api/products-api';
 
-// styles
 import IndividualModalStyles from '../../styles/modal/individual-modal';
 
-const JuridicalPage = () => {
+import BarangayTable from '../../components/table/barangay';
 
-    const [products, setProducts] = useState();
-    const [payload, setPayload] = useState([]);
-
-    const getData = useCallback(async() => {
-      try {
-          const _products = await ProductApi.getProduct();
-          setProducts(_products)
-      
-      } catch (error) {
-          console.log(error.message);
-      }
-  }, [setProducts]);
-  
-  useEffect(() => {
-      getData();
-  }, [getData])
-
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+const BarangayPage = () => {
+    
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     return (
         <div>
-            <h1>Juridical Page</h1>
+            <h1>Barangay Page</h1>
             <div style={{width:'100%', display:'flex', justifyContent:'flex-end', marginBottom: 10}}>
                 <Button variant="contained" style={{color:'white'}} onClick={handleOpen}>
-                    Add Juridical
+                    Add Barangay
                 </Button>
             </div>
 
             <div>
-                <JuridicalTable 
-                    products={products}
-                    payload={payload}
-                    setPayload={setPayload}
+                <BarangayTable 
+                  
                 />
             </div>
             <Modal
@@ -65,16 +42,13 @@ const JuridicalPage = () => {
             >
                 <Fade in={open}>
                     <Box sx={IndividualModalStyles.modal} style={{borderRadius:5}} component="form">
-                        <AddJuridical
-                            payload={payload}
-                            setPayload={setPayload}
-                        />
+                        
                     </Box>
                 </Fade>
                
             </Modal>
         </div>
-    );  
-};
+    );
+}
 
-export default JuridicalPage;
+export default BarangayPage;

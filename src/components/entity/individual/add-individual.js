@@ -33,7 +33,7 @@ const AddIndividual = ({
 
   const { control, handleSubmit, watch, formState: { errors } } = useForm();
   const addIndividualForm = data => setPayload(data);
-  console.log(payload)
+  
   return (
     <Card>
       <Grid container spacing={3}>

@@ -5,28 +5,29 @@ import Backdrop from '@mui/material/Backdrop';
 import Fade from '@mui/material/Fade';
 import {Box} from '@mui/material';
 // components
-import EnhancedTable from '../../components/table/entity';
+import IndividualTable from '../../components/table/entity/individual-table';
 import AddIndividual from '../../components/entity/individual/add-individual';
 // api
-import ProductApi from '../../library/api/products-api';
+import IndividualApi from '../../library/api/individual-api';
 
 // styles
 import IndividualModalStyles from '../../styles/modal/individual-modal';
 
+
 const IndividualPage = () => {
 
-    const [products, setProducts] = useState();
+    const [individual, setIndividual] = useState();
     const [payload, setPayload] = useState([]);
 
     const getData = useCallback(async() => {
       try {
-          const _products = await ProductApi.getProduct();
-          setProducts(_products)
+          const _individual = await IndividualApi.getIndividuals();
+          setIndividual(_individual)
       
       } catch (error) {
           console.log(error.message);
       }
-  }, [setProducts]);
+  }, [setIndividual]);
   
   useEffect(() => {
       getData();
@@ -36,7 +37,6 @@ const IndividualPage = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  console.log(payload)
     return (
         <div>
             <h1>Individual Page</h1>
@@ -47,8 +47,8 @@ const IndividualPage = () => {
             </div>
 
             <div>
-                <EnhancedTable 
-                    products={products}
+                <IndividualTable 
+                    individual={individual}
                     payload={payload}
                     setPayload={setPayload}
                 />
@@ -63,7 +63,8 @@ const IndividualPage = () => {
                 BackdropProps={{
                     timeout: 500,
                 }}
-                style={{overflow:'scroll'}}
+                overflow='scroll'
+                // style={{overflow:'scroll',}}
                 
             >
                 <Fade in={open}>
