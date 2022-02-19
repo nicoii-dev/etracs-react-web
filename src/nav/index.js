@@ -14,6 +14,8 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import AdminPageList from './admin';
 import MenuListComposition from '../components/header/drop-down-menu';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeNav, openNav } from '../redux/nav/action';
 
   const drawerWidth = 320;
   
@@ -86,24 +88,27 @@ import MenuListComposition from '../components/header/drop-down-menu';
     expanded,
     setExpanded
   }) => {
+    const dispatch = useDispatch();
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
     const [expand, setExpand] = React.useState(false);
 
     const handleDrawerOpen = () => {
-      setOpen(true);
+      setOpen(!open);
       setExpanded(!expanded)
+      dispatch(openNav(0))
     };
   
     const handleDrawerClose = () => {
-      setOpen(false);
+      setOpen(!open);
       setExpanded(!expanded)
+      dispatch(closeNav(1))
     };
   
     return (
-      <Box sx={{ display: 'flex' }} component="nav">
+      <Box sx={{ display: 'flex', }} component="nav">
         <CssBaseline />
-          <AppBar position='relative' open={open}>
+          <AppBar position='fixed' open={open} style={{zIndex:100}}>
             <Toolbar>
               <IconButton
                 color="inherit"
@@ -117,12 +122,12 @@ import MenuListComposition from '../components/header/drop-down-menu';
               >
                 <MenuIcon />
               </IconButton>
-              <div style={{display:'flex', width:'100%',justifyContent:'flex-end' }}>
+              <div style={{display:'flex', width:'100%',justifyContent:'flex-end'}}>
                 <MenuListComposition />
               </div>
             </Toolbar>
           </AppBar>
-        <Drawer variant="permanent" open={open}>
+        <Drawer variant="permanent" open={open} style={{zIndex: 99}}>
           <DrawerHeader>
             <Typography variant="h6" noWrap component="div" style={{width:'100%', fontWeight:'bold'}}>
               ETRACS

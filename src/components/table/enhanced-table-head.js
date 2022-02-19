@@ -14,12 +14,10 @@ const EnhancedTableHead = (props) => {
     onRequestSort(event, property);
   };
   const [tableHeadArray, setTableHeadArray] = useState([]);
-
-
-  const PropertyNames = Object.getOwnPropertyNames(...tableHead); //getting all property names in the array data
-
   // create new array for table head
   const SetTableHead = useCallback(() => {
+    const PropertyNames = Object.getOwnPropertyNames(...tableHead); //getting all property names in the array data
+
     let _tableHeadArray = [];
     let newObject = {};
 
@@ -31,9 +29,8 @@ const EnhancedTableHead = (props) => {
       label: 'ACTIONS',
     })
 
-    for(let i = 1; i < PropertyNames.length; i++){
-      console.log(PropertyNames[i]);
-      if(PropertyNames[i] === 'created_at' || PropertyNames[i] === 'updated_at' || PropertyNames[i] === 'individual_id'){
+    for(let i = 0; i < PropertyNames.length; i++){
+      if(PropertyNames[i] === 'created_at' || PropertyNames[i] === 'updated_at' || PropertyNames[i] === 'individual_id' || PropertyNames[i] === 'id'){
 
       } else {
         newObject = {
@@ -47,13 +44,15 @@ const EnhancedTableHead = (props) => {
 
     }
 
-    console.log(_tableHeadArray)
     setTableHeadArray(_tableHeadArray);
   }, [setTableHeadArray]);
 
 
   useEffect(() => {
-    SetTableHead();
+    if(tableHead.length > 0){
+      SetTableHead();
+    }
+    
   }, [])
 
   return (

@@ -1,44 +1,14 @@
-import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import React from "react";
+import store from './redux/store';
+import { Provider} from 'react-redux';
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
-
-import AuthRoutes from "./routes/AuthRoutes";
-import AdminRoutes from "./routes/AdminRoutes";
-import UserRoutes from "./routes/UserRoutes";
-
+import MainRoute from './routes';
 
 function App() {
-
-  const [auth, setAuth] = useState(true);
-  const [admin, setAdmin] = useState(true);
-  const [user, setUser] = useState(false);
-
   return (
-    <div>
-      <Router>
-
-        {!auth && 
-         (<AuthRoutes />)  
-        }
-        {auth && user && 
-          (
-            <UserRoutes />
-          )}
-        {auth && admin && 
-          (
-            <AdminRoutes />
-          )}
-        
-      </Router>
-
-    </div>
-   
+      <Provider store = {store}>
+        <MainRoute />
+      </Provider>
   )
 }
 

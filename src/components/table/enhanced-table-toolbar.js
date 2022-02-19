@@ -26,8 +26,11 @@ const deleteSelected = (ids) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                console.log(ids)
-                const _individual = await IndividualApi.multipleDeleteIndividual(ids);
+                const payload = {
+                    ids:ids
+                }
+                
+                const _individual = await IndividualApi.multipleDeleteIndividual({ids});
                 console.log(_individual);
                 Swal.fire(
                     'Deleted!',

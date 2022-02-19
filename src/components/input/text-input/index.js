@@ -14,10 +14,10 @@ const TextInputController = ({
 
     return (
         <Controller
+            defaultValue={defaultData ? defaultData : ""}
             name={name}
             control={control}
             rules={rules}
-            defaultValue={defaultData}
             render={({field: {onChange, onBlur, value}}) => (
                 <TextField
                     fullWidth

@@ -8,8 +8,10 @@ import {
   Divider,
   Grid,
   TextField,
+  Select
 } from '@mui/material';
 import { useForm, Controller } from "react-hook-form";
+import Swal from 'sweetalert2';
 
 // hooks
 import { CheckEmail } from '../../../helpers/EmailValidator';
@@ -27,15 +29,20 @@ import CivilStatus from '../../../library/constants/informations/civil-status';
 import Professions from '../../../library/constants/informations/professions';
 
 const AddIndividual = ({
-  payload,
-  setPayload
+  data,
+  setData,
+  addData,
 }) => {
 
   const { control, handleSubmit, watch, formState: { errors } } = useForm();
-  const addIndividualForm = data => setPayload(data);
-  
+  //const addIndividualForm = data => IndividualApi.storeIndividual(data);
+  const addIndividualForm = async (_data) => {
+    //setData(data);
+    addData(_data);
+  }
+
   return (
-    <Card>
+    <>
       <Grid container spacing={3}>
         <Grid item md={8} xs={12}>
           <CardHeader
@@ -47,7 +54,7 @@ const AddIndividual = ({
               <Grid container spacing={3}>
                   <Grid item md={4} xs={12}>
                     <TextInputController
-                      defaultData={payload}
+                      defaultData={data?.firstname}
                       label="First name*"
                       name="firstName"
                       variant="outlined"
@@ -71,6 +78,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <TextInputController
+                      defaultData={data?.middlename}
                       label="Middle name*"
                       name="middleName"
                       variant="outlined"
@@ -94,6 +102,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <TextInputController
+                      defaultData={data?.lastname}
                       label="Last name*"
                       name="lastName"
                       variant="outlined"
@@ -117,6 +126,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <TextInputController
+                      defaultData={data?.email}
                       label="Email Address"
                       name="email"
                       variant="outlined"
@@ -136,8 +146,9 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <TextInputController
+                      defaultData={data?.phone_number}
                       label="Phone Number*"
-                      name="phone"
+                      name="phoneNumber"
                       variant="outlined"
                       type="number"
                       control={control}
@@ -156,11 +167,12 @@ const AddIndividual = ({
                         }
                       }}
                     />
-                    {errors.phone && (<div><p className={InputErrorStyles.errorText}>{errors.phone?.message}</p></div>)}
+                    {errors.phoneNumber && (<div><p className={InputErrorStyles.errorText}>{errors.phoneNumber?.message}</p></div>)}
                   </Grid>
       
                   <Grid item md={4} xs={12}>
                     <TextInputController
+                    defaultData={data?.house_number}
                       label="House Number"
                       name="houseNumber"
                       variant="outlined"
@@ -176,6 +188,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <TextInputController
+                      defaultData={data?.street}
                       label="Street*"
                       name="street"
                       variant="outlined"
@@ -191,6 +204,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <TextInputController
+                      defaultData={data?.barangay}
                       label="Barangay*"
                       name="barangay"
                       variant="outlined"
@@ -198,7 +212,7 @@ const AddIndividual = ({
                       rules={{
                         required: {
                           value: true,
-                          message: 'Street is required',
+                          message: 'Barangay is required',
                         },
                       }}
                     />
@@ -206,6 +220,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <TextInputController
+                      defaultData={data?.city_municipality}
                       label="City/Municipality*"
                       name="cityMunicipality"
                       variant="outlined"
@@ -221,6 +236,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <TextInputController
+                      defaultData={data?.zipcode}
                       label="Zip Code*"
                       name="zipCode"
                       variant="outlined"
@@ -237,6 +253,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <Controller
+                        defaultValue={data?.birth_date}
                         name={'birthdate'}
                         control={control}
                         rules={{
@@ -245,7 +262,6 @@ const AddIndividual = ({
                               message: 'Birthdate is required',
                           },
                         }}
-                        defaultValue=""
                         render={({field: {onChange, onBlur, value}}) => (
                           <TextField
                             name="birthdate"
@@ -254,7 +270,7 @@ const AddIndividual = ({
                             fullWidth
                             onBlur={onBlur}
                             onChange={onChange}
-                            value={value}
+                            value={data?.birth_date ? data.birth_date : value}
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -265,6 +281,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <TextInputController
+                      defaultData={data?.place_of_birth}
                       label="Place of Birth*"
                       name="placeOfBirth"
                       variant="outlined"
@@ -280,6 +297,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <Controller
+                      defaultValue={data?.citizenship ? data?.citizenship : ""}
                       name={'citizenship'}
                       control={control}
                       rules={{
@@ -292,7 +310,6 @@ const AddIndividual = ({
                           message: 'Citizenship is required',
                         }
                       }}  
-                      defaultValue=""
                       render={({field: {onChange, onBlur, value}}) => (
                         <TextField
                           fullWidth
@@ -303,7 +320,7 @@ const AddIndividual = ({
                           variant="outlined"
                           onBlur={onBlur}
                           onChange={onChange}
-                          value={value}
+                          value={data?.citizenship ? data?.citizenship : ""}
                         >
                           {Citizenship.map((option) => (
                               <option
@@ -320,6 +337,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <Controller
+                      defaultValue={data?.gender ? data?.gender : ""}
                       name={'gender'}
                       control={control}
                       rules={{
@@ -332,7 +350,6 @@ const AddIndividual = ({
                           message: 'Gender is required',
                         }
                       }}
-                      defaultValue=""
                       render={({field: {onChange, onBlur, value}}) => (
                         <TextField
                           fullWidth
@@ -343,7 +360,7 @@ const AddIndividual = ({
                           variant="outlined"
                           onBlur={onBlur}
                           onChange={onChange}
-                          value={value}
+                          value={data?.gender ? data?.gender : ""}
                         >
                           {Gender.map((option) => (
                               <option
@@ -360,6 +377,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <Controller
+                      defaultValue={data?.civil_status ? data?.civil_status : ""}
                       name={'civilStatus'}
                       control={control}
                       rules={{
@@ -372,7 +390,6 @@ const AddIndividual = ({
                           message: 'Civil status is required',
                         }
                       }}
-                      defaultValue=""
                       render={({field: {onChange, onBlur, value}}) => (
                         <TextField
                           fullWidth
@@ -383,7 +400,7 @@ const AddIndividual = ({
                           variant="outlined"
                           onBlur={onBlur}
                           onChange={onChange}
-                          value={value}
+                          value={data?.civil_status ? data?.civil_status : ""}
                         >
                           {CivilStatus.map((option) => (
                               <option
@@ -397,21 +414,6 @@ const AddIndividual = ({
                       )}
                     />
                     {errors.civilStatus && (<div><p className={InputErrorStyles.errorText}>{errors.civilStatus?.message}</p></div>)}
-                  </Grid>
-                  <Grid item md={12} xs={12}>
-                    <TextInputController
-                      label="Remarks"
-                      name="remarks"
-                      variant="outlined"
-                      control={control}
-                      rules={{
-                        required: {
-                          value: false,
-                          message: 'Remarks is required',
-                        },
-                      }}
-                    />
-                    {errors.remarks && (<div><p className={InputErrorStyles.errorText}>{errors.remarks?.message}</p></div>)}
                   </Grid>
               </Grid>
           </CardContent>
@@ -427,6 +429,7 @@ const AddIndividual = ({
             <Grid container spacing={3}>
               <Grid item md={12} xs={12}>
                     <Controller
+                      defaultValue={data?.profession ? data?.profession : ""}
                       name={'profession'}
                       control={control}
                       rules={{
@@ -435,7 +438,6 @@ const AddIndividual = ({
                           message: 'Profession required',
                         },
                       }}
-                      defaultValue=""
                       render={({field: {onChange, onBlur, value}}) => (
                         <TextField
                           fullWidth
@@ -446,7 +448,7 @@ const AddIndividual = ({
                           variant="outlined"
                           onBlur={onBlur}
                           onChange={onChange}
-                          value={value}
+                          value={data?.profession ? data?.profession : ""}
                         >
                           {Professions.map((option) => (
                               <option
@@ -463,6 +465,7 @@ const AddIndividual = ({
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextInputController
+                    defaultData={data?.id_presented}
                     label="ID Presented*"
                     name="idPresented"
                     variant="outlined"
@@ -478,6 +481,7 @@ const AddIndividual = ({
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextInputController
+                    defaultData={data?.tin}
                     label="TIN"
                     name="tin"
                     variant="outlined"
@@ -493,6 +497,7 @@ const AddIndividual = ({
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextInputController
+                    defaultData={data?.sss}
                     label="SSS"
                     name="sss"
                     variant="outlined"
@@ -508,6 +513,7 @@ const AddIndividual = ({
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextInputController
+                    defaultData={data?.height}
                     label="Height(cm)*"
                     name="height"
                     variant="outlined"
@@ -524,6 +530,7 @@ const AddIndividual = ({
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextInputController
+                    defaultData={data?.weight}
                     label="Weight(kg)*"
                     name="weight"
                     variant="outlined"
@@ -546,14 +553,14 @@ const AddIndividual = ({
           sx={{
             display: 'flex',
             justifyContent: 'flex-end',
-            p: 4,
+            p: 2,
           }}
         >
           <Button color="primary" variant="contained" onClick={handleSubmit(addIndividualForm)}>
             Save details
           </Button>
         </Box>
-      </Card>
+      </>
     );
   };
 

@@ -7,8 +7,24 @@ const IndividualApi = {
       const data = await response.data;
       return data;
     } catch (error) {
-      return error.message.substr(32, 3);
+      return error.message
     }
+  },
+
+  storeIndividual: async (payload) => {
+    try {
+        const json = JSON.stringify(payload);
+        const response = await axios.post("http://localhost:8000/api/individual", json , {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json'
+            }
+          });
+        const data = await response.data;
+        return data;
+      } catch (error) {
+        return error.message
+      }
   },
 
   showIndividualById: async (id) => {
@@ -17,17 +33,23 @@ const IndividualApi = {
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message.substr(32, 3);
+        return error.message
       }
   },
 
-  updateIndividual: async (data, id) => {
+  updateIndividual: async (payload, id) => {
     try {
-        const response = await axios.get("http://localhost:8000/api/individual/"+id);
+        const json = JSON.stringify(payload);
+        const response = await axios.get("http://localhost:8000/api/individual/"+id, json, {
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json'
+          }
+        });
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message.substr(32, 3);
+        return error.message
       }
   },
   
@@ -37,15 +59,16 @@ const IndividualApi = {
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message.substr(32, 3);
+        return error.message
       }
   },
 
-  multipleDeleteIndividual: async (_ids) => {
+  multipleDeleteIndividual: async (payload) => {
     try {
-        const response = await axios.post("http://localhost:8000/api/individual/multipledelete", 'ids='+_ids);
-        const data = await response.data;
-        return data;
+        console.log(payload)
+        //const response = await axios.post("http://localhost:8000/api/individual/multipledelete", payload);
+       // const data = await response.data;
+        //return data;
       } catch (error) {
         return error.message.substr(32, 3);
       }

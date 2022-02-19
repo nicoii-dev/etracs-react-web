@@ -21,8 +21,9 @@ import EnhancedTableToolbar from '../enhanced-table-toolbar';
 
 const IndividualTable = ({
   individual,
-  payload,
-  setPayload
+  setData,
+  open,
+  setOpen,
 }) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
@@ -30,7 +31,7 @@ const IndividualTable = ({
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  console.log(individual)
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -83,7 +84,6 @@ function descendingComparator(a, b, orderBy) {
         selected.slice(selectedIndex + 1),
       );
     }
-    setPayload(newSelected)
     setSelected(newSelected);
   };
 
@@ -101,6 +101,11 @@ function descendingComparator(a, b, orderBy) {
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
+
+  const updateIndividual = (rowData) => {
+    setOpen(!open);
+    setData(rowData)
+  }
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - individual.length) : 0;
@@ -134,7 +139,7 @@ function descendingComparator(a, b, orderBy) {
                         const isItemSelected = isSelected(row.id);
                         const labelId = `enhanced-table-checkbox-${index}`;
                             return (
-                                <TableRow
+                              <TableRow
                                     hover
                                     //onClick={(event) => {handleClick(event, row.id)}}
                                     role="checkbox"
@@ -159,27 +164,33 @@ function descendingComparator(a, b, orderBy) {
                                   scope="row"
                                   padding="none"
                                   align="center"
-                                ><IconButton><Edit /></IconButton></TableCell>
+                                >
+                                  <IconButton onClick={() => {updateIndividual(row)}}>
+                                    <Edit />
+                                  </IconButton>
+                                </TableCell>
                                 <TableCell align="right">{row.firstname}</TableCell>
                                 <TableCell align="right">{row.middlename}</TableCell>
                                 <TableCell align="right">{row.lastname}</TableCell>
                                 <TableCell align="right">{row.email}</TableCell>
                                 <TableCell align="right">{row.phone_number}</TableCell>
-                                <TableCell align="right">{row.birth_date}</TableCell>
-                                <TableCell align="right">{row.place_of_birth}</TableCell>
-                                <TableCell align="right">{row.gender}</TableCell>
-                                <TableCell align="right">{row.civil_status}</TableCell>
                                 <TableCell align="right">{row.house_number}</TableCell>
                                 <TableCell align="right">{row.street}</TableCell>
                                 <TableCell align="right">{row.barangay}</TableCell>
                                 <TableCell align="right">{row.city_municipality}</TableCell>
+                                <TableCell align="right">{row.zipcode}</TableCell>
+                                <TableCell align="right">{row.birth_date}</TableCell>
+                                <TableCell align="right">{row.place_of_birth}</TableCell>
+                                <TableCell align="right">{row.citizenship}</TableCell>
+                                <TableCell align="right">{row.gender}</TableCell>
+                                <TableCell align="right">{row.civil_status}</TableCell>
                                 <TableCell align="right">{row.profession}</TableCell>
                                 <TableCell align="right">{row.id_presented}</TableCell>
                                 <TableCell align="right">{row.tin}</TableCell>
                                 <TableCell align="right">{row.sss}</TableCell>
                                 <TableCell align="right">{row.height}</TableCell>
                                 <TableCell align="right">{row.weight}</TableCell>
-                                </TableRow>
+                              </TableRow>
                             );
                     })}
                     {emptyRows > 0 && (
