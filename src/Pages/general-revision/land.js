@@ -19,15 +19,18 @@ const LandRevision = () => {
     return (
         <div>
             <h1>
-                Land
+
             </h1>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>
-                    <Grid item xs={6}>
+                    <Grid item xs={8}>
                         <GeneralRevisionTabs />
                     </Grid>
-                    <Grid item xs={6}>
-                        <MarketValueTabs />
+                    <Grid item xs={4}>
+                        <Grid item xs={12} style={{position:'fixed'}}>
+                            <MarketValueTabs />
+                        </Grid>
+                        
                     </Grid>
                 </Grid>
             </Box>

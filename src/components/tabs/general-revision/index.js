@@ -4,7 +4,7 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
-
+import LCUV from "../../land/lcuv";
 
 const GeneralRevisionTabs = ({
     tabValues
@@ -26,8 +26,8 @@ const GeneralRevisionTabs = ({
             <Tab label="Applied to the following LGUs" value="4" />
           </TabList>
         </Box>
-        <TabPanel value="1">Item 1One</TabPanel>
-        <TabPanel value="2">Item Two</TabPanel>
+        <TabPanel value="1"><LCUV /></TabPanel>
+        <TabPanel value="2"><LCUV /></TabPanel>
         <TabPanel value="3">Item Three</TabPanel>
         {/* {tabValues.map((item, key) => {
             <TabPanel value={key}>{item}</TabPanel>

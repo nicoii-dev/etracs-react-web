@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import {
-  Box,
-  Button,
-  Card,
   CardContent,
-  CardHeader,
   Divider,
   Grid,
   TextField,
 } from '@mui/material';
-import { useForm, useFormContext, Controller } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import FaasTextInputController from '../../input/faas-input';
 import Quarter from '../../../library/constants/quarter'
 
@@ -83,8 +79,8 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{marginTop:-15}}>
                                 <Controller
-                                    defaultValue={data?.date}
-                                    name={'date'}
+                                    defaultValue={data?.date ? data?.date : ""}
+                                    name='date'
                                     control={control}
                                     rules={{
                                         required: {
@@ -113,7 +109,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{marginTop:-15}}>
                                 <Controller
-                                    defaultValue={data?.issueDate}
+                                    defaultValue={data?.issueDate ? data?.issueDate : ""}
                                     name={'issueDate'}
                                     control={control}
                                     rules={{
@@ -297,7 +293,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={5} xs={12} style={{marginTop:-15}}>
                                 <Controller
-                                    defaultValue={data?.appraisedDate}
+                                    defaultValue={data?.appraisedDate ? data?.appraisedDate : ""}
                                     name={'appraisedDate'}
                                     control={control}
                                     rules={{
@@ -343,7 +339,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={5} xs={12} style={{marginTop:-15}}>
                                 <Controller
-                                    defaultValue={data?.recommendedDate}
+                                    defaultValue={data?.recommendedDate ? data?.recommendedDate : ""}
                                     name={'recommendedDate'}
                                     control={control}
                                     rules={{
@@ -388,7 +384,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={5} xs={12} style={{marginTop:-15}}>
                                 <Controller
-                                    defaultValue={data?.approvedDate}
+                                    defaultValue={data?.approvedDate ? data?.approvedDate : ""}
                                     name={'approvedDate'}
                                     control={control}
                                     rules={{

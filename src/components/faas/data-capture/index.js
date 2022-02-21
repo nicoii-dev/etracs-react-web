@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { useForm, FormProvider} from "react-hook-form";
 import {Box} from '@mui/material';
 import Button from '@mui/material/Button';
 // components
 import GeneralInformation from './general-information';
+import OwnershipInformation from './ownership-information';
+import RealPropertyInformation from './real-property-information';
 
 const DataCapture = () => {
 
@@ -20,6 +22,14 @@ const DataCapture = () => {
             <FormProvider {...methods}>
 
                     <GeneralInformation
+                        errors={errors}
+                        control={control}
+                    />
+                    <OwnershipInformation 
+                        errors={errors}
+                        control={control}
+                    />
+                    <RealPropertyInformation
                         errors={errors}
                         control={control}
                     />

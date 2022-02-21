@@ -45,7 +45,6 @@ const MenuListComposition = () => {
 
   return (
     <Stack direction="row" spacing={2}>
-      <div>
         <Button
             ref={anchorRef}
             id="composition-button"
@@ -73,13 +72,14 @@ const MenuListComposition = () => {
                   placement === 'bottom-start' ? 'left top' : 'left bottom',
               }}
             >
-              <Paper>
+              <Paper fullWidth>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList
                     autoFocusItem={open}
                     id="composition-menu"
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
+                    fullWidth
                   >
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
                     <MenuItem onClick={handleClose}>Logout</MenuItem>
@@ -89,7 +89,6 @@ const MenuListComposition = () => {
             </Grow>
           )}
         </Popper>
-      </div>
     </Stack>
   );
 }

@@ -24,32 +24,24 @@ const DataCapturePage = () => {
         <>
             <h2 style={{fontFamily:'-moz-initial'}}>Data Capture</h2>
             <div style={{width:'100%', display:'flex', justifyContent:'flex-end', marginBottom: 10}}>
-                <Button 
-                    variant="contained" 
-                    style={{color:'white'}} 
-                    onClick={() => {
-                        setOpen(!open)
-                    }}>
-                    Add
-                </Button>
             </div>
             <DataCapture />
 
             <Modal
-            isOpen={open}
-            onRequestClose={() => {setOpen(!open)}}
-            contentLabel="Example Modal"
-            onClose={() => setOpen(!open)}
-            ariaHideApp={false}
-            style={{
-                content: {
-                top: '55%',
-                marginLeft: !status ? '50%' : '58%',
-                transform: 'translate(-50%, -50%)',
-                width: !status ? '80%' : '73%',
-                height:'75%'
-                },
-            }}
+                isOpen={open}
+                onRequestClose={() => {setOpen(!open)}}
+                contentLabel="Example Modal"
+                onClose={() => setOpen(!open)}
+                ariaHideApp={false}
+                style={{
+                    content: {
+                    top: '55%',
+                    marginLeft: !status ? '50%' : '58%',
+                    transform: 'translate(-50%, -50%)',
+                    width: !status ? '80%' : '73%',
+                    height:'75%'
+                    },
+                }}
             >
             </Modal>
 
