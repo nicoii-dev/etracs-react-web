@@ -1,13 +1,14 @@
 import * as actionTypes from './actionTypes'
 
 const initialState = {
-    individuals: []
+    individuals: [],
+    loading: false,
 }
 
 const IndividualReducer = (state = initialState, action) => {
     console.log(action)
     switch (action.type) {
-        case actionTypes.GET_ALL_INDIVIDUALS:
+        case actionTypes.GET_INDIVIDUALS_SUCCESS:
             return {
                 ...state,
                 individuals: [...state.individuals, action.payload]

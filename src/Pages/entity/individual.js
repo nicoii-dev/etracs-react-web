@@ -13,12 +13,14 @@ import AddIndividual from '../../components/entity/individual/add-individual';
 // api
 import IndividualApi from '../../library/api/individual-api';
 
-// styles
-import ModalStyles from '../../styles/modal';
+// redux
+
 
 const IndividualPage = () => {
     const individuals = useSelector(state => state.individualData.individuals);
+    console.log(individuals)
     const status = useSelector(state => state.navStatus.status)
+    const dispatch = useDispatch();
     const [individual, setIndividual] = useState();
     const [data, setData] = useState([]);
     const [open, setOpen] = useState(false);
@@ -66,6 +68,7 @@ const IndividualPage = () => {
             try {
               const _individual = await IndividualApi.storeIndividual(payload);
               console.log(_individual)
+              //dispatch(getAllIndividual(_individual))
               Swal.fire('Saved!', '', 'success');
               // setIndividual(_individual)
               setOpen(!open);
@@ -124,7 +127,7 @@ const IndividualPage = () => {
     })
 }
     return (
-        <div style={{marginTop:'5%'}}>
+        <>
             <h2 style={{fontFamily:'-moz-initial'}}>Individual Page</h2>
             <div style={{width:'100%', display:'flex', justifyContent:'flex-end', marginBottom: 10}}>
                 <Button 
@@ -188,7 +191,7 @@ const IndividualPage = () => {
                   />
 
             </Modal>
-        </div>
+        </>
     );  
 };
 

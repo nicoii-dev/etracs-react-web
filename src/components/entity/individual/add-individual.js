@@ -8,10 +8,8 @@ import {
   Divider,
   Grid,
   TextField,
-  Select
 } from '@mui/material';
 import { useForm, Controller } from "react-hook-form";
-import Swal from 'sweetalert2';
 
 // hooks
 import { CheckEmail } from '../../../helpers/EmailValidator';
@@ -270,6 +268,7 @@ const AddIndividual = ({
                             fullWidth
                             onBlur={onBlur}
                             onChange={onChange}
+                            size='small'
                             value={data?.birth_date ? data.birth_date : value}
                             InputLabelProps={{
                                 shrink: true,
@@ -320,7 +319,8 @@ const AddIndividual = ({
                           variant="outlined"
                           onBlur={onBlur}
                           onChange={onChange}
-                          value={data?.citizenship ? data?.citizenship : ""}
+                          size='small'
+                          value={data?.citizenship ? data?.citizenship : value}
                         >
                           {Citizenship.map((option) => (
                               <option
@@ -360,7 +360,8 @@ const AddIndividual = ({
                           variant="outlined"
                           onBlur={onBlur}
                           onChange={onChange}
-                          value={data?.gender ? data?.gender : ""}
+                          size='small'
+                          value={data?.gender ? data?.gender : value}
                         >
                           {Gender.map((option) => (
                               <option
@@ -400,7 +401,8 @@ const AddIndividual = ({
                           variant="outlined"
                           onBlur={onBlur}
                           onChange={onChange}
-                          value={data?.civil_status ? data?.civil_status : ""}
+                          size='small'
+                          value={data?.civil_status ? data?.civil_status : value}
                         >
                           {CivilStatus.map((option) => (
                               <option
@@ -448,7 +450,8 @@ const AddIndividual = ({
                           variant="outlined"
                           onBlur={onBlur}
                           onChange={onChange}
-                          value={data?.profession ? data?.profession : ""}
+                          size='small'
+                          value={data?.profession ? data?.profession : value}
                         >
                           {Professions.map((option) => (
                               <option

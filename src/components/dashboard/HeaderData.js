@@ -10,6 +10,7 @@ import { EventOutlined, DateRangeOutlined, ReceiptOutlined, DateRange, AccountBo
 const HeaderData = () => {
 
     return (
+        <div>
         <Row>
             <Col lg="3" sm="6">
                 <Card className="card-stats">
@@ -96,6 +97,7 @@ const HeaderData = () => {
                 </Card>
             </Col>
         </Row>
+        </div>
     )
 }
 

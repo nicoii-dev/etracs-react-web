@@ -28,6 +28,7 @@ const TextInputController = ({
                     onChange={onChange}
                     value={value}
                     placeholder={placeholder}
+                    size='small'
                 />
             )}
         />
