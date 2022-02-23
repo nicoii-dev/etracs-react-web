@@ -20,13 +20,20 @@ import TextInputController from '../../input/text-input';
 import InputErrorStyles from '../../../styles/error-text/InputErrorStyles.module.css'
 
 const AddMultiple = ({
-  payload,
-  setPayload
+  data,
+  setData,
+  addData,
+  updateData
 }) => {
 
-  const { control, handleSubmit, watch, formState: { errors } } = useForm();
-  const addMultipleForm = data => setPayload(data);
-  console.log(payload)
+  const { control, handleSubmit, formState: { errors } } = useForm();
+  const addMultipleForm =async (_data) => {
+    addData(_data);
+  }
+
+  const updateMultipleForm = async (_data) => {
+    updateData({..._data, id:data.id});
+  }
   return (
     <Card>
       <Grid container spacing={3}>
@@ -40,7 +47,23 @@ const AddMultiple = ({
               <Grid container spacing={3}>
                   <Grid item md={12} xs={12}>
                     <TextInputController
-                      defaultData={payload}
+                      defaultData={data?.account_number}
+                      label="Account Number*"
+                      name="accountNumber"
+                      variant="outlined"
+                      control={control}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: 'Account number is required',
+                        },
+                      }}
+                    />
+                    {errors.accountNumber && (<div><p className={InputErrorStyles.errorText}>{errors.accountNumber?.message}</p></div>)}
+                  </Grid>
+                  <Grid item md={12} xs={12}>
+                    <TextInputController
+                      defaultData={data?.multiple_name}
                       label="Multiple Name*"
                       name="multipleName"
                       variant="outlined"
@@ -54,16 +77,13 @@ const AddMultiple = ({
                           value: 2,
                           message: 'Multiple name must be atleast 2 characters.',
                         },
-                        pattern: {
-                          value: /^[A-Za-z]+$/i,
-                          message: 'Alphabetical characters only',
-                        }
                       }}
                     />
                     {errors.multipleName && (<div><p className={InputErrorStyles.errorText}>{errors.multipleName?.message}</p></div>)}
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <TextInputController
+                      defaultData={data?.email}
                       label="Email Address"
                       name="email"
                       variant="outlined"
@@ -83,33 +103,35 @@ const AddMultiple = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <TextInputController
-                      label="Phone Number*"
-                      name="phone"
+                      defaultData={data?.contact_number}
+                      label="Contact Number*"
+                      name="contactNumber"
                       variant="outlined"
                       type="number"
                       control={control}
                       rules={{
                         required: {
                           value: true,
-                          message: 'Phone number is required',
+                          message: 'Contact number is required',
                         },
                         minLength: {
                           value: 11,
-                          message: 'Phone number must be atleast 11 numbers',
+                          message: 'Contact number must be atleast 11 numbers',
                         },
                         maxLength: {
                           value: 11,
-                          message: 'Phone number must be 11 numbers only',
+                          message: 'Contact number must be 11 numbers only',
                         }
                       }}
                     />
-                    {errors.phone && (<div><p className={InputErrorStyles.errorText}>{errors.phone?.message}</p></div>)}
+                    {errors.contactNumber && (<div><p className={InputErrorStyles.errorText}>{errors.contactNumber?.message}</p></div>)}
                   </Grid>
       
                   <Grid item md={4} xs={12}>
                     <TextInputController
-                      label="Building Number"
-                      name="buildingNumber"
+                      defaultData={data?.house_number}
+                      label="House Number"
+                      name="houseNumber"
                       variant="outlined"
                       control={control}
                       rules={{
@@ -119,10 +141,11 @@ const AddMultiple = ({
                         },
                       }}
                     />
-                    {errors.buildingNumber && (<div><p className={InputErrorStyles.errorText}>{errors.buildingNumber?.message}</p></div>)}
+                    {errors.houseNumber && (<div><p className={InputErrorStyles.errorText}>{errors.houseNumber?.message}</p></div>)}
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <TextInputController
+                      defaultData={data?.street}
                       label="Street*"
                       name="street"
                       variant="outlined"
@@ -138,6 +161,7 @@ const AddMultiple = ({
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <TextInputController
+                      defaultData={data?.barangay}
                       label="Barangay*"
                       name="barangay"
                       variant="outlined"
@@ -153,6 +177,7 @@ const AddMultiple = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <TextInputController
+                      defaultData={data?.city_municipality}
                       label="City/Municipality*"
                       name="cityMunicipality"
                       variant="outlined"
@@ -168,6 +193,7 @@ const AddMultiple = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <TextInputController
+                      defaultData={data?.zipcode}
                       label="Zip Code*"
                       name="zipCode"
                       variant="outlined"
@@ -182,7 +208,22 @@ const AddMultiple = ({
                     />
                     {errors.zipCode && (<div><p className={InputErrorStyles.errorText}>{errors.zipCode?.message}</p></div>)}
                   </Grid>
-
+                  <Grid item md={12} xs={12}>
+                    <TextInputController
+                      defaultData={data?.remarks}
+                      label="Remarks"
+                      name="remarks"
+                      variant="outlined"
+                      control={control}
+                      rules={{
+                        required: {
+                          value: false,
+                          message: 'Zip Code is required',
+                        },
+                      }}
+                    />
+                    {errors.remarks && (<div><p className={InputErrorStyles.errorText}>{errors.remarks?.message}</p></div>)}
+                  </Grid>
               </Grid>
           </CardContent>
         </Grid>
@@ -195,8 +236,8 @@ const AddMultiple = ({
             p: 4,
           }}
         >
-          <Button color="primary" variant="contained" onClick={handleSubmit(addMultipleForm)}>
-            Save details
+          <Button color="primary" variant="contained" onClick={handleSubmit(data? updateMultipleForm : addMultipleForm)}>
+            {data ? 'UPDATE' : 'SAVE'}
           </Button>
         </Box>
       </Card>

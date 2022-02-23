@@ -42,9 +42,8 @@ const JuridicalPage = () => {
               const payload = {
                 account_number: _data.accountNumber,
                 juridical_name: _data.juridicalName,
-                contact_number: _data.contactNumber,
                 email: _data.email,
-                phone_number: _data.contactNumber,
+                contact_number: _data.contactNumber,
                 house_number: _data.houseNumber,
                 street: _data.street,
                 barangay: _data.barangay,
@@ -90,9 +89,8 @@ const JuridicalPage = () => {
               const payload = {
                 account_number: _data.accountNumber,
                 juridical_name: _data.juridicalName,
-                contact_number: _data.contactNumber,
                 email: _data.email,
-                phone_number: _data.contactNumber,
+                contact_number: _data.contactNumber,
                 house_number: _data.houseNumber,
                 street: _data.street,
                 barangay: _data.barangay,

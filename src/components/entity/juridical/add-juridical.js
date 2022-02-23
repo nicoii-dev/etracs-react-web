@@ -78,10 +78,6 @@ const AddJuridical = ({
                           value: 2,
                           message: 'Juridical name must be atleast 2 characters.',
                         },
-                        pattern: {
-                          value: /^[a-zA-Z ]*$/,
-                          message: 'Alphabetical characters only',
-                        }
                       }}
                     />
                     {errors.juridicalName && (<div><p className={InputErrorStyles.errorText}>{errors.juridicalName?.message}</p></div>)}

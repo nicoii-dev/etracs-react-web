@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -104,6 +104,7 @@ function descendingComparator(a, b, orderBy) {
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
+  // for selecting the row to edit
   const updateJuridical = (rowData) => {
     setOpen(!open);
     setData(rowData)
@@ -179,6 +180,7 @@ function descendingComparator(a, b, orderBy) {
                               </TableCell>
                               <TableCell align="right">{row.account_number}</TableCell>
                               <TableCell align="right">{row.juridical_name}</TableCell>
+                              <TableCell align="right">{row.email}</TableCell>
                               <TableCell align="right">{row.contact_number}</TableCell>
                               <TableCell align="right">{row.date_registered}</TableCell>
                               <TableCell align="right">{row.kind_of_organization}</TableCell>

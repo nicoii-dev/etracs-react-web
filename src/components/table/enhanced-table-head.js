@@ -45,11 +45,11 @@ const EnhancedTableHead = (props) => {
 
 
   useEffect(() => {
-    if(tableHead.length > 0){
+    if(tableHead?.length > 0){
       SetTableHead();
     }
     
-  }, [SetTableHead, tableHead.length])
+  }, [SetTableHead, tableHead?.length])
 
   return (
     <TableHead>

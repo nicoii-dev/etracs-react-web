@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -11,15 +11,20 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import { IconButton } from '@mui/material';
+import Edit from '@mui/icons-material/Edit';
 
 // components
 import EnhancedTableHead from '../enhanced-table-head';
 import EnhancedTableToolbar from '../enhanced-table-toolbar';
 
 const MultipleTable = ({
-  products,
-  payload,
-  setPayload
+  multiple,
+  setData,
+  open,
+  setOpen,
+  setSelectedToDelete,
+  deleteData
 }) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
@@ -64,16 +69,6 @@ function descendingComparator(a, b, orderBy) {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event) => {
-    console.log(event)
-    if (event.target.checked) {
-      const newSelecteds = products.map((n) => n.title);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
   const handleClick = (event, id) => {
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -90,8 +85,8 @@ function descendingComparator(a, b, orderBy) {
         selected.slice(selectedIndex + 1),
       );
     }
-    setPayload(newSelected)
     setSelected(newSelected);
+    setSelectedToDelete(newSelected)
   };
 
   const handleChangePage = (event, newPage) => {
@@ -109,15 +104,27 @@ function descendingComparator(a, b, orderBy) {
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
+  // for selecting the row to edit
+  const updateMultiple = (rowData) => {
+    setOpen(!open);
+    setData(rowData)
+  }
+
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - multiple?.length) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
-        {products ?
+        {multiple ?
           <div>
             <Paper sx={{ width: '100%', mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} selected={selected} />
+                <EnhancedTableToolbar 
+                  numSelected={selected.length} 
+                  selected={selected}
+                  setSelected={setSelected}
+                  title={'Multiple'} 
+                  deleteData={deleteData}
+                />
                 <TableContainer>
                 <Table
                     sx={{ minWidth: 750 }}
@@ -128,33 +135,32 @@ function descendingComparator(a, b, orderBy) {
                         numSelected={selected.length}
                         order={order}
                         orderBy={orderBy}
-                        onSelectAllClick={handleSelectAllClick}
                         onRequestSort={handleRequestSort}
-                        rowCount={products.length}
-                        products={products}
+                        rowCount={multiple?.length}
+                        tableHead={multiple}
                     />
                     <TableBody>
                     {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                         rows.slice().sort(getComparator(order, orderBy)) */}
-                    {stableSort(products, getComparator(order, orderBy))
+                    {stableSort(multiple, getComparator(order, orderBy))
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row, index) => {
                         const isItemSelected = isSelected(row.id);
                         const labelId = `enhanced-table-checkbox-${index}`;
-                          console.log(row)
                             return (
-                                <TableRow
-                                    hover
-                                    onClick={(event) => {handleClick(event, row.id)}}
-                                    role="checkbox"
-                                    aria-checked={isItemSelected}
-                                    tabIndex={-1}
-                                    key={row.id}
-                                    selected={isItemSelected}
-                                >
+                              <TableRow
+                                hover
+                                //onClick={(event) => {handleClick(event, row.id)}}
+                                role="checkbox"
+                                aria-checked={isItemSelected}
+                                tabIndex={-1}
+                                key={row.id}
+                                selected={isItemSelected}
+                              >
                                 <TableCell padding="checkbox">
                                     <Checkbox
                                         color="primary"
+                                        onClick={(event) => {handleClick(event, row.id)}}
                                         checked={isItemSelected}
                                         inputProps={{
                                             'aria-labelledby': labelId,
@@ -162,20 +168,27 @@ function descendingComparator(a, b, orderBy) {
                                     />
                                 </TableCell>
                                 <TableCell
-                                    component="th"
-                                    id={labelId}
-                                    scope="row"
-                                    padding="none"
+                                  component="th"
+                                  id={labelId}
+                                  scope="row"
+                                  padding="none"
+                                  align="center"
                                 >
-                                    {row.title}
+                                  <IconButton onClick={() => {updateMultiple(row)}}>
+                                    <Edit />
+                                  </IconButton>
                                 </TableCell>
-                                <TableCell align="right">{row.price}</TableCell>
-                                <TableCell align="right">{row.price}</TableCell>
-                                <TableCell align="right">{row.price}</TableCell>
-                                <TableCell align="right">{row.price}</TableCell>
-                                <TableCell align="right">{row.id}</TableCell>
-                                <TableCell align="right">{row.price}</TableCell>
-                                </TableRow>
+                                <TableCell align="right">{row?.account_number}</TableCell>
+                                <TableCell align="right">{row?.multiple_name}</TableCell>
+                                <TableCell align="right">{row?.email}</TableCell>
+                                <TableCell align="right">{row?.contact_number}</TableCell>
+                                <TableCell align="right">{row?.house_number}</TableCell>
+                                <TableCell align="right">{row?.street}</TableCell>
+                                <TableCell align="right">{row?.barangay}</TableCell>
+                                <TableCell align="right">{row?.city_municipality}</TableCell>
+                                <TableCell align="right">{row?.zipcode}</TableCell>
+                                <TableCell align="right">{row?.remarks?.length > 10 ? row?.remarks?.substring(0, 10) + "..." : row?.remarks}</TableCell>
+                              </TableRow>
                             );
                     })}
                     {emptyRows > 0 && (
@@ -193,7 +206,7 @@ function descendingComparator(a, b, orderBy) {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={products.length}
+                    count={multiple.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
