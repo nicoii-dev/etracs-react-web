@@ -9,11 +9,6 @@ import IndividualApi from "../library/api/individual-api";
 import { getIndividuals } from "../redux/individual/actions";
 
 const MainRoute = () => {
-  const dispatch = useDispatch();
-  
-  useEffect(() => {
-      getIndividuals()
-  }, [])
 
     const [auth, setAuth] = useState(true);
     const [admin, setAdmin] = useState(true);

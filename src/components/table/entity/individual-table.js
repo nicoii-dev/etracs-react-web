@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -11,7 +11,6 @@ import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import Button from '@mui/material/Button';
 import { IconButton } from '@mui/material';
 import Edit from '@mui/icons-material/Edit';
 
@@ -24,6 +23,8 @@ const IndividualTable = ({
   setData,
   open,
   setOpen,
+  setSelectedToDelete,
+  deleteData
 }) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
@@ -31,7 +32,6 @@ const IndividualTable = ({
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  console.log(individual)
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -85,6 +85,7 @@ function descendingComparator(a, b, orderBy) {
       );
     }
     setSelected(newSelected);
+    setSelectedToDelete(newSelected)
   };
 
   const handleChangePage = (event, newPage) => {
@@ -115,7 +116,13 @@ function descendingComparator(a, b, orderBy) {
         {individual ?
           <div>
             <Paper sx={{ width: '100%', mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} selected={selected} />
+                <EnhancedTableToolbar 
+                  numSelected={selected.length} 
+                  selected={selected}
+                  setSelected={setSelected}
+                  title={'Individual'} 
+                  deleteData={deleteData}
+                />
                 <TableContainer>
                 <Table
                     sx={{ minWidth: 750 }}

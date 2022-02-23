@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
-  Card,
   CardContent,
   CardHeader,
   Divider,
   Grid,
   TextField,
 } from '@mui/material';
+import Save from '@mui/icons-material/Save';
+import Edit from '@mui/icons-material/Edit';
+
 import { useForm, Controller } from "react-hook-form";
 
 // hooks
@@ -30,13 +32,17 @@ const AddIndividual = ({
   data,
   setData,
   addData,
+  updateData
 }) => {
 
-  const { control, handleSubmit, watch, formState: { errors } } = useForm();
+  const { control, handleSubmit, formState: { errors } } = useForm();
   //const addIndividualForm = data => IndividualApi.storeIndividual(data);
   const addIndividualForm = async (_data) => {
-    //setData(data);
     addData(_data);
+  }
+
+  const updateIndividualForm = async (_data) => {
+    updateData({..._data, id:data.id});
   }
 
   return (
@@ -67,7 +73,7 @@ const AddIndividual = ({
                           message: 'First name must be atleast 2 characters.',
                         },
                         pattern: {
-                          value: /^[A-Za-z]+$/i,
+                          value: /^[a-zA-Z ]*$/,
                           message: 'Alphabetical characters only',
                         }
                       }}
@@ -91,7 +97,7 @@ const AddIndividual = ({
                           message: 'First name must be atleast 2 characters.',
                         },
                         pattern: {
-                          value: /^[A-Za-z]+$/i,
+                          value: /^[a-zA-Z ]*$/,
                           message: 'Alphabetical characters only',
                         }
                       }}
@@ -115,7 +121,7 @@ const AddIndividual = ({
                           message: 'First name must be atleast 2 characters.',
                         },
                         pattern: {
-                          value: /^[A-Za-z]+$/i,
+                          value: /^[a-zA-Z ]*$/,
                           message: 'Alphabetical characters only',
                         }
                       }}
@@ -251,8 +257,8 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <Controller
-                        defaultValue={data?.birth_date}
-                        name={'birthdate'}
+                        defaultValue={data?.birth_date ? data.birth_date : ""}
+                        name={'birthDate'}
                         control={control}
                         rules={{
                           required: {
@@ -262,7 +268,7 @@ const AddIndividual = ({
                         }}
                         render={({field: {onChange, onBlur, value}}) => (
                           <TextField
-                            name="birthdate"
+                            name="birthDate"
                             label="Birthday"
                             type="date"
                             fullWidth
@@ -276,7 +282,7 @@ const AddIndividual = ({
                         />
                         )}
                     />
-                    {errors.birthdate && (<div><p className={InputErrorStyles.errorText}>{errors.birthdate?.message}</p></div>)}
+                    {errors.birthDate && (<div><p className={InputErrorStyles.errorText}>{errors.birthDate?.message}</p></div>)}
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <TextInputController
@@ -296,7 +302,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <Controller
-                      defaultValue={data?.citizenship ? data?.citizenship : ""}
+                      defaultValue={data?.citizenship}
                       name={'citizenship'}
                       control={control}
                       rules={{
@@ -305,7 +311,7 @@ const AddIndividual = ({
                           message: 'Citizenship is required',
                         },
                         pattern: {
-                          value: /^[A-Za-z]+$/i,
+                          value: /^[^-]+(?!.*--).+[^-]+$/,
                           message: 'Citizenship is required',
                         }
                       }}  
@@ -320,7 +326,7 @@ const AddIndividual = ({
                           onBlur={onBlur}
                           onChange={onChange}
                           size='small'
-                          value={data?.citizenship ? data?.citizenship : value}
+                          value={value}
                         >
                           {Citizenship.map((option) => (
                               <option
@@ -337,7 +343,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <Controller
-                      defaultValue={data?.gender ? data?.gender : ""}
+                      defaultValue={data?.gender}
                       name={'gender'}
                       control={control}
                       rules={{
@@ -346,7 +352,7 @@ const AddIndividual = ({
                             message: 'Gender is required',
                         },
                         pattern: {
-                          value: /^[A-Za-z]+$/i,
+                          value: /^[^-]+(?!.*--).+[^-]+$/,
                           message: 'Gender is required',
                         }
                       }}
@@ -361,7 +367,7 @@ const AddIndividual = ({
                           onBlur={onBlur}
                           onChange={onChange}
                           size='small'
-                          value={data?.gender ? data?.gender : value}
+                          value={ value}
                         >
                           {Gender.map((option) => (
                               <option
@@ -378,7 +384,7 @@ const AddIndividual = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <Controller
-                      defaultValue={data?.civil_status ? data?.civil_status : ""}
+                      defaultValue={data?.civil_status}
                       name={'civilStatus'}
                       control={control}
                       rules={{
@@ -387,7 +393,7 @@ const AddIndividual = ({
                           message: 'Civil status is required',
                         },
                         pattern: {
-                          value: /^[A-Za-z]+$/i,
+                          value: /^[^-]+(?!.*--).+[^-]+$/,
                           message: 'Civil status is required',
                         }
                       }}
@@ -402,7 +408,7 @@ const AddIndividual = ({
                           onBlur={onBlur}
                           onChange={onChange}
                           size='small'
-                          value={data?.civil_status ? data?.civil_status : value}
+                          value={value}
                         >
                           {CivilStatus.map((option) => (
                               <option
@@ -559,8 +565,8 @@ const AddIndividual = ({
             p: 2,
           }}
         >
-          <Button color="primary" variant="contained" onClick={handleSubmit(addIndividualForm)}>
-            Save details
+          <Button color="primary" variant="contained" onClick={handleSubmit( data ? updateIndividualForm : addIndividualForm)}>
+            {data ? 'UPDATE' : 'SAVE'}
           </Button>
         </Box>
       </>

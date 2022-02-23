@@ -1,23 +1,20 @@
 import React, {useCallback, useEffect, useState} from 'react';
-
 import Box from '@mui/material/Box';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import Checkbox from '@mui/material/Checkbox';
 import { visuallyHidden } from '@mui/utils';
 
 const EnhancedTableHead = (props) => {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, tableHead } = props;
+  const { order, orderBy, onRequestSort, tableHead } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
   const [tableHeadArray, setTableHeadArray] = useState([]);
   // create new array for table head
   const SetTableHead = useCallback(() => {
-    const PropertyNames = Object.getOwnPropertyNames(...tableHead); //getting all property names in the array data
-
+    const PropertyNames = Object.getOwnPropertyNames(tableHead[0]); //getting all property names in the array data
     let _tableHeadArray = [];
     let newObject = {};
 
@@ -30,7 +27,7 @@ const EnhancedTableHead = (props) => {
     })
 
     for(let i = 0; i < PropertyNames.length; i++){
-      if(PropertyNames[i] === 'created_at' || PropertyNames[i] === 'updated_at' || PropertyNames[i] === 'individual_id' || PropertyNames[i] === 'id'){
+      if(PropertyNames[i] === 'id'){
 
       } else {
         newObject = {
@@ -43,9 +40,8 @@ const EnhancedTableHead = (props) => {
       }
 
     }
-
     setTableHeadArray(_tableHeadArray);
-  }, [setTableHeadArray]);
+  }, [tableHead]);
 
 
   useEffect(() => {
@@ -53,7 +49,7 @@ const EnhancedTableHead = (props) => {
       SetTableHead();
     }
     
-  }, [])
+  }, [SetTableHead, tableHead.length])
 
   return (
     <TableHead>

@@ -19,7 +19,7 @@ const LandRevision = () => {
     return (
         <div>
             <h1>
-
+                Land
             </h1>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>

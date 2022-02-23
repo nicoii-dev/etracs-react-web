@@ -4,15 +4,11 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
-import { IconButton, TableHead } from '@mui/material';
-import Edit from '@mui/icons-material/Edit';
+import { TableHead } from '@mui/material';
 
 const data = [
     ["Gabby George", "Business Analyst", "Minneapolis", 30, "$100,000"],

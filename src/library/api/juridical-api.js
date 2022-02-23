@@ -1,20 +1,21 @@
 import axios from 'react-native-axios';
 
-const IndividualApi = {
-  getIndividuals: async () => {
+const JuridicalApi = {
+  getJuridical: async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/individual");
+      const response = await axios.get("http://localhost:8000/api/juridical");
       const data = await response.data;
       return data;
     } catch (error) {
-      return error.message
+      return error.message.substr(32, 3)
     }
   },
 
-  storeIndividual: async (payload) => {
+  storeJuridical: async (payload) => {
     try {
+      console.log(payload)
         const json = JSON.stringify(payload);
-        const response = await axios.post("http://localhost:8000/api/individual", json , {
+        const response = await axios.post("http://localhost:8000/api/juridical", json , {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type':'application/json'
@@ -23,24 +24,24 @@ const IndividualApi = {
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message
+        return error.message.substr(32, 3)
       }
   },
 
-  showIndividualById: async (id) => {
+  showJuridicalById: async (id) => {
     try {
-        const response = await axios.get("http://localhost:8000/api/individual/"+id);
+        const response = await axios.get("http://localhost:8000/api/juridical/"+id);
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message
+        return error.message.substr(32, 3)
       }
   },
 
-  updateIndividual: async (payload, id) => {
+  updateJuridical: async (payload, id) => {
     try {
         const json = JSON.stringify(payload);
-        const response = await axios.put("http://localhost:8000/api/individual/"+id, json, {
+        const response = await axios.put("http://localhost:8000/api/juridical/"+id, json, {
           headers: {
               'Accept': 'application/json',
               'Content-Type':'application/json'
@@ -49,23 +50,23 @@ const IndividualApi = {
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message
+        return error.message.substr(32, 3)
       }
   },
   
-  deleteIndividual: async (id) => {
+  deleteJuridical: async (id) => {
     try {
-        const response = await axios.delete("http://localhost:8000/api/individual/"+id);
+        const response = await axios.delete("http://localhost:8000/api/juridical/"+id);
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message
+        return error.message.substr(32, 3)
       }
   },
 
-  multipleDeleteIndividual: async (payload) => {
+  multipleDeleteJuridical: async (payload) => {
     try {
-        const response = await axios.post("http://localhost:8000/api/individual/multipledelete", payload , {
+        const response = await axios.post("http://localhost:8000/api/juridical/multipledelete", payload , {
           headers: {
               'Accept': 'application/json',
               'Content-Type':'application/json'
@@ -74,9 +75,9 @@ const IndividualApi = {
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message
+        return error.message.substr(32, 3)
       }
   },
 }
 
-export default IndividualApi;
+export default JuridicalApi;

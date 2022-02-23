@@ -20,13 +20,21 @@ import TextInputController from '../../input/text-input';
 import InputErrorStyles from '../../../styles/error-text/InputErrorStyles.module.css'
 
 const AddJuridical = ({
-  payload,
-  setPayload
+  data,
+  setData,
+  addData,
+  updateData
 }) => {
 
-  const { control, handleSubmit, watch, formState: { errors } } = useForm();
-  const addJuridicalForm = data => setPayload(data);
-  console.log(payload)
+  const { control, handleSubmit, formState: { errors } } = useForm();
+  const addJuridicalForm =async (_data) => {
+    addData(_data);
+  }
+
+  const updateJuridicalForm = async (_data) => {
+    updateData({..._data, id:data.id});
+  }
+
   return (
     <Card>
       <Grid container spacing={3}>
@@ -40,7 +48,23 @@ const AddJuridical = ({
               <Grid container spacing={3}>
                   <Grid item md={12} xs={12}>
                     <TextInputController
-                      defaultData={payload}
+                      defaultData={data?.account_number}
+                      label="Account Number*"
+                      name="accountNumber"
+                      variant="outlined"
+                      control={control}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: 'Juridical name is required',
+                        },
+                      }}
+                    />
+                    {errors.accountNumber && (<div><p className={InputErrorStyles.errorText}>{errors.accountNumber?.message}</p></div>)}
+                  </Grid>
+                  <Grid item md={12} xs={12}>
+                    <TextInputController
+                      defaultData={data?.juridical_name}
                       label="Juridical Name*"
                       name="juridicalName"
                       variant="outlined"
@@ -55,7 +79,7 @@ const AddJuridical = ({
                           message: 'Juridical name must be atleast 2 characters.',
                         },
                         pattern: {
-                          value: /^[A-Za-z]+$/i,
+                          value: /^[a-zA-Z ]*$/,
                           message: 'Alphabetical characters only',
                         }
                       }}
@@ -64,6 +88,7 @@ const AddJuridical = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <TextInputController
+                      defaultData={data?.email}
                       label="Email Address"
                       name="email"
                       variant="outlined"
@@ -83,33 +108,35 @@ const AddJuridical = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <TextInputController
-                      label="Phone Number*"
-                      name="phone"
+                      defaultData={data?.contact_number}
+                      label="Contact number*"
+                      name="contactNumber"
                       variant="outlined"
                       type="number"
                       control={control}
                       rules={{
                         required: {
                           value: true,
-                          message: 'Phone number is required',
+                          message: 'Contact number is required',
                         },
                         minLength: {
                           value: 11,
-                          message: 'Phone number must be atleast 11 numbers',
+                          message: 'Contact number must be atleast 11 numbers',
                         },
                         maxLength: {
                           value: 11,
-                          message: 'Phone number must be 11 numbers only',
+                          message: 'Contact number must be 11 numbers only',
                         }
                       }}
                     />
-                    {errors.phone && (<div><p className={InputErrorStyles.errorText}>{errors.phone?.message}</p></div>)}
+                    {errors.contactNumber && (<div><p className={InputErrorStyles.errorText}>{errors.contactNumber?.message}</p></div>)}
                   </Grid>
       
                   <Grid item md={4} xs={12}>
                     <TextInputController
-                      label="Building Number"
-                      name="buildingNumber"
+                      defaultData={data?.house_number}
+                      label="House Number"
+                      name="houseNumber"
                       variant="outlined"
                       control={control}
                       rules={{
@@ -119,10 +146,11 @@ const AddJuridical = ({
                         },
                       }}
                     />
-                    {errors.buildingNumber && (<div><p className={InputErrorStyles.errorText}>{errors.buildingNumber?.message}</p></div>)}
+                    {errors.houseNumber && (<div><p className={InputErrorStyles.errorText}>{errors.houseNumber?.message}</p></div>)}
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <TextInputController
+                      defaultData={data?.street}
                       label="Street*"
                       name="street"
                       variant="outlined"
@@ -138,6 +166,7 @@ const AddJuridical = ({
                   </Grid>
                   <Grid item md={4} xs={12}>
                     <TextInputController
+                      defaultData={data?.barangay}
                       label="Barangay*"
                       name="barangay"
                       variant="outlined"
@@ -153,6 +182,7 @@ const AddJuridical = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <TextInputController
+                      defaultData={data?.city_municipality}
                       label="City/Municipality*"
                       name="cityMunicipality"
                       variant="outlined"
@@ -168,6 +198,7 @@ const AddJuridical = ({
                   </Grid>
                   <Grid item md={6} xs={12}>
                     <TextInputController
+                      defaultData={data?.zipcode}
                       label="Zip Code*"
                       name="zipCode"
                       variant="outlined"
@@ -182,7 +213,22 @@ const AddJuridical = ({
                     />
                     {errors.zipCode && (<div><p className={InputErrorStyles.errorText}>{errors.zipCode?.message}</p></div>)}
                   </Grid>
-
+                  <Grid item md={12} xs={12}>
+                    <TextInputController
+                      defaultData={data?.remarks}
+                      label="Remarks"
+                      name="remarks"
+                      variant="outlined"
+                      control={control}
+                      rules={{
+                        required: {
+                          value: false,
+                          message: 'Remarks is required',
+                        },
+                      }}
+                    />
+                    {errors.remarks && (<div><p className={InputErrorStyles.errorText}>{errors.remarks?.message}</p></div>)}
+                  </Grid>
               </Grid>
           </CardContent>
         </Grid>
@@ -197,6 +243,7 @@ const AddJuridical = ({
             <Grid container spacing={3}>
                 <Grid item md={12} xs={12}>
                     <Controller
+                        defaultValue={data?.date_registered ? data?.date_registered : ""}
                         name={'dateRegistered'}
                         control={control}
                         rules={{
@@ -205,7 +252,6 @@ const AddJuridical = ({
                               message: 'Date registered is required',
                           },
                         }}
-                        defaultValue=""
                         render={({field: {onChange, onBlur, value}}) => (
                           <TextField
                             name="dateRegistered"
@@ -214,7 +260,7 @@ const AddJuridical = ({
                             fullWidth
                             onBlur={onBlur}
                             onChange={onChange}
-                            value={value}
+                            value={data?.date_registered ? data?.date_registered : value}
                             InputLabelProps={{
                                 shrink: true,
                             }}
@@ -225,6 +271,7 @@ const AddJuridical = ({
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextInputController
+                    defaultData={data?.kind_of_organization}
                     label="Kind of Organization*"
                     name="kindOfOrganization"
                     variant="outlined"
@@ -240,6 +287,7 @@ const AddJuridical = ({
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextInputController
+                    defaultData={data?.tin}
                     label="TIN*"
                     name="tin"
                     variant="outlined"
@@ -255,6 +303,7 @@ const AddJuridical = ({
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextInputController
+                    defaultData={data?.nature_of_business}
                     label="Nature of Business*"
                     name="natureOfBusiness"
                     variant="outlined"
@@ -279,8 +328,8 @@ const AddJuridical = ({
             p: 4,
           }}
         >
-          <Button color="primary" variant="contained" onClick={handleSubmit(addJuridicalForm)}>
-            Save details
+          <Button color="primary" variant="contained" onClick={handleSubmit(data? updateJuridicalForm : addJuridicalForm)}>
+            {data ? 'UPDATE' : 'SAVE'}
           </Button>
         </Box>
       </Card>

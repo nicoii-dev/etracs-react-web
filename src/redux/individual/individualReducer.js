@@ -6,7 +6,6 @@ const initialState = {
 }
 
 const IndividualReducer = (state = initialState, action) => {
-    console.log(action)
     switch (action.type) {
         case actionTypes.GET_INDIVIDUALS_SUCCESS:
             return {

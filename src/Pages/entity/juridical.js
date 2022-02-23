@@ -1,79 +1,249 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
-import Backdrop from '@mui/material/Backdrop';
-import Fade from '@mui/material/Fade';
-import {Box} from '@mui/material';
+import Modal from 'react-modal';
+import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux';
+
 // components
 import JuridicalTable from '../../components/table/entity/juridical-table';
 import AddJuridical from '../../components/entity/juridical/add-juridical';
 // api
-import ProductApi from '../../library/api/products-api';
-
-// styles
-import IndividualModalStyles from '../../styles/modal/individual-modal';
+import JuridicalApi from '../../library/api/juridical-api';
 
 const JuridicalPage = () => {
 
-    const [products, setProducts] = useState();
-    const [payload, setPayload] = useState([]);
+    const status = useSelector(state => state.navStatus.status)
+    const [juridical, setJuridical] = useState();
+    const [data, setData] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [selectedToDelete, setSelectedToDelete] = useState(false);
 
-    const getData = useCallback(async() => {
+    const getJuridicals = useCallback(async () => {
       try {
-          const _products = await ProductApi.getProduct();
-          setProducts(_products)
-      
+        const _juridical = await JuridicalApi.getJuridical();
+        setJuridical(_juridical)
       } catch (error) {
           console.log(error.message);
       }
-  }, [setProducts]);
-  
-  useEffect(() => {
-      getData();
-  }, [getData])
+    }, [])
+    useEffect(() => {
+        getJuridicals()
+    }, [getJuridicals])
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+    const addData = (_data) => {
+        Swal.fire({
+            title: 'Do you want to save this data?',
+            //showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Save',
+          }).then(async (result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              const payload = {
+                account_number: _data.accountNumber,
+                juridical_name: _data.juridicalName,
+                contact_number: _data.contactNumber,
+                email: _data.email,
+                phone_number: _data.contactNumber,
+                house_number: _data.houseNumber,
+                street: _data.street,
+                barangay: _data.barangay,
+                city_municipality: _data.cityMunicipality,
+                zipcode: _data.zipCode,
+                date_registered: _data.dateRegistered,
+                kind_of_organization: _data.kindOfOrganization,
+                tin: _data.tin,
+                nature_of_business: _data.natureOfBusiness,
+                remarks: _data.remarks
+              }
+                try {
+                  const _juridical = await JuridicalApi.storeJuridical(payload);
+                  if(_juridical === '422' || _juridical === '500' || _juridical === '404'){
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: 'Something went wrong!',
+                    })
+                    return;
+                  }
+                  setJuridical(_juridical) //updating the tables data
+                  setOpen(!open);
+                  Swal.fire('Saved!', '', 'success');
+                } catch (error) {
+                    console.log(error.message);
+                }
+              
+            } 
+          })
+      }
+    
+      const updateData = (_data) => {
+        console.log(_data)
+        Swal.fire({
+            title: 'Do you want to update this data?',
+            //showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Update',
+          }).then(async (result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              const payload = {
+                account_number: _data.accountNumber,
+                juridical_name: _data.juridicalName,
+                contact_number: _data.contactNumber,
+                email: _data.email,
+                phone_number: _data.contactNumber,
+                house_number: _data.houseNumber,
+                street: _data.street,
+                barangay: _data.barangay,
+                city_municipality: _data.cityMunicipality,
+                zipcode: _data.zipCode,
+                date_registered: _data.dateRegistered,
+                kind_of_organization: _data.kindOfOrganization,
+                tin: _data.tin,
+                nature_of_business: _data.natureOfBusiness,
+                remarks: _data.remarks
+              }
+                try {
+                  const _juridical = await JuridicalApi.updateJuridical(payload, _data.id);
+                  if(_juridical === '422' || _juridical === '500' || _juridical === '404'){
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: 'Something went wrong!',
+                    })
+                    return;
+                  }
+                  setJuridical(_juridical)
+                  setOpen(!open);
+                  Swal.fire('Updated!', '', 'success');
+                } catch (error) {
+                    console.log(error.message);
+                }
+              
+            } 
+          })
+      }
+    
+      const deleteData = (setSelected) => {
+        if(selectedToDelete.length > 1) {
+          Swal.fire({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!'
+          }).then(async (result) => {
+              if (result.isConfirmed) {
+                  
+                  try {
+                      const _juridical = await JuridicalApi.multipleDeleteJuridical({ids:selectedToDelete.toString()});
+                      setJuridical(_juridical) //updating the tables data
+                      Swal.fire(
+                          'Deleted!',
+                          'Data has been deleted.',
+                          'success'
+                      )
+                      return setSelected([]) //to set the selected data to zero after deleting the selected
+                  } catch (error) {
+                      console.log(error.message);
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: 'Something went wrong!',
+                      })
+                  }
+    
+              }
+          })
+        } else {
+          Swal.fire({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!'
+          }).then(async (result) => {
+              if (result.isConfirmed) {
+                  try {
+                      const _juridical = await JuridicalApi.deleteJuridical(selectedToDelete.toString());
+                      setJuridical(_juridical)
+                      Swal.fire(
+                          'Deleted!',
+                          'Data has been deleted.',
+                          'success'
+                      )
+                     return setSelected([]) //to set the selected data to zero after deleting the selected
+                  } catch (error) {
+                      console.log(error.message);
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: 'Something went wrong!',
+                      })
+                  }
+    
+              }
+          })
+        }
+      }
 
     return (
-        <div>
-            <h1>Juridical Page</h1>
+        <>
+            <h2 style={{fontFamily:'-moz-initial'}}>Juridical Page</h2>
             <div style={{width:'100%', display:'flex', justifyContent:'flex-end', marginBottom: 10}}>
-                <Button variant="contained" style={{color:'white'}} onClick={handleOpen}>
+                <Button 
+                    variant="contained" 
+                    style={{color:'white'}} 
+                    onClick={() => {
+                        setData(null);
+                        setOpen(!open)
+                    }}>
                     Add Juridical
                 </Button>
             </div>
 
             <div>
                 <JuridicalTable 
-                    products={products}
-                    payload={payload}
-                    setPayload={setPayload}
+                    juridical={juridical}
+                    data={data}
+                    setData={setData}
+                    open={open}
+                    setOpen={setOpen}
+                    setSelectedToDelete={setSelectedToDelete}
+                    deleteData={deleteData}
                 />
             </div>
+
             <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                timeout: 500,
-                }}
+              isOpen={open}
+              onRequestClose={() => {setOpen(!open)}}
+              contentLabel="Example Modal"
+              onClose={() => setOpen(!open)}
+              ariaHideApp={false}
+              style={{
+                content: {
+                  top: '55%',
+                  marginLeft: !status ? '50%' : '58%',
+                  transform: 'translate(-50%, -50%)',
+                  width: !status ? '80%' : '73%',
+                  height:'75%'
+                },
+              }}
             >
-                <Fade in={open}>
-                    <Box sx={IndividualModalStyles.modal} style={{borderRadius:5}} component="form">
-                        <AddJuridical
-                            payload={payload}
-                            setPayload={setPayload}
-                        />
-                    </Box>
-                </Fade>
-               
+                <AddJuridical
+                    data={data}
+                    setData={setData}
+                    addData={addData}
+                    updateData={updateData}
+                />
+
             </Modal>
-        </div>
+        </>
     );  
 };
 
