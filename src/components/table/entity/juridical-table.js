@@ -111,7 +111,7 @@ function descendingComparator(a, b, orderBy) {
   }
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - juridical.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - juridical?.length) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -136,7 +136,7 @@ function descendingComparator(a, b, orderBy) {
                         order={order}
                         orderBy={orderBy}
                         onRequestSort={handleRequestSort}
-                        rowCount={juridical.length}
+                        rowCount={juridical?.length}
                         tableHead={juridical}
                     />
                     <TableBody>
@@ -178,19 +178,19 @@ function descendingComparator(a, b, orderBy) {
                                   <Edit />
                                 </IconButton>
                               </TableCell>
-                              <TableCell align="right">{row.account_number}</TableCell>
-                              <TableCell align="right">{row.juridical_name}</TableCell>
-                              <TableCell align="right">{row.email}</TableCell>
-                              <TableCell align="right">{row.contact_number}</TableCell>
-                              <TableCell align="right">{row.date_registered}</TableCell>
-                              <TableCell align="right">{row.kind_of_organization}</TableCell>
-                              <TableCell align="right">{row.tin}</TableCell>
-                              <TableCell align="right">{row.nature_of_business}</TableCell>
-                              <TableCell align="right">{row.house_number}</TableCell>
-                              <TableCell align="right">{row.street}</TableCell>
-                              <TableCell align="right">{row.barangay}</TableCell>
-                              <TableCell align="right">{row.city_municipality}</TableCell>
-                              <TableCell align="right">{row.zipcode}</TableCell>
+                              <TableCell align="right">{row?.account_number}</TableCell>
+                              <TableCell align="right">{row?.juridical_name}</TableCell>
+                              <TableCell align="right">{row?.email}</TableCell>
+                              <TableCell align="right">{row?.contact_number}</TableCell>
+                              <TableCell align="right">{row?.date_registered}</TableCell>
+                              <TableCell align="right">{row?.kind_of_organization}</TableCell>
+                              <TableCell align="right">{row?.tin}</TableCell>
+                              <TableCell align="right">{row?.nature_of_business}</TableCell>
+                              <TableCell align="right">{row?.house_number}</TableCell>
+                              <TableCell align="right">{row?.street}</TableCell>
+                              <TableCell align="right">{row?.barangay}</TableCell>
+                              <TableCell align="right">{row?.city_municipality}</TableCell>
+                              <TableCell align="right">{row?.zipcode}</TableCell>
                               <TableCell align="right">{row?.remarks?.length > 10 ? row?.remarks?.substring(0, 10) + "..." : row.remarks}</TableCell>
                             </TableRow>
                           );

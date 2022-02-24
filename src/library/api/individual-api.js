@@ -7,7 +7,7 @@ const IndividualApi = {
       const data = await response.data;
       return data;
     } catch (error) {
-      return error.message
+      return error.message.substr(32, 3)
     }
   },
 
@@ -23,7 +23,7 @@ const IndividualApi = {
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message
+        return error.message.substr(32, 3)
       }
   },
 
@@ -33,7 +33,7 @@ const IndividualApi = {
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message
+        return error.message.substr(32, 3)
       }
   },
 
@@ -49,7 +49,7 @@ const IndividualApi = {
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message
+        return error.message.substr(32, 3)
       }
   },
   
@@ -59,7 +59,7 @@ const IndividualApi = {
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message
+        return error.message.substr(32, 3)
       }
   },
 
@@ -74,7 +74,7 @@ const IndividualApi = {
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message
+        return error.message.substr(32, 3)
       }
   },
 }

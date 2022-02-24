@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
   Button,
-  Card,
   CardContent,
   CardHeader,
   Divider,
   Grid,
-  TextField,
 } from '@mui/material';
-import { useForm, Controller } from "react-hook-form";
+import { useForm} from "react-hook-form";
 
 // hooks
 import { CheckEmail } from '../../../helpers/EmailValidator';
@@ -35,7 +33,7 @@ const AddMultiple = ({
     updateData({..._data, id:data.id});
   }
   return (
-    <Card>
+    <>
       <Grid container spacing={3}>
         <Grid item md={12} xs={12}>
           <CardHeader
@@ -240,7 +238,7 @@ const AddMultiple = ({
             {data ? 'UPDATE' : 'SAVE'}
           </Button>
         </Box>
-      </Card>
+      </>
     );
   };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import {
   CardContent,
   Divider,
@@ -7,12 +7,14 @@ import {
 } from '@mui/material';
 import Button from '@mui/material/Button';
 import FaasTextInputController from '../../input/faas-input';
+import { useSelector } from 'react-redux';
 
 const RealPropertyInformation = ({
     errors,
     control,
-    data
+    data,
 }) => {
+    const pin = useSelector(state => state.pinData.pin)
     return (
         <Grid container spacing={3}>
             <Grid item md={8} xs={12} style={{marginTop:0}}>
@@ -29,7 +31,8 @@ const RealPropertyInformation = ({
                             <Grid container spacing={3}>
                                 <Grid item md={7} xs={12}>
                                     <FaasTextInputController
-                                        defaultData={data?.pinNumber}
+                                        disabled={true}
+                                        defaultData={pin}
                                         label="PIN number*"
                                         name="pinNumber"
                                         variant="outlined"

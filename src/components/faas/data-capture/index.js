@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React from 'react';
 import { useForm, FormProvider} from "react-hook-form";
 import {Box} from '@mui/material';
 import Button from '@mui/material/Button';
@@ -11,10 +11,9 @@ const DataCapture = () => {
 
     const methods = useForm();
     const {handleSubmit, control, formState: { errors } } = methods;
-    const addIndividualForm = data => console.log(data)
+    const addDataCapture = data => console.log(data)
 
     //const status = useSelector(state => state.navStatus.status)
-    const [open, setOpen] = useState(false);
 
     return (
         <>
@@ -41,7 +40,7 @@ const DataCapture = () => {
                             p: 2,
                         }}
                     >
-                        <Button color="primary" variant="contained" onClick={handleSubmit(addIndividualForm)}>
+                        <Button color="primary" variant="contained" onClick={handleSubmit(addDataCapture)}>
                             Save details
                         </Button>
                        

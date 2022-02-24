@@ -109,7 +109,7 @@ function descendingComparator(a, b, orderBy) {
   }
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - individual.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - individual?.length) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -134,7 +134,7 @@ function descendingComparator(a, b, orderBy) {
                         order={order}
                         orderBy={orderBy}
                         onRequestSort={handleRequestSort}
-                        rowCount={individual.length}
+                        rowCount={individual?.length}
                         tableHead={individual}
                     />
                     <TableBody>
@@ -152,13 +152,13 @@ function descendingComparator(a, b, orderBy) {
                                     role="checkbox"
                                     aria-checked={isItemSelected}
                                     tabIndex={-1}
-                                    key={row.id}
+                                    key={row?.id}
                                     selected={isItemSelected}
                                 >
                                 <TableCell padding="checkbox">
                                     <Checkbox
                                         color="primary"
-                                        onClick={(event) => {handleClick(event, row.id)}}
+                                        onClick={(event) => {handleClick(event, row?.id)}}
                                         checked={isItemSelected}
                                         inputProps={{
                                             'aria-labelledby': labelId,
@@ -176,27 +176,27 @@ function descendingComparator(a, b, orderBy) {
                                     <Edit />
                                   </IconButton>
                                 </TableCell>
-                                <TableCell align="right">{row.firstname}</TableCell>
-                                <TableCell align="right">{row.middlename}</TableCell>
-                                <TableCell align="right">{row.lastname}</TableCell>
-                                <TableCell align="right">{row.email}</TableCell>
-                                <TableCell align="right">{row.phone_number}</TableCell>
-                                <TableCell align="right">{row.house_number}</TableCell>
-                                <TableCell align="right">{row.street}</TableCell>
-                                <TableCell align="right">{row.barangay}</TableCell>
-                                <TableCell align="right">{row.city_municipality}</TableCell>
-                                <TableCell align="right">{row.zipcode}</TableCell>
-                                <TableCell align="right">{row.birth_date}</TableCell>
-                                <TableCell align="right">{row.place_of_birth}</TableCell>
-                                <TableCell align="right">{row.citizenship}</TableCell>
-                                <TableCell align="right">{row.gender}</TableCell>
-                                <TableCell align="right">{row.civil_status}</TableCell>
-                                <TableCell align="right">{row.profession}</TableCell>
-                                <TableCell align="right">{row.id_presented}</TableCell>
-                                <TableCell align="right">{row.tin}</TableCell>
-                                <TableCell align="right">{row.sss}</TableCell>
-                                <TableCell align="right">{row.height}</TableCell>
-                                <TableCell align="right">{row.weight}</TableCell>
+                                <TableCell align="right">{row?.firstname}</TableCell>
+                                <TableCell align="right">{row?.middlename}</TableCell>
+                                <TableCell align="right">{row?.lastname}</TableCell>
+                                <TableCell align="right">{row?.email}</TableCell>
+                                <TableCell align="right">{row?.phone_number}</TableCell>
+                                <TableCell align="right">{row?.house_number}</TableCell>
+                                <TableCell align="right">{row?.street}</TableCell>
+                                <TableCell align="right">{row?.barangay}</TableCell>
+                                <TableCell align="right">{row?.city_municipality}</TableCell>
+                                <TableCell align="right">{row?.zipcode}</TableCell>
+                                <TableCell align="right">{row?.birth_date}</TableCell>
+                                <TableCell align="right">{row?.place_of_birth}</TableCell>
+                                <TableCell align="right">{row?.citizenship}</TableCell>
+                                <TableCell align="right">{row?.gender}</TableCell>
+                                <TableCell align="right">{row?.civil_status}</TableCell>
+                                <TableCell align="right">{row?.profession}</TableCell>
+                                <TableCell align="right">{row?.id_presented}</TableCell>
+                                <TableCell align="right">{row?.tin}</TableCell>
+                                <TableCell align="right">{row?.sss}</TableCell>
+                                <TableCell align="right">{row?.height}</TableCell>
+                                <TableCell align="right">{row?.weight}</TableCell>
                               </TableRow>
                             );
                     })}

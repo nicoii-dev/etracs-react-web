@@ -24,8 +24,16 @@ const IndividualPage = () => {
     const getIndividuals = useCallback(async () => {
       try {
         const _individual = await IndividualApi.getIndividuals();
-        setIndividual(_individual)
-        //console.log(_individual)
+        if(_individual === '422' || _individual === '500' || _individual === '404'){
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'No database connection!',
+          })
+          return;
+        } else {
+          setIndividual(_individual)
+        }
       } catch (error) {
           console.log(error.message);
       }

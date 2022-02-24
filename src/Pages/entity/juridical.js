@@ -21,7 +21,16 @@ const JuridicalPage = () => {
     const getJuridicals = useCallback(async () => {
       try {
         const _juridical = await JuridicalApi.getJuridical();
-        setJuridical(_juridical)
+        if(_juridical === '422' || _juridical === '500' || _juridical === '404'){
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'No database connection!',
+          })
+          return;
+        } else {
+          setJuridical(_juridical)          
+        }
       } catch (error) {
           console.log(error.message);
       }

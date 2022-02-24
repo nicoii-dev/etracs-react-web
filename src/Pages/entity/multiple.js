@@ -22,7 +22,16 @@ const MultiplePage = () => {
     const getMultiple = useCallback(async () => {
         try {
           const _multiple = await MultipleApi.getMultiple();
-          setMultiple(_multiple)
+          if(_multiple === '422' || _multiple === '500' || _multiple === '404'){
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'No database connection!',
+            })
+            return;
+          } else {
+            setMultiple(_multiple)         
+          }
         } catch (error) {
             console.log(error.message);
         }

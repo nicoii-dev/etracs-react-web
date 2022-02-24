@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
   Button,
-  Card,
   CardContent,
   CardHeader,
   Divider,
@@ -36,7 +35,7 @@ const AddJuridical = ({
   }
 
   return (
-    <Card>
+    <>
       <Grid container spacing={3}>
         <Grid item md={8} xs={12}>
           <CardHeader
@@ -328,7 +327,7 @@ const AddJuridical = ({
             {data ? 'UPDATE' : 'SAVE'}
           </Button>
         </Box>
-      </Card>
+      </>
     );
   };
 
