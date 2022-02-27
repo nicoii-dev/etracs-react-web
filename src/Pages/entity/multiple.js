@@ -238,7 +238,6 @@ const MultiplePage = () => {
             >
                 <AddMultiple
                     data={data}
-                    setData={setData}
                     addData={addData}
                     updateData={updateData}
                 />

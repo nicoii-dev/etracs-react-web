@@ -19,7 +19,6 @@ import InputErrorStyles from '../../../styles/error-text/InputErrorStyles.module
 
 const AddMultiple = ({
   data,
-  setData,
   addData,
   updateData
 }) => {

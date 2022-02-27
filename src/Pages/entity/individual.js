@@ -38,6 +38,7 @@ const IndividualPage = () => {
           console.log(error.message);
       }
     }, [])
+    
     useEffect(() => {
       getIndividuals()
     }, [getIndividuals])

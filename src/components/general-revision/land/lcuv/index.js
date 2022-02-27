@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -56,6 +56,7 @@ const LCUV = () => {
                                 <TableCell align='left'>Name</TableCell>
                                 <TableCell align='left'>Fix?</TableCell>
                                 <TableCell align='right'>Rate (%)</TableCell>
+                                <TableCell align='right'>Class</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -85,6 +86,7 @@ const LCUV = () => {
                                                 style={{width:50}}
                                             />
                                         </TableCell>
+                                        <TableCell align='right'>LWD</TableCell>
                                     </TableRow>
                                 )
                             })}

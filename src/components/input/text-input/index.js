@@ -10,6 +10,8 @@ const TextInputController = ({
     name,
     rules,
     placeholder,
+    errorStatus=false,
+    inputStyle,
 }) => {
 
     return (
@@ -28,6 +30,8 @@ const TextInputController = ({
                     onChange={onChange}
                     value={value}
                     placeholder={placeholder}
+                    error={errorStatus}
+                    inputProps={inputStyle}
                     size='small'
                 />
             )}

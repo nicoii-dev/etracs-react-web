@@ -14,7 +14,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import AdminPageList from './admin';
 import MenuListComposition from '../components/header/drop-down-menu';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { closeNav, openNav } from '../redux/nav/action';
 
   const drawerWidth = 320;
