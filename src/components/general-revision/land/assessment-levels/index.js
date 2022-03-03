@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, {useCallback, useEffect, useState} from 'react';
-import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import Modal  from 'react-modal';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
@@ -14,7 +15,7 @@ import { setMarketValue } from '../../../../redux/market-value/action';
 // components
 import AddEditAssessmentLevels from './add-edit-assessment-levels';
 import AssessmentTable from './assessment-table';
-
+import MarketValue from './market-value';
 const AssessmentLevels = () => {
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
@@ -25,6 +26,7 @@ const AssessmentLevels = () => {
     const getAssessmentLevels = useCallback(async () => {
         try {
           const _assessmentLevels = await LandAssessmentLevelApi.getAssessmentLevel();
+          console.log(_assessmentLevels)
           if(_assessmentLevels === '422' || _assessmentLevels === '500' || _assessmentLevels === '404'){
             Swal.fire({
               icon: 'error',
@@ -61,6 +63,10 @@ const AssessmentLevels = () => {
             console.log(error.message);
         }
     }
+    // renew market values
+    useEffect(() => {
+        dispatch(setMarketValue([]))
+    },[])
 
     const addData = async (_data) => {
         try {
@@ -73,6 +79,7 @@ const AssessmentLevels = () => {
               })
               return;
             } else {
+                Swal.fire('Saved!', '', 'success');
                 setAssessmentLevels(_assessmentLevels)
             }
         } catch (error) {
@@ -145,17 +152,29 @@ const AssessmentLevels = () => {
 
     return(
         <>
-            <Box sx={{ width: '100%' }}>
-                <AssessmentTable 
-                    open={open}
-                    setOpen={setOpen}
-                    assessmentLevels={assessmentLevels}
-                    getMarketValues={getMarketValues}
-                    setData={setData}
-                    deleteData={deleteData}
-                    checked={checked}
-                />
-            </Box>
+            <Grid container spacing={3}>
+                <Grid item md={12} xs={12}>
+                    <Grid container spacing={3}>
+                        <Grid item md={8} xs={12}>
+                            <AssessmentTable 
+                                open={open}
+                                setOpen={setOpen}
+                                assessmentLevels={assessmentLevels}
+                                getMarketValues={getMarketValues}
+                                setData={setData}
+                                deleteData={deleteData}
+                                checked={checked}
+                            />
+                        </Grid>
+                        <Grid item md={4} xs={12} >
+                            <Grid item md={12} xs={12} style={{position:'fixed'}}>
+                                <MarketValue />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+            
             <Modal
                 isOpen={open}
                 onRequestClose={() => {setOpen(!open)}}

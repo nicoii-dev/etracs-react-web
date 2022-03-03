@@ -12,14 +12,27 @@ import ModeEdit from '@mui/icons-material/ModeEdit';
 import Delete from '@mui/icons-material/Delete';
 import AddBox from '@mui/icons-material/AddBox';
 import Box from '@mui/material/Box';
-import Swal from 'sweetalert2';
+import { useSelector, useDispatch } from 'react-redux';
 
-const MarketValueTable = (props) => {
-    const {marketValue, open, setOpen, setData, deleteMarketValue, assessmentLevelID} = props;
+// redux
+import { updateModal } from '../../../redux/municipality-city/actions';
+import {setMunicipalityData} from '../../../redux/barangay/action';
 
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-  
+const MunicipalityCityTable = (props) => {
+    const {
+        showModal, 
+        setData, 
+        page, 
+        setPage, 
+        rowsPerPage, 
+        setRowsPerPage, 
+        deleteMunicipalityCity,
+        getBarangayList
+    } = props;
+    const dispatch = useDispatch();
+    const municipalityCityList = useSelector(state => state.municipalityCityData.municipalityCity)
+    const [selected, setSelected] = useState(null);
+
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     };
@@ -44,55 +57,56 @@ const MarketValueTable = (props) => {
                         color="primary" 
                         variant="contained" 
                         onClick={() => {
-                            if(assessmentLevelID){
-                                setOpen(!open)
-                                setData(null)
-                            } else {
-                                Swal.fire('Please select an Assessment Level first')
-                            }
+                            dispatch(updateModal(!showModal))
+                            setData(null)
                         }}>
                         <AddBox />
                     </IconButton>
                     
                 </Box>
-                <TableContainer sx={{ maxHeight: 440 }}>
+                <TableContainer sx={{ maxHeight: 440, width: '100%' }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             <TableCell align='center'>Action</TableCell>
-                            <TableCell align='left'>Market value from</TableCell>
-                            <TableCell align='left'>Market value to</TableCell>
-                            <TableCell align='left'>Rate (%)</TableCell>
+                            <TableCell align='left'>Municipality</TableCell>
+                            <TableCell align='left'>LGU</TableCell>
+                            <TableCell align='right'>Parent ID</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                    {marketValue
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((row) => {
+                    {municipalityCityList?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                         return (
                             <TableRow
                                 hover
-                                onClick={(event) => {console.log(row.id)}}
+                                onClick={(event) => {
+                                    dispatch(setMunicipalityData(row));
+                                    setSelected(row.id);
+                                    getBarangayList(row.id);
+                                }}
                                 role="checkbox"
                                 tabIndex={-1}
                                 key={row.id}
+                                style={{
+                                    backgroundColor: selected === row.id? '#CCE5FF':null
+                                }}
                             >
                                 <TableCell align='center'>
                                     <IconButton onClick={() => {
                                             setData(row)
-                                            setOpen(!open)
+                                            dispatch(updateModal(!showModal))
                                         }}>
                                         <ModeEdit />
                                     </IconButton>  
                                     <IconButton onClick={() => {
-                                            deleteMarketValue(row.id)
+                                            deleteMunicipalityCity(row.id);
                                         }}>
                                         <Delete />
                                     </IconButton>  
                                 </TableCell>
-                                <TableCell align='right'>{row.market_value_from}</TableCell>
-                                <TableCell align='right'>{row.market_value_to}</TableCell>
-                                <TableCell align='right'>{row.market_value_rate}</TableCell>
+                                <TableCell align='left'>{row.municipality_name}</TableCell>
+                                <TableCell align='left'>{row.lgu_name}</TableCell>
+                                <TableCell align='right'>{row.parent_id}</TableCell>
                             </TableRow>
                             );
                         })}
@@ -102,7 +116,7 @@ const MarketValueTable = (props) => {
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={marketValue.length}
+                    count={municipalityCityList?.length > 0 ? municipalityCityList?.length : 10}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
@@ -113,4 +127,4 @@ const MarketValueTable = (props) => {
     )
 }
 
-export default MarketValueTable
+export default MunicipalityCityTable

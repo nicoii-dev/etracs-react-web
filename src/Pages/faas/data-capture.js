@@ -67,7 +67,7 @@ const DataCapturePage = () => {
                         top: '55%',
                         marginLeft: !status ? '50%' : '50%',
                         transform: 'translate(-50%, -50%)',
-                        width: '40%',
+                        width: '30%',
                         height:'65%',
                         },
                         overlay: {

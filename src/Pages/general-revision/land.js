@@ -1,14 +1,11 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 
 // components
 import GeneralRevisionTabs from '../../components/tabs/general-revision-tabs';
 import AssessmentLevels from '../../components/general-revision/land/assessment-levels';
 import LCUV from '../../components/general-revision/land/lcuv';
-import MarketValue from '../../components/general-revision/land/assessment-levels/market-value';
 
 const LandRevision = () => {
 
@@ -41,16 +38,10 @@ const LandRevision = () => {
             </h1>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>
-                    <Grid item xs={8}>
+                    <Grid item xs={12}>
                         <GeneralRevisionTabs
                             tabData={tabData}
                         />
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Grid item xs={12} style={{position:'fixed', marginTop:75, marginLeft:-20}}>
-                            <MarketValue />
-                        </Grid>
-                        
                     </Grid>
                 </Grid>
             </Box>

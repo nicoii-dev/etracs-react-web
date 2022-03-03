@@ -1,7 +1,6 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Box from '@mui/material/Box';
 import Modal  from 'react-modal';
-import ModeEdit from '@mui/icons-material/ModeEdit';
 import Swal from 'sweetalert2';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -23,44 +22,35 @@ const MarketValue = (props) => {
     const [data, setData] = useState([]);
 
     const storeMarketValue = async (_data) => {
-        Swal.fire({
-            title: 'Do you want to save this data?',
-            //showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: 'Save',
-          }).then(async (result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                try {
-                    const payload = {
-                        assessment_level_id: assessmentLevelID,
-                        market_value_from: _data.marketValueFrom,
-                        market_value_to: _data.marketValueTo,
-                        market_value_rate: _data.marketValueRate
-                    }
-                    const _marketValue = await LandAssessmentMarketValueApi.storeMarketValue(payload);
-                    if(_marketValue === '422' || _marketValue === '500' || _marketValue === '404'){
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!',
-                        })
-                        return;
-                    } else {
-                        dispatch(setMarketValue(_marketValue));
-                        Swal.fire('Saved!', '', 'success');
-                    }
-                } catch (error) {
-                    console.log(error.message);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong!',
-                    })
-                }
-                setOpen(!open)
+        try {
+            const payload = {
+                assessment_level_id: assessmentLevelID,
+                market_value_from: _data.marketValueFrom,
+                market_value_to: _data.marketValueTo,
+                market_value_rate: _data.marketValueRate
             }
-        })
+            const _marketValue = await LandAssessmentMarketValueApi.storeMarketValue(payload);
+            if(_marketValue === '422' || _marketValue === '500' || _marketValue === '404'){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                })
+                return;
+            } else {
+                dispatch(setMarketValue(_marketValue));
+                Swal.fire('Saved!', '', 'success');
+            }
+        } catch (error) {
+            console.log(error.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+            })
+        }
+        setOpen(!open)
+
     }
 
     const updateMarketValue = (_data) => {
@@ -150,6 +140,7 @@ const MarketValue = (props) => {
         <>
             <Box sx={{ width: '100%' }}>
                 <MarketValueTable
+                    assessmentLevelID={assessmentLevelID}
                     marketValue={marketValue}
                     open={open}
                     setOpen={setOpen}

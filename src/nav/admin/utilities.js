@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useState, useCallback, useEffect} from 'react';
 import List from '@mui/material/List';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -17,6 +17,15 @@ const UtilitiesNav = ({open}) => {
 
     const [expand, setExpand] = useState(false);
     const currentLocation = location.pathname.toLocaleLowerCase();
+    const checkCurrentLocation = useCallback(() => {
+        if(currentLocation.includes('utilities')){
+            setExpand(!expand);
+        }
+    }, []);
+
+    useEffect(()=>{
+        checkCurrentLocation();
+    }, [])
 
     return (
         <div>

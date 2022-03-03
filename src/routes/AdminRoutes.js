@@ -17,6 +17,7 @@ import MultiplePage from '../pages/entity/multiple';
 import ReconcilePage from '../pages/entity/reconcile';
 import BarangayPage from '../pages/utilities/barangay';
 import DataCapturePage from '../pages/faas/data-capture';
+import MunicipalityCityPage from '../pages/utilities/municipality-city';
 
 const AdminRoutes = () => {
 
@@ -34,7 +35,7 @@ const AdminRoutes = () => {
                 <Route path="generalrevision/land" element={<LandRevision />} />
                 <Route path="reports" element={<Reports />} />
                 <Route path="utilities/barangay" element={<BarangayPage />} />
-                
+                <Route path="utilities/municipality-city" element={<MunicipalityCityPage />} />
             </Route>
             <Route path="*" element={<Error404 />} />
         </Routes>

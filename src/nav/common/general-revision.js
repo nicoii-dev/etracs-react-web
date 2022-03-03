@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useState, useCallback, useEffect} from 'react';
 import List from '@mui/material/List';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -16,13 +16,22 @@ const GeneralRevisionNav = ({open}) => {
 
     const [expand, setExpand] = useState(false);
     const currentLocation = location.pathname.toLocaleLowerCase();
+    const checkCurrentLocation = useCallback(() => {
+        if(currentLocation.includes('generalrevision')){
+            setExpand(!expand);
+        }
+    }, []);
+
+    useEffect(()=>{
+        checkCurrentLocation();
+    }, [])
 
     return (
         <div>
             <ListItemButton onClick={() =>{setExpand(!expand)}}>
                 <ListItemIcon
                     style={{
-                        color: currentLocation.includes('utilities') ? '#0066CC' : null,
+                        color: currentLocation.includes('generalrevision') ? '#0066CC' : null,
                         fontWeight:'bold',
                         fontSize:50
                     }}

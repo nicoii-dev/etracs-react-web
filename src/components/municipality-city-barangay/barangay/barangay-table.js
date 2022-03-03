@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,13 +13,25 @@ import Delete from '@mui/icons-material/Delete';
 import AddBox from '@mui/icons-material/AddBox';
 import Box from '@mui/material/Box';
 import Swal from 'sweetalert2';
+import { useForm, Controller } from "react-hook-form";
 
-const MarketValueTable = (props) => {
-    const {marketValue, open, setOpen, setData, deleteMarketValue, assessmentLevelID} = props;
+import TextInputController from '../../input/text-input';
 
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-  
+const BarangayTable = (props) => {
+    const {
+        barangayList,
+        showModal, 
+        setData, 
+        page, 
+        setPage, 
+        rowsPerPage, 
+        setRowsPerPage, 
+        dispatch,
+        updateBarangayModal,
+        deleteBarangay,
+        municipalityData
+    } = props;
+
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     };
@@ -27,7 +39,7 @@ const MarketValueTable = (props) => {
     const handleChangeRowsPerPage = (event) => {
       setRowsPerPage(+event.target.value);
       setPage(0);
-    };
+    }
 
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -44,35 +56,36 @@ const MarketValueTable = (props) => {
                         color="primary" 
                         variant="contained" 
                         onClick={() => {
-                            if(assessmentLevelID){
-                                setOpen(!open)
+                            if(municipalityData.length === 0){
+                                Swal.fire('Please select Municipality/City first')
+                            }else{
+                                dispatch(updateBarangayModal(!showModal))
                                 setData(null)
-                            } else {
-                                Swal.fire('Please select an Assessment Level first')
-                            }
+                            }                            
                         }}>
                         <AddBox />
                     </IconButton>
                     
                 </Box>
-                <TableContainer sx={{ maxHeight: 440 }}>
+                <TableContainer sx={{ maxHeight: 440,}}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             <TableCell align='center'>Action</TableCell>
-                            <TableCell align='left'>Market value from</TableCell>
-                            <TableCell align='left'>Market value to</TableCell>
-                            <TableCell align='left'>Rate (%)</TableCell>
+                            <TableCell align='left'>LGU Name</TableCell>
+                            <TableCell align='left'>Formal Name</TableCell>
+                            <TableCell align='right'>Index No.</TableCell>
+                            <TableCell align='right'>PIN</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                    {marketValue
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((row) => {
+                    {barangayList?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                         return (
                             <TableRow
                                 hover
-                                onClick={(event) => {console.log(row.id)}}
+                                onClick={(event) => {
+                                    //dispatch(setMunicipalityId(row.id));
+                                }}
                                 role="checkbox"
                                 tabIndex={-1}
                                 key={row.id}
@@ -80,19 +93,20 @@ const MarketValueTable = (props) => {
                                 <TableCell align='center'>
                                     <IconButton onClick={() => {
                                             setData(row)
-                                            setOpen(!open)
+                                            dispatch(updateBarangayModal(!showModal))
                                         }}>
                                         <ModeEdit />
                                     </IconButton>  
                                     <IconButton onClick={() => {
-                                            deleteMarketValue(row.id)
+                                            deleteBarangay(row.id)
                                         }}>
                                         <Delete />
                                     </IconButton>  
                                 </TableCell>
-                                <TableCell align='right'>{row.market_value_from}</TableCell>
-                                <TableCell align='right'>{row.market_value_to}</TableCell>
-                                <TableCell align='right'>{row.market_value_rate}</TableCell>
+                                <TableCell align='left'>{row.lgu_name}</TableCell>
+                                <TableCell align='left'>{row.formal_name}</TableCell>
+                                <TableCell align='right'>{row.index_number}</TableCell>
+                                <TableCell align='right'>{row.pin}</TableCell>
                             </TableRow>
                             );
                         })}
@@ -102,7 +116,7 @@ const MarketValueTable = (props) => {
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={marketValue.length}
+                    count={10}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
@@ -113,4 +127,4 @@ const MarketValueTable = (props) => {
     )
 }
 
-export default MarketValueTable
+export default BarangayTable;

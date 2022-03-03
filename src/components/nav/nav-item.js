@@ -17,12 +17,12 @@ const NavItem = ({
         <ListItemButton 
             sx={{pl: 4}}
             style={{
-                color: currentLocation.includes(title.toLowerCase()) ? '#0066CC' : null
+                color: currentLocation.includes(link.toLowerCase()) ? '#0066CC' : null
             }}
             onClick={() => {navigate(link)}}>
         <ListItemIcon
             style={{
-                color: currentLocation.includes(title.toLowerCase()) ? '#0066CC' : null
+                color: currentLocation.includes(link.toLowerCase()) ? '#0066CC' : null
             }}>
             {icon}
         </ListItemIcon>
