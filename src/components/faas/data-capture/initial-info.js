@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     Box,
     Button,
@@ -13,18 +13,35 @@ import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from 'react-redux';
 import { setPin } from '../../../redux/pin/action';
 
-import Citizenship from '../../../library/constants/informations/citizenship';
 import Transactions from '../../../library/constants/faas/transactions';
-
+import { fetchBarangayRedux } from '../../../redux/barangay/action';
 
 
 const InitialInfo = (props) => {
-    const { showModal, setShowModal} = props;
+    const { showModal, setShowModal, municipalityList, barangayList} = props;
+
     const dispatch = useDispatch();
     const { control, handleSubmit, formState: { errors } } = useForm();
+
+    const [barangay, setBarangay] = useState('-Select-');
+    const [barangayStatus, setBarangayStatus] = useState(false);
     const faasInitialInformation = async (data) => {
-        setShowModal(!showModal)
-        dispatch(setPin(data.section + "-" + data.parcel))
+        const payload = ({...data, barangay})
+        if(barangay === '-Select-'){
+            setBarangayStatus(true);
+        } else {
+            const PIN = barangay + '-' + String(data.section).padStart(3, '0') + "-" + String(data.parcel).padStart(2, '0')
+            setShowModal(!showModal)
+            dispatch(setPin(PIN))
+        }
+
+    }
+
+    const onBarangayChange = (value) => {
+        setBarangay(value)
+        if(value !== '-Select-'){
+            setBarangayStatus(false)
+        }
     }
 
     return (
@@ -145,35 +162,42 @@ const InitialInfo = (props) => {
                             <Grid item md={12} xs={12} style={{marginTop:-15}}>
                                 <Controller
                                     defaultValue=""
-                                    name={'municipality'}
+                                    name={'municipality_name'}
                                     control={control}
                                     rules={{
                                         required: {
                                             value: true,
-                                            message: 'Appraised date is required',
+                                            //message: 'Appraised date is required',
                                         },
                                         pattern: {
-                                            value: /^[^-]+(?!.*--).+[^-]+$/,
-                                            message: 'Civil status is required',
+                                            value:/[^a-zA-Z]/,
+                                           // message: 'Civil status is required',
                                         }
                                     }}
                                     render={({field: {onChange, onBlur, value}}) => (
                                         <TextField
                                             fullWidth
                                             label="Municipality*"
-                                            name="municipality"
+                                            name="municipality_name"
                                             select
                                             SelectProps={{ native: true }}
                                             variant="outlined"
                                             onBlur={onBlur}
-                                            onChange={onChange}
+                                            onChange={(e) => { 
+                                                onChange(e.target.value)
+                                                dispatch(fetchBarangayRedux(e.target.value))
+                                                onBarangayChange('-Select-')
+                                            }}
                                             size='small'
                                             value={value}
-                                            error={errors.municipality ? true:false}
+                                            error={errors.municipality_name ? true:false}
                                         >
-                                        {Transactions.map((option) => (
-                                            <option key={option.transaction} value={option.transaction}>
-                                                {option.transaction}
+                                            <option key={'-Select-'} value={'-Select-'}>
+                                                -Select-
+                                            </option>
+                                        {municipalityList?.map((option) => (
+                                            <option key={option.municipality_name} value={option.id}>
+                                                {option.municipality_name}
                                             </option>
                                         ))}
                                       </TextField>
@@ -181,45 +205,30 @@ const InitialInfo = (props) => {
                                 />
                             </Grid>
                             <Grid item md={12} xs={12} style={{marginTop:-15}}>
-                                <Controller
-                                    defaultValue={""}
-                                    name={'barangay'}
-                                    control={control}
-                                    rules={{
-                                        required: {
-                                            value: true,
-                                            message: 'Appraised date is required',
-                                        },
-                                        pattern: {
-                                            value: /^[^-]+(?!.*--).+[^-]+$/,
-                                            message: 'Civil status is required',
-                                        }
+                                <TextField
+                                    fullWidth
+                                    label="Barangay"
+                                    name="barangay"
+                                    select
+                                    SelectProps={{ native: true }}
+                                    variant="outlined"
+                                    onChange={(e) => { 
+                                        onBarangayChange(e.target.value)
                                     }}
-                                    render={({field: {onChange, onBlur, value}}) => (
-                                        <TextField
-                                            fullWidth
-                                            label="Barangay"
-                                            name="barangay"
-                                            select
-                                            SelectProps={{ native: true }}
-                                            variant="outlined"
-                                            onBlur={onBlur}
-                                            onChange={onChange}
-                                            size='small'
-                                            value={value}
-                                            error={errors?.barangay ? true:false}
-                                        >
-                                        {Citizenship.map((option) => (
-                                            <option
-                                                key={option.nationality}
-                                                value={option.nationality}
-                                            >
-                                                {option.nationality}
-                                            </option>
-                                        ))}
-                                      </TextField>
-                                    )}
-                                />
+                                    size='small'
+                                    value={barangay}
+                                    error={barangayStatus}
+                                >
+                                    <option key={'-Select-'} value={'-Select-'}>
+                                        -Select-
+                                    </option>
+                                {barangayList?.map((option) => (
+                                    <option key={option.lgu_name} value={option.pin}>
+                                        {option.lgu_name}
+                                    </option>
+                                ))}
+                                </TextField>
+
                             </Grid>
                             <Grid item md={6} xs={6} style={{marginTop:-15}}>
                                 <Grid item md={12} xs={12} style={{marginTop:0}}>

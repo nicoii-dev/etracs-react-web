@@ -66,7 +66,7 @@ const AssessmentLevels = () => {
     // renew market values
     useEffect(() => {
         dispatch(setMarketValue([]))
-    },[])
+    },[dispatch])
 
     const addData = async (_data) => {
         try {

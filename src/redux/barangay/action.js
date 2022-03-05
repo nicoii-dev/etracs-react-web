@@ -39,6 +39,12 @@ export const fetchBarangayRedux = (id) => {
       }
   }
 
+export const clearBarangay = () => {
+    return{
+      type: actionTypes.CLEAR_BARANGAY,
+    }
+}
+
 export const saveBarangayRedux = (payload) => {
   return async (dispatch) => {
     try {

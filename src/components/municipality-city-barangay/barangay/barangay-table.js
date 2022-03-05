@@ -13,9 +13,6 @@ import Delete from '@mui/icons-material/Delete';
 import AddBox from '@mui/icons-material/AddBox';
 import Box from '@mui/material/Box';
 import Swal from 'sweetalert2';
-import { useForm, Controller } from "react-hook-form";
-
-import TextInputController from '../../input/text-input';
 
 const BarangayTable = (props) => {
     const {

@@ -8,6 +8,7 @@ import SplineChart from '../../components/dashboard/SplineChart';
 import NewlyAddedUserTable from '../../components/dashboard/NewlyAddedUserTable';
 
 const Dashboard = () => {
+
     return (
         <>
         {/* <Head>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   CardContent,
   Divider,
@@ -13,8 +13,9 @@ const RealPropertyInformation = ({
     errors,
     control,
     data,
+    pin
 }) => {
-    const pin = useSelector(state => state.pinData.pin)
+
     return (
         <Grid container spacing={3}>
             <Grid item md={8} xs={12} style={{marginTop:0}}>
@@ -40,7 +41,7 @@ const RealPropertyInformation = ({
                                         errorStatus={false}
                                         rules={{
                                             required: {
-                                            value: true,
+                                            value: false,
                                             message: 'PIN number is required',
                                             },
                                         }}

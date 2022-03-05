@@ -13,6 +13,11 @@ const BarangayReducer = (state = initialState, action) => {
                 ...state,
                 barangay: action.payload
             }
+        case actionTypes.CLEAR_BARANGAY:
+            return {
+                ...state,
+                barangay: []
+            }
         case actionTypes.UPDATE_MODAL_BARANGAY:
             return {
                 ...state,

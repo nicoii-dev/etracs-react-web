@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import Modal  from 'react-modal';
 import { useSelector } from 'react-redux';
 import { useForm, FormProvider} from "react-hook-form";
@@ -12,12 +12,15 @@ import InitialInfo from '../../components/faas/data-capture/initial-info';
 import GeneralInformation from '../../components/faas/data-capture/general-information';
 import OwnershipInformation from '../../components/faas/data-capture/ownership-information';
 import RealPropertyInformation from '../../components/faas/data-capture/real-property-information';
-import zIndex from '@mui/material/styles/zIndex';
+import Remarks from '../../components/faas/data-capture/remarks';
 
 const DataCapturePage = () => {
-
+    const municipalityList = useSelector(state => state.municipalityCityData.municipalityCity);
+    const barangayList = useSelector(state => state.barangayData.barangay);
+    const pin = useSelector(state => state.pinData.pin)
     const status = useSelector(state => state.navStatus.status)
     const [showModal, setShowModal] = useState(true);
+
     const methods = useForm();
     const {handleSubmit, control, formState: { errors } } = methods;
     const addDataCapture = data => console.log(data)
@@ -36,10 +39,15 @@ const DataCapturePage = () => {
                         control={control}
                     />
                     <RealPropertyInformation
+                        pin={pin}
                         errors={errors}
                         control={control}
                     />
 
+                    <Remarks
+                        errors={errors}
+                        control={control}
+                    />
                     
                     <Box
                         sx={{
@@ -79,6 +87,8 @@ const DataCapturePage = () => {
                     <InitialInfo
                         showModal={showModal}
                         setShowModal={setShowModal}
+                        municipalityList={municipalityList}
+                        barangayList={barangayList}
                     />
 
                 </Modal>

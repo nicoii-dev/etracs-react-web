@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
 import Modal  from 'react-modal';
-import Swal from 'sweetalert2';
 import { useSelector, useDispatch } from 'react-redux';
 
 // components
@@ -10,6 +9,7 @@ import AddEditBarangay from './add-edit'
 
 // redux
 import { updateBarangayModal, saveBarangayRedux, updateBarangayRedux, deleteBarangayRedux } from '../../../redux/barangay/action';
+import { clearBarangay } from '../../../redux/barangay/action';
 
 const Barangay = () => {
     const dispatch = useDispatch();
@@ -20,6 +20,10 @@ const Barangay = () => {
     const [data, setData] = useState([]); // for the selected data to update
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    useEffect(() => {
+        dispatch(clearBarangay())
+    },[dispatch])
 
     const addBarangay = async (_data) => {
         const payload = {
