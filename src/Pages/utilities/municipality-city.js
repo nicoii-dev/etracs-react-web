@@ -97,7 +97,7 @@ const MunicipalityCityPage = () => {
                     marginLeft: '50%',
                     transform: 'translate(-50%, -50%)',
                     width: '30%',
-                    height: window.innerHeight > 900 ? '40%' : '55%',
+                    height: window.innerHeight > 900 ? '40%' : '45%',
                     },
                     overlay: {
                         zIndex:10

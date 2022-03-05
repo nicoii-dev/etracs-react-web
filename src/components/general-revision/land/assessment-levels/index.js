@@ -20,7 +20,7 @@ const AssessmentLevels = () => {
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const [checked, setChecked] = useState([false,true]);
-    const [data, setData] = useState([]);
+    const [data, setData] = useState([]); //for update purposes
     const [assessmentLevels, setAssessmentLevels] = useState([]);
 
     const getAssessmentLevels = useCallback(async () => {
@@ -187,7 +187,7 @@ const AssessmentLevels = () => {
                     marginLeft: '50%',
                     transform: 'translate(-50%, -50%)',
                     width: '30%',
-                    height: window.innerHeight > 900 ? '45%' : '70%',
+                    height: window.innerHeight > 900 ? '45%' : '50%',
                     },
                     overlay: {
                         zIndex:10

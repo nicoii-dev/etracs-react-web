@@ -65,11 +65,6 @@ const UtilitiesNav = ({open}) => {
                         icon={<LocationCity />}
                         title={'Municipality/City'}
                     />
-                    <NavItem 
-                        link={'utilities/barangay'}
-                        icon={<Apartment />}
-                        title={'Barangay'}
-                    />
                 </List>
             </Collapse>
         </div>

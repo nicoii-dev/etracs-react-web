@@ -15,7 +15,6 @@ import IndividualPage from '../pages/entity/individual';
 import JuridicalPage from '../pages/entity/juridical';
 import MultiplePage from '../pages/entity/multiple';
 import ReconcilePage from '../pages/entity/reconcile';
-import BarangayPage from '../pages/utilities/barangay';
 import DataCapturePage from '../pages/faas/data-capture';
 import MunicipalityCityPage from '../pages/utilities/municipality-city';
 
@@ -33,8 +32,6 @@ const AdminRoutes = () => {
                 <Route path="entity/reconcile" element={<ReconcilePage />} />
                 <Route path="faas/data-capture" element={<DataCapturePage />} />
                 <Route path="generalrevision/land" element={<LandRevision />} />
-                <Route path="reports" element={<Reports />} />
-                <Route path="utilities/barangay" element={<BarangayPage />} />
                 <Route path="utilities/municipality-city" element={<MunicipalityCityPage />} />
             </Route>
             <Route path="*" element={<Error404 />} />

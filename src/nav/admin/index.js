@@ -54,31 +54,6 @@ const AdminPageList = ({open}) => {
               <EntityNav open={open} />
               <FaasNav open={open} />
               <GeneralRevisionNav open={open} />
-              <div>
-                <ListItem button key={'Reports'} onClick={() => {navigate('reports')}}>
-                    <ListItemIcon
-                      style={{
-                        color: currentLocation.includes('reports') ? '#0066CC' : null,
-                        fontWeight:'bold',
-                        fontSize:50
-                        }}
-                    >
-                      <Assignment />
-                    </ListItemIcon>
-                    <p        
-                      style={{
-                          color: currentLocation.includes('reports') ? '#0066CC' : null,
-                          fontWeight:'bolder', 
-                          fontSize:15,
-                          fontFamily:'revert',
-                          marginTop:0, 
-                          marginBottom:0,
-                          width:'100%'
-                      }}>
-                        Reports
-                    </p>
-                </ListItem>
-              </div>
           </List>
           <Divider />
           <List>
