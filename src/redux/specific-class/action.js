@@ -1,48 +1,41 @@
 import * as actionTypes from './actionTypes'
-import ClassificationApi from '../../library/api/classification-api';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
+import SpecificClassApi from '../../library/api/specific-class-api';
 
-export const updateModal = (payload) => {
-  return{
-    type: actionTypes.UPDATE_MODAL_CLASSIFICATION,
-    payload: payload
-  }
-}
-
-export const setClassificationData = (payload) => {
-  return{
-    type: actionTypes.SET_CLASSIFICATION_DATA,
-    payload: payload
-  }
-}
-
-export const fetchClassificationRedux = () => {
-  return async (dispatch) => {
-    try {
-      const response = await ClassificationApi.fetchClassification();
-      if(response === '422' || response === '500' || response === '404'){
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'No database connection!',
-        })
-        return;
-      } else {
-        dispatch({
-          type: actionTypes.FETCH_CLASSIFICATION, 
-          payload: response
-        })
-      }
-    } catch (error) {
-      console.log(error)
+export const updateSpecificModal = (payload) => {
+    return{
+      type: actionTypes.UPDATE_MODAL_SPECIFIC_CLASS,
+      payload: payload
     }
-  }
 }
 
-export const storeClassificationRedux = (payload) => {
+export const fetchSpecificClass = (id) => {
+    return async (dispatch) => {
+        try {
+          const response = await SpecificClassApi.showSpecificClass(id);
+          if(response === '422' || response === '500' || response === '404'){
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'No database connection!',
+            })
+            return;
+          } else {
+            dispatch({
+              type: actionTypes.FETCH_SPECIFIC_CLASS, 
+              payload: response
+            })
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
+  }
+
+export const saveSpecificClassRedux = (payload) => {
   return async (dispatch) => {
     try {
-      const response = await ClassificationApi.storeClassification(payload);
+      const response = await SpecificClassApi.storeSpecificClass(payload)
       if(response === '422' || response === '500' || response === '404'){
         Swal.fire({
           icon: 'error',
@@ -53,7 +46,7 @@ export const storeClassificationRedux = (payload) => {
       } else {
         Swal.fire('Saved!', '', 'success');
         dispatch({
-          type: actionTypes.STORE_CLASSIFICATION, 
+          type: actionTypes.SAVE_SPECIFIC_CLASS, 
           payload: response
         })
       }
@@ -64,10 +57,10 @@ export const storeClassificationRedux = (payload) => {
   }
 }
 
-export const updateClassificationRedux = (payload, id) => {
+export const updateSpecificClassRedux = (payload, id) => {
   return async (dispatch) => {
     try {
-      const response = await ClassificationApi.updateClassification(payload, id);
+      const response = await SpecificClassApi.updateSpecificClass(payload, id)
       if(response === '422' || response === '500' || response === '404'){
         Swal.fire({
           icon: 'error',
@@ -82,21 +75,18 @@ export const updateClassificationRedux = (payload, id) => {
           'success'
         );
         dispatch({
-          type: actionTypes.UPDATE_CLASSIFICATION, 
+          type: actionTypes.UPDATE_SPECIFIC_CLASS, 
           payload: response
         })
       }
+
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-      })
+      console.log(error)
     }
   }
 }
 
-export const deleteClassificationRedux = (id) => {
+export const deleteSpecificClassRedux = (payload, id) => {
   return async (dispatch) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -109,7 +99,7 @@ export const deleteClassificationRedux = (id) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await ClassificationApi.deleteClassification(id)
+          const response = await SpecificClassApi.deleteSpecificClass(payload, id);
           if(response === '422' || response === '500' || response === '404'){
             Swal.fire({
               icon: 'error',
@@ -124,7 +114,7 @@ export const deleteClassificationRedux = (id) => {
               'success'
             )
             dispatch({
-              type: actionTypes.DELETE_CLASSIFICATION, 
+              type: actionTypes.DELETE_SPECIFIC_CLASS, 
               payload: response
             })
           }
@@ -139,3 +129,6 @@ export const deleteClassificationRedux = (id) => {
     })
   }
 }
+
+
+  

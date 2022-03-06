@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes'
 
 const initialState = {
     classification: [],
-    loading: false,
+    classificationData: [],
     showModal: false,
 }
 
@@ -33,6 +33,11 @@ const ClassificationReducer = (state = initialState, action) => {
             return {
                 ...state,
                 showModal: action.payload
+            }
+        case actionTypes.SET_CLASSIFICATION_DATA:
+            return {
+                ...state,
+                classificationData: action.payload
             }
         default:
             return state;

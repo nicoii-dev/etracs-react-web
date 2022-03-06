@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
 // components
-import GeneralRevisionTabs from '../../components/tabs/general-revision-tabs';
+import TabComponent from '../../components/tabs';
 import AssessmentLevels from '../../components/general-revision/land/assessment-levels';
 import LCUV from '../../components/general-revision/land/lcuv';
 
@@ -39,7 +39,7 @@ const LandRevision = () => {
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
-                        <GeneralRevisionTabs
+                        <TabComponent
                             tabData={tabData}
                         />
                     </Grid>

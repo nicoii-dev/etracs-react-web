@@ -7,6 +7,9 @@ import MarketValueReducer from "./market-value/marketValueReducer";
 import MunicipalityCityReducer from "./municipality-city/municipality-city-reducer";
 import BarangayReducer from "./barangay/barangayReducer";
 import ClassificationReducer from "./classification/classificationReducer";
+import SpecificClassReducer from "./specific-class/specificClassReducer";
+import SubClassReducer from "./sub-class/specificClassReducer";
+import StrippingReducer from "./stripping/specificClassReducer";
 
 const rootReducer = combineReducers({
     individualData: IndividualReducer,
@@ -17,6 +20,9 @@ const rootReducer = combineReducers({
     municipalityCityData: MunicipalityCityReducer,
     barangayData: BarangayReducer,
     classificationData: ClassificationReducer,
+    specificClassData: SpecificClassReducer,
+    subClassData: SubClassReducer,
+    strippingData: StrippingReducer,
 });
 
 export default rootReducer;

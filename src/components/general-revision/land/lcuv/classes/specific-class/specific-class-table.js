@@ -12,11 +12,11 @@ import AddBox from '@mui/icons-material/AddBox';
 import { IconButton, Divider } from '@mui/material';
 import ModeEdit from '@mui/icons-material/ModeEdit';
 import Delete from '@mui/icons-material/Delete';
+import Swal from 'sweetalert2';
 
-const ClassificationTable = (props) => {
-    const {showModal, updateModal, setData, classificationList, selected, setSelected,
-            dispatch, page, setPage, rowsPerPage, setRowsPerPage, deleteClassification,
-            setClassificationData, fetchClasses} = props;
+const SpecificClassTable = (props) => {
+    const {showModal, updateSpecificModal, setData, specificClassList, dispatch, classificationData,
+            page, setPage, rowsPerPage, setRowsPerPage, deleteSpecificClass} = props;
 
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -32,7 +32,7 @@ const ClassificationTable = (props) => {
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <Divider textAlign="left">
                     <p style={{fontSize:20}}>
-                        Classification
+                        Specific Class
                     </p>
                 </Divider>
                 <Paper sx={{ width: '100%', marginTop:-5}}>
@@ -47,9 +47,13 @@ const ClassificationTable = (props) => {
                         <IconButton 
                             color="primary" 
                             variant="contained" 
-                            onClick={() => {
-                                dispatch(updateModal(!showModal))
-                                setData(null);
+                            onClick={async () => {
+                                if(classificationData.length === 0){
+                                    Swal.fire('Please select Classification first')
+                                }else{
+                                    setData(null);
+                                    await dispatch(updateSpecificModal(!showModal))
+                                }        
                             }}>
                             <AddBox />
                         </IconButton>
@@ -60,42 +64,39 @@ const ClassificationTable = (props) => {
                         <TableHead>
                             <TableRow>
                                 <TableCell align='center'>Action</TableCell>
-                                <TableCell align='left'>Classification</TableCell>
+                                <TableCell align='left'>Code</TableCell>
+                                <TableCell align='left'>Name</TableCell>
+                                <TableCell align='left'>Area Type</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {classificationList
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        {specificClassList
+                            ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => {
                             return (
                                 <TableRow
                                     hover
-                                    onClick={async (event) => {
-                                       await dispatch(setClassificationData(row));
-                                       fetchClasses(row.id);
-                                       setSelected(row.id);
-                                    }}
+                                    onClick={(event) => {console.log(row.id)}}
                                     role="checkbox"
                                     tabIndex={-1}
                                     key={row.id}
-                                    style={{
-                                        backgroundColor: selected === row.id? '#CCE5FF':null
-                                    }}
                                 >
                                     <TableCell align='center'>
-                                        <IconButton onClick={() => {
+                                        <IconButton onClick={async () => {
                                                 setData(row)
-                                                dispatch(updateModal(!showModal))
+                                                await dispatch(updateSpecificModal(!showModal))
                                             }}>
                                             <ModeEdit />
                                         </IconButton>  
-                                        <IconButton onClick={() => {
-                                                deleteClassification(row.id)
+                                        <IconButton onClick={async () => {
+                                                deleteSpecificClass(row.id)
                                             }}>
                                             <Delete />
                                         </IconButton>  
                                     </TableCell>
-                                    <TableCell align='left'>{row.classification}</TableCell>
+                                    <TableCell align='left'>{row.code}</TableCell>
+                                    <TableCell align='left'>{row.name}</TableCell>
+                                    <TableCell align='left'>{row.area_type}</TableCell>
                                 </TableRow>
                                 );
                             })}
@@ -105,7 +106,7 @@ const ClassificationTable = (props) => {
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
-                        count={classificationList.length}
+                        count={specificClassList.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -117,4 +118,4 @@ const ClassificationTable = (props) => {
     )
 }
 
-export default ClassificationTable;
+export default SpecificClassTable;

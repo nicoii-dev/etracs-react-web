@@ -23,10 +23,11 @@ const AssessmentLevels = () => {
     const [data, setData] = useState([]); //for update purposes
     const [assessmentLevels, setAssessmentLevels] = useState([]);
 
+    const [isMounted, setIsmounted] = useState(true); //for memory leak
+
     const getAssessmentLevels = useCallback(async () => {
         try {
           const _assessmentLevels = await LandAssessmentLevelApi.getAssessmentLevel();
-          console.log(_assessmentLevels)
           if(_assessmentLevels === '422' || _assessmentLevels === '500' || _assessmentLevels === '404'){
             Swal.fire({
               icon: 'error',
@@ -35,15 +36,18 @@ const AssessmentLevels = () => {
             })
             return;
           } else {
-            setAssessmentLevels(_assessmentLevels)
+
+            if(isMounted) setAssessmentLevels(_assessmentLevels)
+
           }
         } catch (error) {
             console.log(error.message);
         }
-      }, [setAssessmentLevels])
+      }, [isMounted])
       
       useEffect(() => {
         getAssessmentLevels()
+        return () => { setIsmounted(false)}
       }, [getAssessmentLevels])
 
     const getMarketValues = async (id) => {

@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { IconButton } from '@mui/material';
+import { IconButton, Divider } from '@mui/material';
 import ModeEdit from '@mui/icons-material/ModeEdit';
 import Delete from '@mui/icons-material/Delete';
 import AddBox from '@mui/icons-material/AddBox';
@@ -44,7 +44,12 @@ const MunicipalityCityTable = (props) => {
 
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <Paper sx={{ width: '100%' }}>
+                <Divider textAlign="left">
+                    <p style={{fontSize:20}}>
+                        Municipality/City
+                    </p>
+                </Divider>
+                <Paper sx={{ width: '100%', marginTop:-5}}>
                 <Box
                     sx={{
                         display: 'flex',

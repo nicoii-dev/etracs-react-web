@@ -5,7 +5,7 @@ import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
 
-const GeneralRevisionTabs = (props) => {
+const TabComponent = (props) => {
     const { tabData } = props;
     const [value, setValue] = React.useState("1");
 
@@ -37,4 +37,4 @@ const GeneralRevisionTabs = (props) => {
   );
 }
 
-export default GeneralRevisionTabs;
+export default TabComponent;

@@ -10,7 +10,7 @@ import Checkbox from '@mui/material/Checkbox';
 // import TextField from '@mui/material/TextField';
 import { TableHead } from '@mui/material';
 import AddBox from '@mui/icons-material/AddBox';
-import { IconButton } from '@mui/material';
+import { IconButton, Divider } from '@mui/material';
 import ModeEdit from '@mui/icons-material/ModeEdit';
 import Delete from '@mui/icons-material/Delete';
 import { useDispatch } from 'react-redux';
@@ -32,12 +32,18 @@ const AssessmentTable = (props) => {
     return (
         <>
             <Paper sx={{ width: '100%', mb: 2 }}>
+                <Divider textAlign="left">
+                    <p style={{fontSize:20}}>
+                        Assessment Levels
+                    </p>
+                </Divider>
                 <Box
                     sx={{
                         display: 'flex',
                         justifyContent: 'flex-end',
                         p: 2,
-                        marginBottom:-3
+                        marginBottom:-3,
+                        marginTop:-5
                     }}
                 >
                     <IconButton 

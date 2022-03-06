@@ -12,6 +12,7 @@ import ModeEdit from '@mui/icons-material/ModeEdit';
 import Delete from '@mui/icons-material/Delete';
 import AddBox from '@mui/icons-material/AddBox';
 import Box from '@mui/material/Box';
+import { Divider } from '@mui/material';
 import Swal from 'sweetalert2';
 
 const BarangayTable = (props) => {
@@ -40,7 +41,12 @@ const BarangayTable = (props) => {
 
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <Paper sx={{ width: '100%' }}>
+            <Divider textAlign="left">
+                <p style={{fontSize:20}}>
+                    Barangay
+                </p>
+            </Divider>
+            <Paper sx={{ width: '100%' , marginTop:-5}}>
                 <Box
                     sx={{
                         display: 'flex',
