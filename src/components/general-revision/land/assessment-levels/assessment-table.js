@@ -58,7 +58,7 @@ const AssessmentTable = (props) => {
                     
                 </Box>
                 <TableContainer>
-                    <Table>
+                    <Table size={'small'}>
                         <TableHead>
                             <TableRow>
                                 <TableCell align='center'>Action</TableCell>

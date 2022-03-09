@@ -12,11 +12,11 @@ import AddBox from '@mui/icons-material/AddBox';
 import { IconButton, Divider } from '@mui/material';
 import ModeEdit from '@mui/icons-material/ModeEdit';
 import Delete from '@mui/icons-material/Delete';
-import Swal from 'sweetalert2';
 
-const SpecificClassTable = (props) => {
-    const {showModal, updateSpecificModal, setData, specificClassList, dispatch, classificationData,
-            page, setPage, rowsPerPage, setRowsPerPage, deleteSpecificClass} = props;
+const LandAdjustmentTable = (props) => {
+    const {showModal, updateModal, setData, classificationList, selected, setSelected,
+            dispatch, page, setPage, rowsPerPage, setRowsPerPage, deleteClassification,
+            setClassificationData, fetchClasses} = props;
 
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -32,7 +32,7 @@ const SpecificClassTable = (props) => {
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <Divider textAlign="left">
                     <p style={{fontSize:20}}>
-                        Specific Class
+                        Land Adjustment
                     </p>
                 </Divider>
                 <Paper sx={{ width: '100%', marginTop:-5}}>
@@ -47,13 +47,9 @@ const SpecificClassTable = (props) => {
                         <IconButton 
                             color="primary" 
                             variant="contained" 
-                            onClick={async () => {
-                                if(classificationData.length === 0){
-                                    Swal.fire('Please select Classification first')
-                                }else{
-                                    setData(null);
-                                    await dispatch(updateSpecificModal(!showModal))
-                                }        
+                            onClick={() => {
+                                dispatch(updateModal(!showModal))
+                                setData(null);
                             }}>
                             <AddBox />
                         </IconButton>
@@ -66,37 +62,46 @@ const SpecificClassTable = (props) => {
                                 <TableCell align='center'>Action</TableCell>
                                 <TableCell align='left'>Code</TableCell>
                                 <TableCell align='left'>Name</TableCell>
-                                <TableCell align='left'>Area Type</TableCell>
+                                <TableCell align='left'>Applied to</TableCell>
+                                <TableCell align='left'>Expression</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {specificClassList
+                        {classificationList
                             ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => {
                             return (
                                 <TableRow
                                     hover
-                                    onClick={(event) => {console.log(row.id)}}
+                                    onClick={async (event) => {
+                                       await dispatch(setClassificationData(row));
+                                       fetchClasses(row.id);
+                                       setSelected(row.id);
+                                    }}
                                     role="checkbox"
                                     tabIndex={-1}
                                     key={row.id}
+                                    style={{
+                                        backgroundColor: selected === row.id? '#CCE5FF':null
+                                    }}
                                 >
                                     <TableCell align='center'>
-                                        <IconButton onClick={async () => {
+                                        <IconButton onClick={() => {
                                                 setData(row)
-                                                await dispatch(updateSpecificModal(!showModal))
+                                                dispatch(updateModal(!showModal))
                                             }}>
                                             <ModeEdit />
                                         </IconButton>  
-                                        <IconButton onClick={async () => {
-                                                deleteSpecificClass(row.id)
+                                        <IconButton onClick={() => {
+                                                deleteClassification(row.id)
                                             }}>
                                             <Delete />
                                         </IconButton>  
                                     </TableCell>
-                                    <TableCell align='left'>{row.code}</TableCell>
-                                    <TableCell align='left'>{row.name}</TableCell>
-                                    <TableCell align='left'>{row.area_type}</TableCell>
+                                    <TableCell align='left'>{row.classification}</TableCell>
+                                    <TableCell align='left'>{row.classification}</TableCell>
+                                    <TableCell align='left'>{row.classification}</TableCell>
+                                    <TableCell align='left'>{row.classification}</TableCell>
                                 </TableRow>
                                 );
                             })}
@@ -106,7 +111,7 @@ const SpecificClassTable = (props) => {
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
-                        count={specificClassList.length}
+                        count={classificationList?.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -118,4 +123,4 @@ const SpecificClassTable = (props) => {
     )
 }
 
-export default SpecificClassTable;
+export default LandAdjustmentTable;

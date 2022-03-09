@@ -60,7 +60,7 @@ const SubClassTable = (props) => {
                         
                     </Box>
                     <TableContainer sx={{ maxHeight: 440 }}>
-                    <Table stickyHeader aria-label="sticky table">
+                    <Table stickyHeader aria-label="sticky table" size={'small'}>
                         <TableHead>
                             <TableRow>
                                 <TableCell align='center'>Action</TableCell>

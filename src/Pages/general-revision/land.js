@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import TabComponent from '../../components/tabs';
 import AssessmentLevels from '../../components/general-revision/land/assessment-levels';
 import LCUV from '../../components/general-revision/land/lcuv';
+import LandAdjustment from '../../components/general-revision/land/land-adjustment';
 
 const LandRevision = () => {
 
@@ -23,7 +24,7 @@ const LandRevision = () => {
         {
             'id' : '3',
             'title' : 'Land Adjustment',
-            'tab' : <AssessmentLevels />
+            'tab' : <LandAdjustment />
         },
         {
             'id' : '4',
