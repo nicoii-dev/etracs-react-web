@@ -1,43 +1,43 @@
 import * as actionTypes from './actionTypes'
 
 const initialState = {
-    classification: [],
-    classificationData: [],
+    landAdjustment: [],
+    addedClassification: [],
     showModal: false,
 }
 
-const ClassificationReducer = (state = initialState, action) => {
+const LandAdjustmentReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.FETCH_CLASSIFICATION:
+        case actionTypes.FETCH_LAND_ADJUSTMENT:
             return {
                 ...state,
                 classification: action.payload
             }
-        case actionTypes.STORE_CLASSIFICATION:
+        case actionTypes.STORE_LAND_ADJUSTMENT:
             return {
                 ...state,
                 classification: action.payload,
             }
-        case actionTypes.UPDATE_CLASSIFICATION:
+        case actionTypes.UPDATE_LAND_ADJUSTMENT:
             return {
                 ...state,
                 classification: action.payload,
                 
             }
-        case actionTypes.DELETE_CLASSIFICATION:
+        case actionTypes.DELETE_LAND_ADJUSTMENT:
             return {
                 ...state,
                 classification: action.payload,
             }
-        case actionTypes.UPDATE_MODAL_CLASSIFICATION:
+        case actionTypes.UPDATE_MODAL_LAND_ADJUSTMENT:
             return {
                 ...state,
                 showModal: action.payload
             }
-        case actionTypes.SET_CLASSIFICATION_DATA:
+        case actionTypes.ADD_CLASSIFICATION:
             return {
                 ...state,
-                classificationData: action.payload
+                addedClassification: [...state.addedClassification, action.payload]
             }
         default:
             return state;
@@ -45,4 +45,4 @@ const ClassificationReducer = (state = initialState, action) => {
 }
 
 
-export default ClassificationReducer;
+export default LandAdjustmentReducer;

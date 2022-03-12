@@ -31,6 +31,23 @@ const AddEditClassification = (props) => {
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12} style={{marginTop:-15}}>
                                 <TextInputController
+                                    defaultData={data?.code}
+                                    label="Code*"
+                                    name="code"
+                                    variant="outlined"
+                                    inputStyle={{ style: { textTransform: "uppercase" } }}
+                                    control={control}
+                                    errorStatus={errors.code ? true:false}
+                                    rules={{
+                                        required: {
+                                        value: true,
+                                        message: 'code is required',
+                                        },
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item md={12} xs={12} style={{marginTop:-15}}>
+                                <TextInputController
                                     defaultData={data?.classification}
                                     label="Classification*"
                                     name="classification"

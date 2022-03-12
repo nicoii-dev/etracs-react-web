@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 // redux
 import { fetchBarangayRedux } from '../redux/barangay/action';
 import { fetchMunicipalityCity } from '../redux/municipality-city/actions';
+import { fetchClassificationRedux } from '../redux/classification/actions';
 
 const _Layout = ({props}) => {
     const dispatch = useDispatch();
@@ -13,6 +14,7 @@ const _Layout = ({props}) => {
     
     const fetchData = useCallback( async() => {
         await dispatch(fetchMunicipalityCity());
+        await dispatch(fetchClassificationRedux());
     }, [dispatch])
     
     useEffect(() => {

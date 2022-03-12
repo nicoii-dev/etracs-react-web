@@ -54,7 +54,8 @@ const LCUV = () => {
 
     const addClassification = async (_data) => {
         const payload = {
-            classification : _data.classification.toUpperCase()
+            code: _data.code.toUpperCase(),
+            classification: _data.classification.toUpperCase()
         }
         await dispatch(updateModal(!showModal));
         await dispatch(storeClassificationRedux(payload));
@@ -62,6 +63,7 @@ const LCUV = () => {
 
     const updateClassification = async (_data) => {
         const payload = {
+            code: _data.code.toUpperCase(),
             classification : _data.classification.toUpperCase()
         }
         await dispatch(updateModal(!showModal));

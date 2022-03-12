@@ -1,25 +1,25 @@
 import * as actionTypes from './actionTypes'
-import ClassificationApi from '../../library/api/classification-api';
+import LandAdjustmentApi from '../../library/api/land-adjustment-api';
 import Swal from "sweetalert2";
 
 export const updateModal = (payload) => {
   return{
-    type: actionTypes.UPDATE_MODAL_CLASSIFICATION,
+    type: actionTypes.UPDATE_MODAL_LAND_ADJUSTMENT,
     payload: payload
   }
 }
 
-export const setClassificationData = (payload) => {
-  return{
-    type: actionTypes.SET_CLASSIFICATION_DATA,
+export const addClassification = (payload) => {
+  return {
+    type: actionTypes.ADD_CLASSIFICATION,
     payload: payload
   }
 }
 
-export const fetchClassificationRedux = () => {
+export const fetchLandAdjustmentRedux = () => {
   return async (dispatch) => {
     try {
-      const response = await ClassificationApi.fetchClassification();
+      const response = await LandAdjustmentApi.getLandAdjustment();
       if(response === '422' || response === '500' || response === '404'){
         Swal.fire({
           icon: 'error',
@@ -29,7 +29,7 @@ export const fetchClassificationRedux = () => {
         return;
       } else {
         dispatch({
-          type: actionTypes.FETCH_CLASSIFICATION, 
+          type: actionTypes.FETCH_LAND_ADJUSTMENT, 
           payload: response
         })
       }
@@ -39,10 +39,10 @@ export const fetchClassificationRedux = () => {
   }
 }
 
-export const storeClassificationRedux = (payload) => {
+export const storeLandAdjustmentRedux = (payload) => {
   return async (dispatch) => {
     try {
-      const response = await ClassificationApi.storeClassification(payload);
+      const response = await LandAdjustmentApi.storeLandAdjustment(payload);
       if(response === '422' || response === '500' || response === '404'){
         Swal.fire({
           icon: 'error',
@@ -53,7 +53,7 @@ export const storeClassificationRedux = (payload) => {
       } else {
         Swal.fire('Saved!', '', 'success');
         dispatch({
-          type: actionTypes.STORE_CLASSIFICATION, 
+          type: actionTypes.STORE_LAND_ADJUSTMENT, 
           payload: response
         })
       }
@@ -64,10 +64,10 @@ export const storeClassificationRedux = (payload) => {
   }
 }
 
-export const updateClassificationRedux = (payload, id) => {
+export const updateLandAdjustmentRedux = (payload, id) => {
   return async (dispatch) => {
     try {
-      const response = await ClassificationApi.updateClassification(payload, id);
+      const response = await LandAdjustmentApi.updateLandAdjustment(payload, id);
       if(response === '422' || response === '500' || response === '404'){
         Swal.fire({
           icon: 'error',
@@ -82,7 +82,7 @@ export const updateClassificationRedux = (payload, id) => {
           'success'
         );
         dispatch({
-          type: actionTypes.UPDATE_CLASSIFICATION, 
+          type: actionTypes.UPDATE_LAND_ADJUSTMENT, 
           payload: response
         })
       }
@@ -96,7 +96,7 @@ export const updateClassificationRedux = (payload, id) => {
   }
 }
 
-export const deleteClassificationRedux = (id) => {
+export const deleteLandAdjustmentRedux = (id) => {
   return async (dispatch) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -109,7 +109,7 @@ export const deleteClassificationRedux = (id) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await ClassificationApi.deleteClassification(id)
+          const response = await LandAdjustmentApi.deleteLandAdjustment(id)
           if(response === '422' || response === '500' || response === '404'){
             Swal.fire({
               icon: 'error',
@@ -124,7 +124,7 @@ export const deleteClassificationRedux = (id) => {
               'success'
             )
             dispatch({
-              type: actionTypes.DELETE_CLASSIFICATION, 
+              type: actionTypes.DELETE_LAND_ADJUSTMENT, 
               payload: response
             })
           }

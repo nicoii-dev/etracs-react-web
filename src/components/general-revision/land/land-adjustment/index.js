@@ -4,16 +4,18 @@ import Modal  from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 
 // redux
+import { updateModal } from '../../../../redux/land-adjustments/actions';
 
 // components
 import LandAdjustmentTable from './land-adjustment-table';
+import AddEditLandAdjustment from './add-edit-land-adjustments';
 
 const LandAdjustment = () => {
     const dispatch = useDispatch();
-    const classificationList = useSelector(state => state.classificationData.classification);
-    const showModal = useSelector(state => state.classificationData.showModal);
+    const landAdjustmentList = useSelector(state => state.landAdjustmentData.landAdjustment);
+    const addedClassificationList = useSelector(state => state.landAdjustmentData.addedClassification);
+    const showModal = useSelector(state => state.landAdjustmentData.showModal);
     const [data, setData] = useState([]); // for update purposes
-    const [selected, setSelected] = useState(); //for changing the color of table row
 
     // for table pagination
     const [page, setPage] = useState(0);
@@ -55,7 +57,17 @@ const LandAdjustment = () => {
                 <Grid item md={12} xs={12}>
                     <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
-                            <LandAdjustmentTable />
+                            <LandAdjustmentTable
+                                showModal={showModal}
+                                updateModal={updateModal}
+                                setData={setData}
+                                page={page}
+                                setPage={setPage}
+                                rowsPerPage={rowsPerPage}
+                                setRowsPerPage={setRowsPerPage}
+                                landAdjustmentList={landAdjustmentList}
+                                dispatch={dispatch}
+                            />
                         </Grid>
                     </Grid>
                 </Grid>
@@ -64,11 +76,11 @@ const LandAdjustment = () => {
             <Modal
                 isOpen={showModal}
                 onRequestClose={() => {
-                  //  dispatch(updateModal(!showModal));
+                    dispatch(updateModal(!showModal));
                 }}
                 contentLabel="Example Modal"
                 onClose={() => {
-//dispatch(updateModal(!showModal));
+                    dispatch(updateModal(!showModal));
                 }}
                 ariaHideApp={false}
                 style={{
@@ -77,14 +89,17 @@ const LandAdjustment = () => {
                     marginLeft: '50%',
                     transform: 'translate(-50%, -50%)',
                     width: '30%',
-                    height: window.innerHeight > 900 ? '25%' : '30%',
+                    height: window.innerHeight > 900 ? '55%' : '80%',
                     },
                     overlay: {
                         zIndex:10
                     }
                 }}
             >
-            
+                <AddEditLandAdjustment 
+                    data={data}
+                    addedClassificationList={addedClassificationList}
+                />
             </Modal>
         </>
     )

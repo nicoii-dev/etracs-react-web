@@ -60,6 +60,7 @@ const ClassificationTable = (props) => {
                         <TableHead>
                             <TableRow>
                                 <TableCell align='center'>Action</TableCell>
+                                <TableCell align='left'>Code</TableCell>
                                 <TableCell align='left'>Classification</TableCell>
                             </TableRow>
                         </TableHead>
@@ -95,6 +96,7 @@ const ClassificationTable = (props) => {
                                             <Delete />
                                         </IconButton>  
                                     </TableCell>
+                                    <TableCell align='left'>{row.code}</TableCell>
                                     <TableCell align='left'>{row.classification}</TableCell>
                                 </TableRow>
                                 );

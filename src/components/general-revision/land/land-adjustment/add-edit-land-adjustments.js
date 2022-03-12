@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     CardContent,
     Divider,
@@ -8,13 +8,16 @@ import {
   } from '@mui/material';
 import { useForm } from "react-hook-form";
 
+// components
 import TextInputController from '../../../input/text-input';
+import LandClassificationTable from './classification-table';
 
-
-const AddEditClassification = (props) => {
-    const {data, addClassification, updateClassification} = props;
+const AddEditLandAdjustment = (props) => {
+    const {data, addClassification, updateClassification, addedClassificationList} = props;
 
     const {handleSubmit, control, formState: { errors } } = useForm();
+
+    const [showClassificationModal, setShowClassificationModal] = useState(false);
 
     return (
         <>
@@ -22,7 +25,7 @@ const AddEditClassification = (props) => {
                 <Grid item md={12} xs={12}>
                     <Divider textAlign="center">
                         <p style={{fontSize:20}}>
-                            Classification
+                            Land Adjustment
                         </p>
                     </Divider>
                 </Grid>
@@ -31,19 +34,43 @@ const AddEditClassification = (props) => {
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12} style={{marginTop:-15}}>
                                 <TextInputController
-                                    defaultData={data?.classification}
-                                    label="Classification*"
-                                    name="classification"
+                                    defaultData={data?.code}
+                                    label="Code*"
+                                    name="code"
                                     variant="outlined"
                                     inputStyle={{ style: { textTransform: "uppercase" } }}
                                     control={control}
-                                    errorStatus={errors.classification ? true:false}
+                                    errorStatus={errors.code ? true:false}
                                     rules={{
                                         required: {
                                         value: true,
-                                        message: 'classification is required',
+                                        message: 'code is required',
                                         },
                                     }}
+                                />
+                            </Grid>
+                            <Grid item md={12} xs={12} style={{marginTop:-15}}>
+                                <TextInputController
+                                    defaultData={data?.name}
+                                    label="Name*"
+                                    name="name"
+                                    variant="outlined"
+                                    inputStyle={{ style: { textTransform: "uppercase" } }}
+                                    control={control}
+                                    errorStatus={errors.name ? true:false}
+                                    rules={{
+                                        required: {
+                                        value: true,
+                                        message: 'name is required',
+                                        },
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item md={12} xs={12} style={{marginTop:-15}}>
+                                <LandClassificationTable 
+                                    addedClassificationList={addedClassificationList}
+                                    showClassificationModal={showClassificationModal}
+                                    setShowClassificationModal={setShowClassificationModal}
                                 />
                             </Grid>
                         </Grid>                    
@@ -52,19 +79,25 @@ const AddEditClassification = (props) => {
             </Grid>
             <Box
                 sx={{
+                    p: 2,
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    p: 2,
-                    marginBottom:-3
                 }}
             >
-                <Button color="primary" variant="contained" onClick={handleSubmit(data? updateClassification : addClassification)}>
+                <Button 
+                    style={{
+                        position: 'absolute',
+                        bottom: 15,
+                        right: 15
+                    }} 
+                    color="primary" 
+                    variant="contained" 
+                    onClick={handleSubmit(data? updateClassification : addClassification)}>
                     {data ? 'update' : 'save'}
                 </Button>
-                
             </Box>
         </>
     )
 }
 
-export default AddEditClassification;
+export default AddEditLandAdjustment;
