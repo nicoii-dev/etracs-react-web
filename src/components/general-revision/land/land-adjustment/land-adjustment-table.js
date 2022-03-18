@@ -14,9 +14,8 @@ import ModeEdit from '@mui/icons-material/ModeEdit';
 import Delete from '@mui/icons-material/Delete';
 
 const LandAdjustmentTable = (props) => {
-    const {showModal, updateModal, setData, landAdjustmentList, selected, setSelected,
-            dispatch, page, setPage, rowsPerPage, setRowsPerPage, deleteClassification,
-            setClassificationData, fetchClasses} = props;
+    const {showModal, updateModal, setData, landAdjustmentList, selected, addClassificationRedux,
+            dispatch, page, setPage, rowsPerPage, setRowsPerPage, deleteLandAdjustment } = props;
 
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -26,6 +25,12 @@ const LandAdjustmentTable = (props) => {
       setRowsPerPage(+event.target.value);
       setPage(0);
     };
+
+    const handleDispatchClassificationList = (row) => {
+        row.classification_id.map(async (classification) => {
+           await dispatch(addClassificationRedux(classification));
+        })
+    }
 
     return (
         <>
@@ -74,9 +79,6 @@ const LandAdjustmentTable = (props) => {
                                 <TableRow
                                     hover
                                     onClick={async (event) => {
-                                       await dispatch(setClassificationData(row));
-                                       fetchClasses(row.id);
-                                       setSelected(row.id);
                                     }}
                                     role="checkbox"
                                     tabIndex={-1}
@@ -89,19 +91,27 @@ const LandAdjustmentTable = (props) => {
                                         <IconButton onClick={() => {
                                                 setData(row)
                                                 dispatch(updateModal(!showModal))
+                                                handleDispatchClassificationList(row)
                                             }}>
                                             <ModeEdit />
                                         </IconButton>  
                                         <IconButton onClick={() => {
-                                                deleteClassification(row.id)
+                                                deleteLandAdjustment(row.id)
                                             }}>
                                             <Delete />
                                         </IconButton>  
                                     </TableCell>
-                                    <TableCell align='left'>{row.classification}</TableCell>
-                                    <TableCell align='left'>{row.classification}</TableCell>
-                                    <TableCell align='left'>{row.classification}</TableCell>
-                                    <TableCell align='left'>{row.classification}</TableCell>
+                                    <TableCell align='left'>{row.name}</TableCell>
+                                    <TableCell align='left'>{row.code}</TableCell>
+                                    <TableCell align='left'>
+                                        {row.classification_id.map((classification) => {
+                                            return(
+                                                classification.code + ","
+                                            )
+                                            
+                                        })}
+                                    </TableCell>
+                                    <TableCell align='left'>{row.expression}</TableCell>
                                 </TableRow>
                                 );
                             })}

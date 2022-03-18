@@ -1,40 +1,11 @@
 import * as actionTypes from './actionTypes'
-import LandAdjustmentApi from '../../library/api/land-adjustment-api';
+import FormulaVariableApi from '../../library/api/formula-variable';
 import Swal from "sweetalert2";
 
-export const updateModal = (payload) => {
-  return{
-    type: actionTypes.UPDATE_MODAL_LAND_ADJUSTMENT,
-    payload: payload
-  }
-}
-
-export const addClassificationRedux = (payload) => {
-  return {
-    type: actionTypes.ADD_CLASSIFICATION,
-    payload: payload
-  }
-}
-
-export const removeClassification = (payload) => {
-  return {
-    type: actionTypes.REMOVE_CLASSIFICATION,
-    payload: payload
-  }
-}
-
-export const removeAllClassification = (payload) => {
-  return {
-    type: actionTypes.REMOVE_ALL_CLASSIFICATION,
-    payload: payload
-  }
-}
-
-
-export const fetchLandAdjustmentRedux = () => {
+export const fetchVariableRedux = () => {
   return async (dispatch) => {
     try {
-      const response = await LandAdjustmentApi.getLandAdjustment();
+      const response = await FormulaVariableApi.fetchVariable();
       if(response === '422' || response === '500' || response === '404'){
         Swal.fire({
           icon: 'error',
@@ -44,7 +15,7 @@ export const fetchLandAdjustmentRedux = () => {
         return;
       } else {
         dispatch({
-          type: actionTypes.FETCH_LAND_ADJUSTMENT, 
+          type: actionTypes.FETCH_VARIABLE, 
           payload: response
         })
       }
@@ -54,10 +25,10 @@ export const fetchLandAdjustmentRedux = () => {
   }
 }
 
-export const storeLandAdjustmentRedux = (payload) => {
+export const storeVariableRedux = (payload) => {
   return async (dispatch) => {
     try {
-      const response = await LandAdjustmentApi.storeLandAdjustment(payload);
+      const response = await FormulaVariableApi.storeVariable(payload);
       if(response === '422' || response === '500' || response === '404'){
         Swal.fire({
           icon: 'error',
@@ -68,7 +39,7 @@ export const storeLandAdjustmentRedux = (payload) => {
       } else {
         Swal.fire('Saved!', '', 'success');
         dispatch({
-          type: actionTypes.STORE_LAND_ADJUSTMENT, 
+          type: actionTypes.STORE_VARIABLE, 
           payload: response
         })
       }
@@ -79,10 +50,10 @@ export const storeLandAdjustmentRedux = (payload) => {
   }
 }
 
-export const updateLandAdjustmentRedux = (payload, id) => {
+export const updateVariableRedux = (payload, id) => {
   return async (dispatch) => {
     try {
-      const response = await LandAdjustmentApi.updateLandAdjustment(payload, id);
+      const response = await FormulaVariableApi.updateVariable(payload, id);
       if(response === '422' || response === '500' || response === '404'){
         Swal.fire({
           icon: 'error',
@@ -97,7 +68,7 @@ export const updateLandAdjustmentRedux = (payload, id) => {
           'success'
         );
         dispatch({
-          type: actionTypes.UPDATE_LAND_ADJUSTMENT, 
+          type: actionTypes.UPDATE_VARIABLE, 
           payload: response
         })
       }
@@ -111,7 +82,7 @@ export const updateLandAdjustmentRedux = (payload, id) => {
   }
 }
 
-export const deleteLandAdjustmentRedux = (id) => {
+export const deleteVariableRedux = (id) => {
   return async (dispatch) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -124,7 +95,7 @@ export const deleteLandAdjustmentRedux = (id) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await LandAdjustmentApi.deleteLandAdjustment(id)
+          const response = await FormulaVariableApi.deleteVariable(id)
           if(response === '422' || response === '500' || response === '404'){
             Swal.fire({
               icon: 'error',
@@ -139,7 +110,7 @@ export const deleteLandAdjustmentRedux = (id) => {
               'success'
             )
             dispatch({
-              type: actionTypes.DELETE_LAND_ADJUSTMENT, 
+              type: actionTypes.DELETE_VARIABLE, 
               payload: response
             })
           }

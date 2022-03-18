@@ -4,7 +4,15 @@ import Modal  from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 
 // redux
-import { updateModal } from '../../../../redux/land-adjustments/actions';
+import { 
+    updateModal,
+    addClassificationRedux,
+    storeLandAdjustmentRedux,
+    fetchLandAdjustmentRedux,
+    updateLandAdjustmentRedux,
+    removeAllClassification,
+    deleteLandAdjustmentRedux,
+} from '../../../../redux/land-adjustments/actions';
 
 // components
 import LandAdjustmentTable from './land-adjustment-table';
@@ -21,35 +29,42 @@ const LandAdjustment = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
-    // useEffect(() => {
-    //     dispatch(fetchClassificationRedux());
-    // }, [dispatch])
+    useEffect(() => {
+        dispatch(fetchLandAdjustmentRedux());
+    }, [dispatch])
 
-    // const addClassification = async (_data) => {
-    //     const payload = {
-    //         classification : _data.classification.toUpperCase()
-    //     }
-    //     await dispatch(updateModal(!showModal));
-    //     await dispatch(storeClassificationRedux(payload));
-    // }
+    const addClassification = async (_data) => {
+        // getting all classification id added for this land adjustment
+        let result = addedClassificationList.map(classification => classification.id);
 
-    // const updateClassification = async (_data) => {
-    //     const payload = {
-    //         classification : _data.classification.toUpperCase()
-    //     }
-    //     await dispatch(updateModal(!showModal));
-    //     await dispatch(updateClassificationRedux(payload, data.id));
-    // }
+        const payload = {
+            code: _data.code,
+            name: _data.name,
+            classification_id: result.toString(),
+            expression: _data.expression
+        }
+        await dispatch(updateModal(!showModal));
+        await dispatch(storeLandAdjustmentRedux(payload));
+    }
 
-    // const deleteClassification = async (id) => {
-    //    await dispatch(deleteClassificationRedux(id))
-    // }
+    const updateClassification = async (_data) => {
+        // getting all classification id added for this land adjustment
+        let result = addedClassificationList.map(classification => classification.id);
+        const payload = {
+            code: _data.code,
+            name: _data.name,
+            classification_id: result.toString(),
+            expression: _data.expression
+        }
+        console.log(payload)
+        await dispatch(updateModal(!showModal));
+        await dispatch(updateLandAdjustmentRedux(payload, data.id));
+    }
 
-    // const fetchClasses = async (id) => {
-    //     await dispatch(fetchSpecificClass(id));
-    //     await dispatch(fetchSubClass(id));
-    //     await dispatch(fetchStripping(id));
-    // }
+    const deleteLandAdjustment = async (id) => {
+       await dispatch(deleteLandAdjustmentRedux(id))
+    }
+
 
     return(
         <>
@@ -66,6 +81,8 @@ const LandAdjustment = () => {
                                 rowsPerPage={rowsPerPage}
                                 setRowsPerPage={setRowsPerPage}
                                 landAdjustmentList={landAdjustmentList}
+                                addClassificationRedux={addClassificationRedux}
+                                deleteLandAdjustment={deleteLandAdjustment}
                                 dispatch={dispatch}
                             />
                         </Grid>
@@ -75,12 +92,14 @@ const LandAdjustment = () => {
             
             <Modal
                 isOpen={showModal}
-                onRequestClose={() => {
-                    dispatch(updateModal(!showModal));
+                onRequestClose={ async () => {
+                    await dispatch(updateModal(!showModal));
+                    await dispatch(removeAllClassification());
                 }}
                 contentLabel="Example Modal"
-                onClose={() => {
-                    dispatch(updateModal(!showModal));
+                onClose={ async () => {
+                    await dispatch(updateModal(!showModal));
+                    await dispatch(removeAllClassification());
                 }}
                 ariaHideApp={false}
                 style={{
@@ -88,8 +107,8 @@ const LandAdjustment = () => {
                     top: '55%',
                     marginLeft: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: '30%',
-                    height: window.innerHeight > 900 ? '55%' : '80%',
+                    width: '40%',
+                    height: window.innerHeight > 900 ? '75%' : '80%',
                     },
                     overlay: {
                         zIndex:10
@@ -98,7 +117,8 @@ const LandAdjustment = () => {
             >
                 <AddEditLandAdjustment 
                     data={data}
-                    addedClassificationList={addedClassificationList}
+                    addClassification={addClassification}
+                    updateClassification={updateClassification}
                 />
             </Modal>
         </>

@@ -11,23 +11,24 @@ const LandAdjustmentReducer = (state = initialState, action) => {
         case actionTypes.FETCH_LAND_ADJUSTMENT:
             return {
                 ...state,
-                classification: action.payload
+                landAdjustment: action.payload
             }
         case actionTypes.STORE_LAND_ADJUSTMENT:
             return {
                 ...state,
-                classification: action.payload,
+                landAdjustment: action.payload,
+                addedClassification: [] //removing previously added classification
             }
         case actionTypes.UPDATE_LAND_ADJUSTMENT:
             return {
                 ...state,
-                classification: action.payload,
-                
+                landAdjustment: action.payload,
+                addedClassification: [] //removing previously added classification
             }
         case actionTypes.DELETE_LAND_ADJUSTMENT:
             return {
                 ...state,
-                classification: action.payload,
+                landAdjustment: action.payload,
             }
         case actionTypes.UPDATE_MODAL_LAND_ADJUSTMENT:
             return {
@@ -38,6 +39,16 @@ const LandAdjustmentReducer = (state = initialState, action) => {
             return {
                 ...state,
                 addedClassification: [...state.addedClassification, action.payload]
+            }
+        case actionTypes.REMOVE_CLASSIFICATION:
+            return {
+                ...state,
+                addedClassification: state.addedClassification.filter(classification => classification.id !== action.payload.id),
+            }
+        case actionTypes.REMOVE_ALL_CLASSIFICATION:
+            return {
+                ...state,
+                addedClassification: []
             }
         default:
             return state;

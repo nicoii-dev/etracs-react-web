@@ -10,7 +10,8 @@ import ClassificationReducer from "./classification/classificationReducer";
 import SpecificClassReducer from "./specific-class/specificClassReducer";
 import SubClassReducer from "./sub-class/specificClassReducer";
 import StrippingReducer from "./stripping/specificClassReducer";
-import LandAdjustmentReducer from "./land-adjustments/classificationReducer";
+import LandAdjustmentReducer from "./land-adjustments/landAdjustmentReducer";
+import FormulaVariableReducer from "./formula-variable/formulaVariableReducer";
 
 const rootReducer = combineReducers({
     individualData: IndividualReducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
     subClassData: SubClassReducer,
     strippingData: StrippingReducer,
     landAdjustmentData: LandAdjustmentReducer,
+    formulaVariableData: FormulaVariableReducer,
 });
 
 export default rootReducer;
