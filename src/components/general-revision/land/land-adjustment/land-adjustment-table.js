@@ -15,7 +15,7 @@ import Delete from '@mui/icons-material/Delete';
 
 const LandAdjustmentTable = (props) => {
     const {showModal, updateModal, setData, landAdjustmentList, selected, addClassificationRedux,
-            dispatch, page, setPage, rowsPerPage, setRowsPerPage, deleteLandAdjustment } = props;
+            dispatch, page, setPage, rowsPerPage, setRowsPerPage, deleteLandAdjustment, saveExpressionRedux } = props;
 
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -92,6 +92,7 @@ const LandAdjustmentTable = (props) => {
                                                 setData(row)
                                                 dispatch(updateModal(!showModal))
                                                 handleDispatchClassificationList(row)
+                                                dispatch(saveExpressionRedux(row.expression))
                                             }}>
                                             <ModeEdit />
                                         </IconButton>  
@@ -101,8 +102,8 @@ const LandAdjustmentTable = (props) => {
                                             <Delete />
                                         </IconButton>  
                                     </TableCell>
-                                    <TableCell align='left'>{row.name}</TableCell>
                                     <TableCell align='left'>{row.code}</TableCell>
+                                    <TableCell align='left'>{row.name}</TableCell>
                                     <TableCell align='left'>
                                         {row.classification_id.map((classification) => {
                                             return(

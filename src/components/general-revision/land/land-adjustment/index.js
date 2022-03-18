@@ -14,6 +14,8 @@ import {
     deleteLandAdjustmentRedux,
 } from '../../../../redux/land-adjustments/actions';
 
+import { saveExpressionRedux, removeExpressionRedux } from '../../../../redux/formula-variable/actions';
+
 // components
 import LandAdjustmentTable from './land-adjustment-table';
 import AddEditLandAdjustment from './add-edit-land-adjustments';
@@ -22,6 +24,7 @@ const LandAdjustment = () => {
     const dispatch = useDispatch();
     const landAdjustmentList = useSelector(state => state.landAdjustmentData.landAdjustment);
     const addedClassificationList = useSelector(state => state.landAdjustmentData.addedClassification);
+    const expression = useSelector(state => state.formulaVariableData.expression);
     const showModal = useSelector(state => state.landAdjustmentData.showModal);
     const [data, setData] = useState([]); // for update purposes
 
@@ -36,15 +39,14 @@ const LandAdjustment = () => {
     const addClassification = async (_data) => {
         // getting all classification id added for this land adjustment
         let result = addedClassificationList.map(classification => classification.id);
-
         const payload = {
             code: _data.code,
             name: _data.name,
             classification_id: result.toString(),
-            expression: _data.expression
+            expression: expression
         }
-        await dispatch(updateModal(!showModal));
-        await dispatch(storeLandAdjustmentRedux(payload));
+       await dispatch(updateModal(!showModal));
+       await dispatch(storeLandAdjustmentRedux(payload));
     }
 
     const updateClassification = async (_data) => {
@@ -54,11 +56,12 @@ const LandAdjustment = () => {
             code: _data.code,
             name: _data.name,
             classification_id: result.toString(),
-            expression: _data.expression
+            expression: expression
         }
-        console.log(payload)
         await dispatch(updateModal(!showModal));
         await dispatch(updateLandAdjustmentRedux(payload, data.id));
+        await dispatch(removeExpressionRedux());
+
     }
 
     const deleteLandAdjustment = async (id) => {
@@ -84,6 +87,7 @@ const LandAdjustment = () => {
                                 addClassificationRedux={addClassificationRedux}
                                 deleteLandAdjustment={deleteLandAdjustment}
                                 dispatch={dispatch}
+                                saveExpressionRedux={saveExpressionRedux}
                             />
                         </Grid>
                     </Grid>
@@ -95,11 +99,13 @@ const LandAdjustment = () => {
                 onRequestClose={ async () => {
                     await dispatch(updateModal(!showModal));
                     await dispatch(removeAllClassification());
+                    await dispatch(removeExpressionRedux());
                 }}
                 contentLabel="Example Modal"
                 onClose={ async () => {
                     await dispatch(updateModal(!showModal));
                     await dispatch(removeAllClassification());
+                    await dispatch(removeExpressionRedux());
                 }}
                 ariaHideApp={false}
                 style={{
@@ -119,6 +125,7 @@ const LandAdjustment = () => {
                     data={data}
                     addClassification={addClassification}
                     updateClassification={updateClassification}
+                    expression={expression}
                 />
             </Modal>
         </>
