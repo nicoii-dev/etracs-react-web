@@ -2,6 +2,19 @@ import * as actionTypes from './actionTypes'
 import FormulaVariableApi from '../../library/api/formula-variable';
 import Swal from "sweetalert2";
 
+export const saveExpressionRedux = (data) => {
+  return {
+    type: actionTypes.SAVE_EXPRESSION, 
+    payload: data
+  }
+}
+
+export const removeExpressionRedux = () => {
+  return {
+    type: actionTypes.REMOVE_EXPRESSION, 
+  }
+}
+
 export const fetchVariableRedux = () => {
   return async (dispatch) => {
     try {
@@ -67,7 +80,7 @@ export const updateVariableRedux = (payload, id) => {
           'Data has been updated.',
           'success'
         );
-        dispatch({
+        await dispatch({
           type: actionTypes.UPDATE_VARIABLE, 
           payload: response
         })

@@ -15,7 +15,7 @@ import AddedClassificationTable from './land-classification/added-classification
 import FormulaVariable from './formula-variable';
 
 const AddEditLandAdjustment = (props) => {
-    const {data, addClassification, updateClassification} = props;
+    const {data, addClassification, updateClassification, expression} = props;
 
     const {handleSubmit, control, formState: { errors } } = useForm();
 
@@ -75,33 +75,18 @@ const AddEditLandAdjustment = (props) => {
                             
                     </Grid>
                     <Grid item md={12} xs={12}>
-                        <Controller
-                            defaultValue={data?.expression ? data?.expression : ""}
-                            name={'expression'}
-                            control={control}
-                            rules={{
-                                required: {
-                                value: true,
-                                message: 'name is required',
-                                },
+                        <TextareaAutosize
+                            name="expression"
+                            aria-label="minimum height"
+                            minRows={4}
+                            placeholder="Expression"
+                            disabled={true}
+                            style={{ 
+                                width: '100%', 
+                                fontSize:15,
+                                borderColor: errors.expression? 'red': 'darkgray',                                          
                             }}
-                            render={({field: {onChange, onBlur, value}}) => (
-                                <TextareaAutosize
-                                    name="expression"
-                                    aria-label="minimum height"
-                                    minRows={4}
-                                    placeholder="Expression"
-                                    disabled={true}
-                                    style={{ 
-                                        width: '100%', 
-                                        fontSize:15,
-                                        borderColor: errors.expression? 'red': 'darkgray',                                          
-                                    }}
-                                    onBlur={onBlur}
-                                    onChange={onChange}
-                                    value={value}
-                                />
-                            )}
+                            value={expression ? expression : data?.expression}
                         />
                             <Button 
                                 color="primary" 

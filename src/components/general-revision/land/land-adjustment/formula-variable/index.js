@@ -14,22 +14,30 @@ import {
     fetchVariableRedux,
     storeVariableRedux,
     updateVariableRedux,
-    deleteVariableRedux
+    deleteVariableRedux,
+    saveExpressionRedux,
 } from '../../../../../redux/formula-variable/actions';
 
 const FormulaVariable = (props) => {
     const dispatch = useDispatch();
-    const {data} = props;
+    const {data, setExpression} = props;
     const {handleSubmit, control, formState: { errors } } = useForm();
 
     const variableList = useSelector(state => state.formulaVariableData.formulaVariable);
+    const expression = useSelector(state => state.formulaVariableData.expression);
 
     const [showModal, setShowModal] = useState();
-    const [selectedExpression, setSelectedExpression] = useState();
+    const [selectedExpression, setSelectedExpression] = useState(null);
     const [formula, setFormula] = useState("");
+    const [formulaFunction, setFormulaFunction] = useState("");
 
     useEffect(() => {
         dispatch(fetchVariableRedux());
+        if(expression !== "") {
+            setFormula(expression)
+            setSelectedExpression(expression?.split(" ")[0])
+            setFormulaFunction(expression?.substr(expression?.indexOf(' ') + 1))
+        }
     }, [dispatch])
 
     const addVariable = async (_data) => {
@@ -53,12 +61,13 @@ const FormulaVariable = (props) => {
     }
 
     const handleOnchange = (event) => {
-        setFormula(event.target.value);
+        setFormulaFunction(event.target.value);
+        setFormula(`${selectedExpression} ${event.target.value}`)
     }
 
     const onVariableAdd = (variable) => {
-        console.log(variable)
-        setFormula(`${formula}${variable}`);
+       //setFormula(`${formula}${ selectedExpression}`);
+       setFormula(`${variable}`);
     }
 
     return (
@@ -74,21 +83,21 @@ const FormulaVariable = (props) => {
                 <Grid item md={12} xs={12}>
                     <Grid container spacing={3}>
                         <Grid item md={6} xs={12}>
-                                    <TextareaAutosize
-                                        name="expression"
-                                        aria-label="minimum height"
-                                        minRows={16}
-                                        placeholder="Expression"
-                                        style={{ 
-                                            width: '100%', 
-                                            fontSize:20,
-                                            borderColor: errors.expression? 'red': 'darkgray',                                          
-                                        }}
-                                        //disabled={true}
-                                        //onBlur={onBlur}
-                                        onChange={(event) => handleOnchange(event)}
-                                        value={formula}
-                                    />
+                            <TextareaAutosize
+                                name="expression"
+                                aria-label="minimum height"
+                                minRows={16}
+                                placeholder="Expression"
+                                style={{ 
+                                    width: '100%', 
+                                    fontSize:20,
+                                    borderColor: errors.expression? 'red': 'darkgray',                                          
+                                }}
+                                disabled={true}
+                                //onBlur={onBlur}
+                                onChange={(event) => handleOnchange(event)}
+                                value={formula}
+                            />
                         </Grid>
                         <Grid item md={6} xs={12}>
                             <Grid item md={12} xs={12}>
@@ -100,6 +109,25 @@ const FormulaVariable = (props) => {
                                     selectedExpression={selectedExpression}
                                     setSelectedExpression={setSelectedExpression}
                                     onVariableAdd={onVariableAdd}
+                                    setFormula={setFormula}
+                                    setFormulaFunction={setFormulaFunction}
+                                />
+                            </Grid>
+                            <Grid item md={12} xs={12} style={{marginTop:13}}>
+                                <TextareaAutosize
+                                    name="function"
+                                    aria-label="minimum height"
+                                    minRows={5}
+                                    placeholder="Functions"
+                                    style={{ 
+                                        width: '100%', 
+                                        fontSize:20,
+                                        borderColor: errors.function? 'red': 'darkgray',                                          
+                                    }}
+                                    disabled={formula?.length === 0 ? true : false}
+                                    //onBlur={onBlur}
+                                    onChange={(event) => handleOnchange(event)}
+                                    value={formulaFunction}
                                 />
                             </Grid>
                         </Grid>
@@ -114,7 +142,13 @@ const FormulaVariable = (props) => {
                     marginBottom:-3
                 }}
             >
-                <Button color="primary" variant="contained" onClick={()=>{}}>
+                <Button 
+                    color="primary" 
+                    variant="contained" 
+                    onClick={()=>{
+                        dispatch(saveExpressionRedux(formula));
+                    }}
+                >
                     {/* {data ? 'update' : 'save'} */}
                     save
                 </Button>

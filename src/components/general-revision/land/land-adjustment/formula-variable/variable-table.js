@@ -5,12 +5,11 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import { TableHead, IconButton, Box } from '@mui/material';
-import { AddBox } from '@material-ui/icons';
-import { Delete } from '@material-ui/icons';
+import { AddBox, Delete, CheckBox, CheckBoxOutlineBlank } from '@material-ui/icons';
 
 const VariableTable = (props) => {
     const {variableList, showModal, setShowModal, deleteVariable, 
-        selectedExpression, setSelectedExpression, onVariableAdd} = props;
+        selectedExpression, setSelectedExpression, onVariableAdd, setFormula, setFormulaFunction} = props;
 
     return (
         <>
@@ -61,22 +60,33 @@ const VariableTable = (props) => {
                                 <TableRow
                                     hover
                                     onClick={async (event) => {
-                                        setSelectedExpression(row)
-                                        onVariableAdd(row.variable)
+                                        
+                                       // onVariableAdd(row.variable)
                                     }}
                                     role="checkbox"
                                     tabIndex={-1}
                                     key={row.id}
                                     style={{
-                                        backgroundColor: selectedExpression?.id === row.id? '#CCE5FF':null
+                                        backgroundColor: selectedExpression === row.variable? '#CCE5FF':null
                                     }}
                                 >
                                     <TableCell align='center'>
                                         <IconButton onClick={() => {
+                                                onVariableAdd(row.variable)
+                                                setSelectedExpression(row.variable)
+                                                if(selectedExpression === row.variable) {
+                                                    setSelectedExpression(null)
+                                                    setFormula("")
+                                                    setFormulaFunction("")
+                                                } 
+                                            }}>
+                                            { selectedExpression === row.variable? <CheckBox /> : <CheckBoxOutlineBlank />}
+                                        </IconButton>  
+                                        <IconButton onClick={() => {
                                                 deleteVariable(row.id)
                                             }}>
                                             <Delete />
-                                        </IconButton>  
+                                        </IconButton>
                                     </TableCell>
                                     <TableCell align='center'>{row.variable}</TableCell>
                                 </TableRow>
