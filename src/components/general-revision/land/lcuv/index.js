@@ -37,7 +37,8 @@ const tabData = [
     }
 ]
 
-const LCUV = () => {
+const LCUV = (props) => {
+    const {revisionYear} = props;
     const dispatch = useDispatch();
     const classificationList = useSelector(state => state.classificationData.classification);
     const showModal = useSelector(state => state.classificationData.showModal);
@@ -55,7 +56,8 @@ const LCUV = () => {
     const addClassification = async (_data) => {
         const payload = {
             code: _data.code.toUpperCase(),
-            classification: _data.classification.toUpperCase()
+            classification: _data.classification.toUpperCase(),
+            year_tag: revisionYear
         }
         await dispatch(updateModal(!showModal));
         await dispatch(storeClassificationRedux(payload));
@@ -64,7 +66,8 @@ const LCUV = () => {
     const updateClassification = async (_data) => {
         const payload = {
             code: _data.code.toUpperCase(),
-            classification : _data.classification.toUpperCase()
+            classification : _data.classification.toUpperCase(),
+            year_tag: revisionYear
         }
         await dispatch(updateModal(!showModal));
         await dispatch(updateClassificationRedux(payload, data.id));

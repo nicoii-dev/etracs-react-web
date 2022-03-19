@@ -20,7 +20,8 @@ import { saveExpressionRedux, removeExpressionRedux } from '../../../../redux/fo
 import LandAdjustmentTable from './land-adjustment-table';
 import AddEditLandAdjustment from './add-edit-land-adjustments';
 
-const LandAdjustment = () => {
+const LandAdjustment = (props) => {
+    const {revisionYear} = props;
     const dispatch = useDispatch();
     const landAdjustmentList = useSelector(state => state.landAdjustmentData.landAdjustment);
     const addedClassificationList = useSelector(state => state.landAdjustmentData.addedClassification);
@@ -43,7 +44,8 @@ const LandAdjustment = () => {
             code: _data.code,
             name: _data.name,
             classification_id: result.toString(),
-            expression: expression
+            expression: expression,
+            year_tag: revisionYear,
         }
        await dispatch(updateModal(!showModal));
        await dispatch(storeLandAdjustmentRedux(payload));
@@ -56,7 +58,8 @@ const LandAdjustment = () => {
             code: _data.code,
             name: _data.name,
             classification_id: result.toString(),
-            expression: expression
+            expression: expression,
+            year_tag: revisionYear,
         }
         await dispatch(updateModal(!showModal));
         await dispatch(updateLandAdjustmentRedux(payload, data.id));

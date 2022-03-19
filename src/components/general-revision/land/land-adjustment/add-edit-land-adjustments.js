@@ -115,7 +115,7 @@ const AddEditLandAdjustment = (props) => {
                         variant="contained" 
                         onClick={handleSubmit(data? updateClassification : addClassification)}
                         >
-                        {data ? 'update' : 'saves'}
+                        {data ? 'update' : 'save'}
                     </Button>
                 </Box>
 
