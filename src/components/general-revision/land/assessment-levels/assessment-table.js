@@ -15,11 +15,9 @@ import ModeEdit from '@mui/icons-material/ModeEdit';
 import Delete from '@mui/icons-material/Delete';
 import { useDispatch } from 'react-redux';
 
-// redux
-import { setAssessmentLevelID } from '../../../../redux/market-value/action';
-
 const AssessmentTable = (props) => {
-    const {open, setOpen, assessmentLevels, getMarketValues, setData, deleteData, checked} = props;
+    const {open, setOpen, assessmentLevelList, getMarketValues, 
+            setData, deleteData, checked, setAssessmentLevelID} = props;
 
     const dispatch = useDispatch();
     const [selected, setSelected] = useState(null);
@@ -70,12 +68,12 @@ const AssessmentTable = (props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {assessmentLevels?.map((row) => {
+                            {assessmentLevelList?.map((row) => {
                                 //const isItemSelected = isSelected(row.id);
                                 return(
                                     <TableRow
                                         hover
-                                        onClick={(event) => {
+                                        onClick={async () => {
                                             getMarketValues(row.id)
                                             setSelected(row.id)
                                             dispatch(setAssessmentLevelID(row.id));

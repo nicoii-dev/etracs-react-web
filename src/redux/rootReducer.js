@@ -3,6 +3,7 @@ import IndividualReducer from "./individual/individualReducer";
 import JuridicalReducer from "./juridical/juridicalReducer";
 import NavReducer from './nav/navReducer';
 import PinReducer from "./pin/navReducer";
+import AssessmentLevelReducer from "./assessment-levels/assessmentLevelReducer";
 import MarketValueReducer from "./market-value/marketValueReducer";
 import MunicipalityCityReducer from "./municipality-city/municipality-city-reducer";
 import BarangayReducer from "./barangay/barangayReducer";
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     juridicalData: JuridicalReducer,
     navStatus: NavReducer,
     pinData: PinReducer,
+    assessmentLevelData: AssessmentLevelReducer,
     martketValueData: MarketValueReducer,
     municipalityCityData: MunicipalityCityReducer,
     barangayData: BarangayReducer,

@@ -1,6 +1,6 @@
 import axios from 'react-native-axios';
 
-const LandAssessmentMarketValueApi = {
+const AssessmentMarketValueApi = {
 
   storeMarketValue: async (payload) => {
     try {
@@ -61,4 +61,4 @@ const LandAssessmentMarketValueApi = {
   },
 }
 
-export default LandAssessmentMarketValueApi;
+export default AssessmentMarketValueApi;

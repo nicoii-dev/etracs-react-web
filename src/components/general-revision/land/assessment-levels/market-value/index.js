@@ -9,7 +9,11 @@ import AddEditMarketValue from './add-edit-market-value';
 import MarketValueTable from './market-value-table';
 
 // api
-import LandAssessmentMarketValueApi from '../../../../../library/api/land-assessment-market-value-api';
+import { 
+    storeMarketValueRedux,
+    updateMarketValueRedux,
+    deleteMarketValueRedux
+} from '../../../../../redux/market-value/action';
 
 // redux
 import { setMarketValue } from '../../../../../redux/market-value/action';
@@ -17,124 +21,36 @@ import { setMarketValue } from '../../../../../redux/market-value/action';
 const MarketValue = (props) => {
     const dispatch = useDispatch();
     const marketValue = useSelector(state => state.martketValueData.marketValue);
-    const assessmentLevelID = useSelector(state => state.martketValueData.assessmentLevelID);
+    const assessmentLevelID = useSelector(state => state.assessmentLevelData.assessmentLevelID);
     const [open, setOpen] = useState(false);
     const [data, setData] = useState([]);
-
     const storeMarketValue = async (_data) => {
-        try {
-            const payload = {
-                assessment_level_id: assessmentLevelID,
-                market_value_from: _data.marketValueFrom,
-                market_value_to: _data.marketValueTo,
-                market_value_rate: _data.marketValueRate
-            }
-            const _marketValue = await LandAssessmentMarketValueApi.storeMarketValue(payload);
-            if(_marketValue === '422' || _marketValue === '500' || _marketValue === '404'){
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!',
-                })
-                return;
-            } else {
-                dispatch(setMarketValue(_marketValue));
-                Swal.fire('Saved!', '', 'success');
-            }
-        } catch (error) {
-            console.log(error.message);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong!',
-            })
+        const payload = {
+            assessment_level_id: assessmentLevelID,
+            market_value_from: _data.marketValueFrom,
+            market_value_to: _data.marketValueTo,
+            market_value_rate: _data.marketValueRate
         }
-        setOpen(!open)
-
+        await dispatch(storeMarketValueRedux(payload));
+        setOpen(!open);    
     }
 
-    const updateMarketValue = (_data) => {
-        Swal.fire({
-            title: 'Do you want to update this data?',
-            //showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: 'Update',
-          }).then(async (result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                try {
-                    const payload = {
-                        assessment_level_id: assessmentLevelID,
-                        market_value_from: _data.marketValueFrom,
-                        market_value_to: _data.marketValueTo,
-                        market_value_rate: _data.marketValueRate
-                    }
-                    const _marketValue = await LandAssessmentMarketValueApi.updateMarketValue(payload, _data.id);
-                    if(_marketValue === '422' || _marketValue === '500' || _marketValue === '404'){
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!',
-                        })
-                        return;
-                    } else {
-                        dispatch(setMarketValue(_marketValue));
-                        Swal.fire('Updated!', '', 'success');
-                    }
-                } catch (error) {
-                    console.log(error.message);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong!',
-                    })
-                }
-                setOpen(!open)
-            }
-        })        
+    const updateMarketValue = async(_data) => {
+        const payload = {
+            assessment_level_id: assessmentLevelID,
+            market_value_from: _data.marketValueFrom,
+            market_value_to: _data.marketValueTo,
+            market_value_rate: _data.marketValueRate
+        }
+        await dispatch(updateMarketValueRedux(payload, _data.id));
+        setOpen(!open); 
     }
 
-    const deleteMarketValue = (id) => {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-          }).then(async (result) => {
-              if (result.isConfirmed) {
-                  try {
-                        const payload = {
-                            assessment_level_id: assessmentLevelID
-                        }
-                      const _marketValue = await LandAssessmentMarketValueApi.deleteMarketValue(payload, id);
-                        if(_marketValue === '422' || _marketValue === '500' || _marketValue === '404'){
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Something went wrong!',
-                            })
-                            return;
-                        } else {
-                            dispatch(setMarketValue(_marketValue));
-                            Swal.fire(
-                                'Deleted!',
-                                'Data has been deleted.',
-                                'success'
-                            )
-                        }
-                  } catch (error) {
-                      console.log(error.message);
-                      Swal.fire({
-                          icon: 'error',
-                          title: 'Oops...',
-                          text: 'Something went wrong!',
-                    })
-                }
-            }
-        })
+    const deleteMarketValue = async(id) => {
+        const payload = {
+            assessment_level_id: assessmentLevelID,
+        }
+        await dispatch(deleteMarketValueRedux(payload, id));
     } 
     return (
         <>

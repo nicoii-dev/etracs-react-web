@@ -2,7 +2,6 @@ import * as actionTypes from './actionTypes'
 
 const initialState = {
     marketValue: [],
-    assessmentLevelID: null
 }
 
 const MarketValueReducer = (state = initialState, action) => {
@@ -12,15 +11,25 @@ const MarketValueReducer = (state = initialState, action) => {
                 ...state,
                 marketValue: action.payload
             }
-        case actionTypes.SET_ASSESSMENT_LEVEL_ID:
+        case actionTypes.STORE_MARKET_VALUE:
             return {
                 ...state,
-                assessmentLevelID: action.payload
+                marketValue: action.payload,
+            }
+        case actionTypes.UPDATE_MARKET_VALUE:
+            return {
+                ...state,
+                marketValue: action.payload,
+                
+            }
+        case actionTypes.DELETE_MARKET_VALUE:
+            return {
+                ...state,
+                marketValue: action.payload,
             }
         default:
             return state;
     }
 }
-
 
 export default MarketValueReducer;

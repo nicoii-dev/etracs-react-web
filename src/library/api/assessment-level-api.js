@@ -1,7 +1,7 @@
 import axios from 'react-native-axios';
 
-const LandAssessmentLevelApi = {
-  getAssessmentLevel: async () => {
+const AssessmentLevelApi = {
+  fetchAssessmentLevel: async () => {
     try {
       const response = await axios.get("http://localhost:8000/api/assessment-levels");
       const data = await response.data;
@@ -64,4 +64,4 @@ const LandAssessmentLevelApi = {
   },
 }
 
-export default LandAssessmentLevelApi;
+export default AssessmentLevelApi;
