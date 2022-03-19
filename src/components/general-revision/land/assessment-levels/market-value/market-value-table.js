@@ -77,7 +77,7 @@ const MarketValueTable = (props) => {
                         return (
                             <TableRow
                                 hover
-                                onClick={(event) => {console.log(row.id)}}
+                                //onClick={(event) => {console.log(row.id)}}
                                 role="checkbox"
                                 tabIndex={-1}
                                 key={row.id}

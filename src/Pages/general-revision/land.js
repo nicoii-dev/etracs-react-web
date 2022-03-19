@@ -1,52 +1,135 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import Modal from 'react-modal';
+import { Button } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 // components
 import TabComponent from '../../components/tabs';
 import AssessmentLevels from '../../components/general-revision/land/assessment-levels';
 import LCUV from '../../components/general-revision/land/lcuv';
 import LandAdjustment from '../../components/general-revision/land/land-adjustment';
+import RevisionYear from '../../components/general-revision/revision-year';
+
+// redux
+import { setRevisionYearRedux } from '../../redux/revision-year/action';
 
 const LandRevision = () => {
+    const dispatch = useDispatch();
+    const revisionYear = useSelector(state => state.revisionYearData.currentRevision)
+    const [showModal, setShowModal] = useState(true);
+    const [selectedYear, setSelectedYear] = useState();
 
     const tabData = [
         {
             'id' : '1',
             'title' : 'Assessment Levels',
-            'tab' : <AssessmentLevels />
+            'tab' : <AssessmentLevels revisionYear={revisionYear}/>
         },
         {
             'id' : '2',
             'title' : 'LCUV',
-            'tab' : <LCUV />
+            'tab' : <LCUV revisionYear={revisionYear}/>
         },
         {
             'id' : '3',
             'title' : 'Land Adjustment',
-            'tab' : <LandAdjustment />
+            'tab' : <LandAdjustment revisionYear={revisionYear}/>
         },
         {
             'id' : '4',
             'title' : 'Applied to the following LGUs',
-            'tab' : <LCUV />
+            'tab' : <LCUV revisionYear={revisionYear}/>
         },
     ]
+
+    useEffect(() => {
+        if(revisionYear === undefined || revisionYear === null) {
+            setShowModal(true);
+        } else {
+            setShowModal(false)
+        }
+    }, [revisionYear])
+
     return (
-        <div>
-            <h1>
-                Land
-            </h1>
-            <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <TabComponent
-                            tabData={tabData}
-                        />
+        <>
+            <div>
+                <h1>
+                    Land
+                </h1>
+                <h3 style={{flexDirection: 'row'}}>
+                    Revision Year : {revisionYear} 
+                    <Button color="primary" onClick={() => {setShowModal(!showModal)}}> change</Button>
+                </h3>
+
+                
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TabComponent
+                                tabData={tabData}
+                            />
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Box>
-        </div>
+                </Box>
+            </div>
+
+            <Modal
+                isOpen={showModal}
+                //onRequestClose={() => {setShowModal(!showModal)}}
+                contentLabel="Example Modal"
+                onClose={() => setShowModal(!showModal)}
+                ariaHideApp={false}
+                style={{
+                    content: {
+                    top: '55%',
+                    marginLeft: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: window.innerHeight > 900 ? '20%' : '30%',
+                    height: window.innerHeight > 900 ? '40%' : '60%',
+                    },
+                    overlay: {
+                        zIndex:10
+                    }
+                }}
+            >
+                <RevisionYear
+                    setSelectedYear={setSelectedYear}
+                />
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        p: 2,
+                        marginBottom: -2,
+                        marginRight: -2
+                    }}
+                >
+                    <Button 
+                        color="primary" 
+                        variant="contained" 
+                        onClick={async() => {
+                            if(selectedYear === undefined || selectedYear === null){
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Please select a year!',
+                              }) 
+                            } else {
+                                await dispatch(setRevisionYearRedux(selectedYear.revision_year))
+                                setShowModal(!showModal)
+                            }
+                        }}
+                    >
+                        Open
+                    </Button>
+                    
+                </Box>
+            </Modal>
+
+        </>
     )
 };
 

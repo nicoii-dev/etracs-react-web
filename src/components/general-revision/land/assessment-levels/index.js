@@ -79,7 +79,7 @@ const AssessmentLevels = () => {
               Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'No database connection!',
+                text: 'Something went wrong!',
               })
               return;
             } else {

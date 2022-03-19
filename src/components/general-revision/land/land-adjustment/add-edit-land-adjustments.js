@@ -7,7 +7,7 @@ import {
     TextareaAutosize
   } from '@mui/material';
 import Modal  from 'react-modal';
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 // components
 import TextInputController from '../../../input/text-input';

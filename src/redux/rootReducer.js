@@ -12,6 +12,7 @@ import SubClassReducer from "./sub-class/specificClassReducer";
 import StrippingReducer from "./stripping/specificClassReducer";
 import LandAdjustmentReducer from "./land-adjustments/landAdjustmentReducer";
 import FormulaVariableReducer from "./formula-variable/formulaVariableReducer";
+import RevisionYearReducer from "./revision-year/revisionYearReducer";
 
 const rootReducer = combineReducers({
     individualData: IndividualReducer,
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
     strippingData: StrippingReducer,
     landAdjustmentData: LandAdjustmentReducer,
     formulaVariableData: FormulaVariableReducer,
+    revisionYearData: RevisionYearReducer,
 });
 
 export default rootReducer;
