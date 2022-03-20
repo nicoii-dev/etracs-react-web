@@ -50,7 +50,7 @@ export const storeAppliedToLguRedux = (payload) => {
   }
 }
 
-export const deleteAppliedToLguRedux = (id) => {
+export const deleteAppliedToLguRedux = (payload, id) => {
   return async (dispatch) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -63,7 +63,7 @@ export const deleteAppliedToLguRedux = (id) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await AppliedToLguApi.deleteAppliedToLgu(id)
+          const response = await AppliedToLguApi.deleteAppliedToLgu(payload, id)
           if(response === '422' || response === '500' || response === '404'){
             Swal.fire({
               icon: 'error',

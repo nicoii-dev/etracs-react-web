@@ -27,9 +27,15 @@ const AppliedToLguApi = {
       }
   },
 
-  deleteAppliedToLgu: async (id) => {
+  deleteAppliedToLgu: async (payload, id) => {
     try {
-        const response = await axios.delete("http://localhost:8000/api/applied-to-lgu/"+id);
+        const json = JSON.stringify(payload);
+        const response = await axios.post("http://localhost:8000/api/applied-to-lgu/"+id, json, {
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json'
+          }
+        });
         const data = await response.data;
         return data;
       } catch (error) {

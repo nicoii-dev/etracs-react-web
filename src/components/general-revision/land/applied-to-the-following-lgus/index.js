@@ -43,12 +43,15 @@ const AppliedToTheFollowingLgus = (props) => {
             lgu: selected.lgu_name,
             year_tag: revisionYear
         }
-        await dispatch(storeAppliedToLguRedux(payload))
         setSelected(null)
+        await dispatch(storeAppliedToLguRedux(payload))
     }
 
     const deleteAppliedLgu = async (id) => {
-       await dispatch(deleteAppliedToLguRedux(id))
+        const payload = {
+            year_tag: revisionYear
+        }
+       await dispatch(deleteAppliedToLguRedux(payload, id))
     }
 
     return(
