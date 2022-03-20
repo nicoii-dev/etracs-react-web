@@ -43,11 +43,16 @@ const LCUV = (props) => {
     const classificationList = useSelector(state => state.classificationData.classification);
     const showModal = useSelector(state => state.classificationData.showModal);
     const [data, setData] = useState([]); // for update purposes
-    const [selected, setSelected] = useState(); //for changing the color of table row
+    const [selected, setSelected] = useState(null); //for changing the color of table row
 
     // for table pagination
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    // filtering, getting data based on revision year
+    const filteredClassification = classificationList.filter((classification) => {
+        return classification.year_tag === revisionYear.toString();
+    })
 
     useEffect(() => {
         dispatch(fetchClassificationRedux());
@@ -83,6 +88,11 @@ const LCUV = (props) => {
         await dispatch(fetchStripping(id));
     }
 
+    // for changeing revision year
+    useEffect(() => {
+        setSelected(null)
+    }, [revisionYear])
+
     return(
         <>
             <Grid container spacing={3}>
@@ -100,7 +110,7 @@ const LCUV = (props) => {
                                 setPage={setPage}
                                 rowsPerPage={rowsPerPage}
                                 setRowsPerPage={setRowsPerPage}
-                                classificationList={classificationList}
+                                filteredClassification={filteredClassification}
                                 deleteClassification={deleteClassification}
                                 setClassificationData={setClassificationData}
                                 fetchClasses={fetchClasses}

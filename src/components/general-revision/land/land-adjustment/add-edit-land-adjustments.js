@@ -15,7 +15,7 @@ import AddedClassificationTable from './land-classification/added-classification
 import FormulaVariable from './formula-variable';
 
 const AddEditLandAdjustment = (props) => {
-    const {data, addClassification, updateClassification, expression} = props;
+    const {data, addLandAdjustment, updateLandAdjustment, expression, missingExpression} = props;
 
     const {handleSubmit, control, formState: { errors } } = useForm();
 
@@ -84,7 +84,7 @@ const AddEditLandAdjustment = (props) => {
                             style={{ 
                                 width: '100%', 
                                 fontSize:15,
-                                borderColor: errors.expression? 'red': 'darkgray',                                          
+                                borderColor: missingExpression? 'red': 'darkgray',                                          
                             }}
                             value={expression ? expression : data?.expression}
                         />
@@ -113,7 +113,7 @@ const AddEditLandAdjustment = (props) => {
                     <Button 
                         color="primary" 
                         variant="contained" 
-                        onClick={handleSubmit(data? updateClassification : addClassification)}
+                        onClick={handleSubmit(data? updateLandAdjustment : addLandAdjustment)}
                         >
                         {data ? 'update' : 'save'}
                     </Button>

@@ -9,6 +9,11 @@ export const updateStrippingModal = (payload) => {
     }
 }
 
+export const setStripping = () => {
+  return {
+    type: actionTypes.SET_STRIPPING
+  }
+}
 export const fetchStripping = (id) => {
     return async (dispatch) => {
         try {

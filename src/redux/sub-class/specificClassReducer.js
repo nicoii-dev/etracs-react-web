@@ -12,6 +12,11 @@ const SubClassReducer = (state = initialState, action) => {
                 ...state,
                 showModal: action.payload
             }
+        case actionTypes.SET_SUB_CLASS:
+            return {
+                ...state,
+                subClass: []
+            }
         case actionTypes.FETCH_SUB_CLASS:
             return {
                 ...state,

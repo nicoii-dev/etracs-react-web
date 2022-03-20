@@ -16,11 +16,10 @@ import Delete from '@mui/icons-material/Delete';
 import { useDispatch } from 'react-redux';
 
 const AssessmentTable = (props) => {
-    const {open, setOpen, assessmentLevelList, getMarketValues, 
+    const {open, setOpen, filteredAssessmentLevels, getMarketValues, selected, setSelected,
             setData, deleteData, checked, setAssessmentLevelID} = props;
 
     const dispatch = useDispatch();
-    const [selected, setSelected] = useState(null);
 
     const updateAssessment = (rowData) => {
         setOpen(!open)
@@ -68,7 +67,7 @@ const AssessmentTable = (props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {assessmentLevelList?.map((row) => {
+                            {filteredAssessmentLevels?.map((row) => {
                                 //const isItemSelected = isSelected(row.id);
                                 return(
                                     <TableRow
@@ -93,8 +92,8 @@ const AssessmentTable = (props) => {
                                                 <Delete />
                                             </IconButton>  
                                         </TableCell>
-                                        <TableCell align='left'>{row.code}</TableCell>
-                                        <TableCell align='left'>{row.name.length > 20 ? row.name.substring(0, 20) + "..." : row.name}</TableCell>
+                                        <TableCell align='left'>{row.code.toUpperCase()}</TableCell>
+                                        <TableCell align='left'>{row.name.length > 20 ? row.name.substring(0, 20).toUpperCase() + "..." : row.name.toUpperCase()}</TableCell>
                                         <TableCell padding="checkbox">
                                             <Checkbox
                                                 checked={checked[row.fix]}

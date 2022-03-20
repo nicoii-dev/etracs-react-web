@@ -15,6 +15,12 @@ import RevisionYear from '../../components/general-revision/revision-year';
 
 // redux
 import { setRevisionYearRedux } from '../../redux/revision-year/action';
+import { setAssessmentLevelID } from '../../redux/assessment-levels/actions';
+import { setMarketValue } from '../../redux/market-value/action';
+import { setSpecificClass } from '../../redux/specific-class/action';
+import { setClassificationData } from '../../redux/classification/actions';
+import { setSubClass } from '../../redux/sub-class/action';
+import { setStripping } from '../../redux/stripping/action';
 
 const LandRevision = () => {
     const dispatch = useDispatch();
@@ -53,6 +59,17 @@ const LandRevision = () => {
         }
     }, [revisionYear])
 
+    // on reset data if revision year changed
+    const onHandleChange = async() => {
+        setShowModal(!showModal);
+        await dispatch(setAssessmentLevelID(null))
+        await dispatch(setMarketValue([]))
+        await dispatch(setSpecificClass())
+        await dispatch(setClassificationData([]));
+        await dispatch(setSubClass())
+        await dispatch(setStripping())
+    }
+
     return (
         <>
             <div>
@@ -61,7 +78,7 @@ const LandRevision = () => {
                 </h1>
                 <h3 style={{flexDirection: 'row'}}>
                     Revision Year : {revisionYear} 
-                    <Button color="primary" onClick={() => {setShowModal(!showModal)}}> change</Button>
+                    <Button color="primary" onClick={onHandleChange}> change</Button>
                 </h3>
 
                 

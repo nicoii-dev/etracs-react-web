@@ -14,7 +14,7 @@ import ModeEdit from '@mui/icons-material/ModeEdit';
 import Delete from '@mui/icons-material/Delete';
 
 const ClassificationTable = (props) => {
-    const {showModal, updateModal, setData, classificationList, selected, setSelected,
+    const {showModal, updateModal, setData, filteredClassification, selected, setSelected,
             dispatch, page, setPage, rowsPerPage, setRowsPerPage, deleteClassification,
             setClassificationData, fetchClasses} = props;
 
@@ -65,7 +65,7 @@ const ClassificationTable = (props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {classificationList
+                        {filteredClassification
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => {
                             return (
@@ -107,7 +107,7 @@ const ClassificationTable = (props) => {
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
-                        count={classificationList.length}
+                        count={filteredClassification.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}

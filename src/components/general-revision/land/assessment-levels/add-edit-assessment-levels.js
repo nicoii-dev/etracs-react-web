@@ -62,6 +62,7 @@ const AddEditAssessmentLevels = ({
                                     name="name"
                                     variant="outlined"
                                     control={control}
+                                    inputStyle={{ style: { textTransform: "uppercase" } }}
                                     errorStatus={errors.name ? true:false}
                                     rules={{
                                         required: {

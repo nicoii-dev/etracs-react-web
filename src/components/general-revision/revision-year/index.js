@@ -25,10 +25,6 @@ const RevisionYear = (props) => {
     const [showModal, setShowModal] = useState(false);
     const [yearList, setYearList] = useState([]);
 
-    // for table pagination
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
-
     const generateArrayOfYears = () => {
         let max = new Date().getFullYear()
         let min = max - 22
@@ -53,14 +49,6 @@ const RevisionYear = (props) => {
         await dispatch(storeRevisionYearRedux(payload));
         setShowModal(!showModal)
     }
-
-    // const updateRevision = async (_data) => {
-    //     const payload = {
-    //         code: _data.code.toUpperCase(),
-    //         classification : _data.classification.toUpperCase()
-    //     }
-    //     await dispatch(updateRevisionYearRedux(payload, data.id));
-    // }
 
     const deleteYear = async (id) => {
        await dispatch(deleteRevisionYearRedux(id))

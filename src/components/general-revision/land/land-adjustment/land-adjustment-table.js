@@ -14,7 +14,7 @@ import ModeEdit from '@mui/icons-material/ModeEdit';
 import Delete from '@mui/icons-material/Delete';
 
 const LandAdjustmentTable = (props) => {
-    const {showModal, updateModal, setData, landAdjustmentList, selected, addClassificationRedux,
+    const {showModal, updateModal, setData, filteredLandAdjustment, selected, addClassificationRedux,
             dispatch, page, setPage, rowsPerPage, setRowsPerPage, deleteLandAdjustment, saveExpressionRedux } = props;
 
     const handleChangePage = (event, newPage) => {
@@ -72,7 +72,7 @@ const LandAdjustmentTable = (props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {landAdjustmentList
+                        {filteredLandAdjustment
                             ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row) => {
                             return (
@@ -122,7 +122,7 @@ const LandAdjustmentTable = (props) => {
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
-                        count={landAdjustmentList?.length}
+                        count={filteredLandAdjustment?.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}

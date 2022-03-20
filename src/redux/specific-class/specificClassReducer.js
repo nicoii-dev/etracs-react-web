@@ -12,6 +12,11 @@ const SpecificClassReducer = (state = initialState, action) => {
                 ...state,
                 showModal: action.payload
             }
+        case actionTypes.SET_SPECIFIC_CLASS:
+            return {
+                ...state,
+                specificClass: []
+            }
         case actionTypes.FETCH_SPECIFIC_CLASS:
             return {
                 ...state,

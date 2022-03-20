@@ -9,6 +9,12 @@ export const updateSpecificModal = (payload) => {
     }
 }
 
+export const setSpecificClass = () => {
+  return {
+    type: actionTypes.SET_SPECIFIC_CLASS,
+  }
+}
+
 export const fetchSpecificClass = (id) => {
     return async (dispatch) => {
         try {

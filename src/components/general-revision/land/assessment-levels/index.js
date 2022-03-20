@@ -27,10 +27,15 @@ const AssessmentLevels = (props) => {
     const {revisionYear} = props
     const dispatch = useDispatch();
     const assessmentLevelList = useSelector(state => state.assessmentLevelData.assessmentLevel);
-
     const [open, setOpen] = useState(false);
     const [checked, setChecked] = useState([false,true]);
     const [data, setData] = useState([]); //for update purposes
+    const [selected, setSelected] = useState(null);
+
+        // filtering, getting data based on revision year
+    const filteredAssessmentLevels = assessmentLevelList.filter((assessment) => {
+        return assessment.year_tag === revisionYear?.toString();
+    })
 
     useEffect(() => {
         dispatch(fetchAssessmentLevelRedux());
@@ -60,8 +65,8 @@ const AssessmentLevels = (props) => {
 
     const addData = async (_data) => {
         const payload = {
-            code: _data.code,
-            name: _data.name,
+            code: _data.code.toUpperCase(),
+            name: _data.name.toUpperCase(),
             rate: _data.rate,
             fix: _data.fix,
             class: _data.class,
@@ -88,6 +93,11 @@ const AssessmentLevels = (props) => {
         await dispatch(deleteAssessmentLevelRedux(id))
     }   
 
+        // for changeing revision year
+        useEffect(() => {
+            setSelected(null)
+        }, [revisionYear])
+
     return(
         <>
             <Grid container spacing={3}>
@@ -97,12 +107,14 @@ const AssessmentLevels = (props) => {
                             <AssessmentTable 
                                 open={open}
                                 setOpen={setOpen}
-                                assessmentLevelList={assessmentLevelList}
+                                filteredAssessmentLevels={filteredAssessmentLevels}
                                 getMarketValues={getMarketValues}
                                 setData={setData}
                                 deleteData={deleteData}
                                 checked={checked}
                                 setAssessmentLevelID={setAssessmentLevelID}
+                                selected={selected}
+                                setSelected={setSelected}
                             />
                         </Grid>
                         <Grid item md={4} xs={12} >

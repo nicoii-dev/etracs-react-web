@@ -12,6 +12,11 @@ const StrippingReducer = (state = initialState, action) => {
                 ...state,
                 showModal: action.payload
             }
+        case actionTypes.SET_STRIPPING:
+            return {
+                ...state,
+                stripping: []
+            }
         case actionTypes.FETCH_STRIPPING:
             return {
                 ...state,

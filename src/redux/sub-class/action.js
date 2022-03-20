@@ -9,6 +9,12 @@ export const updateSubModal = (payload) => {
     }
 }
 
+export const setSubClass = () => {
+  return {
+    type: actionTypes.SET_SUB_CLASS
+  }
+}
+
 export const fetchSubClass = (id) => {
     return async (dispatch) => {
         try {

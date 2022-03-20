@@ -33,25 +33,39 @@ const LandAdjustment = (props) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
+    const [missingExpression, setMissingExpression] = useState(false); // for empty expression
+
+    // filtering, getting data based on revision year
+    const filteredLandAdjustment = landAdjustmentList.filter((assessment) => {
+        return assessment.year_tag === revisionYear?.toString();
+    })
+
     useEffect(() => {
         dispatch(fetchLandAdjustmentRedux());
     }, [dispatch])
 
-    const addClassification = async (_data) => {
-        // getting all classification id added for this land adjustment
-        let result = addedClassificationList.map(classification => classification.id);
-        const payload = {
-            code: _data.code,
-            name: _data.name,
-            classification_id: result.toString(),
-            expression: expression,
-            year_tag: revisionYear,
+    const addLandAdjustment = async (_data) => {
+        
+        if(expression === "" || expression === null) {
+            setMissingExpression(true)
+        } else {
+            setMissingExpression(false)
+            // getting all classification id added for this land adjustment
+            let result = addedClassificationList.map(classification => classification.id);
+            const payload = {
+                code: _data.code,
+                name: _data.name,
+                classification_id: result.toString(),
+                expression: expression,
+                year_tag: revisionYear,
+            }
+          await dispatch(updateModal(!showModal));
+          await dispatch(storeLandAdjustmentRedux(payload));
         }
-       await dispatch(updateModal(!showModal));
-       await dispatch(storeLandAdjustmentRedux(payload));
+
     }
 
-    const updateClassification = async (_data) => {
+    const updateLandAdjustment = async (_data) => {
         // getting all classification id added for this land adjustment
         let result = addedClassificationList.map(classification => classification.id);
         const payload = {
@@ -71,6 +85,10 @@ const LandAdjustment = (props) => {
        await dispatch(deleteLandAdjustmentRedux(id))
     }
 
+    // updating expression
+    useEffect(() => {
+        setMissingExpression(false)
+    }, [expression])
 
     return(
         <>
@@ -86,7 +104,7 @@ const LandAdjustment = (props) => {
                                 setPage={setPage}
                                 rowsPerPage={rowsPerPage}
                                 setRowsPerPage={setRowsPerPage}
-                                landAdjustmentList={landAdjustmentList}
+                                filteredLandAdjustment={filteredLandAdjustment}
                                 addClassificationRedux={addClassificationRedux}
                                 deleteLandAdjustment={deleteLandAdjustment}
                                 dispatch={dispatch}
@@ -126,9 +144,10 @@ const LandAdjustment = (props) => {
             >
                 <AddEditLandAdjustment 
                     data={data}
-                    addClassification={addClassification}
-                    updateClassification={updateClassification}
+                    addLandAdjustment={addLandAdjustment}
+                    updateLandAdjustment={updateLandAdjustment}
                     expression={expression}
+                    missingExpression={missingExpression}
                 />
             </Modal>
         </>
