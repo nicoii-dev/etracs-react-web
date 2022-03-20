@@ -11,6 +11,7 @@ import TabComponent from '../../components/tabs';
 import AssessmentLevels from '../../components/general-revision/land/assessment-levels';
 import LCUV from '../../components/general-revision/land/lcuv';
 import LandAdjustment from '../../components/general-revision/land/land-adjustment';
+import AppliedToTheFollowingLgus from '../../components/general-revision/land/applied-to-the-following-lgus';
 import RevisionYear from '../../components/general-revision/revision-year';
 
 // redux
@@ -47,7 +48,7 @@ const LandRevision = () => {
         {
             'id' : '4',
             'title' : 'Applied to the following LGUs',
-            'tab' : <LCUV revisionYear={revisionYear}/>
+            'tab' : <AppliedToTheFollowingLgus revisionYear={revisionYear}/>
         },
     ]
 
