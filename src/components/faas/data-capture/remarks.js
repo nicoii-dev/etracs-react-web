@@ -26,7 +26,7 @@ const Remarks = (props) => {
                                     onBlur={onBlur}
                                     onChange={onChange}
                                     value={value}
-                                    errors={errors.remarks? true:false}
+                                    //errors={errors.remarks? true:false}
                                 />
                             )}
                         />

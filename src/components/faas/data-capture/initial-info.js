@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
     Box,
     Button,
@@ -10,38 +10,56 @@ import {
     TextField,
   } from '@mui/material';
 import { useForm, Controller } from "react-hook-form";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setPin } from '../../../redux/pin/action';
 
+// constants
 import Transactions from '../../../library/constants/faas/transactions';
+
+// redux
 import { fetchBarangayRedux } from '../../../redux/barangay/action';
+import { setRevisionYearRedux } from '../../../redux/revision-year/action';
 
 
 const InitialInfo = (props) => {
-    const { showModal, setShowModal, municipalityList, barangayList} = props;
-
+    const { showModal, setShowModal, revisionYearList, municipalityList, barangayList} = props;
     const dispatch = useDispatch();
-    const { control, handleSubmit, formState: { errors } } = useForm();
+    const { control, handleSubmit, formState: { errors }, setValue } = useForm();
 
-    const [barangay, setBarangay] = useState('-Select-');
-    const [barangayStatus, setBarangayStatus] = useState(false);
-    const faasInitialInformation = async (data) => {
-        const payload = ({...data, barangay})
-        if(barangay === '-Select-'){
-            setBarangayStatus(true);
+    const pinAdded = useSelector(state => state.pinData.pin);
+
+    const checkPinStatus = useCallback(() => {
+        if(pinAdded === null || pinAdded === undefined){
+            setShowModal(true)
         } else {
-            const PIN = barangay + '-' + String(data.section).padStart(3, '0') + "-" + String(data.parcel).padStart(2, '0')
-            setShowModal(!showModal)
-            dispatch(setPin(PIN))
+            setShowModal(false)
+        }
+    }, [pinAdded, setShowModal])
+    
+    useEffect(() => {
+        checkPinStatus();
+    }, [checkPinStatus]);
+
+
+    const faasInitialInformation = async (data) => {
+        // getting municipality data based on selected
+        await dispatch(setRevisionYearRedux(data.revisionYear))
+        let municipalityData = municipalityList.find(obj => { return obj.id.toString() === data.municipality_name.toString()})
+        //const payload = ({...data})
+
+        // creating pin
+        let PIN = "";
+        console.log(data)
+        if(data.pinType === 'new') {
+            PIN = municipalityData.parent_id + '-' + String(data.barangay).padStart(4, '0') + '-' + 
+                        String(data.section).padStart(3, '0') + "-" + String(data.parcel).padStart(2, '0')
+        } else {
+            PIN = municipalityData.parent_id + '-' + String(data.barangay).padStart(4, '0') + '-' + 
+                     String(data.parcel).padStart(2, '0') + '-' + String(data.section).padStart(3, '0')
         }
 
-    }
-
-    const onBarangayChange = (value) => {
-        setBarangay(value)
-        if(value !== '-Select-'){
-            setBarangayStatus(false)
-        }
+        setShowModal(!showModal)
+        dispatch(setPin(PIN))
     }
 
     return (
@@ -60,10 +78,20 @@ const InitialInfo = (props) => {
                                     defaultValue=""
                                     name={'pinType'}
                                     control={control}
+                                    rules={{
+                                        required: {
+                                            value: true,
+                                            message: 'Appraised date is required',
+                                        },
+                                        pattern: {
+                                            value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
+                                            message: 'Civil status is required',
+                                        }
+                                    }}
                                     render={({field: {onChange, onBlur, value}}) => (
                                         <TextField
                                         fullWidth
-                                        label="PIN type*"
+                                        label="PIN Type*"
                                         name="pinType"
                                         select
                                         SelectProps={{ native: true }}
@@ -71,8 +99,12 @@ const InitialInfo = (props) => {
                                         onBlur={onBlur}
                                         onChange={onChange}
                                         size='small'
+                                        error={errors.pinType ? true:false}
                                         value={value}
                                       >
+                                            <option key={'-Select-'} value={'-Select-'}>
+                                                -Select-
+                                            </option>
                                             <option key={"new"} value={"new"}>
                                                 NEW
                                             </option>
@@ -94,7 +126,7 @@ const InitialInfo = (props) => {
                                             message: 'Appraised date is required',
                                         },
                                         pattern: {
-                                            value: /^[^-]+(?!.*--).+[^-]+$/,
+                                            value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
                                             message: 'Civil status is required',
                                         }
                                     }}
@@ -129,11 +161,11 @@ const InitialInfo = (props) => {
                                     rules={{
                                         required: {
                                             value: true,
-                                            message: 'Appraised date is required',
+                                            message: 'revisionYear is required',
                                         },
                                         pattern: {
-                                            value: /^[^-]+(?!.*--).+[^-]+$/,
-                                            message: 'Civil status is required',
+                                            value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
+                                            message: 'revisionYear is required',
                                         }
                                     }}
                                     render={({field: {onChange, onBlur, value}}) => (
@@ -150,9 +182,12 @@ const InitialInfo = (props) => {
                                             value={value}
                                             error={errors.revisionYear ? true:false}
                                         >
-                                        {Transactions.map((option) => (
-                                            <option key={option.transaction} value={option.transaction}>
-                                                {option.transaction}
+                                            <option key={'-Select-'} value={'-Select-'}>
+                                                -Select-
+                                            </option>
+                                        {revisionYearList?.map((option) => (
+                                            <option key={option.revision_year} value={option.revision_year}>
+                                                {option.revision_year}
                                             </option>
                                         ))}
                                       </TextField>
@@ -170,7 +205,7 @@ const InitialInfo = (props) => {
                                             //message: 'Appraised date is required',
                                         },
                                         pattern: {
-                                            value:/[^a-zA-Z]/,
+                                            value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
                                            // message: 'Civil status is required',
                                         }
                                     }}
@@ -183,10 +218,10 @@ const InitialInfo = (props) => {
                                             SelectProps={{ native: true }}
                                             variant="outlined"
                                             onBlur={onBlur}
-                                            onChange={(e) => { 
+                                            onChange={ (e) => { 
                                                 onChange(e.target.value)
                                                 dispatch(fetchBarangayRedux(e.target.value))
-                                                onBarangayChange('-Select-')
+                                                setValue("barangay", "-Select-")
                                             }}
                                             size='small'
                                             value={value}
@@ -205,29 +240,45 @@ const InitialInfo = (props) => {
                                 />
                             </Grid>
                             <Grid item md={12} xs={12} style={{marginTop:-15}}>
-                                <TextField
-                                    fullWidth
-                                    label="Barangay"
-                                    name="barangay"
-                                    select
-                                    SelectProps={{ native: true }}
-                                    variant="outlined"
-                                    onChange={(e) => { 
-                                        onBarangayChange(e.target.value)
+                            <Controller
+                                    defaultValue=""
+                                    name={'barangay'}
+                                    control={control}
+                                    rules={{
+                                        required: {
+                                            value: true,
+                                            //message: 'Appraised date is required',
+                                        },
+                                        pattern: {
+                                            value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
+                                           // message: 'Civil status is required',
+                                        }
                                     }}
-                                    size='small'
-                                    value={barangay}
-                                    error={barangayStatus}
-                                >
-                                    <option key={'-Select-'} value={'-Select-'}>
-                                        -Select-
-                                    </option>
-                                {barangayList?.map((option) => (
-                                    <option key={option.lgu_name} value={option.pin}>
-                                        {option.lgu_name}
-                                    </option>
-                                ))}
-                                </TextField>
+                                    render={({field: {onChange, onBlur, value}}) => (
+                                        <TextField
+                                            fullWidth
+                                            label="Barangay*"
+                                            name="barangay"
+                                            select
+                                            SelectProps={{ native: true }}
+                                            variant="outlined"
+                                            onBlur={onBlur}
+                                            onChange={onChange}
+                                            size='small'
+                                            value={value}
+                                            error={errors.barangay ? true:false}
+                                        >
+                                            <option key={'-Select-'} value={'-Select-'}>
+                                                -Select-
+                                            </option>
+                                        {barangayList?.map((option) => (
+                                            <option key={option.lgu_name} value={option.id}>
+                                                {option.lgu_name}
+                                            </option>
+                                        ))}
+                                      </TextField>
+                                    )}
+                                />
 
                             </Grid>
                             <Grid item md={6} xs={6} style={{marginTop:-15}}>

@@ -27,6 +27,7 @@ const AppliedToTheFollowingLgus = (props) => {
     const [selected, setSelected] = useState(null);
 
     // filtering, getting data based on revision year
+    // eslint-disable-next-line eqeqeq
     const filteredLguList = lguList.filter(({lgu_name}) => !appliedToLguList.some(({lgu}) => lgu_name == lgu));
 
     const fetchData = useCallback( async () => {

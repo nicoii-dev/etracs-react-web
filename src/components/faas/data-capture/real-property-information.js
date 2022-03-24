@@ -7,14 +7,19 @@ import {
 } from '@mui/material';
 import Button from '@mui/material/Button';
 import FaasTextInputController from '../../input/faas-input';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { closeNav } from '../../../redux/nav/action';
 
 const RealPropertyInformation = ({
     errors,
     control,
     data,
-    pin
+    pin,
+    showAssessmentModal,
+    setShowAssessmentModal,
 }) => {
+    const dispatch = useDispatch();
+    const revisionYear = useSelector(state => state.revisionYearData.currentRevision);
 
     return (
         <Grid container spacing={3}>
@@ -231,17 +236,26 @@ const RealPropertyInformation = ({
                 <CardContent>
                     <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
-                            <Button color="primary" variant="contained" fullWidth>
+                            <Button 
+                                color="primary" 
+                                variant="contained" 
+                                fullWidth
+                                onClick={() => {
+                                    setShowAssessmentModal(!showAssessmentModal)
+                                    dispatch(closeNav(0))
+                                }}
+                            >
                                 Assessment Detail
                             </Button>
                         </Grid>
                         <Grid item md={12} xs={12} style={{marginTop:-15}}>
                             <FaasTextInputController
-                                defaultData={data?.revisionYear}
+                                defaultData={data?.revisionYear ? data?.revisionYear : revisionYear}
                                 label="Revision Year "
                                 name="revisionYear"
                                 variant="outlined"
                                 control={control}
+                                disabled={true}
                                 errorStatus={errors.revisionYear ? true:false}
                                 rules={{
                                     required: {
@@ -258,6 +272,7 @@ const RealPropertyInformation = ({
                                 name="classification"
                                 variant="outlined"
                                 control={control}
+                                disabled={true}
                                 errorStatus={errors.classification ? true:false}
                                 rules={{
                                     required: {
@@ -274,6 +289,7 @@ const RealPropertyInformation = ({
                                 name="marketValue"
                                 variant="outlined"
                                 control={control}
+                                disabled={true}
                                 errorStatus={errors.marketValue ? true:false}
                                 rules={{
                                     required: {
@@ -290,6 +306,7 @@ const RealPropertyInformation = ({
                                 name="assessedValue"
                                 variant="outlined"
                                 control={control}
+                                disabled={true}
                                 errorStatus={errors.assessedValue ? true:false}
                                 rules={{
                                     required: {
