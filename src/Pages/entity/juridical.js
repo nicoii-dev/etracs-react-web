@@ -15,7 +15,7 @@ import {
   updateJuridicalRedux,
   deleteJuridicalRedux,
   deleteMultipleJuridicalRedux,
-} from "../../redux/juridical/action";
+} from "../../redux/juridical/actions";
 
 const JuridicalPage = () => {
   const dispatch = useDispatch();
@@ -57,7 +57,6 @@ const JuridicalPage = () => {
   };
 
   const updateData = (_data) => {
-    console.log(_data);
     Swal.fire({
       title: "Do you want to update this data?",
       //showDenyButton: true,

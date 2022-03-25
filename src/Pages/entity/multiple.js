@@ -15,7 +15,7 @@ import {
   updateMultipleRedux,
   deleteMultipleRedux,
   deleteMultipleMultipleRedux,
-} from "../../redux/multiple/action";
+} from "../../redux/multiple/actions";
 
 const MultiplePage = () => {
   const dispatch = useDispatch();

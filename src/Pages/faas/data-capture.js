@@ -1,152 +1,170 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import Modal  from 'react-modal';
-import { useSelector, useDispatch } from 'react-redux';
-import { useForm, FormProvider} from "react-hook-form";
-import Swal from 'sweetalert2';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import React, { useState, useEffect, useCallback } from "react";
+import Modal from "react-modal";
+import { useSelector, useDispatch } from "react-redux";
+import { useForm, FormProvider } from "react-hook-form";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
 // components
-import InitialInfo from '../../components/faas/data-capture/initial-info';
-import GeneralInformation from '../../components/faas/data-capture/general-information';
-import OwnershipInformation from '../../components/faas/data-capture/ownership-information';
-import RealPropertyInformation from '../../components/faas/data-capture/real-property-information';
-import Remarks from '../../components/faas/data-capture/remarks';
-import AssessmentDetail from '../../components/faas/data-capture/assessment-detail';
+import InitialInfo from "../../components/faas/data-capture/initial-info";
+import GeneralInformation from "../../components/faas/data-capture/general-information";
+import OwnershipInformation from "../../components/faas/data-capture/ownership-information";
+import RealPropertyInformation from "../../components/faas/data-capture/real-property-information";
+import Remarks from "../../components/faas/data-capture/remarks";
+import AssessmentDetail from "../../components/faas/data-capture/assessment-detail";
 
 // redux
-import { fetchRevisionYearRedux } from '../../redux/revision-year/action';
+import { fetchRevisionYearRedux } from "../../redux/revision-year/action";
+import { fetchIndividualRedux } from "../../redux/individual/actions";
+import { fetchJuridicalRedux } from "../../redux/juridical/actions";
+import { fetchMultipleRedux } from "../../redux/multiple/actions";
 
 const DataCapturePage = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const methods = useForm();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = methods;
 
-    // global states
-    const revisionYearList = useSelector(state => state.revisionYearData.revisionYears);
-    const municipalityList = useSelector(state => state.municipalityCityData.municipalityCity);
-    const barangayList = useSelector(state => state.barangayData.barangay);
-    const pin = useSelector(state => state.pinData.pin)
-    const status = useSelector(state => state.navStatus.status)
+  // global states
+  const revisionYearList = useSelector(
+    (state) => state.revisionYearData.revisionYears
+  );
+  const municipalityList = useSelector(
+    (state) => state.municipalityCityData.municipalityCity
+  );
+  const barangayList = useSelector((state) => state.barangayData.barangay);
+  const pin = useSelector((state) => state.pinData.pin);
+  const status = useSelector((state) => state.navStatus.status);
+  const individualList = useSelector(
+    (state) => state.individualData.individuals
+  );
+  const juridicalList = useSelector((state) => state.juridicalData.juridicals);
+  const multipleList = useSelector((state) => state.multipleData.multiples);
+  
+  // states
+  const [showModal, setShowModal] = useState(true);
+  const [showAssessmentModal, setShowAssessmentModal] = useState(false);
+  const [entityList, setEntityList] = useState([]);
 
-    // states
-    const [showModal, setShowModal] = useState(true);
-    const [showAssessmentModal, setShowAssessmentModal] = useState(false);
+  const addDataCapture = (data) => console.log(data);
 
-    const methods = useForm();
-    const {handleSubmit, control, formState: { errors } } = methods;
-    const addDataCapture = data => console.log(data)
+  const fetchData = useCallback(async () => {
+    await dispatch(fetchRevisionYearRedux());
+    await dispatch(fetchIndividualRedux());
+    await dispatch(fetchJuridicalRedux());
+    await dispatch(fetchMultipleRedux());
+  }, [dispatch]);
 
-    const fetchData = useCallback(async () => {
-        await dispatch(fetchRevisionYearRedux())
-    }, [dispatch])
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
-    useEffect(() => {
-        fetchData();
-    }, [fetchData])
+  // after fetching data from api.
+  const mergeEntity = useCallback(() => {
+    setEntityList([].concat(individualList, juridicalList, multipleList));
+  },[individualList, juridicalList, multipleList])
 
-    return (
-        <>
-            <h2 style={{fontFamily:'-moz-initial'}}>Data Capture</h2>
-            <div>
-                <FormProvider {...methods}>
-                    <GeneralInformation
-                        errors={errors}
-                        control={control}
-                    />
-                    <OwnershipInformation 
-                        errors={errors}
-                        control={control}
-                    />
-                    <RealPropertyInformation
-                        pin={pin}
-                        errors={errors}
-                        control={control}
-                        showAssessmentModal={showAssessmentModal}
-                        setShowAssessmentModal={setShowAssessmentModal}
-                    />
+  useEffect(() => {
+    mergeEntity();
+  }, [mergeEntity]);
 
-                    <Remarks
-                        errors={errors}
-                        control={control}
-                    />
-                    
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'flex-end',
-                            p: 2,
-                        }}
-                    >
-                        <Button color="primary" variant="contained" onClick={handleSubmit(addDataCapture)}>
-                            Save details
-                        </Button>
-                       
-                    </Box>
+  return (
+    <>
+      <h2 style={{ fontFamily: "-moz-initial" }}>Data Capture</h2>
+      <div>
+        <FormProvider {...methods}>
+          <GeneralInformation errors={errors} control={control} />
+          <OwnershipInformation
+            errors={errors}
+            control={control}
+            entityList={entityList}
+          />
+          <RealPropertyInformation
+            pin={pin}
+            errors={errors}
+            control={control}
+            showAssessmentModal={showAssessmentModal}
+            setShowAssessmentModal={setShowAssessmentModal}
+          />
 
-                </FormProvider>
-            </div>
+          <Remarks errors={errors} control={control} />
 
-                        {/* Initial info modal */}
-                <Modal
-                    isOpen={showModal}
-                    //onRequestClose={() => {setShowModal(!showModal)}}
-                    contentLabel="Example Modal"
-                    onClose={() => setShowModal(!showModal)}
-                    ariaHideApp={false}
-                    style={{
-                        content: {
-                        top: '55%',
-                        marginLeft: !status ? '50%' : '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: '30%',
-                        height:'65%',
-                        },
-                        overlay: {
-                            zIndex:10
-                        }
-                    }}
-                >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              p: 2,
+            }}
+          >
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleSubmit(addDataCapture)}
+            >
+              Save details
+            </Button>
+          </Box>
+        </FormProvider>
+      </div>
 
-                    <InitialInfo
-                        showModal={showModal}
-                        setShowModal={setShowModal}
-                        revisionYearList={revisionYearList}
-                        municipalityList={municipalityList}
-                        barangayList={barangayList}
-                    />
+      {/* Initial info modal */}
+      <Modal
+        isOpen={showModal}
+        //onRequestClose={() => {setShowModal(!showModal)}}
+        contentLabel="Example Modal"
+        onClose={() => setShowModal(!showModal)}
+        ariaHideApp={false}
+        style={{
+          content: {
+            top: "55%",
+            marginLeft: !status ? "50%" : "50%",
+            transform: "translate(-50%, -50%)",
+            width: "30%",
+            height: "65%",
+          },
+          overlay: {
+            zIndex: 10,
+          },
+        }}
+      >
+        <InitialInfo
+          showModal={showModal}
+          setShowModal={setShowModal}
+          revisionYearList={revisionYearList}
+          municipalityList={municipalityList}
+          barangayList={barangayList}
+        />
+      </Modal>
 
-                </Modal>
-
-                    {/* Assessment detail modal */}
-                <Modal
-                    isOpen={showAssessmentModal}
-                    onRequestClose={() => {setShowAssessmentModal(!showAssessmentModal)}}
-                    contentLabel="Example Modal"
-                    onClose={() => setShowAssessmentModal(!showAssessmentModal)}
-                    ariaHideApp={false}
-                    style={{
-                        content: {
-                        top: '55%',
-                        marginLeft: !status ? '50%' : '50%',
-                        transform: 'translate(-50%, -50%)',
-                        width: '70%',
-                        height:'80%',
-                        },
-                        overlay: {
-                            zIndex:10
-                        }
-                    }}
-                >
-
-                    <AssessmentDetail
-                   
-                    />
-
-                </Modal>
-
-        </>
-
-    );
+      {/* Assessment detail modal */}
+      <Modal
+        isOpen={showAssessmentModal}
+        onRequestClose={() => {
+          setShowAssessmentModal(!showAssessmentModal);
+        }}
+        contentLabel="Example Modal"
+        onClose={() => setShowAssessmentModal(!showAssessmentModal)}
+        ariaHideApp={false}
+        style={{
+          content: {
+            top: "55%",
+            marginLeft: !status ? "50%" : "50%",
+            transform: "translate(-50%, -50%)",
+            width: "70%",
+            height: "80%",
+          },
+          overlay: {
+            zIndex: 10,
+          },
+        }}
+      >
+        <AssessmentDetail />
+      </Modal>
+    </>
+  );
 };
 
 export default DataCapturePage;

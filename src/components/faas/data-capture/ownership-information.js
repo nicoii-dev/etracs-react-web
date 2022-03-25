@@ -8,12 +8,16 @@ import {
 import { Controller } from 'react-hook-form';
 
 import FaasTextInputController from '../../input/faas-input';
+import OwnerSearchComponent from './owner-search-component';
 
 const OwnershipInformation = ({
     errors,
     control,
-    data
+    data,
+    entityList
 }) => {
+    console.log(entityList)
+
     return (
         <Grid container spacing={3}>
             <Grid item md={12} xs={12}>
@@ -27,7 +31,8 @@ const OwnershipInformation = ({
                 <CardContent>
                     <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
-                            <FaasTextInputController
+                            <OwnerSearchComponent />
+                            {/* <FaasTextInputController
                                 defaultData={data?.owner}
                                 label="Owner* "
                                 name="owner"
@@ -40,7 +45,7 @@ const OwnershipInformation = ({
                                     message: 'Owner is required',
                                     },
                                 }}
-                            />
+                            /> */}
                         </Grid>
                         <Grid item md={12} xs={12} style={{marginTop:-15}}>
                             <FaasTextInputController
