@@ -19,16 +19,17 @@ import EnhancedTableHead from '../enhanced-table-head';
 import EnhancedTableToolbar from '../enhanced-table-toolbar';
 
 const JuridicalTable = ({
-  juridical,
+  juridicalList,
   setData,
   open,
   setOpen,
   setSelectedToDelete,
-  deleteData
+  deleteData,
+  selected,
+  setSelected,
 }) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
-  const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -111,11 +112,11 @@ function descendingComparator(a, b, orderBy) {
   }
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - juridical?.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - juridicalList?.length) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
-        {juridical ?
+        {juridicalList ?
           <div>
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <EnhancedTableToolbar 
@@ -136,13 +137,13 @@ function descendingComparator(a, b, orderBy) {
                         order={order}
                         orderBy={orderBy}
                         onRequestSort={handleRequestSort}
-                        rowCount={juridical?.length}
-                        tableHead={juridical}
+                        rowCount={juridicalList?.length}
+                        tableHead={juridicalList}
                     />
                     <TableBody>
                     {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                         rows.slice().sort(getComparator(order, orderBy)) */}
-                    {stableSort(juridical, getComparator(order, orderBy))
+                    {stableSort(juridicalList, getComparator(order, orderBy))
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row, index) => {
                         const isItemSelected = isSelected(row.id);
@@ -210,7 +211,7 @@ function descendingComparator(a, b, orderBy) {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={juridical.length}
+                    count={juridicalList.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

@@ -1,11 +1,11 @@
-import * as actionTypes from './actionTypes';
-import JuridicalApi from '../../library/api/juridical-api';
+import * as actionTypes from './actionTypes'
+import MultipleApi from '../../library/api/multiple-api';
 import Swal from "sweetalert2";
 
-export const fetchJuridicalRedux = () => {
+export const fetchMultipleRedux = () => {
   return async (dispatch) => {
     try {
-      const response = await JuridicalApi.getJuridical();
+      const response = await MultipleApi.getMultiple();
       if(response === '422' || response === '500' || response === '404'){
         Swal.fire({
           icon: 'error',
@@ -15,7 +15,7 @@ export const fetchJuridicalRedux = () => {
         return;
       } else {
         dispatch({
-          type: actionTypes.FETCH_JURIDICALS, 
+          type: actionTypes.FETCH_MULTIPLE, 
           payload: response
         })
       }
@@ -25,10 +25,10 @@ export const fetchJuridicalRedux = () => {
   }
 }
 
-export const storeJuridicalRedux = (payload) => {
+export const storeMultipleRedux = (payload) => {
   return async (dispatch) => {
     try {
-      const response = await JuridicalApi.storeJuridical(payload);
+      const response = await MultipleApi.storeMultiple(payload);
       if(response === '422' || response === '500' || response === '404'){
         Swal.fire({
           icon: 'error',
@@ -39,7 +39,7 @@ export const storeJuridicalRedux = (payload) => {
       } else {
         Swal.fire('Saved!', '', 'success');
         dispatch({
-          type: actionTypes.STORE_JURIDICALS, 
+          type: actionTypes.STORE_MULTIPLE, 
           payload: response
         })
       }
@@ -50,10 +50,10 @@ export const storeJuridicalRedux = (payload) => {
   }
 }
 
-export const updateJuridicalRedux = (payload, id) => {
+export const updateMultipleRedux = (payload, id) => {
   return async (dispatch) => {
     try {
-      const response = await JuridicalApi.updateJuridical(payload, id);
+      const response = await MultipleApi.updateMultiple(payload, id);
       if(response === '422' || response === '500' || response === '404'){
         Swal.fire({
           icon: 'error',
@@ -68,7 +68,7 @@ export const updateJuridicalRedux = (payload, id) => {
           'success'
         );
         dispatch({
-          type: actionTypes.UPDATE_JURIDICALS, 
+          type: actionTypes.UPDATE_MULTIPLE, 
           payload: response
         })
       }
@@ -82,7 +82,7 @@ export const updateJuridicalRedux = (payload, id) => {
   }
 }
 
-export const deleteJuridicalRedux = (id) => {
+export const deleteMultipleRedux = (id) => {
   return async (dispatch) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -95,7 +95,7 @@ export const deleteJuridicalRedux = (id) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await JuridicalApi.deleteJuridical(id)
+          const response = await MultipleApi.deleteMultiple(id)
           if(response === '422' || response === '500' || response === '404'){
             Swal.fire({
               icon: 'error',
@@ -110,7 +110,7 @@ export const deleteJuridicalRedux = (id) => {
               'success'
             )
             dispatch({
-              type: actionTypes.DELETE_JURIDICALS, 
+              type: actionTypes.DELETE_MULTIPLE, 
               payload: response
             })
           }
@@ -126,7 +126,7 @@ export const deleteJuridicalRedux = (id) => {
   }
 }
 
-export const deleteMultipleJuridicalRedux = (payload) => {
+export const deleteMultipleMultipleRedux = (payload) => {
   return async (dispatch) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -139,7 +139,7 @@ export const deleteMultipleJuridicalRedux = (payload) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await JuridicalApi.multipleDeleteJuridical(payload)
+          const response = await MultipleApi.multipleDeleteMultiple(payload)
           if(response === '422' || response === '500' || response === '404'){
             Swal.fire({
               icon: 'error',
@@ -154,7 +154,7 @@ export const deleteMultipleJuridicalRedux = (payload) => {
               'success'
             )
             dispatch({
-              type: actionTypes.DELETE_MULTIPLE_JURIDICALS, 
+              type: actionTypes.DELETE_MULTIPLE_MULTIPLE, 
               payload: response
             })
           }

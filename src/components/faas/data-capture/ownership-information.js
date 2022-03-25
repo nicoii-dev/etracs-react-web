@@ -5,6 +5,7 @@ import {
     Grid,
     TextField,
   } from '@mui/material';
+import { Controller } from 'react-hook-form';
 
 import FaasTextInputController from '../../input/faas-input';
 
@@ -85,6 +86,7 @@ const OwnershipInformation = ({
                                 label="Address* "
                                 name="address"
                                 variant="outlined"
+                                disabled={true}
                                 control={control}
                                 errorStatus={errors.address ? true:false}
                                 rules={{

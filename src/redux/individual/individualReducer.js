@@ -1,21 +1,39 @@
-import * as actionTypes from './actionTypes'
+import * as actionTypes from "./actionTypes";
 
 const initialState = {
-    individuals: [],
-    loading: false,
-}
+  individuals: [],
+};
 
 const IndividualReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case actionTypes.GET_INDIVIDUALS_SUCCESS:
-            return {
-                ...state,
-                individuals: [...state.individuals, action.payload]
-            }
-        default:
-            return state;
-    }
-}
-
+  switch (action.type) {
+    case actionTypes.FETCH_INDIVIDUALS:
+      return {
+        ...state,
+        individuals: action.payload,
+      };
+    case actionTypes.STORE_INDIVIDUALS:
+      return {
+        ...state,
+        individuals: action.payload,
+      };
+    case actionTypes.UPDATE_INDIVIDUALS:
+      return {
+        ...state,
+        individuals: action.payload,
+      };
+    case actionTypes.DELETE_INDIVIDUALS:
+      return {
+        ...state,
+        individuals: action.payload,
+      };
+    case actionTypes.DELETE_MULTIPLE_INDIVIDUALS:
+      return {
+        ...state,
+        individuals: action.payload,
+      };
+    default:
+      return state;
+  }
+};
 
 export default IndividualReducer;
