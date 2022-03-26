@@ -1,8 +1,7 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import {
     Box,
     Button,
-    Card,
     CardContent,
     CardHeader,
     Divider,
@@ -240,7 +239,7 @@ const InitialInfo = (props) => {
                                 />
                             </Grid>
                             <Grid item md={12} xs={12} style={{marginTop:-15}}>
-                            <Controller
+                                <Controller
                                     defaultValue=""
                                     name={'barangay'}
                                     control={control}

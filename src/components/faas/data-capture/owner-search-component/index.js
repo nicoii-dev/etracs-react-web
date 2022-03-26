@@ -1,51 +1,43 @@
 import React, {useState} from "react";
-import ReactDOM from "react-dom";
-import { Component } from 'react';
-import { jsx } from '@emotion/core';
 import Button from '@atlaskit/button';
-
 import Select from 'react-select';
-import { defaultTheme } from 'react-select';
-
-const options = [
-  {value: '1', label: 'Item 1'},
-  {value: '2', label: 'Item 2'},
-  {value: '3', label: 'Item 3'},
-  {value: '4', label: 'Item 4'},
-  {value: '5', label: 'Item 5'},
-  {value: '6', label: 'Item 6'},
-  {value: '7', label: 'Item 7'},
-]
-
-const { colors } = defaultTheme;
+// import { defaultTheme } from 'react-select';
 
 const selectStyles = {
   control: provided => ({ ...provided, minWidth: 240, margin: 8 }),
-  menu: () => ({ boxShadow: 'inset 0 1px 0 rgba(0, 0, 0, 0.1)' }),
+  menu: () => ({ boxShadow: 'inset 0 1px 0 rgba(0, 0, 0, 0.1)', opacity: 1, }),
+  menu: base => ({
+    ...base,
+    zIndex: 100
+  })
 };
 
-const OwnerSearchComponent = () => {
+const OwnerSearchComponent = (props) => {
+  const {entityList, setOwnerData} = props
   const [isOpen, setIsOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [selectValue, setSelectValue] = useState(null);
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
   const onSelectChange = value => {
+    console.log(value)
     toggleOpen();
-    setValue(value)
+    setSelectValue(value)
+    setOwnerData(value)
   };
     return (
       <Dropdown
         isOpen={isOpen}
-        onClose={this.toggleOpen}
+        onClose={toggleOpen}
         target={
           <Button
             iconAfter={<ChevronDown />}
-            onClick={this.toggleOpen}
+            onClick={toggleOpen}
             isSelected={isOpen}
+            style={{width: '100%', textAlign: 'left', height: 40}}
           >
-            {value ? `State: ${value.label}` : 'Select a State'}
+            {selectValue ? `owner: ${selectValue.label}` : 'Select owner'}
           </Button>
         }
       >
@@ -58,11 +50,11 @@ const OwnerSearchComponent = () => {
           isClearable={false}
           menuIsOpen
           onChange={onSelectChange}
-          options={options}
+          options={entityList}
           placeholder="Search..."
           styles={selectStyles}
           tabSelectsValue={false}
-          value={value}
+          value={selectValue}
         />
       </Dropdown>
     );
@@ -119,7 +111,7 @@ const Svg = p => (
   />
 );
 const DropdownIndicator = () => (
-  <div css={{ color: colors.neutral20, height: 24, width: 32 }}>
+  <div css={{ color: 'blue', height: 24, width: 32 }}>
     <Svg>
       <path
         d="M16.436 15.085l3.94 4.01a1 1 0 0 1-1.425 1.402l-3.938-4.006a7.5 7.5 0 1 1 1.423-1.406zM10.5 16a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11z"

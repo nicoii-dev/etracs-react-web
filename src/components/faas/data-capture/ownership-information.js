@@ -1,141 +1,155 @@
-import React from 'react';
+import React, {useEffect, useCallback } from 'react';
 import {
     CardContent,
     Divider,
     Grid,
-    TextField,
-  } from '@mui/material';
-import { Controller } from 'react-hook-form';
-
-import FaasTextInputController from '../../input/faas-input';
+    TextField
+} from '@mui/material';
+import {Controller, useFormContext } from 'react-hook-form';
 import OwnerSearchComponent from './owner-search-component';
 
 const OwnershipInformation = ({
     errors,
     control,
     data,
-    entityList
+    entityList,
+    ownerData,
+    setOwnerData
 }) => {
-    console.log(entityList)
+    const methods = useFormContext();
+
+    const setData = useCallback(() => {
+        methods.setValue("declaredOwner", ownerData.label) // settings the value of fields using method
+        methods.setValue("address", ownerData.address)
+        methods.setValue("address", ownerData.address)
+        methods.setValue("declaredOwnerAddress", ownerData.address)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ownerData.address, ownerData.label]);
+
+    useEffect(() => {
+        setData();
+    }, [setData])
 
     return (
         <Grid container spacing={3}>
             <Grid item md={12} xs={12}>
-            <Divider textAlign="left">
-                    <p style={{fontSize:20}}>
+                <Divider textAlign="left">
+                    <p style={{ fontSize: 20 }}>
                         Ownership Information
                     </p>
                 </Divider>
             </Grid>
-            <Grid item md={6} xs={12} style={{marginTop:-50}}>
+            <Grid item md={6} xs={12} style={{ marginTop: -50 }}>
                 <CardContent>
                     <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
-                            <OwnerSearchComponent />
-                            {/* <FaasTextInputController
-                                defaultData={data?.owner}
-                                label="Owner* "
-                                name="owner"
-                                variant="outlined"
-                                control={control}
-                                errorStatus={errors.owner ? true:false}
-                                rules={{
-                                    required: {
-                                    value: true,
-                                    message: 'Owner is required',
-                                    },
-                                }}
-                            /> */}
+                            <OwnerSearchComponent entityList={entityList} setOwnerData={setOwnerData} />
                         </Grid>
-                        <Grid item md={12} xs={12} style={{marginTop:-15}}>
-                            <FaasTextInputController
-                                defaultData={data?.declaredOwner}
-                                label="Declared Owner* "
-                                name="declaredOwner"
-                                variant="outlined"
+                        <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
+                            <Controller
+                                defaultValue=""
+                                name={'declaredOwner'}
                                 control={control}
-                                errorStatus={errors.declaredOwner ? true:false}
                                 rules={{
                                     required: {
-                                    value: true,
-                                    message: 'Declared Owner is required',
+                                        value: true,
+                                        //message: 'Appraised date is required',
                                     },
+                                    pattern: {
+                                        value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
+                                        // message: 'Civil status is required',
+                                    }
                                 }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextField
+                                        fullWidth
+                                        label="Declared owner*"
+                                        name="declaredOwner"
+                                        variant="outlined"
+                                        onBlur={onBlur}
+                                        onChange={(e) => {
+                                            onChange(e.target.value)
+                                        }}
+                                        size='small'
+                                        value={value}
+                                        error={errors.declaredOwner ? true : false}
+                                    />
+                                )}
                             />
                         </Grid>
-                        <Grid item md={12} xs={12} style={{marginTop:-15}}>
-                            <FaasTextInputController
-                                defaultData={data?.administrator}
-                                label="Administrator"
-                                name="administrator"
-                                variant="outlined"
-                                control={control}
-                                errorStatus={errors.administrator ? true:false}
-                                rules={{
-                                    required: {
-                                    value: false,
-                                    message: 'Administrator is required',
-                                    },
-                                }}
-                            />
-                        </Grid>
-                    </Grid>                    
+                    </Grid>
                 </CardContent>
             </Grid>
-            <Grid item md={6} xs={12} style={{marginTop:-50}}>
+            <Grid item md={6} xs={12} style={{ marginTop: -50 }}>
                 <CardContent>
                     <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
-                            <FaasTextInputController
-                                defaultData={data?.address}
-                                label="Address* "
-                                name="address"
-                                variant="outlined"
-                                disabled={true}
+                            <Controller
+                                defaultValue=""
+                                name={'address'}
                                 control={control}
-                                errorStatus={errors.address ? true:false}
                                 rules={{
                                     required: {
-                                    value: true,
-                                    message: 'Address is required',
+                                        value: true,
+                                        //message: 'Appraised date is required',
                                     },
+                                    pattern: {
+                                        value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
+                                        // message: 'Civil status is required',
+                                    }
                                 }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextField
+                                        fullWidth
+                                        label="Address*"
+                                        name="address"
+                                        variant="outlined"
+                                        onBlur={onBlur}
+                                        disabled
+                                        onChange={(e) => {
+                                            onChange(e.target.value)
+                                        }}
+                                        size='small'
+                                        value={value}
+                                        error={errors.address ? true : false}
+                                    />
+                                )}
                             />
                         </Grid>
-                        <Grid item md={12} xs={12} style={{marginTop:-15}}>
-                            <FaasTextInputController
-                                defaultData={data?.declaredOwnerAddress}
-                                label="Declared Owner address* "
-                                name="declaredOwnerAddress"
-                                variant="outlined"
+                        <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
+                            <Controller
+                                defaultValue=""
+                                name={'declaredOwnerAddress'}
                                 control={control}
-                                errorStatus={errors.declaredOwnerAddress ? true:false}
                                 rules={{
                                     required: {
-                                    value: true,
-                                    message: 'Declared Owner address is required',
+                                        value: true,
+                                        //message: 'Appraised date is required',
                                     },
+                                    pattern: {
+                                        value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
+                                        // message: 'Civil status is required',
+                                    }
                                 }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextField
+                                        fullWidth
+                                        label="Declared owner address*"
+                                        name="declaredOwnerAddress"
+                                        variant="outlined"
+                                        onBlur={onBlur}
+                                        onChange={(e) => {
+                                            onChange(e.target.value)
+                                        }}
+                                        size='small'
+                                        value={value}
+                                        error={errors.declaredOwnerAddress ? true : false}
+                                    />
+                                )}
                             />
                         </Grid>
-                        <Grid item md={12} xs={12} style={{marginTop:-15}}>
-                            <FaasTextInputController
-                                defaultData={data?.administratorAddress}
-                                label="Administrator address"
-                                name="administratorAddress"
-                                variant="outlined"
-                                control={control}
-                                errorStatus={errors.administratorAddress ? true:false}
-                                rules={{
-                                    required: {
-                                    value: false,
-                                    message: 'Administrator address is required',
-                                    },
-                                }}
-                            />
-                        </Grid>
-                    </Grid>                    
-                </CardContent>               
+                    </Grid>
+                </CardContent>
             </Grid>
         </Grid>
     );

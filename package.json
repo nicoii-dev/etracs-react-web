@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@atlaskit/button": "^16.2.1",
     "@date-io/date-fns": "^2.13.1",
     "@emotion/core": "^11.0.0",
     "@emotion/react": "^11.7.1",
@@ -43,6 +44,7 @@
     "react-responsive-modal": "^6.2.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "react-select": "^5.2.2",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
