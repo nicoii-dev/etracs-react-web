@@ -89,7 +89,7 @@ const AddEditAssessmentLevels = ({
                                     }}
                                 />
                             </Grid>
-                            <Controller
+                            {/* <Controller
                                 defaultValue={data?.fix === "1" ? true:false}
                                 name={'fix'}
                                 control={control}
@@ -116,7 +116,7 @@ const AddEditAssessmentLevels = ({
                                         />
                                     </Grid>
                                 )}
-                            />
+                            /> */}
                             <Grid item md={12} xs={12} style={{marginTop:-15}}>
                                 <TextInputController
                                     defaultData={data?.class}

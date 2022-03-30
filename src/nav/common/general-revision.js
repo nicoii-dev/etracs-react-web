@@ -31,7 +31,7 @@ const GeneralRevisionNav = ({open}) => {
             <ListItemButton onClick={() =>{setExpand(!expand)}}>
                 <ListItemIcon
                     style={{
-                        color: currentLocation.includes('generalrevision') ? '#0066CC' : null,
+                        color: currentLocation.includes('generalrevision') ? '#66B2FF' : 'white',
                         fontWeight:'bold',
                         fontSize:50
                     }}
@@ -40,7 +40,7 @@ const GeneralRevisionNav = ({open}) => {
                 </ListItemIcon>
                 <p             
                     style={{
-                        color: currentLocation.includes('generalrevision') ? '#0066CC' : null,
+                        color: currentLocation.includes('generalrevision') ? '#66B2FF' : 'white',
                         fontWeight:'bolder', 
                         fontSize:15,
                         fontFamily:'revert',
@@ -53,15 +53,15 @@ const GeneralRevisionNav = ({open}) => {
                 {expand ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={expand} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding style={{marginLeft: open ? 30 : -15}}>
+                <List component="div" disablePadding style={{marginLeft: open ? 30 : -15, color: 'white'}}>
                     <NavItem 
                         link={'generalrevision/land'}
-                        icon={<Terrain />}
+                        icon={<Terrain style={{color: 'white'}}/>}
                         title={'Land'}
                     />
                     <NavItem 
                         link={'generalrevision/building'}
-                        icon={<Apartment />}
+                        icon={<Apartment style={{color: 'white'}}/>}
                         title={'Building'}
                     />
                 </List>

@@ -31,7 +31,7 @@ const _Layout = ({props}) => {
                 style={{
                     marginLeft: expanded ? 320 : 64,
                     padding: '15px 20px 0 20px',
-                    marginTop: '2%'
+                    marginTop: '2%',
                 }}
             >
                <Outlet />

@@ -61,14 +61,13 @@ const AssessmentTable = (props) => {
                                 <TableCell align='center'>Action</TableCell>
                                 <TableCell align='left'>Code</TableCell>
                                 <TableCell align='left'>Name</TableCell>
-                                <TableCell align='left'>Fix?</TableCell>
+                                {/* <TableCell align='left'>Fix?</TableCell> */}
                                 <TableCell align='right'>Rate (%)</TableCell>
                                 <TableCell align='right'>Class</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {filteredAssessmentLevels?.map((row) => {
-                                //const isItemSelected = isSelected(row.id);
                                 return(
                                     <TableRow
                                         hover
@@ -94,12 +93,12 @@ const AssessmentTable = (props) => {
                                         </TableCell>
                                         <TableCell align='left'>{row.code.toUpperCase()}</TableCell>
                                         <TableCell align='left'>{row.name.length > 20 ? row.name.substring(0, 20).toUpperCase() + "..." : row.name.toUpperCase()}</TableCell>
-                                        <TableCell padding="checkbox">
+                                        {/* <TableCell padding="checkbox">
                                             <Checkbox
                                                 checked={checked[row.fix]}
                                                 disabled={true}
                                             />
-                                        </TableCell>
+                                        </TableCell> */}
                                         <TableCell align='right'>
                                             {/* <TextField
                                                 id="standard-size-small"
@@ -112,9 +111,11 @@ const AssessmentTable = (props) => {
                                                 style={{width:50}}
                                                 align="center"
                                             /> */}
-                                            {row.rate}
+                                            
+                                            {/* DISPLAYING 2 ZEROS AFTER THE WHOLE NUMBER */}
+                                            {parseInt(row.rate).toFixed(2)}
                                         </TableCell>
-                                        <TableCell align='right'>{row.class}</TableCell>
+                                        <TableCell align='right'>{row.class.toUpperCase()}</TableCell>
                                     </TableRow>
                                 )
                             })}

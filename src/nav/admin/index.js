@@ -21,7 +21,7 @@ const AdminPageList = ({open}) => {
     const currentLocation = location.pathname.toLowerCase();
 
     return (
-        <div>
+        <div style={{ backgroundColor:'#000033'}}>
           <List
             component="nav"
             aria-labelledby="nested-list-subheader"
@@ -30,7 +30,7 @@ const AdminPageList = ({open}) => {
                 <ListItem button key={'Dashboard'} onClick={() => {navigate('dashboard')}}>
                     <ListItemIcon
                       style={{
-                        color: currentLocation.includes('dashboard') ? '#0066CC' : null,
+                        color: currentLocation.includes('dashboard') ? '#66B2FF' : 'white',
                         fontWeight:'bold',
                         fontSize:50
                         }}
@@ -39,7 +39,7 @@ const AdminPageList = ({open}) => {
                     </ListItemIcon>
                     <p        
                       style={{
-                          color: currentLocation.includes('dashboard') ? '#0066CC' : null,
+                          color: currentLocation.includes('dashboard') ? '#66B2FF' : 'white',
                           fontWeight:'bolder', 
                           fontSize:15,
                           fontFamily:'revert',
@@ -61,7 +61,7 @@ const AdminPageList = ({open}) => {
               <ListItem button onClick={() => {navigate('account')}}>
                 <ListItemIcon
                   style={{
-                    color: currentLocation.includes('account') ? '#0066CC' : null,
+                    color: currentLocation.includes('account') ? '#0066CC' : 'white',
                     fontWeight:'bold',
                     fontSize:50
                     }}
@@ -70,7 +70,7 @@ const AdminPageList = ({open}) => {
                 </ListItemIcon>
                   <p        
                     style={{
-                        color: currentLocation.includes('account') ? '#0066CC' : null,
+                        color: currentLocation.includes('account') ? '#0066CC' : 'white',
                         fontWeight:'bolder', 
                         fontSize:15,
                         fontFamily:'revert',

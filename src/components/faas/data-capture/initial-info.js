@@ -114,7 +114,7 @@ const InitialInfo = (props) => {
                                     )}
                                 />
                             </Grid>
-                            <Grid item md={12} xs={12} style={{marginTop:-15}}>
+                            {/* <Grid item md={12} xs={12} style={{marginTop:-15}}>
                                 <Controller
                                     defaultValue=""
                                     name={'transaction'}
@@ -151,7 +151,7 @@ const InitialInfo = (props) => {
                                       </TextField>
                                     )}
                                 />
-                            </Grid>                            
+                            </Grid>                             */}
                             <Grid item md={12} xs={12} style={{marginTop:-15}}>
                                 <Controller
                                     defaultValue=""

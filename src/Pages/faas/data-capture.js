@@ -174,9 +174,9 @@ const DataCapturePage = () => {
                 style={{
                     content: {
                         top: "55%",
-                        marginLeft: !status ? "50%" : "50%",
+                        marginLeft: '50%',
                         transform: "translate(-50%, -50%)",
-                        width: "70%",
+                        width: '65%',
                         height: "80%",
                     },
                     overlay: {
@@ -184,7 +184,10 @@ const DataCapturePage = () => {
                     },
                 }}
             >
-                <AssessmentDetail />
+                <AssessmentDetail 
+                    control={control}
+                    errors={errors}
+                />
             </Modal>
         </>
     );

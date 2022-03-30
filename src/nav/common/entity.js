@@ -30,10 +30,10 @@ const EntityNav = ({open}) => {
 
     return (
         <div>
-            <ListItemButton onClick={() =>{setExpand(!expand)}}>
+            <ListItemButton onClick={() =>{setExpand(!expand)}} style={{color: 'white'}}>
                 <ListItemIcon
                   style={{
-                    color: currentLocation.includes('entity') ? '#0066CC' : null,
+                    color: currentLocation.includes('entity') ? '#66B2FF' : 'white',
                     fontWeight:'bold',
                     fontSize:50
                     }}>
@@ -41,7 +41,7 @@ const EntityNav = ({open}) => {
                 </ListItemIcon>
                 <p             
                     style={{
-                        color: currentLocation.includes('entity') ? '#0066CC' : null,
+                        color: currentLocation.includes('entity') ? '#66B2FF' : 'white',
                         fontWeight:'bolder', 
                         fontSize:15,
                         fontFamily:'revert',
@@ -53,26 +53,26 @@ const EntityNav = ({open}) => {
                 </p>
                 {expand ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
-            <Collapse in={expand} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding style={{marginLeft: open ? 30 : -15}}>
+            <Collapse in={expand} timeout="auto" unmountOnExit >
+                <List component="div" disablePadding style={{marginLeft: open ? 30 : -15, color: 'white'}}>
                     <NavItem 
                         link={'entity/individual'}
-                        icon={<AccountCircle />}
+                        icon={<AccountCircle style={{color: 'white'}}/>}
                         title={'Individual'}
                     />
                     <NavItem 
                         link={'entity/juridical'}
-                        icon={<AssignmentInd />}
+                        icon={<AssignmentInd style={{color: 'white'}}/>}
                         title={'Juridical'}
                     />
                     <NavItem 
                         link={'entity/multiple'}
-                        icon={<PeopleAlt />}
+                        icon={<PeopleAlt style={{color: 'white'}}/>}
                         title={'Multiple'}
                     />
                     <NavItem 
                         link={'entity/reconcile'}
-                        icon={<CoPresent />}
+                        icon={<CoPresent style={{color: 'white'}}/>}
                         title={'Reconcile'}
                     />
                 </List>

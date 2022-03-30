@@ -32,7 +32,7 @@ const UtilitiesNav = ({open}) => {
             <ListItemButton onClick={() =>{setExpand(!expand)}}>
                 <ListItemIcon
                     style={{
-                        color: currentLocation.includes('utilities') ? '#0066CC' : null,
+                        color: currentLocation.includes('utilities') ? '#66B2FF' : 'white',
                         fontWeight:'bold',
                         fontSize:50
                     }}
@@ -41,7 +41,7 @@ const UtilitiesNav = ({open}) => {
                 </ListItemIcon>
                 <p             
                     style={{
-                        color: currentLocation.includes('utilities') ? '#0066CC' : null,
+                        color: currentLocation.includes('utilities') ? '#66B2FF' : 'white',
                         fontWeight:'bolder', 
                         fontSize:15,
                         fontFamily:'revert',
@@ -54,15 +54,15 @@ const UtilitiesNav = ({open}) => {
                 {expand ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={expand} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding style={{marginLeft: open ? 30 : -15}}>
+                <List component="div" disablePadding style={{marginLeft: open ? 30 : -15, color: 'white'}}>
                     <NavItem 
                         link={'utilities/modifypin'}
-                        icon={<FiberPin />}
+                        icon={<FiberPin style={{color: 'white'}}/>}
                         title={'Modify PIN'}
                     />
                     <NavItem 
                         link={'utilities/municipality-city'}
-                        icon={<LocationCity />}
+                        icon={<LocationCity style={{color: 'white'}}/>}
                         title={'Municipality/City'}
                     />
                 </List>

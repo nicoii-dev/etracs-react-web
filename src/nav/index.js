@@ -21,6 +21,7 @@ import { closeNav, openNav } from '../redux/nav/action';
   
   const openedMixin = (theme) => ({
     width: drawerWidth,
+    backgroundColor: '#000033',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -29,6 +30,7 @@ import { closeNav, openNav } from '../redux/nav/action';
   });
   
   const closedMixin = (theme) => ({
+    backgroundColor: '#000033',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -106,9 +108,9 @@ import { closeNav, openNav } from '../redux/nav/action';
     };
   
     return (
-      <Box sx={{ display: 'flex', }} component="nav">
+      <Box sx={{display: 'flex'}} component="nav">
         <CssBaseline />
-          <AppBar position='fixed' open={open} style={{zIndex:100}}>
+          {/* <AppBar position='fixed' open={open} style={{zIndex:100,}}>
             <Toolbar>
               <IconButton
                 color="inherit"
@@ -126,14 +128,14 @@ import { closeNav, openNav } from '../redux/nav/action';
                 <MenuListComposition />
               </div>
             </Toolbar>
-          </AppBar>
-        <Drawer variant="permanent" open={open} style={{zIndex: 99}}>
-          <DrawerHeader>
-            <Typography variant="h6" noWrap component="div" style={{width:'100%', fontWeight:'bold'}}>
-              ETRACS
+          </AppBar> */}
+        <Drawer variant="permanent" open={open} style={{zIndex: 99, backgroundColor:'#202020'}}>
+          <DrawerHeader style={{ alignItems: 'center', justifyContent: 'center'}}>
+            <Typography variant="h4" noWrap component="div" style={{width:'100%', color: 'white', marginLeft: 20, fontFamily: 'Manrope-Extrabold'}}>
+            {open ? "ETRACS" : null}
             </Typography>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            <IconButton onClick={handleDrawerClose} style={{color: 'white', marginRight: 20}}>
+              {open ? <ChevronLeftIcon /> : <MenuIcon />}
             </IconButton>
           </DrawerHeader>
           <Divider />

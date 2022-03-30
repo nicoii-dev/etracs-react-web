@@ -32,7 +32,7 @@ const FaasNav = ({open}) => {
             <ListItemButton onClick={() =>{setExpand(!expand)}}>
                 <ListItemIcon
                     style={{
-                    color: currentLocation.includes('faas') ? '#0066CC' : null,
+                    color: currentLocation.includes('faas') ? '#66B2FF' : 'white',
                     fontWeight:'bold',
                     fontSize:50
                     }}>
@@ -40,7 +40,7 @@ const FaasNav = ({open}) => {
                 </ListItemIcon>
                 <p        
                     style={{
-                        color: currentLocation.includes('faas') ? '#0066CC' : null,
+                        color: currentLocation.includes('faas') ? '#66B2FF' : 'white',
                         fontWeight:'bolder', 
                         fontSize:15,
                         fontFamily:'revert',
@@ -53,40 +53,40 @@ const FaasNav = ({open}) => {
                 {expand ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={expand} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding style={{marginLeft: open ? 10 : -15}}>
+                <List component="div" disablePadding style={{marginLeft: open ? 30 : -15, color: 'white'}}>
                     <NavItem 
                         link={'faas/data-capture'}
-                        icon={<AddBox />}
+                        icon={<AddBox style={{color: 'white'}}/>}
                         title={'Data Capture'}
                     />
                     <NavItem 
                         link={'faas/transfer-of-ownership'}
-                        icon={<ContentPasteGo />}
+                        icon={<ContentPasteGo style={{color: 'white'}}/>}
                         title={'Transfer of Ownership'}
                     />  
                     <NavItem 
                         link={'faas/transfer-with-reassessment'}
-                        icon={<ContentPasteGo />}
+                        icon={<ContentPasteGo style={{color: 'white'}}/>}
                         title={'Transfer with Reassessment'}
                     />
                     <NavItem 
                         link={'faas/transfer-with-correction'}
-                        icon={<ContentPasteGo />}
+                        icon={<ContentPasteGo style={{color: 'white'}}/>}
                         title={'Transfer with Correction'}
                     /> 
                     <NavItem 
                         link={'faas/change-classification'}
-                        icon={<ChangeCircle />}
+                        icon={<ChangeCircle style={{color: 'white'}}/>}
                         title={'Change Classification'}
                     />
                     <NavItem 
                         link={'faas/transfer-of-ownership'}
-                        icon={<ContentPasteGo />}
+                        icon={<ContentPasteGo style={{color: 'white'}}/>}
                         title={'Transfer of Ownership'}
                     />                                       
                     <NavItem 
                         link={'faas/change-taxability'}
-                        icon={<ChangeCircle />}
+                        icon={<ChangeCircle style={{color: 'white'}}/>}
                         title={'Change Taxability'}
                     />  
                 </List>

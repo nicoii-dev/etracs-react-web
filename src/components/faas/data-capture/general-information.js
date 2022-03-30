@@ -31,7 +31,7 @@ const GeneralInformation = ({
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12}>
                                 <FaasTextInputController
-                                    defaultData={data?.firstname}
+                                    defaultData={data?.tdNumber}
                                     label="TD number* "
                                     name="tdNumber"
                                     variant="outlined"
@@ -47,7 +47,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{marginTop:-15}}>
                                 <FaasTextInputController
-                                    defaultData={data?.middlename}
+                                    defaultData={data?.titleType}
                                     label="Title type*"
                                     name="titleType"
                                     variant="outlined"
@@ -63,7 +63,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{marginTop:-15}}>
                                 <FaasTextInputController
-                                    defaultData={data?.middlename}
+                                    defaultData={data?.titleNumber}
                                     label="Title number"
                                     name="titleNumber"
                                     variant="outlined"
@@ -139,7 +139,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{marginTop:-15}}>
                                 <FaasTextInputController
-                                    defaultData={data?.middlename}
+                                    defaultData={data?.effectivity}
                                     label="Effectivity*"
                                     name="effectivity"
                                     variant="outlined"
@@ -175,7 +175,7 @@ const GeneralInformation = ({
                                         onBlur={onBlur}
                                         onChange={onChange}
                                         size='small'
-                                        value={data?.quarter ? data?.quarter : value}
+                                        value={value}
                                         >
                                         {Quarter.map((option) => (
                                             <option
@@ -191,7 +191,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{marginTop:-15}}>
                                 <FaasTextInputController
-                                    defaultData={data?.middlename}
+                                    defaultData={data?.restriction}
                                     label="Restriction"
                                     name="restriction"
                                     variant="outlined"
@@ -213,7 +213,7 @@ const GeneralInformation = ({
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12}>
                                 <FaasTextInputController
-                                    defaultData={data?.firstname}
+                                    defaultData={data?.previousTdNumber}
                                     label="Previous TD number"
                                     name="previousTdNumber"
                                     variant="outlined"
@@ -229,7 +229,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{marginTop:-15}}>
                                 <FaasTextInputController
-                                    defaultData={data?.middlename}
+                                    defaultData={data?.previousPin}
                                     label="Previous PIN"
                                     name="previousPin"
                                     variant="outlined"
@@ -245,7 +245,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{marginTop:-15}}>
                                 <FaasTextInputController
-                                    defaultData={data?.middlename}
+                                    defaultData={data?.previousMv}
                                     label="Previous MV*"
                                     name="previousMv"
                                     variant="outlined"
@@ -261,7 +261,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{marginTop:-15}}>
                                 <FaasTextInputController
-                                    defaultData={data?.middlename}
+                                    defaultData={data?.previousAv}
                                     label="Previous AV*"
                                     name="previousAv"
                                     variant="outlined"
@@ -277,7 +277,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={7} xs={12} style={{marginTop:-15}}>
                                 <FaasTextInputController
-                                    defaultData={data?.middlename}
+                                    defaultData={data?.appraisedBy}
                                     label="Appraised by*"
                                     name="appraisedBy"
                                     variant="outlined"
@@ -313,7 +313,7 @@ const GeneralInformation = ({
                                         onBlur={onBlur}
                                         onChange={onChange}
 
-                                        value={data?.appraisedDate ? data.appraisedDate : value}
+                                        value={value}
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
@@ -323,7 +323,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={7} xs={12} style={{marginTop:-15}}>
                                 <FaasTextInputController
-                                    defaultData={data?.middlename}
+                                    defaultData={data?.recommendBy}
                                     label="Recommended by"
                                     name="recommendBy"
                                     variant="outlined"
@@ -358,7 +358,7 @@ const GeneralInformation = ({
                                         fullWidth
                                         onBlur={onBlur}
                                         onChange={onChange}
-                                        value={data?.recommendedDate ? data.recommendedDate : value}
+                                        value={value}
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
@@ -368,7 +368,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={7} xs={12} style={{marginTop:-15}}>
                                 <FaasTextInputController
-                                    defaultData={data?.middlename}
+                                    defaultData={data?.approveBy}
                                     label="Approve by*"
                                     name="approveBy"
                                     variant="outlined"
@@ -403,7 +403,7 @@ const GeneralInformation = ({
                                         fullWidth
                                         onBlur={onBlur}
                                         onChange={onChange}
-                                        value={data?.approvedDate ? data.approvedDate : value}
+                                        value={value}
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
