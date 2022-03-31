@@ -1,20 +1,15 @@
 import * as actionTypes from './actionTypes'
 
 const initialState = {
-    status: 1
+    status: true
 }
 
 const NavReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.CLOSE_NAV:
+        case actionTypes.UPDATE_NAV:
             return {
                 ...state,
-                status: 0
-            }
-        case actionTypes.OPEN_NAV:
-            return {
-                ...state,
-                status: 1
+                status: action.payload
             }
         default:
             return state;

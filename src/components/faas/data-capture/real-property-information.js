@@ -8,7 +8,7 @@ import { useFormContext } from 'react-hook-form';
 import Button from '@mui/material/Button';
 import FaasTextInputController from '../../input/faas-input';
 import { useSelector, useDispatch } from 'react-redux';
-import { closeNav } from '../../../redux/nav/action';
+import { updateNav } from '../../../redux/nav/action';
 
 const RealPropertyInformation = ({
     errors,
@@ -20,6 +20,7 @@ const RealPropertyInformation = ({
 }) => {
     const methods = useFormContext();
     const dispatch = useDispatch();
+    const status = useSelector((state) => state.navStatus.status);
     const revisionYear = useSelector(state => state.revisionYearData.currentRevision);
 
     useEffect(() => {
@@ -247,7 +248,6 @@ const RealPropertyInformation = ({
                                 fullWidth
                                 onClick={() => {
                                     setShowAssessmentModal(!showAssessmentModal)
-                                    dispatch(closeNav(0))
                                 }}
                             >
                                 Assessment Detail

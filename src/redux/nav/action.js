@@ -1,15 +1,8 @@
-import { OPEN_NAV, CLOSE_NAV } from "./actionTypes"
+import { UPDATE_NAV } from "./actionTypes"
 
-export const closeNav = (data) => (
+export const updateNav = (data) => (
     {
-        type: CLOSE_NAV,
-        payload: data
-    }
-)
-
-export const openNav = (data) => (
-    {
-        type: OPEN_NAV,
+        type: UPDATE_NAV,
         payload: data
     }
 )

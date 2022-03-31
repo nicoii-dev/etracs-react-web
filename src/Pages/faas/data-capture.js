@@ -173,11 +173,11 @@ const DataCapturePage = () => {
                 ariaHideApp={false}
                 style={{
                     content: {
-                        top: "55%",
-                        marginLeft: '50%',
+                        top: "50%",
+                        marginLeft: !status ? "50%" : "58%",
                         transform: "translate(-50%, -50%)",
-                        width: '65%',
-                        height: "80%",
+                        width: !status ? "75%" : "65%",
+                        height: "87%",
                     },
                     overlay: {
                         zIndex: 10,

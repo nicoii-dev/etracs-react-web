@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
-import { TextField } from '@mui/material';
+import { TextField, Divider } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 // components
@@ -20,6 +20,13 @@ const AssessmentDetail = (props) => {
         <>
             <Grid container spacing={3}>
                 <Grid item md={12} xs={12}>
+                    <Divider textAlign="left">
+                        <p style={{fontSize:20}}>
+                            General Information
+                        </p>
+                    </Divider>
+                </Grid>
+                <Grid item md={12} xs={12} style={{marginTop: -20}}>
                     <Grid container spacing={3}>
                         <Grid item md={4} xs={12}>
                             <TextField
@@ -41,8 +48,20 @@ const AssessmentDetail = (props) => {
                             />
                         </Grid>
                         <Grid item md={4} xs={12} >
-                            <Grid item md={12} xs={12} style={{ position: 'fixed' }}>
-
+                            <Grid item md={12} xs={12}>
+                            
+                            </Grid>
+                        </Grid>
+                        <Grid item md={4} xs={12} >
+                            <Grid item md={12} xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label={'Taxable'}
+                                    name={'pin'}
+                                    size='small'
+                                    value={pin}
+                                    disabled
+                                />
                             </Grid>
                         </Grid>
                         <Grid item md={12} xs={12}>

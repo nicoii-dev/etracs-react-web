@@ -14,8 +14,8 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import AdminPageList from './admin';
 import MenuListComposition from '../components/header/drop-down-menu';
-import { useDispatch} from 'react-redux';
-import { closeNav, openNav } from '../redux/nav/action';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateNav } from '../redux/nav/action';
 
   const drawerWidth = 320;
   
@@ -92,20 +92,15 @@ import { closeNav, openNav } from '../redux/nav/action';
   }) => {
     const dispatch = useDispatch();
     const theme = useTheme();
+    const status = useSelector((state) => state.navStatus.status);
     const [open, setOpen] = React.useState(true);
     const [expand, setExpand] = React.useState(false);
 
-    const handleDrawerOpen = () => {
+    const handleDrawer = () => {
       setOpen(!open);
       setExpanded(!expanded)
-      dispatch(openNav(0))
-    };
-  
-    const handleDrawerClose = () => {
-      setOpen(!open);
-      setExpanded(!expanded)
-      dispatch(closeNav(1))
-    };
+      dispatch(updateNav(!status))
+    }
   
     return (
       <Box sx={{display: 'flex'}} component="nav">
@@ -134,7 +129,7 @@ import { closeNav, openNav } from '../redux/nav/action';
             <Typography variant="h4" noWrap component="div" style={{width:'100%', color: 'white', marginLeft: 20, fontFamily: 'Manrope-Extrabold'}}>
             {open ? "ETRACS" : null}
             </Typography>
-            <IconButton onClick={handleDrawerClose} style={{color: 'white', marginRight: 20}}>
+            <IconButton onClick={handleDrawer} style={{color: 'white', marginRight: 20}}>
               {open ? <ChevronLeftIcon /> : <MenuIcon />}
             </IconButton>
           </DrawerHeader>

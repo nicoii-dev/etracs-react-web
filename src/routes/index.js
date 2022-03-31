@@ -5,10 +5,29 @@ import UserRoutes from "./UserRoutes";
 import AuthRoutes from "./AuthRoutes";
 import { useDispatch } from "react-redux";
 
-import IndividualApi from "../library/api/individual-api";
-import { getIndividuals } from "../redux/individual/actions";
+// redux
+import { fetchIndividualRedux } from "../redux/individual/actions";
+import { fetchJuridicalRedux } from "../redux/juridical/actions";
+import { fetchMultipleRedux } from "../redux/multiple/actions";
+import { fetchMunicipalityCity } from "../redux/municipality-city/actions";
+import { fetchBarangayRedux } from "../redux/barangay/action";
+import { fetchClassificationRedux } from "../redux/classification/actions";
 
 const MainRoute = () => {
+  const dispatch = useDispatch();
+
+  const fetchData = useCallback( async() => {
+      await dispatch(fetchIndividualRedux());
+      await dispatch(fetchJuridicalRedux());
+      await dispatch(fetchMultipleRedux());
+      await dispatch(fetchMunicipalityCity());
+      await dispatch(fetchBarangayRedux());
+      await dispatch(fetchClassificationRedux());
+  }, [dispatch])
+
+  useEffect(() => {
+      fetchData()
+  }, [fetchData])
 
     const [auth, setAuth] = useState(true);
     const [admin, setAdmin] = useState(true);
