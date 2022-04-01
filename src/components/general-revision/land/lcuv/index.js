@@ -20,6 +20,7 @@ import { fetchStripping } from '../../../../redux/stripping/action';
 // components
 import ClassificationTable from './classification-table';
 import AddEditClassification from './add-edit-classification';
+import AddEditClassification2 from './add-edit-classification2';
 import TabComponent from '../../../tabs';
 import ClassificationClasses from './classes';
 import Stripping from './stripping';
@@ -44,6 +45,7 @@ const LCUV = (props) => {
     const showModal = useSelector(state => state.classificationData.showModal);
     const [data, setData] = useState([]); // for update purposes
     const [selected, setSelected] = useState(null); //for changing the color of table row
+    const [selectedClassification, setSelectedClassification] = useState(null) // for adding classification
 
     // for table pagination
     const [page, setPage] = useState(0);
@@ -58,10 +60,12 @@ const LCUV = (props) => {
         dispatch(fetchClassificationRedux());
     }, [dispatch])
 
-    const addClassification = async (_data) => {
+    const addClassification = async () => {
+        console.log(selectedClassification)
         const payload = {
-            code: _data.code.toUpperCase(),
-            classification: _data.classification.toUpperCase(),
+            code: selectedClassification.code,
+            classification: selectedClassification.name,
+            rate: selectedClassification.rate,
             year_tag: revisionYear
         }
         await dispatch(updateModal(!showModal));
@@ -139,21 +143,22 @@ const LCUV = (props) => {
                 ariaHideApp={false}
                 style={{
                     content: {
-                    top: '55%',
+                    top: '50%',
                     marginLeft: '50%',
                     transform: 'translate(-50%, -50%)',
                     width: '25%',
-                    height: window.innerHeight > 900 ? '30%' : '40%',
+                    height: window.innerHeight > 900 ? '51%' : '56%',
+                    overflow: 'hidden'
                     },
                     overlay: {
                         zIndex:10
-                    }
+                    },
                 }}
             >
-                <AddEditClassification 
-                    data={data}
+                <AddEditClassification2
+                    selectedClassification={selectedClassification}
+                    setSelectedClassification={setSelectedClassification}
                     addClassification={addClassification}
-                    updateClassification={updateClassification}
                 />
             </Modal>
         </>

@@ -68,7 +68,7 @@ const AssessmentLevels = (props) => {
             code: _data.code.toUpperCase(),
             name: _data.name.toUpperCase(),
             rate: _data.rate,
-            fix: _data.fix,
+            fix: 1,
             class: _data.class,
             year_tag: revisionYear
         }
@@ -78,10 +78,10 @@ const AssessmentLevels = (props) => {
 
     const updateData = async (_data) => {
         const payload = {
-            code: _data.code,
-            name: _data.name,
+            code: _data.code.toUpperCase(),
+            name: _data.name.toUpperCase(),
             rate: _data.rate,
-            fix: _data.fix,
+            fix: 1,
             class: _data.class,
             year_tag: revisionYear
         }

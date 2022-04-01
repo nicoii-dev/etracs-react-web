@@ -13,9 +13,15 @@ import { IconButton, Divider } from '@mui/material';
 import ModeEdit from '@mui/icons-material/ModeEdit';
 import Delete from '@mui/icons-material/Delete';
 
+// columns data
+const columns = [
+    { id: "action", label: "Action", minWidth: 100 },
+    { id: "revision_year", label: "Revision Year", minWidth: 170 },
+]
+
 const RevisionYearTable = (props) => {
-    const {showModal, setShowModal, revisionYearList, selected, setSelected, 
-            dispatch, deleteYear, setSelectedYear} = props;
+    const { showModal, setShowModal, revisionYearList, selected, setSelected,
+        dispatch, deleteYear, setSelectedYear } = props;
 
     return (
         <>
@@ -29,70 +35,71 @@ const RevisionYearTable = (props) => {
                     marginTop: -3
                 }}
             >
-                <IconButton 
-                    color="primary" 
-                    variant="contained" 
+                <IconButton
+                    color="primary"
+                    variant="contained"
                     onClick={() => {
                         setShowModal(!showModal)
                     }}>
                     <AddBox />
                 </IconButton>
             </Box>
-            <div
-                style={{
-                    height: 240,
-                    overflowY: 'scroll',
-                }}
-            >
-
-                <TableContainer>
-                    <Table stickyHeader aria-label="sticky table" size="small">
+            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <TableContainer sx={{ maxHeight: 330 }}>
+                    <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align='center'>
-                                    <p style={{fontWeight: 'bold', margin: -10}}>
-                                        Action
-                                    </p>
-                                </TableCell>
-                                <TableCell align='center'>
-                                    <p style={{fontWeight: 'bold', margin: -10}}>
-                                        Revision Year
-                                    </p>
-                                </TableCell>
+                                {columns.map((column) => (
+                                    <TableCell
+                                        key={column.id}
+                                        align={column.align}
+                                        style={{ minWidth: column.minWidth, fontWeight: 'bolder', textAlign: 'center' }}
+                                    >
+                                        {column.label}
+                                    </TableCell>
+                                ))}
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {revisionYearList
-                            ?.map((row) => {
-                            return (
-                                <TableRow
-                                    hover
-                                    onClick={async (event) => {
-                                        setSelected(row.id)
-                                        setSelectedYear(row)
-                                    }}
-                                    role="checkbox"
-                                    tabIndex={-1}
-                                    key={row.id}
-                                    style={{
-                                        backgroundColor: selected === row.id? '#CCE5FF':null
-                                    }}
-                                >
-                                    <TableCell align='center'>
-                                        <IconButton onClick={() => {
-                                                deleteYear(row.id)
-                                            }}>
-                                            <Delete />
-                                        </IconButton>
-                                    </TableCell>
-                                    <TableCell align='center'>{row.revision_year}</TableCell>
-                                </TableRow>
-                                );
-                            })}
+                            {revisionYearList
+                                .map((row, index) => {
+                                    return (
+                                        <TableRow
+                                            hover
+                                            role="checkbox"
+                                            tabIndex={-1}
+                                            key={index}
+                                            onClick={async (event) => {
+                                                setSelected(row.id)
+                                                setSelectedYear(row)
+                                            }}
+                                            style={{
+                                                backgroundColor: selected === row.id ? '#CCE5FF' : null
+                                            }}
+                                        >
+                                            {columns.map((column) => {
+                                                const value = row[column.id];
+                                                return (
+                                                    <TableCell key={column.id} align={'center'} size='small'>
+                                                        {column.id === 'action' ? <IconButton onClick={() => {
+                                                            deleteYear(row.id)
+                                                        }}>
+                                                            <Delete />
+                                                        </IconButton> : null}
+
+                                                        {column.format && typeof value === 'number'
+                                                            ? column.format(value)
+                                                            : value}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                })}
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </div>
+            </Paper>
         </>
     )
 }

@@ -12,6 +12,7 @@ import { fetchMultipleRedux } from "../redux/multiple/actions";
 import { fetchMunicipalityCity } from "../redux/municipality-city/actions";
 import { fetchBarangayRedux } from "../redux/barangay/action";
 import { fetchClassificationRedux } from "../redux/classification/actions";
+import { fetchAssessmentLevelRedux } from "../redux/assessment-levels/actions";
 
 const MainRoute = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const MainRoute = () => {
       await dispatch(fetchMunicipalityCity());
       await dispatch(fetchBarangayRedux());
       await dispatch(fetchClassificationRedux());
+      await dispatch(fetchAssessmentLevelRedux())
   }, [dispatch])
 
   useEffect(() => {

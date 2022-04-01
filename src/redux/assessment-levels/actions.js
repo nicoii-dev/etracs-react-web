@@ -34,6 +34,7 @@ export const fetchAssessmentLevelRedux = () => {
 }
 
 export const storeAssessmentLevelRedux = (payload) => {
+  console.log(payload)
   return async (dispatch) => {
     try {
       const response = await AssessmentLevelApi.storeAssessmentLevel(payload);

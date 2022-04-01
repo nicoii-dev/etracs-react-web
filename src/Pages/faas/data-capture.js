@@ -54,9 +54,6 @@ const DataCapturePage = () => {
 
     const fetchData = useCallback(async () => {
         await dispatch(fetchRevisionYearRedux());
-        await dispatch(fetchIndividualRedux());
-        await dispatch(fetchJuridicalRedux());
-        await dispatch(fetchMultipleRedux());
     }, [dispatch]);
 
     useEffect(() => {

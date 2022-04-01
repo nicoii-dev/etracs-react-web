@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable no-unused-vars */
 import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
@@ -10,14 +11,58 @@ import { useForm, Controller } from "react-hook-form";
 
 // components
 import TextInputController from '../../../input/text-input'
-import AssessmentDetailTable from './assessment-detail-table';
+
+// redux
+import { fetchSpecificClass, setSpecificClass } from '../../../../redux/specific-class/action';
+import { fetchSubClass, setSubClass } from '../../../../redux/sub-class/action';
 
 const AddEditAssessmentDetail = (props) => {
     const {data} = props;
+    const dispatch = useDispatch();
     const { control, handleSubmit, formState: { errors }, setValue } = useForm();
+
+    // global variables
     const pin = useSelector((state) => state.pinData.pin);
-    const classificationList = useSelector((state) => state.classificationData.classificationData);
-    console.log(classificationList)
+    const classificationList = useSelector((state) => state.classificationData.classification);
+    const specificClassList = useSelector((state) => state.specificClassData.specificClass);
+    const subClassList = useSelector((state) => state.subClassData.subClass);
+
+    // local variables
+    const [rate, setRate] = useState("");
+    const [areaType, setAreaType] = useState("");
+    const [unitValue, setUnitValue] = useState("");
+
+    useEffect(() => {
+        dispatch(setSpecificClass());
+        dispatch(setSubClass());
+    }, [dispatch])
+
+    const onClassificationChange = async (id) => {
+        await dispatch(fetchSpecificClass(id));
+        await dispatch(fetchSubClass(id));
+        // getting data of the selected id
+        const filteredClassification = classificationList.filter((classification) => {
+            return classification.id === id
+        })
+        setRate(filteredClassification)
+    }
+
+    const onSpecificClassChange = async (id) => {
+        // getting data of the selected id
+        const filteredSpecicClass = specificClassList.filter((specific) => {
+            return specific.id == id
+        })
+        setAreaType(filteredSpecicClass[0]?.area_type)
+    }
+
+    const onSubClassChange = async (id) => {
+        // getting data of the selected id
+        const filteredSubClass = subClassList.filter((subclass) => {
+            return subclass.id == id
+        })
+        setUnitValue(filteredSubClass[0]?.unit_value !== undefined ? filteredSubClass[0]?.unit_value + ".00" : ".00")
+    }
+
     return (
         <>
             <Grid container spacing={4} style={{marginTop: -50}}>
@@ -55,7 +100,12 @@ const AddEditAssessmentDetail = (props) => {
                                             SelectProps={{ native: true }}
                                             variant="outlined"
                                             onBlur={onBlur}
-                                            onChange={onChange}
+                                            onChange={ (e) => { 
+                                                onChange(e.target.value)
+                                                onClassificationChange(e.target.value)
+                                                setValue("specificClass", "-Select-")
+                                                setValue("subClass", "-Select-")
+                                            }}
                                             size='small'
                                             error={errors.classification ? true : false}
                                             value={value}
@@ -63,12 +113,11 @@ const AddEditAssessmentDetail = (props) => {
                                             <option key={'-Select-'} value={'-Select-'}>
                                                 -Select-
                                             </option>
-                                            <option key={"new"} value={"new"}>
-                                                NEW
+                                        {classificationList?.map((option) => (
+                                            <option key={option.code} value={option.id}>
+                                                {option.code}
                                             </option>
-                                            <option key={"old"} value={"old"}>
-                                                OLD
-                                            </option>
+                                        ))}
                                         </TextField>
                                     )}
                                 />
@@ -97,7 +146,10 @@ const AddEditAssessmentDetail = (props) => {
                                             SelectProps={{ native: true }}
                                             variant="outlined"
                                             onBlur={onBlur}
-                                            onChange={onChange}
+                                            onChange={ (e) => { 
+                                                onChange(e.target.value)
+                                                onSpecificClassChange(e.target.value)
+                                            }}
                                             size='small'
                                             error={errors.specificClass ? true : false}
                                             value={value}
@@ -105,12 +157,11 @@ const AddEditAssessmentDetail = (props) => {
                                             <option key={'-Select-'} value={'-Select-'}>
                                                 -Select-
                                             </option>
-                                            <option key={"new"} value={"new"}>
-                                                NEW
+                                        {specificClassList?.map((option) => (
+                                            <option key={option.code} value={option.id}>
+                                                {option.name}
                                             </option>
-                                            <option key={"old"} value={"old"}>
-                                                OLD
-                                            </option>
+                                        ))}
                                         </TextField>
                                     )}
                                 />
@@ -139,7 +190,10 @@ const AddEditAssessmentDetail = (props) => {
                                             SelectProps={{ native: true }}
                                             variant="outlined"
                                             onBlur={onBlur}
-                                            onChange={onChange}
+                                            onChange={ (e) => { 
+                                                onChange(e.target.value)
+                                                onSubClassChange(e.target.value)
+                                            }}
                                             size='small'
                                             error={errors.subClass ? true : false}
                                             value={value}
@@ -147,12 +201,11 @@ const AddEditAssessmentDetail = (props) => {
                                             <option key={'-Select-'} value={'-Select-'}>
                                                 -Select-
                                             </option>
-                                            <option key={"new"} value={"new"}>
-                                                NEW
+                                        {subClassList?.map((option) => (
+                                            <option key={option.code} value={option.id}>
+                                                {option.code}
                                             </option>
-                                            <option key={"old"} value={"old"}>
-                                                OLD
-                                            </option>
+                                        ))}
                                         </TextField>
                                     )}
                                 />
@@ -165,7 +218,7 @@ const AddEditAssessmentDetail = (props) => {
                                     label="Rate"
                                     name="rate"
                                     size='small'
-                                    value={pin}
+                                    value={rate}
                                     inputProps={{ style: { textAlign:"right" } }}
                                     disabled
                                 />
@@ -174,7 +227,7 @@ const AddEditAssessmentDetail = (props) => {
                                     label="Area Type"
                                     name="areaType"
                                     size='small'
-                                    value={pin}
+                                    value={areaType}
                                     style={{ marginTop: 10 }}
                                     inputProps={{ style: { textAlign:"right" } }}
                                     disabled
@@ -184,7 +237,7 @@ const AddEditAssessmentDetail = (props) => {
                                     label="Unit Value"
                                     name="unitValue"
                                     size='small'
-                                    value={pin}
+                                    value={unitValue}
                                     style={{ marginTop: 10 }}
                                     inputProps={{ style: { textAlign:"right" } }}
                                     disabled

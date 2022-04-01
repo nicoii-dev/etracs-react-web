@@ -59,9 +59,9 @@ const ClassificationTable = (props) => {
                     <Table stickyHeader aria-label="sticky table" size={'small'}>
                         <TableHead>
                             <TableRow>
-                                <TableCell align='center'>Action</TableCell>
-                                <TableCell align='left'>Code</TableCell>
-                                <TableCell align='left'>Classification</TableCell>
+                                <TableCell align='center' style={{fontWeight: 'bolder'}}>Action</TableCell>
+                                <TableCell align='left' style={{fontWeight: 'bolder'}}>Code</TableCell>
+                                <TableCell align='left' style={{fontWeight: 'bolder'}}>Classification</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -84,12 +84,12 @@ const ClassificationTable = (props) => {
                                     }}
                                 >
                                     <TableCell align='center'>
-                                        <IconButton onClick={() => {
+                                        {/* <IconButton onClick={() => {
                                                 setData(row)
                                                 dispatch(updateModal(!showModal))
                                             }}>
                                             <ModeEdit />
-                                        </IconButton>  
+                                        </IconButton>   */}
                                         <IconButton onClick={() => {
                                                 deleteClassification(row.id)
                                             }}>
