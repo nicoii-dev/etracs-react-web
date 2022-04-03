@@ -16,6 +16,8 @@ import LandAdjustmentReducer from "./land-adjustments/landAdjustmentReducer";
 import FormulaVariableReducer from "./formula-variable/formulaVariableReducer";
 import RevisionYearReducer from "./revision-year/revisionYearReducer";
 import AppliedToLguReducer from "./applied-to-lgu/appliedToLguReducer";
+import PersonnelReducer from "./personnel/personnelReducer";
+import JobPositionReducer from "./job-position/jobPositionReducer";
 
 const rootReducer = combineReducers({
     individualData: IndividualReducer,
@@ -35,6 +37,8 @@ const rootReducer = combineReducers({
     formulaVariableData: FormulaVariableReducer,
     revisionYearData: RevisionYearReducer,
     appliedToLguData: AppliedToLguReducer,
+    personnelData: PersonnelReducer,
+    jobPositionData: JobPositionReducer,
 });
 
 export default rootReducer;

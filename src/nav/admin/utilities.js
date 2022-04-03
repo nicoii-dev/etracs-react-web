@@ -6,7 +6,7 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ListItemButton from '@mui/material/ListItemButton';
-import { FiberPin, LocationCity, Apartment, Settings } from '@mui/icons-material';
+import { FiberPin, LocationCity, Work, Settings, ManageAccounts, SupervisorAccount } from '@mui/icons-material';
 
 import {useLocation} from 'react-router-dom';
 
@@ -56,14 +56,24 @@ const UtilitiesNav = ({open}) => {
             <Collapse in={expand} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding style={{marginLeft: open ? 30 : -15, color: 'white'}}>
                     <NavItem 
-                        link={'utilities/modifypin'}
-                        icon={<FiberPin style={{color: 'white'}}/>}
-                        title={'Modify PIN'}
-                    />
-                    <NavItem 
                         link={'utilities/municipality-city'}
                         icon={<LocationCity style={{color: 'white'}}/>}
                         title={'Municipality/City'}
+                    />
+                    <NavItem 
+                        link={'utilities/personnels'}
+                        icon={<SupervisorAccount style={{color: 'white'}}/>}
+                        title={'Personnels'}
+                    />
+                    <NavItem 
+                        link={'utilities/accounts'}
+                        icon={<ManageAccounts style={{color: 'white'}}/>}
+                        title={'Accounts'}
+                    />
+                    <NavItem 
+                        link={'utilities/job-position'}
+                        icon={<Work style={{color: 'white'}}/>}
+                        title={'Job position'}
                     />
                 </List>
             </Collapse>

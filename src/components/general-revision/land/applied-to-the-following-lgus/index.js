@@ -87,7 +87,7 @@ const AppliedToTheFollowingLgus = (props) => {
                     top: '55%',
                     marginLeft: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: '25%',
+                    width: '30%',
                     height: window.innerHeight > 900 ? '40%' : '50%',
                     },
                     overlay: {

@@ -16,6 +16,9 @@ import MultiplePage from '../pages/entity/multiple';
 import ReconcilePage from '../pages/entity/reconcile';
 import DataCapturePage from '../pages/faas/data-capture';
 import MunicipalityCityPage from '../pages/utilities/municipality-city';
+import AccountsPage from '../pages/accounts';
+import PersonnelPage from '../pages/personnel';
+import JobPositionPage from '../pages/job-position';
 
 const AdminRoutes = () => {
 
@@ -31,7 +34,11 @@ const AdminRoutes = () => {
                 <Route path="entity/reconcile" element={<ReconcilePage />} />
                 <Route path="faas/data-capture" element={<DataCapturePage />} />
                 <Route path="generalrevision/land" element={<LandRevision />} />
+                {/* <Route path="accounts" element={<AccountsPage />} /> */}
                 <Route path="utilities/municipality-city" element={<MunicipalityCityPage />} />
+                <Route path="utilities/personnels" element={<PersonnelPage />} />
+                <Route path="utilities/accounts" element={<MunicipalityCityPage />} />
+                <Route path="utilities/job-position" element={<JobPositionPage />} />
             </Route>
             <Route path="*" element={<Error404 />} />
         </Routes>

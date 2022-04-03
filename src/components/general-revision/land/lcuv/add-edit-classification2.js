@@ -15,8 +15,8 @@ import TextInputController from '../../../input/text-input';
 
 // columns data
 const columns = [
-    { id: "code", label: "Code", minWidth: 170 },
-    { id: "name", label: "Name", minWidth: 100 },
+    { id: "code", label: "Code", minWidth: 100 },
+    { id: "name", label: "Name", minWidth: 170 },
 ]
 const AddEditClassification2 = (props) => {
     const { data, addClassification, updateClassification, setSelectedClassification, selectedClassification } = props;
@@ -44,7 +44,7 @@ const AddEditClassification2 = (props) => {
                                     <TableCell
                                         key={column.id}
                                         align={column.align}
-                                        style={{ minWidth: column.minWidth, fontWeight: 'bolder' }}
+                                        style={{ minWidth: column.minWidth, fontWeight: 'bolder', textAlign: 'center' }}
                                     >
                                         {column.label}
                                     </TableCell>
@@ -70,7 +70,7 @@ const AddEditClassification2 = (props) => {
                                             {columns.map((column) => {
                                                 const value = row[column.id];
                                                 return (
-                                                    <TableCell key={column.id} align={column.align}>
+                                                    <TableCell key={column.id} align={'center'}>
                                                         {column.format && typeof value === 'number'
                                                             ? column.format(value)
                                                             : value}

@@ -57,11 +57,11 @@ const AdminPageList = ({open}) => {
           </List>
           <Divider />
           <List>
-            <div>
-              <ListItem button onClick={() => {navigate('account')}}>
+            {/* <div>
+              <ListItem button onClick={() => {navigate('accounts')}}>
                 <ListItemIcon
                   style={{
-                    color: currentLocation.includes('account') ? '#0066CC' : 'white',
+                    color: currentLocation.includes('accounts') ? '#0066CC' : 'white',
                     fontWeight:'bold',
                     fontSize:50
                     }}
@@ -70,7 +70,7 @@ const AdminPageList = ({open}) => {
                 </ListItemIcon>
                   <p        
                     style={{
-                        color: currentLocation.includes('account') ? '#0066CC' : 'white',
+                        color: currentLocation.includes('accounts') ? '#0066CC' : 'white',
                         fontWeight:'bolder', 
                         fontSize:15,
                         fontFamily:'revert',
@@ -81,7 +81,7 @@ const AdminPageList = ({open}) => {
                       Account
                   </p>
               </ListItem>
-            </div>
+            </div> */}
            <UtilitiesNav open={open} />
           </List>
         </div>

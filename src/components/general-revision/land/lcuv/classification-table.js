@@ -60,8 +60,8 @@ const ClassificationTable = (props) => {
                         <TableHead>
                             <TableRow>
                                 <TableCell align='center' style={{fontWeight: 'bolder'}}>Action</TableCell>
-                                <TableCell align='left' style={{fontWeight: 'bolder'}}>Code</TableCell>
-                                <TableCell align='left' style={{fontWeight: 'bolder'}}>Classification</TableCell>
+                                {/* <TableCell align='left' style={{fontWeight: 'bolder'}}>Code</TableCell> */}
+                                <TableCell align='center' style={{fontWeight: 'bolder'}}>Classification</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -96,8 +96,8 @@ const ClassificationTable = (props) => {
                                             <Delete />
                                         </IconButton>  
                                     </TableCell>
-                                    <TableCell align='left'>{row.code}</TableCell>
-                                    <TableCell align='left'>{row.classification}</TableCell>
+                                    {/* <TableCell align='left'>{row.code}</TableCell> */}
+                                    <TableCell align='center'>{row.classification}</TableCell>
                                 </TableRow>
                                 );
                             })}
