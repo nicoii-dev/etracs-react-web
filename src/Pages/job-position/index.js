@@ -35,11 +35,10 @@ const JobPositionPage = () => {
 
     const addData = async (_data) => {
         const payload = {
-            code: _data.code,
+            code: _data.code.toUpperCase(),
             description: _data.description,
             org: _data.org,
-            personnel_id: _data.personnel_id,
-            role: _data.role,
+            account_id: _data.account_id,
         };
         await dispatch(storeJobPositionRedux(payload));
         setShowModal(!showModal);
@@ -55,11 +54,10 @@ const JobPositionPage = () => {
           /* Read more about isConfirmed, isDenied below */
           if (result.isConfirmed) {
             const payload = {
-                code: _data.code,
+                code: _data.code.toUpperCase(),
                 description: _data.description,
                 org: _data.org,
-                personnel_id: _data.personnel_id,
-                role: _data.role,
+                account_id: _data.account_id,
             };
             console.log(payload, _data.id)
             await dispatch(updateJobPositionRedux(payload, _data.id));
@@ -131,11 +129,11 @@ const JobPositionPage = () => {
                 ariaHideApp={false}
                 style={{
                     content: {
-                        top: "55%",
+                        top: "50%",
                         marginLeft: !status ? "45%" : "53%",
                         transform: "translate(-50%, -50%)",
-                        width: !status ? "55%" : "48%",
-                        height: "60%",
+                        width: !status ? "45%" : "38%",
+                        height: "55%",
                     },
                 }}
             >

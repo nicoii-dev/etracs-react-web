@@ -33,12 +33,16 @@ const PersonnelPage = () => {
         dispatch(fetchPersonnelRedux());
     }, [dispatch]);
 
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     const addData = async (_data) => {
         const payload = {
             staff_number: _data.staffNumber,
-            firstname: _data.firstName,
-            middlename: _data.middleName,
-            lastname: _data.lastName,
+            firstname: capitalizeFirstLetter(_data.firstName),
+            middlename: capitalizeFirstLetter(_data.middleName),
+            lastname: capitalizeFirstLetter(_data.lastName),
             birth_date: _data.birthDate,
             gender: _data.gender,
             email: _data.email,

@@ -1,12 +1,47 @@
 import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
-import Swal from "sweetalert2";
 import Modal from "react-modal";
+import Swal from "sweetalert2";
 import { useSelector, useDispatch } from "react-redux";
 
+// components
+import AccountsTable from "../../components/accounts/accounts-table";
+import AddEditAccounts from "../../components/accounts/add-edit-accounts";
+
+//redux
+import { 
+    fetchAccountsRedux,
+    createAccountRedux,
+} from "../../redux/accounts/actions";
+
 const AccountsPage = () => {
+    const dispatch = useDispatch();
+
+    //global states
     const status = useSelector((state) => state.navStatus.status);
-    const [open, setOpen] = useState(false); // for modal
+    const accountsList = useSelector((state) => state.accountData.accounts);
+    
+    // local states
+    const [data, setData] = useState([]); // for update purpose
+    const [showModal, setShowModal] = useState(false);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    useEffect(() => {
+        dispatch(fetchAccountsRedux());
+    }, [dispatch]);
+
+    const addData = async (_data) => {
+        const payload = {
+            personnel_id: _data.assignee.value,
+            email: _data.email,
+            password: _data.password,
+            allow_login: _data.allowLogin,
+            role: _data.role
+        };
+        await dispatch(createAccountRedux(payload));
+        setShowModal(!showModal);
+    };
 
     return (
         <>
@@ -23,8 +58,8 @@ const AccountsPage = () => {
                     variant="contained"
                     style={{ color: "white" }}
                     onClick={() => {
-                        //setData(null);
-                        setOpen(!open);
+                        setData(null);
+                        setShowModal(!showModal);
                     }}
                 >
                     Add Account
@@ -32,46 +67,56 @@ const AccountsPage = () => {
             </div>
 
             <div>
-                {/* <IndividualTable
-                    individualList={individualList}
-                    data={data}
+                <AccountsTable
+                    page={page}
+                    setPage={setPage}
+                    rowsPerPage={rowsPerPage}
+                    setRowsPerPage={setRowsPerPage}
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                    accountsList={accountsList}
                     setData={setData}
-                    open={open}
-                    setOpen={setOpen}
-                    selected={selected}
-                    setSelected={setSelected}
-                    setSelectedToDelete={setSelectedToDelete}
-                    deleteData={deleteData}
-                /> */}
+                />
             </div>
 
             <Modal
-                isOpen={open}
+                isOpen={showModal}
                 onRequestClose={() => {
-                    setOpen(!open);
+                    Swal.fire({
+                        title: 'Discard changes?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        denyButtonText: `Cancel`,
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            setShowModal(!showModal);
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
                 }}
                 contentLabel="Example Modal"
-                onClose={() => setOpen(!open)}
+                //onClose={() => setShowModal(!showModal)}
                 ariaHideApp={false}
                 style={{
                     content: {
-                        top: "55%",
-                        marginLeft: !status ? "50%" : "58%",
+                        top: "50%",
+                        marginLeft: !status ? "45%" : "53%",
                         transform: "translate(-50%, -50%)",
-                        width: !status ? "80%" : "73%",
-                        height: "75%",
+                        width: !status ? "45%" : "38%",
+                        height: "62%",
                     },
                 }}
             >
-                {/* <AddIndividual
+                <AddEditAccounts 
                     data={data}
-                    setData={setData}
-                    addData={addData}
-                    updateData={updateData}
-                /> */}
+                    addData={addData} 
+                    accountsList={accountsList}
+                />
             </Modal>
         </>
-    )
-}
+    );
+};
 
 export default AccountsPage;

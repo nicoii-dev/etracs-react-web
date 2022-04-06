@@ -20,8 +20,8 @@ const columns = [
     { id: "lastname", label: "Last name", minWidth: 100 },
     { id: "firstname", label: "First name", minWidth: 100 },
     { id: "middlename", label: "Middle name", minWidth: 100 },
-    { id: "phone_number", label: "Contact no.", minWidth: 100 },
-    { id: "email", label: "Email", minWidth: 100 },
+    // { id: "phone_number", label: "Contact no.", minWidth: 100 },
+    // { id: "email", label: "Email", minWidth: 100 },
     { id: "txn_code", label: "TXN code", minWidth: 100 },
 ]
 

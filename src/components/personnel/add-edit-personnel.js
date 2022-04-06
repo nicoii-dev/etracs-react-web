@@ -47,6 +47,7 @@ const AddEditPersonnel = (props) => {
                                     label="Staff number*"
                                     name="staffNumber"
                                     variant="outlined"
+                                    inputStyle={{ style: { textTransform: 'uppercase' } }}
                                     control={control}
                                     rules={{
                                         required: {
@@ -65,6 +66,7 @@ const AddEditPersonnel = (props) => {
                                     label="First name*"
                                     name="firstName"
                                     variant="outlined"
+                                    inputStyle={{ style: { textTransform: 'capitalize' } }}
                                     control={control}
                                     rules={{
                                         required: {
@@ -89,6 +91,7 @@ const AddEditPersonnel = (props) => {
                                     label="Middle name"
                                     name="middleName"
                                     variant="outlined"
+                                    inputStyle={{ style: { textTransform: 'capitalize' } }}
                                     control={control}
                                     rules={{
                                         minLength: {
@@ -109,6 +112,7 @@ const AddEditPersonnel = (props) => {
                                     label="Last name*"
                                     name="lastName"
                                     variant="outlined"
+                                    inputStyle={{ style: { textTransform: 'capitalize' } }}
                                     control={control}
                                     rules={{
                                         required: {
@@ -127,7 +131,7 @@ const AddEditPersonnel = (props) => {
                                 />
                                 {errors.lastName && (<div><p className={InputErrorStyles.errorText}>{errors.lastName?.message}</p></div>)}
                             </Grid>
-                            <Grid item md={6} xs={12}>
+                            {/* <Grid item md={6} xs={12}>
                                 <TextInputController
                                     defaultData={data?.email}
                                     label="Email Address"
@@ -167,7 +171,7 @@ const AddEditPersonnel = (props) => {
                                     }}
                                 />
                                 {errors.phoneNumber && (<div><p className={InputErrorStyles.errorText}>{errors.phoneNumber?.message}</p></div>)}
-                            </Grid>
+                            </Grid> */}
                             <Grid item md={4} xs={12}>
                                 <Controller
                                     defaultValue={data?.birth_date ? data.birth_date : ""}
@@ -241,7 +245,7 @@ const AddEditPersonnel = (props) => {
                             <Grid item md={4} xs={12}>
                                 <TextInputController
                                     defaultData={data?.txn_code}
-                                    label="TXN code*"
+                                    label="TXN code"
                                     name="txnCode"
                                     variant="outlined"
                                     control={control}

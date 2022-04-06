@@ -18,6 +18,7 @@ import RevisionYearReducer from "./revision-year/revisionYearReducer";
 import AppliedToLguReducer from "./applied-to-lgu/appliedToLguReducer";
 import PersonnelReducer from "./personnel/personnelReducer";
 import JobPositionReducer from "./job-position/jobPositionReducer";
+import AccountReducer from "./accounts/accountReducer";
 
 const rootReducer = combineReducers({
     individualData: IndividualReducer,
@@ -39,6 +40,7 @@ const rootReducer = combineReducers({
     appliedToLguData: AppliedToLguReducer,
     personnelData: PersonnelReducer,
     jobPositionData: JobPositionReducer,
+    accountData: AccountReducer,
 });
 
 export default rootReducer;

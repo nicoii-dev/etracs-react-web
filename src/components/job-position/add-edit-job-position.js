@@ -49,6 +49,7 @@ const AddEditJobPosition = (props) => {
                                     variant="outlined"
                                     control={control}
                                     errorStatus={errors.code ? true:false}
+                                    inputStyle={{ style: { textTransform: "uppercase" } }}
                                     rules={{
                                         required: {
                                             value: true,
@@ -130,7 +131,7 @@ const AddEditJobPosition = (props) => {
                                     )}
                                 />
                             </Grid>
-                            <Grid item md={6} xs={12}>
+                            {/* <Grid item md={6} xs={12}>
                                 <Controller
                                     defaultValue={data?.role}
                                     name={'role'}
@@ -174,27 +175,27 @@ const AddEditJobPosition = (props) => {
                                         </TextField>
                                     )}
                                 />
-                            </Grid>
+                            </Grid> */}
                             <Grid item md={6} xs={12}>
                                 <Controller
-                                    defaultValue={data?.personnel_id}
-                                    name={'personnel_id'}
+                                    defaultValue={data?.account_id}
+                                    name={'account_id'}
                                     control={control}
-                                    rules={{
-                                        required: {
-                                            value: true,
-                                            message: 'Gender is required',
-                                        },
-                                        pattern: {
-                                            value: /^[^-]+(?!.*--).+[^-]+$/,
-                                            message: 'Gender is required',
-                                        }
-                                    }}
+                                    // rules={{
+                                    //     required: {
+                                    //         value: true,
+                                    //         message: 'account_id is required',
+                                    //     },
+                                    //     pattern: {
+                                    //         value: /^[^-]+(?!.*--).+[^-]+$/,
+                                    //         message: 'Gender is required',
+                                    //     }
+                                    // }}
                                     render={({ field: { onChange, onBlur, value } }) => (
                                         <TextField
                                             fullWidth
-                                            label="Personnel"
-                                            name="personnel_id"
+                                            label="Personnel account"
+                                            name="account_id"
                                             select
                                             SelectProps={{ native: true }}
                                             variant="outlined"
@@ -202,7 +203,7 @@ const AddEditJobPosition = (props) => {
                                             onChange={onChange}
                                             size='small'
                                             value={value}
-                                            error={errors.personnel_id ? true:false}
+                                            error={errors.account_id ? true:false}
                                         >
                                             {Gender.map((option) => (
                                                 <option

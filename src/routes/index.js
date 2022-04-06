@@ -13,11 +13,13 @@ import { fetchMunicipalityCity } from "../redux/municipality-city/actions";
 import { fetchBarangayRedux } from "../redux/barangay/action";
 import { fetchClassificationRedux } from "../redux/classification/actions";
 import { fetchAssessmentLevelRedux } from "../redux/assessment-levels/actions";
+import { fetchPersonnelRedux } from "../redux/personnel/actions";
 
 const MainRoute = () => {
   const dispatch = useDispatch();
 
   const fetchData = useCallback( async() => {
+      await dispatch(fetchPersonnelRedux());
       await dispatch(fetchIndividualRedux());
       await dispatch(fetchJuridicalRedux());
       await dispatch(fetchMultipleRedux());
