@@ -26,6 +26,15 @@ import InputErrorStyles from '../../styles/error-text/InputErrorStyles.module.cs
 // hooks
 import { CheckEmail } from '../../helpers/EmailValidator';
 
+// styles for react select
+const selectStyles = {
+    control: provided => ({ ...provided, minWidth: 240, }),
+    menu: () => ({ boxShadow: 'inset 0 1px 0 rgba(0, 0, 0, 0.1)', opacity: 1, }),
+    menu: base => ({
+        ...base,
+        zIndex: 100
+    })
+};
 
 const AddEditAccounts = (props) => {
     const { data, addData, updateData, accountsList } = props;
@@ -35,12 +44,32 @@ const AddEditAccounts = (props) => {
     const personnelList = useSelector(state => state.personnelData.personnels);
 
     // local states
-    const [radioValue, setRadioValue] = useState('yes'); // for radioButton
+    const [radioValue, setRadioValue] = useState(data ? data.allow_login : 'yes'); // for radioButton
     const [newPersonnelList, setNewPersonnelList] = useState([]) // for select option
     const [emailError, setEmailError] = useState(false); // for email exist
 
     const password = useRef({});
     password.current = watch('password', '');
+
+
+
+    // for select option values
+    const personnelOptions = useCallback(() => {
+        // filtering personnels with accounts already
+        // eslint-disable-next-line eqeqeq
+        const filteredPersonnels = personnelList.filter(({ id: id1 }) => !accountsList.some(({ personnel_id: id2 }) => id2 == id1));
+        let newData = [];
+        filteredPersonnels.forEach(item => newData.push({
+            "value": item.id,
+            "label": item.lastname + ", " + item.firstname + " " + item.middlename.charAt(0) + ".",
+            "email": item.email
+        }));
+        setNewPersonnelList(newData);
+    }, [accountsList, personnelList]);
+
+    useEffect(() => {
+        personnelOptions();
+    }, [personnelOptions]);
 
     const addAccount = (_data) => {
         let emailExist = accountsList.find(account => account.email === _data.email);
@@ -54,34 +83,9 @@ const AddEditAccounts = (props) => {
     }
 
     const updateAccount = (_data) => {
-        console.log(_data)
-       // updateData({ ..._data, id: data.id });
+        updateData({ ..._data, id: data.id });
     }
 
-    // styles for react select
-    const selectStyles = {
-        control: provided => ({ ...provided, minWidth: 240, }),
-        menu: () => ({ boxShadow: 'inset 0 1px 0 rgba(0, 0, 0, 0.1)', opacity: 1, }),
-        menu: base => ({
-            ...base,
-            zIndex: 100
-        })
-    };
-
-    // for select option values
-    const personnelOptions = useCallback(() => {
-        let newData = [];
-        personnelList.forEach(item => newData.push({
-            "value": item.id,
-            "label": item.lastname + ", " + item.firstname + " " + item.middlename.charAt(0) + ".",
-            "email": item.email
-        }));
-        setNewPersonnelList(newData);
-    }, [personnelList]);
-
-    useEffect(() => {
-        personnelOptions();
-    }, [personnelOptions]);
 
     return (
         <>
@@ -212,9 +216,9 @@ const AddEditAccounts = (props) => {
 
                             <Grid item md={2} xs={12}>
                             </Grid>
-                            <Grid item md={8} xs={12} style={{ marginTop: data ? 20 : -10 }}>
+                            <Grid item md={8} xs={12} style={{ marginTop: data ? 40 : -10 }}>
                                 <Controller
-                                    defaultValue={radioValue}
+                                    defaultValue={data ? data.allow_login : radioValue}
                                     name={'allowLogin'}
                                     control={control}
                                     render={({ field: { onChange, onBlur, value } }) => (
@@ -273,14 +277,17 @@ const AddEditAccounts = (props) => {
                                             <option key={"-Select-"} value={"-Select-"}>
                                                 {"-Select-"}
                                             </option>
-                                            <option key={"Appraiser"} value={"Appraiser"}>
-                                                {"Appraiser"}
+                                            <option key={"ADMIN"} value={"ADMIN"}>
+                                                {"ADMIN"}
                                             </option>
-                                            <option key={"Approver"} value={"Approver"}>
-                                                {"Approver"}
+                                            <option key={"APPRAISER"} value={"APPRAISER"}>
+                                                {"APPRAISER"}
                                             </option>
-                                            <option key={"Assessor"} value={"Assessor"}>
-                                                {"Assessor"}
+                                            <option key={"APPROVER"} value={"APPROVER"}>
+                                                {"APPROVER"}
+                                            </option>
+                                            <option key={"ASSESSOR"} value={"ASSESSOR"}>
+                                                {"ASSESSOR"}
                                             </option>
                                         </TextField>
                                     )}

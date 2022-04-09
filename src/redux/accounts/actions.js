@@ -6,7 +6,7 @@ export const fetchAccountsRedux = () => {
   return async (dispatch) => {
     try {
       const response = await AccountsApi.fetchAccounts();
-      if(response === '422' || response === '500' || response === '404'){
+      if (response === '422' || response === '500' || response === '404') {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -15,7 +15,7 @@ export const fetchAccountsRedux = () => {
         return;
       } else {
         dispatch({
-          type: actionTypes.FETCH_ACCOUNTS, 
+          type: actionTypes.FETCH_ACCOUNTS,
           payload: response
         })
       }
@@ -29,7 +29,7 @@ export const createAccountRedux = (payload) => {
   return async (dispatch) => {
     try {
       const response = await AccountsApi.createAccount(payload);
-      if(response === '422' || response === '500' || response === '404'){
+      if (response === '422' || response === '500' || response === '404') {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -39,7 +39,32 @@ export const createAccountRedux = (payload) => {
       } else {
         Swal.fire('Saved!', '', 'success');
         dispatch({
-          type: actionTypes.CREATE_ACCOUNT, 
+          type: actionTypes.CREATE_ACCOUNT,
+          payload: response
+        })
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const updateAccountRedux = (payload, id) => {
+  return async (dispatch) => {
+    try {
+      const response = await AccountsApi.update(payload, id);
+      if (response === '422' || response === '500' || response === '404') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+        })
+        return;
+      } else {
+        Swal.fire('Saved!', '', 'success');
+        dispatch({
+          type: actionTypes.UPDATE_ACCOUNT,
           payload: response
         })
       }
@@ -54,21 +79,33 @@ export const loginRedux = (payload) => {
   return async (dispatch) => {
     try {
       const response = await AccountsApi.login(payload);
-      if(response === '422' || response === '500' || response === '404'){
+      sessionStorage.setItem("user", JSON.stringify(response));
+      // sessionStorage.setItem("personnel", JSON.stringify(response.personnel[0]));
+      // sessionStorage.setItem("token", response.token);
+      let personnel = response.personnel[0].firstname + " " + response.personnel[0].lastname
+      if (response === '422' || response === '500' || response === '404') {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
           text: 'Something went wrong!',
         })
         return;
+      } else if (response === '401') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Bad credentials!',
+        })
+        return;
       } else {
         Swal.fire(
-          'Updated!',
-          'Data has been updated.',
+          'Wecome!',
+          personnel,
           'success'
         );
+        window.location.reload(); 
         dispatch({
-          type: actionTypes.LOGIN, 
+          type: actionTypes.LOGIN,
           payload: response
         })
       }
@@ -76,7 +113,7 @@ export const loginRedux = (payload) => {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Something went wrong!',
+        text: 'Bad credentials!',
       })
     }
   }
@@ -85,18 +122,18 @@ export const loginRedux = (payload) => {
 export const logoutRedux = () => {
   return async (dispatch) => {
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      // title: 'Are you sure?',
+      text: "Are you sure you want to log out?",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'Yes!'
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           const response = await AccountsApi.logout();
-          if(response === '422' || response === '500' || response === '404'){
+          if (response === '422' || response === '500' || response === '404') {
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
@@ -104,15 +141,17 @@ export const logoutRedux = () => {
             })
             return;
           } else {
-            Swal.fire(
-              'Deleted!',
-              'Data has been deleted.',
-              'success'
-            )
+            // Swal.fire(
+            //   'Deleted!',
+            //   'Data has been deleted.',
+            //   'success'
+            // )
             dispatch({
-              type: actionTypes.LOGOUT, 
+              type: actionTypes.LOGOUT,
               payload: response
             })
+            window.location.reload(); 
+            sessionStorage.clear();
           }
         } catch (error) {
           Swal.fire({

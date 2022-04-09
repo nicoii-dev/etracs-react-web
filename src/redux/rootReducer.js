@@ -19,6 +19,7 @@ import AppliedToLguReducer from "./applied-to-lgu/appliedToLguReducer";
 import PersonnelReducer from "./personnel/personnelReducer";
 import JobPositionReducer from "./job-position/jobPositionReducer";
 import AccountReducer from "./accounts/accountReducer";
+import LoaderReducer from "./loader/loaderReducer";
 
 const rootReducer = combineReducers({
     individualData: IndividualReducer,
@@ -41,6 +42,7 @@ const rootReducer = combineReducers({
     personnelData: PersonnelReducer,
     jobPositionData: JobPositionReducer,
     accountData: AccountReducer,
+    loaderData: LoaderReducer,
 });
 
 export default rootReducer;

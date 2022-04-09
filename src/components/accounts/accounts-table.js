@@ -17,8 +17,9 @@ import { Block, CheckCircle } from '@mui/icons-material';
 // columns data
 const columns = [
     { id: "action", label: "Action", minWidth: 100 },
+    { id: "personnel", label: "Personnel", minWidth: 150 },
     { id: "email", label: "Email", minWidth: 100 },
-    { id: "allow_login", label: "Allow login", minWidth: 100 },
+    { id: "allow", label: "Allow login", minWidth: 100 },
     { id: "role", label: "Role", minWidth: 100 },
 ]
 
@@ -56,7 +57,7 @@ const AccountsTable = (props) => {
                 </IconButton> */}
             </Box>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                <TableContainer sx={{ maxHeight: 330 }}>
+                <TableContainer sx={{ maxHeight: 700 }}>
                     <Table aria-label="sticky table">
                         <TableHead>
                             <TableRow>
@@ -64,7 +65,8 @@ const AccountsTable = (props) => {
                                     <TableCell
                                         key={column.id}
                                         align={column.align}
-                                        style={{ minWidth: column.minWidth, fontWeight: 'bolder', textAlign: column.id === 'action' ? 'center' : 'left' }}
+                                        style={{ minWidth: column.minWidth, fontWeight: 'bolder', 
+                                            textAlign: column.id === 'action' || column.id === 'allow' || column.id === 'role' ? 'center' : 'left' }}
                                     >
                                         {column.label}
                                     </TableCell>
@@ -85,7 +87,10 @@ const AccountsTable = (props) => {
                                             {columns.map((column) => {
                                                 const value = row[column.id];
                                                 return (
-                                                    <TableCell key={column.id} align={column.id === 'action' ? 'center' : 'left'} size='small'>
+                                                    <TableCell 
+                                                        key={column.id} 
+                                                        align={column.id === 'action' || column.id === 'allow' || column.id === 'role' ? 'center' : 'left'} 
+                                                        size='small'>
                                                         {column.id === 'action' ?
                                                             <>
                                                                 <IconButton onClick={() => {
@@ -101,14 +106,19 @@ const AccountsTable = (props) => {
                                                                 </IconButton> */}
                                                             </> : null}
 
-                                                        {column.id === 'allow_login' ?
+                                                        {column.id === 'personnel' ?
+                                                            <>
+                                                            {row.lastname + " " + row.firstname + ", " + row.middlename}
+                                                            </> : null}
+
+                                                        {column.id === 'allow' ?
                                                             row.allow_login === 'yes' ?
                                                                 < IconButton >
-                                                                    <CheckCircle style={{color: 'green'}} />
+                                                                    <CheckCircle style={{ color: 'green' }} />
                                                                 </IconButton>
                                                                 :
                                                                 <IconButton>
-                                                                    <Block style={{color: 'red'}} />
+                                                                    <Block style={{ color: 'red' }} />
                                                                 </IconButton>
 
                                                             : null}

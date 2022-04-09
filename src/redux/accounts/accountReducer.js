@@ -17,6 +17,11 @@ const AccountReducer = (state = initialState, action) => {
                 ...state,
                 accounts: action.payload
             }
+        case actionTypes.UPDATE_ACCOUNT:
+            return {
+                ...state,
+                accounts: action.payload
+            }
         case actionTypes.LOGIN:
             return {
                 ...state,

@@ -12,6 +12,7 @@ import AddEditAccounts from "../../components/accounts/add-edit-accounts";
 import { 
     fetchAccountsRedux,
     createAccountRedux,
+    updateAccountRedux,
 } from "../../redux/accounts/actions";
 
 const AccountsPage = () => {
@@ -42,6 +43,16 @@ const AccountsPage = () => {
         await dispatch(createAccountRedux(payload));
         setShowModal(!showModal);
     };
+
+    const updateData = async (_data) => {
+        console.log(_data)
+        const payload = {
+            allow_login: _data.allowLogin,
+            role: _data.role
+        }
+        await dispatch(updateAccountRedux(payload, _data.id));
+        setShowModal(!showModal);
+    }
 
     return (
         <>
@@ -112,6 +123,7 @@ const AccountsPage = () => {
                 <AddEditAccounts 
                     data={data}
                     addData={addData} 
+                    updateData={updateData}
                     accountsList={accountsList}
                 />
             </Modal>

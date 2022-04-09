@@ -20,7 +20,23 @@ const AccountsApi = {
                 }
             });
             const data = await response.data;
-            console.log(data)
+            return data;
+        } catch (error) {
+            console.log(error.message)
+            return error.message.substr(32, 3)
+        }
+    },
+
+    update: async (payload, id) => {
+        try {
+            const json = JSON.stringify(payload);
+            const response = await axios.put("http://localhost:8000/api/update-account/"+id, json, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.data;
             return data;
         } catch (error) {
             console.log(error.message)

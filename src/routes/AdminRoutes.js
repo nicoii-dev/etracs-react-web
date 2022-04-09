@@ -2,7 +2,10 @@ import React from 'react';
 import {
     Routes,
     Route,
-  } from "react-router-dom";
+} from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
+
 // * layout
 import _Layout from '../layout';
 
@@ -20,12 +23,53 @@ import AccountsPage from '../pages/accounts';
 import PersonnelPage from '../pages/personnel';
 import JobPositionPage from '../pages/job-position';
 
+// redux
+import { fetchIndividualRedux } from "../redux/individual/actions";
+import { fetchJuridicalRedux } from "../redux/juridical/actions";
+import { fetchMultipleRedux } from "../redux/multiple/actions";
+import { fetchMunicipalityCity } from "../redux/municipality-city/actions";
+import { fetchBarangayRedux } from "../redux/barangay/action";
+import { fetchClassificationRedux } from "../redux/classification/actions";
+import { fetchAssessmentLevelRedux } from "../redux/assessment-levels/actions";
+import { fetchPersonnelRedux } from "../redux/personnel/actions";
+
+
 const AdminRoutes = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const fetchData = React.useCallback(async () => {
+        await dispatch(fetchPersonnelRedux());
+        await dispatch(fetchIndividualRedux());
+        await dispatch(fetchJuridicalRedux());
+        await dispatch(fetchMultipleRedux());
+        await dispatch(fetchMunicipalityCity());
+        await dispatch(fetchBarangayRedux());
+        await dispatch(fetchClassificationRedux());
+        await dispatch(fetchAssessmentLevelRedux())
+    }, [dispatch])
+
+    React.useEffect(() => {
+        fetchData()
+    }, [fetchData])
+
+    // const checkSessionStorage = React.useCallback(async () => {
+    //     if (sessionStorage?.getItem("user")?.length > 0) {
+    //         navigate("/dashboard")
+    //     } else {
+    //         navigate("/login")
+    //     }
+    // }, [navigate]);
+
+    // React.useEffect(() => {
+    //     checkSessionStorage()
+    // }, [checkSessionStorage]);
 
     return (
 
         <Routes>
-            <Route path="/" element = {<_Layout />} >
+            <Route path="/" element={<_Layout />} >
                 <Route path="/" element={<Dashboard />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="entity/individual" element={<IndividualPage />} />
@@ -39,7 +83,7 @@ const AdminRoutes = () => {
                 <Route path="utilities/accounts" element={<AccountsPage />} />
                 <Route path="utilities/job-position" element={<JobPositionPage />} />
             </Route>
-            <Route path="*" element={<Error404 />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
 
     )

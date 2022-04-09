@@ -4,6 +4,8 @@ import { Provider} from 'react-redux';
 
 import MainRoute from './routes';
 
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
 function App() {
   return (
       <Provider store = {store}>
