@@ -4,11 +4,11 @@ import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { Paper } from '@mui/material';
+import { Button, Paper } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { Dashboard, Assignment, ManageAccounts, Logout, Face } from '@mui/icons-material';
+import { Dashboard, AppRegistration, ManageAccounts, Logout, Face } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 
 import GeneralRevisionNav from '../common/general-revision'
@@ -27,10 +27,14 @@ const AdminPageList = ({ open }) => {
   const currentLocation = location.pathname.toLowerCase();
 
   //session data
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const logoutHandler = async () => {
     await dispatch(logoutRedux());
+  }
+
+  const modalHandler = () => {
+    console.log(1)
   }
   return (
     <div style={{ backgroundColor: '#000033' }}>
@@ -65,35 +69,35 @@ const AdminPageList = ({ open }) => {
         </div>
         <EntityNav open={open} />
         <FaasNav open={open} />
+        <div>
+          <ListItem button key={'FAASV2'} onClick={() => { navigate('faas') }}>
+            <ListItemIcon
+              style={{
+                color: currentLocation.includes('faas') ? '#66B2FF' : 'white',
+                fontWeight: 'bold',
+                fontSize: 50
+              }}
+            >
+              <AppRegistration />
+            </ListItemIcon>
+            <p
+              style={{
+                color: currentLocation.includes('faas') ? '#66B2FF' : 'white',
+                fontWeight: 'bolder',
+                fontSize: 15,
+                fontFamily: 'revert',
+                marginTop: 0,
+                marginBottom: 0,
+                width: '100%'
+              }}>
+              FAASV2
+            </p>
+          </ListItem>
+        </div>
         <GeneralRevisionNav open={open} />
       </List>
       <Divider />
       <List>
-        {/* <div>
-              <ListItem button onClick={() => {navigate('accounts')}}>
-                <ListItemIcon
-                  style={{
-                    color: currentLocation.includes('accounts') ? '#0066CC' : 'white',
-                    fontWeight:'bold',
-                    fontSize:50
-                    }}
-                  >
-                  <ManageAccounts />
-                </ListItemIcon>
-                  <p        
-                    style={{
-                        color: currentLocation.includes('accounts') ? '#0066CC' : 'white',
-                        fontWeight:'bolder', 
-                        fontSize:15,
-                        fontFamily:'revert',
-                        marginTop:0, 
-                        marginBottom:0,
-                        width:'100%'
-                    }}>
-                      Account
-                  </p>
-              </ListItem>
-            </div> */}
         <UtilitiesNav open={open} />
       </List>
       <div style={{
@@ -117,7 +121,7 @@ const AdminPageList = ({ open }) => {
             <h5 style={{ color: 'white', }}>{user?.personnel[0]?.firstname.toUpperCase() + " " + user?.personnel[0]?.lastname.toUpperCase()}</h5>
             <h6 style={{ marginTop: -25, color: '#606060' }}>{user?.user?.email}</h6>
           </div>
-          <IconButton style={{marginLeft: 20}} onClick={logoutHandler}>
+          <IconButton style={{ marginLeft: 20 }} onClick={logoutHandler}>
             <Logout style={{ height: 30, width: 30, }} />
           </IconButton>
         </Paper>

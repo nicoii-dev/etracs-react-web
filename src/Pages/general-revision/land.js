@@ -96,17 +96,19 @@ const LandRevision = () => {
 
             <Modal
                 isOpen={showModal}
-                //onRequestClose={() => {setShowModal(!showModal)}}
+                onRequestClose={() => {
+                    Swal.fire('Select revision year to proceed')
+                }}
                 contentLabel="Example Modal"
                 onClose={() => setShowModal(!showModal)}
                 ariaHideApp={false}
                 style={{
                     content: {
-                    top: '55%',
+                    top: '45%',
                     marginLeft: '50%',
                     transform: 'translate(-50%, -50%)',
                     width: window.innerHeight > 900 ? '30%' : '30%',
-                    height: window.innerHeight > 900 ? '51%' : '60%',
+                    height: window.innerHeight > 900 ? '35%' : '45%',
                     overflow: 'hidden'
                     },
                     overlay: {
@@ -119,11 +121,10 @@ const LandRevision = () => {
                 />
                 <Box
                     sx={{
-                        display: 'flex',
-                        justifyContent: 'flex-end',
                         p: 2,
-                        marginBottom: -2,
-                        marginRight: -2
+                        right: 2,
+                        bottom: 2,
+                        position: 'absolute'
                     }}
                 >
                     <Button 

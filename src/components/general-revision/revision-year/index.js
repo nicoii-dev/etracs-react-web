@@ -70,6 +70,7 @@ const RevisionYear = (props) => {
                                 deleteYear={deleteYear}
                                 revisionYearList={revisionYearList}
                                 setSelectedYear={setSelectedYear}
+                                revisionRoute = {1} // for identifying the route
                             />
                         </Grid>
                     </Grid>
@@ -88,10 +89,11 @@ const RevisionYear = (props) => {
                 ariaHideApp={false}
                 style={{
                     content: {
-                    top: '55%',
+                    top: '45%',
                     marginLeft: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: '25%',
+                    width: '55%',
+                    height: '35%'
                     },
                     overlay: {
                         zIndex:10
@@ -99,7 +101,6 @@ const RevisionYear = (props) => {
                 }}
             >
                 <AddEditRevisionYear 
-                    data={data}
                     addYear={addYear}
                     yearList={yearList}
                     revisionYearList={revisionYearList}

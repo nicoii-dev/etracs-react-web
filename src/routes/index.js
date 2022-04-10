@@ -7,14 +7,13 @@ import LoaderComponent from "../components/loader";
 
 const MainRoute = () => {
 
-  const userType = JSON.parse(sessionStorage?.getItem("user"))?.user?.role;
-  const allowLogin = JSON.parse(sessionStorage?.getItem("user"))?.user?.allow_login
-    console.log(sessionStorage?.getItem("user"))
+  const userType = JSON.parse(localStorage?.getItem("user"))?.user?.role;
+    console.log(userType)
 
   return (
     <>
       <Router>
-        {!sessionStorage?.getItem("user")?.length > 0 ?
+        {!localStorage?.getItem("user")?.length > 0 ?
           <AuthRoutes />
           :
           <AdminRoutes />

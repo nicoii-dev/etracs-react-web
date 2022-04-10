@@ -13,16 +13,15 @@ import { IconButton, Divider } from '@mui/material';
 import ModeEdit from '@mui/icons-material/ModeEdit';
 import Delete from '@mui/icons-material/Delete';
 
-// columns data
-const columns = [
-    { id: "action", label: "Action", minWidth: 100 },
-    { id: "revision_year", label: "Revision Year", minWidth: 170 },
-]
+const RevisionYearTable = (props) => { 
+    const { revisionYearList, selected, setSelected, deleteYear, setSelectedYear, revisionRoute } = props;
 
-const RevisionYearTable = (props) => {
-    const { showModal, setShowModal, revisionYearList, selected, setSelected,
-        dispatch, deleteYear, setSelectedYear } = props;
-
+    // columns data
+    const columns = [
+        { id: "action", label: "Action", minWidth: 100 },
+        { id: "revision_year", label: "Revision Year", minWidth: 170 },
+    ]
+    if(revisionRoute) columns.shift(); //remove if the route is revision
     return (
         <>
 
@@ -35,17 +34,17 @@ const RevisionYearTable = (props) => {
                     marginTop: -3
                 }}
             >
-                <IconButton
+                {/* <IconButton
                     color="primary"
                     variant="contained"
                     onClick={() => {
                         setShowModal(!showModal)
                     }}>
                     <AddBox />
-                </IconButton>
+                </IconButton> */}
             </Box>
-            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                <TableContainer sx={{ maxHeight: 330 }}>
+            <Paper sx={{ width: '100%' }}>
+                <TableContainer sx={{ maxHeight: 280 }}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>

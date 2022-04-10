@@ -26,7 +26,7 @@ const AddEditRevisionYear = (props) => {
                         </p>
                     </Divider>
                 </Grid>
-                <Grid item md={12} xs={12} style={{marginTop:-30}}>
+                <Grid item md={12} xs={12} style={{marginTop:0}}>
                     <CardContent>
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12} style={{marginTop:-15}}>
@@ -76,10 +76,10 @@ const AddEditRevisionYear = (props) => {
             </Grid>
             <Box
                 sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
+                    position: 'absolute',
                     p: 2,
-                    marginBottom:-3
+                    bottom: 2,
+                    right: 2,
                 }}
             >
                 <Button color="primary" variant="contained" onClick={handleSubmit(addYear)}>

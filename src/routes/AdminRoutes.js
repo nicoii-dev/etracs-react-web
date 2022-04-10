@@ -22,6 +22,7 @@ import MunicipalityCityPage from '../pages/utilities/municipality-city';
 import AccountsPage from '../pages/accounts';
 import PersonnelPage from '../pages/personnel';
 import JobPositionPage from '../pages/job-position';
+import FaasPage from '../pages/faasV2';
 
 // redux
 import { fetchIndividualRedux } from "../redux/individual/actions";
@@ -56,20 +57,7 @@ const AdminRoutes = () => {
         fetchData()
     }, [fetchData])
 
-    // const checkSessionStorage = React.useCallback(async () => {
-    //     if (sessionStorage?.getItem("user")?.length > 0) {
-    //         navigate("/dashboard")
-    //     } else {
-    //         navigate("/login")
-    //     }
-    // }, [navigate]);
-
-    // React.useEffect(() => {
-    //     checkSessionStorage()
-    // }, [checkSessionStorage]);
-
     return (
-
         <Routes>
             <Route path="/" element={<_Layout />} >
                 <Route path="/" element={<Dashboard />} />
@@ -84,10 +72,11 @@ const AdminRoutes = () => {
                 <Route path="utilities/personnels" element={<PersonnelPage />} />
                 <Route path="utilities/accounts" element={<AccountsPage />} />
                 <Route path="utilities/job-position" element={<JobPositionPage />} />
+
+                <Route path="faas" element={<FaasPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-
     )
 }
 
