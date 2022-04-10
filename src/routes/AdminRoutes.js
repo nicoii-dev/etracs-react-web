@@ -32,6 +32,7 @@ import { fetchBarangayRedux } from "../redux/barangay/action";
 import { fetchClassificationRedux } from "../redux/classification/actions";
 import { fetchAssessmentLevelRedux } from "../redux/assessment-levels/actions";
 import { fetchPersonnelRedux } from "../redux/personnel/actions";
+import { fetchAccountsRedux } from '../redux/accounts/actions';
 
 
 const AdminRoutes = () => {
@@ -47,7 +48,8 @@ const AdminRoutes = () => {
         await dispatch(fetchMunicipalityCity());
         await dispatch(fetchBarangayRedux());
         await dispatch(fetchClassificationRedux());
-        await dispatch(fetchAssessmentLevelRedux())
+        await dispatch(fetchAssessmentLevelRedux());
+        await dispatch(fetchAccountsRedux());
     }, [dispatch])
 
     React.useEffect(() => {

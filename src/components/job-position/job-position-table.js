@@ -19,7 +19,7 @@ const columns = [
     { id: "code", label: "Code", minWidth: 100 },
     { id: "description", label: "Description", minWidth: 100 },
     { id: "org", label: "Org", minWidth: 100 },
-    { id: "personnel_id", label: "Assignee", minWidth: 100 },
+    { id: "email", label: "Assignee", minWidth: 100 },
     { id: "role", label: "Role", minWidth: 100 },
 ]
 
@@ -35,6 +35,7 @@ const JobPositionTable = (props) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
     return (
         <>
 

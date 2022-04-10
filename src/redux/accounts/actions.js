@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes'
 import AccountsApi from '../../library/api/accounts-api';
 import Swal from "sweetalert2";
+import { loadingStart, loadingFinish } from '../loader/actions';
 
 export const fetchAccountsRedux = () => {
   return async (dispatch) => {
@@ -77,50 +78,52 @@ export const updateAccountRedux = (payload, id) => {
 
 export const loginRedux = (payload) => {
   return async (dispatch) => {
-    try {
-      const response = await AccountsApi.login(payload);
-      sessionStorage.setItem("user", JSON.stringify(response));
-      // sessionStorage.setItem("personnel", JSON.stringify(response.personnel[0]));
-      // sessionStorage.setItem("token", response.token);
-      let personnel = response.personnel[0].firstname + " " + response.personnel[0].lastname
-      if (response === '422' || response === '500' || response === '404') {
+    // dispatch(loadingStart());
+    // try {
+    const response = await AccountsApi.login(payload);
+    switch (response) {
+      case "422" || "500" || "404":
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
           text: 'Something went wrong!',
         })
         return;
-      } else if (response === '401') {
+      case "401":
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
           text: 'Bad credentials!',
         })
         return;
-      } else {
+      case "not allowed":
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: "You're not allowed to login. Please contact administrator",
+        })
+        return;
+      default:
+        sessionStorage.setItem("user", JSON.stringify(response));
+        let personnel = response.personnel[0].firstname + " " + response.personnel[0].lastname
         Swal.fire(
           'Wecome!',
           personnel,
           'success'
         );
-        window.location.reload(); 
+        dispatch(loadingFinish());
+        window.location.reload();
         dispatch({
           type: actionTypes.LOGIN,
           payload: response
         })
-      }
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Bad credentials!',
-      })
     }
   }
 }
 
 export const logoutRedux = () => {
   return async (dispatch) => {
+    dispatch(loadingStart())
     Swal.fire({
       // title: 'Are you sure?',
       text: "Are you sure you want to log out?",
@@ -150,7 +153,7 @@ export const logoutRedux = () => {
               type: actionTypes.LOGOUT,
               payload: response
             })
-            window.location.reload(); 
+            window.location.reload();
             sessionStorage.clear();
           }
         } catch (error) {
@@ -161,6 +164,8 @@ export const logoutRedux = () => {
           })
         }
       }
+    }).finally(() => {
+      dispatch(loadingFinish());
     })
   }
 }

@@ -14,12 +14,8 @@ import { useForm, Controller } from "react-hook-form";
 import TextInputController from '../input/text-input';
 import InputErrorStyles from '../../styles/error-text/InputErrorStyles.module.css';
 
-// hooks
-import { CheckEmail } from '../../helpers/EmailValidator';
-import Gender from '../../library/constants/informations/gender';
-
 const AddEditJobPosition = (props) => {
-    const { data, addData, updateData } = props;
+    const { data, addData, updateData, filteredUsers } = props;
     const { control, handleSubmit, formState: { errors } } = useForm();
 
     const addJobPosition = (_data) => {
@@ -48,12 +44,12 @@ const AddEditJobPosition = (props) => {
                                     name="code"
                                     variant="outlined"
                                     control={control}
-                                    errorStatus={errors.code ? true:false}
+                                    errorStatus={errors.code ? true : false}
                                     inputStyle={{ style: { textTransform: "uppercase" } }}
                                     rules={{
                                         required: {
                                             value: true,
-                                           // message: 'Code is required',
+                                            // message: 'Code is required',
                                         },
                                     }}
                                 />
@@ -66,7 +62,7 @@ const AddEditJobPosition = (props) => {
                                     name="description"
                                     variant="outlined"
                                     control={control}
-                                    errorStatus={errors.description ? true:false}
+                                    errorStatus={errors.description ? true : false}
                                     rules={{
                                         required: {
                                             value: true,
@@ -81,7 +77,7 @@ const AddEditJobPosition = (props) => {
                                 {errors.description && (<div><p className={InputErrorStyles.errorText}>{errors.description?.message}</p></div>)}
                             </Grid>
                             <Grid item md={6} xs={12}>
-                            <Controller
+                                <Controller
                                     defaultValue={data?.org}
                                     name={'org'}
                                     control={control}
@@ -107,7 +103,7 @@ const AddEditJobPosition = (props) => {
                                             onChange={onChange}
                                             size='small'
                                             value={value}
-                                            error={errors.org ? true:false}
+                                            error={errors.org ? true : false}
                                         >
                                             <option key={"-Select-"} value={"-Select-"}>
                                                 {"-Select-"}
@@ -131,26 +127,26 @@ const AddEditJobPosition = (props) => {
                                     )}
                                 />
                             </Grid>
-                            {/* <Grid item md={6} xs={12}>
+                            <Grid item md={6} xs={12}>
                                 <Controller
-                                    defaultValue={data?.role}
-                                    name={'role'}
+                                    defaultValue={data?.user_id}
+                                    name={'user_id'}
                                     control={control}
                                     rules={{
                                         required: {
                                             value: true,
-                                            message: 'Gender is required',
+                                            message: 'User is required',
                                         },
                                         pattern: {
                                             value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
-                                            message: 'Gender is required',
+                                            message: 'User is required',
                                         }
                                     }}
                                     render={({ field: { onChange, onBlur, value } }) => (
                                         <TextField
                                             fullWidth
-                                            label="Role*"
-                                            name="role"
+                                            label="Personnel account"
+                                            name="user_id"
                                             select
                                             SelectProps={{ native: true }}
                                             variant="outlined"
@@ -158,59 +154,17 @@ const AddEditJobPosition = (props) => {
                                             onChange={onChange}
                                             size='small'
                                             value={value}
-                                            error={errors.role ? true:false}
+                                            error={errors.user_id ? true : false}
                                         >
                                             <option key={"-Select-"} value={"-Select-"}>
                                                 {"-Select-"}
                                             </option>
-                                            <option key={"Appraiser"} value={"Appraiser"}>
-                                                {"Appraiser"}
-                                            </option>
-                                            <option key={"Approver"} value={"Approver"}>
-                                                {"Approver"}
-                                            </option>
-                                            <option key={"Assessor"} value={"Assessor"}>
-                                                {"Assessor"}
-                                            </option>
-                                        </TextField>
-                                    )}
-                                />
-                            </Grid> */}
-                            <Grid item md={6} xs={12}>
-                                <Controller
-                                    defaultValue={data?.account_id}
-                                    name={'account_id'}
-                                    control={control}
-                                    // rules={{
-                                    //     required: {
-                                    //         value: true,
-                                    //         message: 'account_id is required',
-                                    //     },
-                                    //     pattern: {
-                                    //         value: /^[^-]+(?!.*--).+[^-]+$/,
-                                    //         message: 'Gender is required',
-                                    //     }
-                                    // }}
-                                    render={({ field: { onChange, onBlur, value } }) => (
-                                        <TextField
-                                            fullWidth
-                                            label="Personnel account"
-                                            name="account_id"
-                                            select
-                                            SelectProps={{ native: true }}
-                                            variant="outlined"
-                                            onBlur={onBlur}
-                                            onChange={onChange}
-                                            size='small'
-                                            value={value}
-                                            error={errors.account_id ? true:false}
-                                        >
-                                            {Gender.map((option) => (
+                                            {filteredUsers.map((option) => (
                                                 <option
                                                     key={option.id}
-                                                    value={option.gender}
+                                                    value={option.id}
                                                 >
-                                                    {option.gender}
+                                                    {option.email}
                                                 </option>
                                             ))}
                                         </TextField>

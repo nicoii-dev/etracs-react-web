@@ -116,7 +116,7 @@ const AccountsPage = () => {
                         marginLeft: !status ? "45%" : "53%",
                         transform: "translate(-50%, -50%)",
                         width: !status ? "45%" : "38%",
-                        height: "62%",
+                        height: "75%",
                     },
                 }}
             >

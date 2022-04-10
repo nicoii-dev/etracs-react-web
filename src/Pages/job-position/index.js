@@ -22,6 +22,7 @@ const JobPositionPage = () => {
     //global states
     const status = useSelector((state) => state.navStatus.status);
     const jobPositionList = useSelector((state) => state.jobPositionData.jobPositions);
+    const userList = useSelector((state) => state.accountData.accounts);
 
     // local states
     const [data, setData] = useState([]); // for update purpose
@@ -29,6 +30,10 @@ const JobPositionPage = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
+    // filtering personnels with accounts already
+    // eslint-disable-next-line eqeqeq
+    const filteredUsers = userList.filter(({ id: id1 }) => !jobPositionList.some(({ user_id: id2 }) => id2 == id1));
+    
     useEffect(() => {
         dispatch(fetchJobPositionRedux());
     }, [dispatch]);
@@ -38,7 +43,7 @@ const JobPositionPage = () => {
             code: _data.code.toUpperCase(),
             description: _data.description,
             org: _data.org,
-            account_id: _data.account_id,
+            user_id: _data.user_id,
         };
         await dispatch(storeJobPositionRedux(payload));
         setShowModal(!showModal);
@@ -57,9 +62,8 @@ const JobPositionPage = () => {
                 code: _data.code.toUpperCase(),
                 description: _data.description,
                 org: _data.org,
-                account_id: _data.account_id,
+                user_id: _data.user_id,
             };
-            console.log(payload, _data.id)
             await dispatch(updateJobPositionRedux(payload, _data.id));
             setShowModal(!showModal);
           }
@@ -141,6 +145,7 @@ const JobPositionPage = () => {
                     addData={addData}
                     updateData={updateData}
                     data={data}
+                    filteredUsers={filteredUsers}
                 />
             </Modal>
         </>
