@@ -22,8 +22,9 @@ const Dashboard = () => {
             py: 3,
           }}
         >
-          <Container maxWidth={false}>
           <HeaderData />
+          <Container maxWidth={false}>
+          
             <Grid container >
               <Grid item xl={8} lg={12} sm={9} xs={12} sx={{marginTop:5}}>
                 <BarChart />

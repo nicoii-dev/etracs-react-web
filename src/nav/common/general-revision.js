@@ -59,11 +59,11 @@ const GeneralRevisionNav = ({open}) => {
                         icon={<Terrain style={{color: 'white'}}/>}
                         title={'Land'}
                     />
-                    <NavItem 
+                    {/* <NavItem 
                         link={'generalrevision/building'}
                         icon={<Apartment style={{color: 'white'}}/>}
                         title={'Building'}
-                    />
+                    /> */}
                 </List>
             </Collapse>
         </div>
