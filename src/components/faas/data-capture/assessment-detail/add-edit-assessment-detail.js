@@ -17,7 +17,7 @@ import { fetchSpecificClass, setSpecificClass } from '../../../../redux/specific
 import { fetchSubClass, setSubClass } from '../../../../redux/sub-class/action';
 
 const AddEditAssessmentDetail = (props) => {
-    const { data, control, errors, setValue, handleSubmit, saveAssessmentDetail, assessmentDetail, 
+    const { data, control, errors, setValue, handleSubmit, saveAssessmentDetail, assessmentDetail, setClassificationName,
             rate, setRate,
             areaType, setAreaType,
             landArea, setLandArea,
@@ -37,8 +37,6 @@ const AddEditAssessmentDetail = (props) => {
     const specificClassList = useSelector((state) => state.specificClassData.specificClass);
     const subClassList = useSelector((state) => state.subClassData.subClass);
 
-    console.log(assessmentDetail)
-
     const setData = useCallback(() => {
         dispatch(setSpecificClass());
         dispatch(setSubClass());
@@ -46,6 +44,7 @@ const AddEditAssessmentDetail = (props) => {
             dispatch(fetchSpecificClass(assessmentDetail.classification));
             dispatch(fetchSubClass(assessmentDetail.classification));
         }
+        setClassificationName(assessmentDetail.classification_name)
         setRate(assessmentDetail.rate)
         setAreaType(assessmentDetail.area_type)
         setLandArea(assessmentDetail.land_area)
@@ -56,10 +55,10 @@ const AddEditAssessmentDetail = (props) => {
         setLandBaseMarketValue(assessmentDetail.land_base_market_value)
         setLandMarketValue(assessmentDetail.land_market_value)
         setLandAssessedValue(assessmentDetail.land_assessed_value)
-    },[assessmentDetail.area_type, assessmentDetail.classification, assessmentDetail.land_area, assessmentDetail.land_assessed_value, assessmentDetail.land_base_market_value, assessmentDetail.land_market_value, assessmentDetail.market_value, assessmentDetail.rate, assessmentDetail.total_land_area_ha, assessmentDetail.total_land_area_sqm, assessmentDetail.unit_value, dispatch, setAreaType, setLandArea, setLandAssessedValue, setLandBaseMarketValue, setLandMarketValue, setMarketValue, setRate, setTotalLandAreaHa, setTotalLandAreaSqm, setUnitValue]);
+    },[assessmentDetail.area_type, assessmentDetail.classification, assessmentDetail.classification_name, assessmentDetail.land_area, assessmentDetail.land_assessed_value, assessmentDetail.land_base_market_value, assessmentDetail.land_market_value, assessmentDetail.market_value, assessmentDetail.rate, assessmentDetail.total_land_area_ha, assessmentDetail.total_land_area_sqm, assessmentDetail.unit_value, dispatch, setAreaType, setClassificationName, setLandArea, setLandAssessedValue, setLandBaseMarketValue, setLandMarketValue, setMarketValue, setRate, setTotalLandAreaHa, setTotalLandAreaSqm, setUnitValue]);
 
     useEffect(() => {
-        if(assessmentDetail) setData()
+        if(assessmentDetail.classification) setData()
     }, [assessmentDetail, setData])
 
     const onClassificationChange = async (id) => {
@@ -72,7 +71,10 @@ const AddEditAssessmentDetail = (props) => {
         })
         setRate(filteredClassification[0]?.rate !== undefined ? filteredClassification[0]?.rate + "%" : "0%")
         // setLandAssessedValue(marketValue * filteredClassification[0]?.rate)
-        setLandAssessedValue(Number(marketValue * (parseInt(filteredClassification[0]?.rate) / 100)).toFixed(2))
+        setLandAssessedValue(filteredClassification[0]?.rate ? Number(marketValue * (parseInt(filteredClassification[0]?.rate) / 100)).toFixed(2) : 0)
+        setAreaType("")
+        setUnitValue("")
+        setClassificationName(filteredClassification[0]?.classification)
     }
 
     const onSpecificClassChange = async (id) => {

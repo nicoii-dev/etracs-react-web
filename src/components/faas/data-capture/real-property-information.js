@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     CardContent,
     Divider,
@@ -12,6 +12,7 @@ import { CheckBox } from '@mui/icons-material';
 import FaasTextInputController from '../../input/faas-input';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateNav } from '../../../redux/nav/action';
+import { TextField } from '@mui/material';
 
 const RealPropertyInformation = ({
     errors,
@@ -20,12 +21,12 @@ const RealPropertyInformation = ({
     pin,
     showAssessmentModal,
     setShowAssessmentModal,
+    assessmentDetail
 }) => {
     const methods = useFormContext();
     const dispatch = useDispatch();
     const status = useSelector((state) => state.navStatus.status);
     const revisionYear = useSelector(state => state.revisionYearData.currentRevision);
-    const assessmentDetail = useSelector((state) => state.assessmentDetailData.assessmentDetail);
 
     useEffect(() => {
         methods.setValue("pinNumber", pin ? pin : "")
@@ -275,59 +276,40 @@ const RealPropertyInformation = ({
                             />
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
-                            <FaasTextInputController
-                                defaultData={data?.classification}
+                            <TextField
+                                fullWidth
                                 label="Classification"
                                 name="classification"
-                                variant="outlined"
-                                control={control}
-                                disabled={true}
-                                errorStatus={errors.classification ? true : false}
-                                rules={{
-                                    required: {
-                                        value: false,
-                                        message: 'Classification address is required',
-                                    },
-                                }}
+                                size='small'
+                                value={assessmentDetail.classification_name}
+                                disabled
                             />
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
-                            <FaasTextInputController
-                                defaultData={data?.marketValue}
+                            <TextField
+                                fullWidth
                                 label="Market Value"
                                 name="marketValue"
-                                variant="outlined"
-                                control={control}
-                                disabled={true}
-                                errorStatus={errors.marketValue ? true : false}
-                                rules={{
-                                    required: {
-                                        value: false,
-                                        message: 'Market Value is required',
-                                    },
-                                }}
+                                size='small'
+                                value={parseInt(assessmentDetail.market_value).toFixed(2)}
+                                inputProps={{ style: { textAlign: "right" } }}
+                                disabled
                             />
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
-                            <FaasTextInputController
-                                defaultData={data?.assessedValue}
+                        <TextField
+                                fullWidth
                                 label="Assessed Value"
                                 name="assessedValue"
-                                variant="outlined"
-                                control={control}
-                                disabled={true}
-                                errorStatus={errors.assessedValue ? true : false}
-                                rules={{
-                                    required: {
-                                        value: false,
-                                        message: 'Assessed Value is required',
-                                    },
-                                }}
+                                size='small'
+                                value={parseInt(assessmentDetail.land_assessed_value).toFixed(2)}
+                                inputProps={{ style: { textAlign: "right" } }}
+                                disabled
                             />
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -35 }}>
                             <Controller
-                                defaultValue={assessmentDetail?.fix === "1" ? true : false}
+                                defaultValue={""}
                                 name={'taxable'}
                                 control={control}
                                 render={({ field: { onChange, onBlur, value } }) => (
@@ -345,7 +327,7 @@ const RealPropertyInformation = ({
                                             control={
                                                 <Checkbox
                                                     disabled={true}
-                                                    checked={value}
+                                                    checked={assessmentDetail.taxable}
                                                     name={'taxable'}
                                                     onBlur={onBlur}
                                                     onChange={onChange}

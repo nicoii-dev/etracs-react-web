@@ -1,16 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import { TextareaAutosize, Divider, Box, Button } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 // components
 import VariableTable from './variable-table';
+import VariableTableV2 from './variable-tableV2';
 import AddEditFormulaVariable from './add-edit-formula-variable';
 
 // redux
-import { 
+import {
     fetchVariableRedux,
     storeVariableRedux,
     updateVariableRedux,
@@ -20,8 +22,8 @@ import {
 
 const FormulaVariable = (props) => {
     const dispatch = useDispatch();
-    const {data, setExpression} = props;
-    const {handleSubmit, control, formState: { errors } } = useForm();
+    const { data, setExpression } = props;
+    const { handleSubmit, control, formState: { errors } } = useForm();
 
     const variableList = useSelector(state => state.formulaVariableData.formulaVariable);
     const expression = useSelector(state => state.formulaVariableData.expression);
@@ -33,7 +35,7 @@ const FormulaVariable = (props) => {
 
     useEffect(() => {
         dispatch(fetchVariableRedux());
-        if(expression !== "") {
+        if (expression !== "") {
             setFormula(expression)
             setSelectedExpression(expression?.split(" ")[0])
             setFormulaFunction(expression?.substr(expression?.indexOf(' ') + 1))
@@ -66,8 +68,8 @@ const FormulaVariable = (props) => {
     }
 
     const onVariableAdd = (variable) => {
-       //setFormula(`${formula}${ selectedExpression}`);
-       setFormula(`${variable}`);
+        //setFormula(`${formula}${ selectedExpression}`);
+        setFormula(`${variable}`);
     }
 
     return (
@@ -75,7 +77,7 @@ const FormulaVariable = (props) => {
             <Grid container spacing={1}>
                 <Grid item md={12} xs={12}>
                     <Divider textAlign="left">
-                        <p style={{fontSize:20}}>
+                        <p style={{ fontSize: 20 }}>
                             Formula Editor
                         </p>
                     </Divider>
@@ -88,10 +90,10 @@ const FormulaVariable = (props) => {
                                 aria-label="minimum height"
                                 minRows={16}
                                 placeholder="Expression"
-                                style={{ 
-                                    width: '100%', 
-                                    fontSize:20,
-                                    borderColor: errors.expression? 'red': 'darkgray',                                          
+                                style={{
+                                    width: '100%',
+                                    fontSize: 20,
+                                    borderColor: errors.expression ? 'red' : 'darkgray',
                                 }}
                                 disabled={true}
                                 //onBlur={onBlur}
@@ -101,7 +103,18 @@ const FormulaVariable = (props) => {
                         </Grid>
                         <Grid item md={6} xs={12}>
                             <Grid item md={12} xs={12}>
-                                <VariableTable
+                                {/* <VariableTable
+                                    showModal={showModal}
+                                    setShowModal={setShowModal}
+                                    variableList={variableList}
+                                    deleteVariable={deleteVariable}
+                                    selectedExpression={selectedExpression}
+                                    setSelectedExpression={setSelectedExpression}
+                                    onVariableAdd={onVariableAdd}
+                                    setFormula={setFormula}
+                                    setFormulaFunction={setFormulaFunction}
+                                /> */}
+                                <VariableTableV2
                                     showModal={showModal}
                                     setShowModal={setShowModal}
                                     variableList={variableList}
@@ -113,16 +126,17 @@ const FormulaVariable = (props) => {
                                     setFormulaFunction={setFormulaFunction}
                                 />
                             </Grid>
-                            <Grid item md={12} xs={12} style={{marginTop:13}}>
+                            <Grid item md={12} xs={12} style={{ marginTop: 13 }}>
                                 <TextareaAutosize
                                     name="function"
                                     aria-label="minimum height"
                                     minRows={5}
                                     placeholder="Functions"
-                                    style={{ 
-                                        width: '100%', 
-                                        fontSize:20,
-                                        borderColor: errors.function? 'red': 'darkgray',                                          
+                                    typeof='number'
+                                    style={{
+                                        width: '100%',
+                                        fontSize: 20,
+                                        borderColor: errors.function ? 'red' : 'darkgray',
                                     }}
                                     disabled={formula?.length === 0 ? true : false}
                                     //onBlur={onBlur}
@@ -139,43 +153,54 @@ const FormulaVariable = (props) => {
                     display: 'flex',
                     justifyContent: 'flex-end',
                     p: 2,
-                    marginBottom:-3
+                    marginBottom: -3
                 }}
             >
-                <Button 
-                    color="primary" 
-                    variant="contained" 
-                    onClick={()=>{
-                        dispatch(saveExpressionRedux(formula));
+                <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={() => {
+                        console.log(formula)
+                        let expression = formula.includes('+') || formula.includes('-') || formula.includes('*') || formula.includes('/') || formula.includes('()')
+                        if(!expression) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Incorrect Expression!',
+                              })
+                        // } else if() {
+
+                        } else {
+                            dispatch(saveExpressionRedux(formula));
+                        }
                     }}
                 >
-                    {/* {data ? 'update' : 'save'} */}
                     save
                 </Button>
-                
+
             </Box>
 
             <Modal
                 isOpen={showModal}
-                onRequestClose={ async () => {
+                onRequestClose={async () => {
                     setShowModal(!showModal)
                 }}
                 contentLabel="Example Modal"
-                onClose={ async () => {
+                onClose={async () => {
                     setShowModal(!showModal)
                 }}
                 ariaHideApp={false}
                 style={{
                     content: {
-                    top: '55%',
-                    marginLeft: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: '25%',
-                    height: window.innerHeight > 900 ? '25%' : '30%',
-                    maxHeight: '70%'
+                        top: '55%',
+                        marginLeft: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '25%',
+                        height: window.innerHeight > 900 ? '25%' : '30%',
+                        maxHeight: '70%'
                     },
                     overlay: {
-                        zIndex:10
+                        zIndex: 10
                     }
                 }}
             >

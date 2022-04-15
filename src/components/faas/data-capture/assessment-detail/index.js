@@ -25,6 +25,7 @@ const AssessmentDetail = (props) => {
     const assessmentDetail = useSelector((state) => state.assessmentDetailData.assessmentDetail);
 
     //localstate
+    const [classificationName, setClassificationName] = useState("");
     const [rate, setRate] = useState(0);
     const [areaType, setAreaType] = useState("");
     const [landArea, setLandArea] = useState(0);
@@ -37,9 +38,9 @@ const AssessmentDetail = (props) => {
     const [landAssessedValue, setLandAssessedValue] = useState(0)
 
     const saveAssessmentDetail = async (data) => {
-        console.log(data)
         const payload = {
             classification: data.classification,
+            classification_name: classificationName,
             rate: rate,
             specific_class: data.specificClass,
             area_type: areaType,
@@ -52,6 +53,7 @@ const AssessmentDetail = (props) => {
             land_base_market_value: landBaseMarketValue,
             land_market_value: landMarketValue,
             land_assessed_value: landAssessedValue,
+            taxable: data.taxable,
         }
         await dispatch(setAssessmentDetail(payload));
     }
@@ -95,7 +97,7 @@ const AssessmentDetail = (props) => {
                         <Grid item md={4} xs={12} >
                             <Grid item md={12} xs={12} style={{marginTop:-20}}>
                              <Controller
-                                defaultValue={assessmentDetail?.taxable === "true" ? true:false}
+                                defaultValue={assessmentDetail?.taxable == true ? true:false}
                                 name={'taxable'}
                                 control={control}
                                 render={({field: {onChange, onBlur, value}}) => (
@@ -148,6 +150,7 @@ const AssessmentDetail = (props) => {
                                 landBaseMarketValue={landBaseMarketValue}
                                 landMarketValue={landMarketValue}
                                 landAssessedValue={landAssessedValue}
+                                setClassificationName={setClassificationName}
                                 setRate={setRate}
                                 setAreaType={setAreaType}
                                 setLandArea={setLandArea}

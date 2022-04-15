@@ -43,6 +43,7 @@ const DataCapturePage = () => {
     );
     const juridicalList = useSelector((state) => state.juridicalData.juridicals);
     const multipleList = useSelector((state) => state.multipleData.multiples);
+    const assessmentDetail = useSelector((state) => state.assessmentDetailData.assessmentDetail);
 
     // states
     const [showModal, setShowModal] = useState(true);
@@ -108,6 +109,7 @@ const DataCapturePage = () => {
                         control={control}
                         showAssessmentModal={showAssessmentModal}
                         setShowAssessmentModal={setShowAssessmentModal}
+                        assessmentDetail={assessmentDetail}
                     />
 
                     <Remarks errors={errors} control={control} />
