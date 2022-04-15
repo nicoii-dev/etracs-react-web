@@ -131,9 +131,9 @@ const DataCapturePage = () => {
             </div>
 
             {/* Initial info modal */}
-            <Modal
+            {/* <Modal
                 isOpen={showModal}
-                //onRequestClose={() => {setShowModal(!showModal)}}
+                onRequestClose={() => {setShowModal(!showModal)}}
                 contentLabel="Example Modal"
                 onClose={() => setShowModal(!showModal)}
                 ariaHideApp={false}
@@ -157,7 +157,7 @@ const DataCapturePage = () => {
                     municipalityList={municipalityList}
                     barangayList={barangayList}
                 />
-            </Modal>
+            </Modal> */}
 
             {/* Assessment detail modal */}
             <Modal
@@ -171,9 +171,9 @@ const DataCapturePage = () => {
                 style={{
                     content: {
                         top: "50%",
-                        marginLeft: !status ? "50%" : "58%",
+                        marginLeft: !status ? "50%" : "53%",
                         transform: "translate(-50%, -50%)",
-                        width: !status ? "75%" : "65%",
+                        width: !status ? "70%" : "60%",
                         height: "87%",
                     },
                     overlay: {

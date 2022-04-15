@@ -5,28 +5,68 @@ import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import { TextField, Divider } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm, Controller } from "react-hook-form";
+import { FormControlLabel } from '@mui/material';
+import { Checkbox } from '@mui/material';
 
 // components
 import AssessmentDetailTable from './assessment-detail-table';
 import AddEditAssessmentDetail from './add-edit-assessment-detail';
 
+//redux
+import { setAssessmentDetail } from '../../../../redux/assessment-detail/actions';
+
 const AssessmentDetail = (props) => {
+    const { control, handleSubmit, formState: { errors }, setValue } = useForm();
+    const dispatch = useDispatch();
+    
     const pin = useSelector((state) => state.pinData.pin);
-    const revisionYear = useSelector(
-        (state) => state.revisionYearData.currentRevision
-    );
+    const revisionYear = useSelector((state) => state.revisionYearData.currentRevision);
+    const assessmentDetail = useSelector((state) => state.assessmentDetailData.assessmentDetail);
+
+    //localstate
+    const [rate, setRate] = useState(0);
+    const [areaType, setAreaType] = useState("");
+    const [landArea, setLandArea] = useState(0);
+    const [unitValue, setUnitValue] = useState(0);
+    const [marketValue, setMarketValue] = useState(0);
+    const [totalLandAreaSqm, setTotalLandAreaSqm] = useState(0);
+    const [totalLandAreaHa, setTotalLandAreaHa] = useState(0);
+    const [landBaseMarketValue, setLandBaseMarketValue] = useState(0);
+    const [landMarketValue, setLandMarketValue] = useState(0);
+    const [landAssessedValue, setLandAssessedValue] = useState(0)
+
+    const saveAssessmentDetail = async (data) => {
+        console.log(data)
+        const payload = {
+            classification: data.classification,
+            rate: rate,
+            specific_class: data.specificClass,
+            area_type: areaType,
+            sub_class: data.subClass,
+            unit_value: unitValue,
+            land_area: data.landArea,
+            market_value: data.marketValue,
+            total_land_area_sqm: totalLandAreaSqm,
+            total_land_area_ha: totalLandAreaHa,
+            land_base_market_value: landBaseMarketValue,
+            land_market_value: landMarketValue,
+            land_assessed_value: landAssessedValue,
+        }
+        await dispatch(setAssessmentDetail(payload));
+    }
 
     return (
         <>
             <Grid container spacing={3}>
                 <Grid item md={12} xs={12}>
                     <Divider textAlign="left">
-                        <p style={{fontSize:20}}>
+                        <p style={{ fontSize: 20 }}>
                             General Information
                         </p>
                     </Divider>
                 </Grid>
-                <Grid item md={12} xs={12} style={{marginTop: -20}}>
+                <Grid item md={12} xs={12} style={{ marginTop: -20 }}>
                     <Grid container spacing={3}>
                         <Grid item md={4} xs={12}>
                             <TextField
@@ -34,7 +74,7 @@ const AssessmentDetail = (props) => {
                                 label={'Revision Year'}
                                 name={'revisionYear'}
                                 size='small'
-                                value={revisionYear}
+                                value={revisionYear ? revisionYear : 0}
                                 disabled
                             />
                             <TextField
@@ -42,31 +82,83 @@ const AssessmentDetail = (props) => {
                                 label={'PIN'}
                                 name={'pin'}
                                 size='small'
-                                value={pin}
+                                value={pin ? pin : 0}
                                 style={{ marginTop: 10 }}
                                 disabled
                             />
                         </Grid>
-                        <Grid item md={4} xs={12} >
+                        <Grid item md={1} xs={12} >
                             <Grid item md={12} xs={12}>
-                            
+
                             </Grid>
                         </Grid>
                         <Grid item md={4} xs={12} >
-                            <Grid item md={12} xs={12}>
-                                <TextField
-                                    fullWidth
-                                    label={'Taxable'}
-                                    name={'pin'}
-                                    size='small'
-                                    value={pin}
-                                    disabled
-                                />
+                            <Grid item md={12} xs={12} style={{marginTop:-20}}>
+                             <Controller
+                                defaultValue={assessmentDetail?.taxable === "true" ? true:false}
+                                name={'taxable'}
+                                control={control}
+                                render={({field: {onChange, onBlur, value}}) => (
+                                    <Grid
+                                        container
+                                        spacing={0}
+                                        alignItems="left"
+                                        justifyContent="left"
+                                        fontWeight={"bold"}
+
+                                    >
+                                       <h4> TAXABLE?</h4>
+                                        <FormControlLabel 
+                                            label=""
+                                            control={
+                                                <Checkbox
+                                                    checked={value}
+                                                    name={'taxable'}
+                                                    onBlur={onBlur}
+                                                    onChange={onChange}
+                                                    value={value}
+                                                    size='medium'
+                                                    //
+                                                />
+                                            }
+                                   
+                                        />
+                                    </Grid>
+                                )}
+                            />
                             </Grid>
                         </Grid>
                         <Grid item md={12} xs={12}>
                             {/* <AssessmentDetailTable /> */}
-                            <AddEditAssessmentDetail />
+                            <AddEditAssessmentDetail 
+                                data={assessmentDetail}
+                                control={control}
+                                errors={errors}
+                                setValue={setValue}
+                                handleSubmit={handleSubmit}
+                                saveAssessmentDetail={saveAssessmentDetail}
+                                assessmentDetail={assessmentDetail}
+                                rate={rate}
+                                areaType={areaType}
+                                landArea={landArea}
+                                unitValue={unitValue}
+                                marketValue={marketValue}
+                                totalLandAreaSqm={totalLandAreaSqm}
+                                totalLandAreaHa={totalLandAreaHa}
+                                landBaseMarketValue={landBaseMarketValue}
+                                landMarketValue={landMarketValue}
+                                landAssessedValue={landAssessedValue}
+                                setRate={setRate}
+                                setAreaType={setAreaType}
+                                setLandArea={setLandArea}
+                                setUnitValue={setUnitValue}
+                                setMarketValue={setMarketValue}
+                                setTotalLandAreaSqm={setTotalLandAreaSqm}
+                                setTotalLandAreaHa={setTotalLandAreaHa}
+                                setLandBaseMarketValue={setLandBaseMarketValue}
+                                setLandMarketValue={setLandMarketValue}
+                                setLandAssessedValue={setLandAssessedValue}
+                            />
                         </Grid>
                     </Grid>
                 </Grid>

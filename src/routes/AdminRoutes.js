@@ -66,14 +66,16 @@ const AdminRoutes = () => {
                 <Route path="entity/juridical" element={<JuridicalPage />} />
                 <Route path="entity/multiple" element={<MultiplePage />} />
                 <Route path="entity/reconcile" element={<ReconcilePage />} />
+                
+                <Route path="faas" element={<FaasPage />} />
                 <Route path="faas/data-capture" element={<DataCapturePage />} />
+                
                 <Route path="generalrevision/land" element={<LandRevision />} />
                 <Route path="utilities/municipality-city" element={<MunicipalityCityPage />} />
                 <Route path="utilities/personnels" element={<PersonnelPage />} />
                 <Route path="utilities/accounts" element={<AccountsPage />} />
                 <Route path="utilities/job-position" element={<JobPositionPage />} />
 
-                <Route path="faas" element={<FaasPage />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

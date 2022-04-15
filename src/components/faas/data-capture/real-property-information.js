@@ -4,8 +4,11 @@ import {
     Divider,
     Grid,
 } from '@mui/material';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
+import { Checkbox } from '@mui/material';
+import { FormControlLabel } from '@mui/material';
 import Button from '@mui/material/Button';
+import { CheckBox } from '@mui/icons-material';
 import FaasTextInputController from '../../input/faas-input';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateNav } from '../../../redux/nav/action';
@@ -22,6 +25,7 @@ const RealPropertyInformation = ({
     const dispatch = useDispatch();
     const status = useSelector((state) => state.navStatus.status);
     const revisionYear = useSelector(state => state.revisionYearData.currentRevision);
+    const assessmentDetail = useSelector((state) => state.assessmentDetailData.assessmentDetail);
 
     useEffect(() => {
         methods.setValue("pinNumber", pin ? pin : "")
@@ -321,20 +325,39 @@ const RealPropertyInformation = ({
                                 }}
                             />
                         </Grid>
-                        <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
-                            <FaasTextInputController
-                                defaultData={data?.taxable}
-                                label="Taxable"
-                                name="taxable"
-                                variant="outlined"
+                        <Grid item md={12} xs={12} style={{ marginTop: -35 }}>
+                            <Controller
+                                defaultValue={assessmentDetail?.fix === "1" ? true : false}
+                                name={'taxable'}
                                 control={control}
-                                errorStatus={errors.taxable ? true : false}
-                                rules={{
-                                    required: {
-                                        value: false,
-                                        message: 'Taxable is required',
-                                    },
-                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <Grid
+                                        container
+                                        spacing={0}
+                                        alignItems="left"
+                                        justifyContent="left"
+                                        fontWeight={"bold"}
+
+                                    >
+                                        <h4> TAXABLE?</h4>
+                                        <FormControlLabel
+                                            label=""
+                                            control={
+                                                <Checkbox
+                                                    disabled={true}
+                                                    checked={value}
+                                                    name={'taxable'}
+                                                    onBlur={onBlur}
+                                                    onChange={onChange}
+                                                    value={value}
+                                                    size='medium'
+                                                //
+                                                />
+                                            }
+
+                                        />
+                                    </Grid>
+                                )}
                             />
                         </Grid>
                     </Grid>

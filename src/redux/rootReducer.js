@@ -20,6 +20,9 @@ import PersonnelReducer from "./personnel/personnelReducer";
 import JobPositionReducer from "./job-position/jobPositionReducer";
 import AccountReducer from "./accounts/accountReducer";
 import LoaderReducer from "./loader/loaderReducer";
+import FaasReducer from "./faas/faasReducer";
+import InitialInfoReducer from "./initial-info/initialInfoReducer";
+import AssessmentDetailReducer from "./assessment-detail/assessmentDetailReducer";
 
 const rootReducer = combineReducers({
     individualData: IndividualReducer,
@@ -43,6 +46,9 @@ const rootReducer = combineReducers({
     jobPositionData: JobPositionReducer,
     accountData: AccountReducer,
     loaderData: LoaderReducer,
+    faasData: FaasReducer,
+    initialInfoData: InitialInfoReducer,
+    assessmentDetailData: AssessmentDetailReducer,
 });
 
 export default rootReducer;

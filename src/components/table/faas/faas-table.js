@@ -19,7 +19,7 @@ import EnhancedTableHead from '../enhanced-table-head';
 import EnhancedTableToolbar from '../enhanced-table-toolbar';
 
 const FaasTable = ({
-  individualList,
+  faasList,
   setData,
   open,
   setOpen,
@@ -110,18 +110,18 @@ function descendingComparator(a, b, orderBy) {
   }
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - individualList?.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - faasList?.length) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
-        {individualList ?
+        {faasList ?
           <div>
             <Paper sx={{ width: '100%', mb: 2 }}>
                 <EnhancedTableToolbar 
                   numSelected={selected.length} 
                   selected={selected}
                   setSelected={setSelected}
-                  title={'Individual'} 
+                  title={'FAAS Data'} 
                   deleteData={deleteData}
                 />
                 <TableContainer>
@@ -135,13 +135,13 @@ function descendingComparator(a, b, orderBy) {
                         order={order}
                         orderBy={orderBy}
                         onRequestSort={handleRequestSort}
-                        rowCount={individualList?.length}
-                        tableHead={individualList}
+                        rowCount={faasList?.length}
+                        tableHead={faasList}
                     />
                     <TableBody>
                     {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                         rows.slice().sort(getComparator(order, orderBy)) */}
-                    {stableSort(individualList, getComparator(order, orderBy))
+                    {stableSort(faasList, getComparator(order, orderBy))
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row, index) => {
                         const isItemSelected = isSelected(row.id);
@@ -216,7 +216,7 @@ function descendingComparator(a, b, orderBy) {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={individualList.length}
+                    count={faasList.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}

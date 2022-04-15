@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback} from 'react';
+import React, { useEffect, useCallback } from 'react';
 import {
     Box,
     Button,
@@ -7,7 +7,9 @@ import {
     Divider,
     Grid,
     TextField,
-  } from '@mui/material';
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Navigate } from "react-router-dom"
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
 import { setPin } from '../../../redux/pin/action';
@@ -18,61 +20,66 @@ import Transactions from '../../../library/constants/faas/transactions';
 // redux
 import { fetchBarangayRedux } from '../../../redux/barangay/action';
 import { setRevisionYearRedux } from '../../../redux/revision-year/action';
+import { setInitialInfo } from '../../../redux/initial-info/actions';
 
 
 const InitialInfo = (props) => {
-    const { showModal, setShowModal, revisionYearList, municipalityList, barangayList} = props;
+    const { setShowInitialModal, revisionYearList, municipalityList, barangayList } = props;
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { control, handleSubmit, formState: { errors }, setValue } = useForm();
 
     const pinAdded = useSelector(state => state.pinData.pin);
 
-    const checkPinStatus = useCallback(() => {
-        if(pinAdded === null || pinAdded === undefined){
-            setShowModal(true)
-        } else {
-            setShowModal(false)
-        }
-    }, [pinAdded, setShowModal])
-    
-    useEffect(() => {
-        checkPinStatus();
-    }, [checkPinStatus]);
+    // const checkPinStatus = useCallback(() => {
+    //     if (pinAdded === null || pinAdded === undefined) {
+    //         setShowInitialModal(true)
+    //     } else {
+    //         setShowInitialModal(false)
+    //     }
+    // }, [pinAdded, setShowInitialModal])
+
+    // useEffect(() => {
+    //     checkPinStatus();
+    // }, [checkPinStatus]);
 
 
     const faasInitialInformation = async (data) => {
         // getting municipality data based on selected
         await dispatch(setRevisionYearRedux(data.revisionYear))
-        let municipalityData = municipalityList.find(obj => { return obj.id.toString() === data.municipality_name.toString()})
+        let municipalityData = municipalityList.find(obj => { return obj.id.toString() === data.municipality_name.toString() })
         //const payload = ({...data})
 
         // creating pin
         let PIN = "";
         console.log(data)
-        if(data.pinType === 'new') {
-            PIN = municipalityData.parent_id + '-' + String(data.barangay).padStart(4, '0') + '-' + 
-                        String(data.section).padStart(3, '0') + "-" + String(data.parcel).padStart(2, '0')
+        if (data.pinType === 'new') {
+            PIN = municipalityData.parent_id + '-' + String(data.barangay).padStart(4, '0') + '-' +
+                String(data.section).padStart(3, '0') + "-" + String(data.parcel).padStart(2, '0')
         } else {
-            PIN = municipalityData.parent_id + '-' + String(data.barangay).padStart(4, '0') + '-' + 
-                     String(data.parcel).padStart(2, '0') + '-' + String(data.section).padStart(3, '0')
+            PIN = municipalityData.parent_id + '-' + String(data.barangay).padStart(4, '0') + '-' +
+                String(data.parcel).padStart(2, '0') + '-' + String(data.section).padStart(3, '0')
         }
 
-        setShowModal(!showModal)
+        console.log(data)
+
+        setShowInitialModal(false)
         dispatch(setPin(PIN))
+        navigate("data-capture");
     }
 
     return (
         <>
             <Grid container spacing={1}>
                 <Grid item md={12} xs={12}>
-                <CardHeader
-                    title="New FAAS Initial Information"
+                    <CardHeader
+                        title="New FAAS Initial Information"
                     //subheader="All input field with asterisk(*) is required"
-                />
-                <Divider />
+                    />
+                    <Divider />
                     <CardContent>
                         <Grid container spacing={3}>
-                            <Grid item md={12} xs={12} style={{marginTop:0}}>
+                            <Grid item md={12} xs={12} style={{ marginTop: 0 }}>
                                 <Controller
                                     defaultValue=""
                                     name={'pinType'}
@@ -87,20 +94,20 @@ const InitialInfo = (props) => {
                                             message: 'Civil status is required',
                                         }
                                     }}
-                                    render={({field: {onChange, onBlur, value}}) => (
+                                    render={({ field: { onChange, onBlur, value } }) => (
                                         <TextField
-                                        fullWidth
-                                        label="PIN Type*"
-                                        name="pinType"
-                                        select
-                                        SelectProps={{ native: true }}
-                                        variant="outlined"
-                                        onBlur={onBlur}
-                                        onChange={onChange}
-                                        size='small'
-                                        error={errors.pinType ? true:false}
-                                        value={value}
-                                      >
+                                            fullWidth
+                                            label="PIN Type*"
+                                            name="pinType"
+                                            select
+                                            SelectProps={{ native: true }}
+                                            variant="outlined"
+                                            onBlur={onBlur}
+                                            onChange={onChange}
+                                            size='small'
+                                            error={errors.pinType ? true : false}
+                                            value={value}
+                                        >
                                             <option key={'-Select-'} value={'-Select-'}>
                                                 -Select-
                                             </option>
@@ -110,7 +117,7 @@ const InitialInfo = (props) => {
                                             <option key={"old"} value={"old"}>
                                                 OLD
                                             </option>
-                                      </TextField>
+                                        </TextField>
                                     )}
                                 />
                             </Grid>
@@ -152,7 +159,7 @@ const InitialInfo = (props) => {
                                     )}
                                 />
                             </Grid>                             */}
-                            <Grid item md={12} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
                                     defaultValue=""
                                     name={'revisionYear'}
@@ -167,7 +174,7 @@ const InitialInfo = (props) => {
                                             message: 'revisionYear is required',
                                         }
                                     }}
-                                    render={({field: {onChange, onBlur, value}}) => (
+                                    render={({ field: { onChange, onBlur, value } }) => (
                                         <TextField
                                             fullWidth
                                             label="Revision Year*"
@@ -179,21 +186,21 @@ const InitialInfo = (props) => {
                                             onChange={onChange}
                                             size='small'
                                             value={value}
-                                            error={errors.revisionYear ? true:false}
+                                            error={errors.revisionYear ? true : false}
                                         >
                                             <option key={'-Select-'} value={'-Select-'}>
                                                 -Select-
                                             </option>
-                                        {revisionYearList?.map((option) => (
-                                            <option key={option.revision_year} value={option.revision_year}>
-                                                {option.revision_year}
-                                            </option>
-                                        ))}
-                                      </TextField>
+                                            {revisionYearList?.map((option) => (
+                                                <option key={option.revision_year} value={option.revision_year}>
+                                                    {option.revision_year}
+                                                </option>
+                                            ))}
+                                        </TextField>
                                     )}
                                 />
                             </Grid>
-                            <Grid item md={12} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
                                     defaultValue=""
                                     name={'municipality_name'}
@@ -205,10 +212,10 @@ const InitialInfo = (props) => {
                                         },
                                         pattern: {
                                             value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
-                                           // message: 'Civil status is required',
+                                            // message: 'Civil status is required',
                                         }
                                     }}
-                                    render={({field: {onChange, onBlur, value}}) => (
+                                    render={({ field: { onChange, onBlur, value } }) => (
                                         <TextField
                                             fullWidth
                                             label="Municipality*"
@@ -217,28 +224,28 @@ const InitialInfo = (props) => {
                                             SelectProps={{ native: true }}
                                             variant="outlined"
                                             onBlur={onBlur}
-                                            onChange={ (e) => { 
+                                            onChange={(e) => {
                                                 onChange(e.target.value)
                                                 dispatch(fetchBarangayRedux(e.target.value))
                                                 setValue("barangay", "-Select-")
                                             }}
                                             size='small'
                                             value={value}
-                                            error={errors.municipality_name ? true:false}
+                                            error={errors.municipality_name ? true : false}
                                         >
                                             <option key={'-Select-'} value={'-Select-'}>
                                                 -Select-
                                             </option>
-                                        {municipalityList?.map((option) => (
-                                            <option key={option.municipality_name} value={option.id}>
-                                                {option.municipality_name}
-                                            </option>
-                                        ))}
-                                      </TextField>
+                                            {municipalityList?.map((option) => (
+                                                <option key={option.municipality_name} value={option.id}>
+                                                    {option.municipality_name}
+                                                </option>
+                                            ))}
+                                        </TextField>
                                     )}
                                 />
                             </Grid>
-                            <Grid item md={12} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
                                     defaultValue=""
                                     name={'barangay'}
@@ -250,10 +257,10 @@ const InitialInfo = (props) => {
                                         },
                                         pattern: {
                                             value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
-                                           // message: 'Civil status is required',
+                                            // message: 'Civil status is required',
                                         }
                                     }}
-                                    render={({field: {onChange, onBlur, value}}) => (
+                                    render={({ field: { onChange, onBlur, value } }) => (
                                         <TextField
                                             fullWidth
                                             label="Barangay*"
@@ -265,23 +272,23 @@ const InitialInfo = (props) => {
                                             onChange={onChange}
                                             size='small'
                                             value={value}
-                                            error={errors.barangay ? true:false}
+                                            error={errors.barangay ? true : false}
                                         >
                                             <option key={'-Select-'} value={'-Select-'}>
                                                 -Select-
                                             </option>
-                                        {barangayList?.map((option) => (
-                                            <option key={option.lgu_name} value={option.id}>
-                                                {option.lgu_name}
-                                            </option>
-                                        ))}
-                                      </TextField>
+                                            {barangayList?.map((option) => (
+                                                <option key={option.lgu_name} value={option.id}>
+                                                    {option.lgu_name}
+                                                </option>
+                                            ))}
+                                        </TextField>
                                     )}
                                 />
 
                             </Grid>
-                            <Grid item md={6} xs={6} style={{marginTop:-15}}>
-                                <Grid item md={12} xs={12} style={{marginTop:0}}>
+                            <Grid item md={6} xs={6} style={{ marginTop: -15 }}>
+                                <Grid item md={12} xs={12} style={{ marginTop: 0 }}>
                                     <Controller
                                         defaultValue=""
                                         name={'section'}
@@ -292,26 +299,26 @@ const InitialInfo = (props) => {
                                                 message: 'Section is required',
                                             },
                                         }}
-                                        render={({field: {onChange, onBlur, value}}) => (
-                                        <TextField
-                                            name="section"
-                                            label="Section*"
-                                            type="number"
-                                            size='small'
-                                            error={errors?.section ? true:false}
-                                            fullWidth
-                                            onBlur={onBlur}
-                                            onChange={onChange}
-                                            value={value}
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                            
-                                        />
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextField
+                                                name="section"
+                                                label="Section*"
+                                                type="number"
+                                                size='small'
+                                                error={errors?.section ? true : false}
+                                                fullWidth
+                                                onBlur={onBlur}
+                                                onChange={onChange}
+                                                value={value}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+
+                                            />
                                         )}
                                     />
                                 </Grid>
-                                <Grid item md={12} xs={12} style={{marginTop:10}}>
+                                <Grid item md={12} xs={12} style={{ marginTop: 10 }}>
                                     <Controller
                                         defaultValue=""
                                         name={'parcel'}
@@ -322,46 +329,46 @@ const InitialInfo = (props) => {
                                                 message: 'Parcel is required',
                                             },
                                         }}
-                                        render={({field: {onChange, onBlur, value}}) => (
-                                        <TextField
-                                            name="parcel"
-                                            label="Parcel*"
-                                            type="number"
-                                            size='small'
-                                            error={errors?.parcel ? true:false}
-                                            fullWidth
-                                            onBlur={onBlur}
-                                            onChange={onChange}
-                                            value={value}
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                            
-                                        />
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextField
+                                                name="parcel"
+                                                label="Parcel*"
+                                                type="number"
+                                                size='small'
+                                                error={errors?.parcel ? true : false}
+                                                fullWidth
+                                                onBlur={onBlur}
+                                                onChange={onChange}
+                                                value={value}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+
+                                            />
                                         )}
                                     />
                                 </Grid>
-                                <Grid item md={12} xs={12} style={{marginTop:10}}>
+                                <Grid item md={12} xs={12} style={{ marginTop: 10 }}>
                                     <Controller
                                         defaultValue={""}
                                         name={'suffix'}
                                         control={control}
-                                        render={({field: {onChange, onBlur, value}}) => (
-                                        <TextField
-                                            name="suffix"
-                                            label="Suffix*"
-                                            type="number"
-                                            size='small'
-                                            error={errors?.suffix ? true:false}
-                                            fullWidth
-                                            onBlur={onBlur}
-                                            onChange={onChange}
-                                            value={value}
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                            
-                                        />
+                                        render={({ field: { onChange, onBlur, value } }) => (
+                                            <TextField
+                                                name="suffix"
+                                                label="Suffix*"
+                                                type="number"
+                                                size='small'
+                                                error={errors?.suffix ? true : false}
+                                                fullWidth
+                                                onBlur={onBlur}
+                                                onChange={onChange}
+                                                value={value}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+
+                                            />
                                         )}
                                     />
                                 </Grid>
