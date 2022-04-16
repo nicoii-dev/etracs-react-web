@@ -309,7 +309,7 @@ const RealPropertyInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -35 }}>
                             <Controller
-                                defaultValue={""}
+                                defaultValue={assessmentDetail.taxable ? assessmentDetail.taxable : ""}
                                 name={'taxable'}
                                 control={control}
                                 render={({ field: { onChange, onBlur, value } }) => (

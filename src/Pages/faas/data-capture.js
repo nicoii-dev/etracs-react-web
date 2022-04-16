@@ -29,18 +29,11 @@ const DataCapturePage = () => {
     } = methods;
 
     // global states
-    const revisionYearList = useSelector(
-        (state) => state.revisionYearData.revisionYears
-    );
-    const municipalityList = useSelector(
-        (state) => state.municipalityCityData.municipalityCity
-    );
+    const revisionYearList = useSelector((state) => state.revisionYearData.revisionYears);
+    const municipalityList = useSelector((state) => state.municipalityCityData.municipalityCity);
     const barangayList = useSelector((state) => state.barangayData.barangay);
-    const pin = useSelector((state) => state.pinData.pin);
-    const status = useSelector((state) => state.navStatus.status);
-    const individualList = useSelector(
-        (state) => state.individualData.individuals
-    );
+    const pin = useSelector((state) => state.pinData.pin.pin);
+    const individualList = useSelector((state) => state.individualData.individuals);
     const juridicalList = useSelector((state) => state.juridicalData.juridicals);
     const multipleList = useSelector((state) => state.multipleData.multiples);
     const assessmentDetail = useSelector((state) => state.assessmentDetailData.assessmentDetail);
@@ -60,6 +53,7 @@ const DataCapturePage = () => {
     useEffect(() => {
         fetchData();
     }, [fetchData]);
+    
 
     // after fetching data from api.
     const mergeEntity = useCallback(() => {
@@ -132,35 +126,6 @@ const DataCapturePage = () => {
                 </FormProvider>
             </div>
 
-            {/* Initial info modal */}
-            {/* <Modal
-                isOpen={showModal}
-                onRequestClose={() => {setShowModal(!showModal)}}
-                contentLabel="Example Modal"
-                onClose={() => setShowModal(!showModal)}
-                ariaHideApp={false}
-                style={{
-                    content: {
-                        top: "55%",
-                        marginLeft: !status ? "50%" : "50%",
-                        transform: "translate(-50%, -50%)",
-                        width: "30%",
-                        height: "65%",
-                    },
-                    overlay: {
-                        zIndex: 10,
-                    },
-                }}
-            >
-                <InitialInfo
-                    showModal={showModal}
-                    setShowModal={setShowModal}
-                    revisionYearList={revisionYearList}
-                    municipalityList={municipalityList}
-                    barangayList={barangayList}
-                />
-            </Modal> */}
-
             {/* Assessment detail modal */}
             <Modal
                 isOpen={showAssessmentModal}
@@ -173,13 +138,13 @@ const DataCapturePage = () => {
                 style={{
                     content: {
                         top: "50%",
-                        marginLeft: !status ? "50%" : "53%",
+                        marginLeft: "50%",
                         transform: "translate(-50%, -50%)",
-                        width: !status ? "70%" : "60%",
-                        height: "87%",
+                        width: "55%",
+                        height: "75%",
                     },
                     overlay: {
-                        zIndex: 10,
+                        zIndex: 1000,
                     },
                 }}
             >

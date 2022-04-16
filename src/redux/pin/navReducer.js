@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes'
 
 const initialState = {
-    pin: null
+    pin: [],
 }
 
 const PinReducer = (state = initialState, action) => {

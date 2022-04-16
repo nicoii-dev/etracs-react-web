@@ -20,7 +20,7 @@ const AssessmentDetail = (props) => {
     const { control, handleSubmit, formState: { errors }, setValue } = useForm();
     const dispatch = useDispatch();
     
-    const pin = useSelector((state) => state.pinData.pin);
+    const pin = useSelector((state) => state.pinData.pin.pin);
     const revisionYear = useSelector((state) => state.revisionYearData.currentRevision);
     const assessmentDetail = useSelector((state) => state.assessmentDetailData.assessmentDetail);
 

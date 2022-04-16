@@ -24,7 +24,7 @@ import { setInitialInfo } from '../../../redux/initial-info/actions';
 
 
 const InitialInfo = (props) => {
-    const { setShowInitialModal, revisionYearList, municipalityList, barangayList } = props;
+    const { setShowInitialModal, setShowDataCaptureModal, revisionYearList, municipalityList, barangayList } = props;
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { control, handleSubmit, formState: { errors }, setValue } = useForm();
@@ -48,11 +48,10 @@ const InitialInfo = (props) => {
         // getting municipality data based on selected
         await dispatch(setRevisionYearRedux(data.revisionYear))
         let municipalityData = municipalityList.find(obj => { return obj.id.toString() === data.municipality_name.toString() })
-        //const payload = ({...data})
 
         // creating pin
         let PIN = "";
-        console.log(data)
+        console.log(municipalityData)
         if (data.pinType === 'new') {
             PIN = municipalityData.parent_id + '-' + String(data.barangay).padStart(4, '0') + '-' +
                 String(data.section).padStart(3, '0') + "-" + String(data.parcel).padStart(2, '0')
@@ -61,11 +60,17 @@ const InitialInfo = (props) => {
                 String(data.parcel).padStart(2, '0') + '-' + String(data.section).padStart(3, '0')
         }
 
-        console.log(data)
-
+        const payload = {
+            pin: PIN,
+            lgu_id: municipalityData.id,
+            municipality: municipalityData.municipality_name,
+            lgu: municipalityData.lgu_name
+        }
+        console.log(payload)
+        await dispatch(setPin(payload))
         setShowInitialModal(false)
-        dispatch(setPin(PIN))
-        navigate("data-capture");
+        setShowDataCaptureModal(true);
+        //navigate("data-capture");
     }
 
     return (

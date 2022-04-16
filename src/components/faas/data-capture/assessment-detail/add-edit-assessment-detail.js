@@ -32,7 +32,6 @@ const AddEditAssessmentDetail = (props) => {
     //const { control, handleSubmit, formState: { errors }, setValue } = useForm();
 
     // global variables
-    const pin = useSelector((state) => state.pinData.pin);
     const classificationList = useSelector((state) => state.classificationData.classification);
     const specificClassList = useSelector((state) => state.specificClassData.specificClass);
     const subClassList = useSelector((state) => state.subClassData.subClass);

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ReactToPrintComponent from '../../components/faasV2/react-to-print';
 import FaasTable from '../../components/table/faas/faas-table';
 import InitialInfo from '../../components/faas/data-capture/initial-info';
+import DataCapturePage from '../faas/data-capture';
 
 const FaasPage = () => {
 
@@ -17,8 +18,9 @@ const FaasPage = () => {
     const barangayList = useSelector((state) => state.barangayData.barangay);
 
     //local states
-    const [showModal, setShowModal] = React.useState(false);
+    const [showPrintModal, setShowPrintModal] = React.useState(false);
     const [showInitialModal, setShowInitialModal] = React.useState(false);
+    const [showDataCaptureModal, setShowDataCaptureModal] = React.useState(false);
     const [data, setData] = React.useState([]);
     const [open, setOpen] = React.useState(false);
     const [selected, setSelected] = React.useState([]);
@@ -27,7 +29,7 @@ const FaasPage = () => {
     return (
         <div>
             <h1>Faas V2</h1>
-            <Button onClick={() => { setShowModal(!showModal) }}>
+            <Button onClick={() => { setShowPrintModal(!showPrintModal) }}>
                 <h6>Print</h6>
             </Button>
 
@@ -89,17 +91,44 @@ const FaasPage = () => {
                     revisionYearList={revisionYearList}
                     municipalityList={municipalityList}
                     barangayList={barangayList}
+                    setShowDataCaptureModal={setShowDataCaptureModal}
                 />
             </Modal>
 
+            {/* DATA CAPTURE */}
             <Modal
-                isOpen={showModal}
+                isOpen={showDataCaptureModal}
+                onRequestClose={() => { setShowDataCaptureModal(false) }}
+                contentLabel="Example Modal"
+                onClose={() => setShowDataCaptureModal(false)}
+                ariaHideApp={false}
+                style={{
+                    content: {
+                        top: "50%",
+                        marginLeft: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: "70%",
+                        height: "90%",
+                    },
+                    overlay: {
+                        zIndex: 999,
+                    },
+                }}
+            >
+                <DataCapturePage
+                    setShowDataCaptureModal={setShowDataCaptureModal}
+                />
+
+            </Modal>
+
+            <Modal
+                isOpen={showPrintModal}
                 onRequestClose={() => {
-                    setShowModal(!showModal)
+                    setShowPrintModal(!showPrintModal)
                 }}
                 contentLabel="Example Modal"
                 onClose={() => {
-                    setShowModal(!showModal)
+                    setShowPrintModal(!showPrintModal)
                 }}
                 ariaHideApp={false}
                 style={{
