@@ -38,8 +38,6 @@ import { fetchAccountsRedux } from '../redux/accounts/actions';
 
 const AdminRoutes = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const location = useLocation();
 
     const fetchData = React.useCallback(async () => {
         await dispatch(fetchPersonnelRedux());

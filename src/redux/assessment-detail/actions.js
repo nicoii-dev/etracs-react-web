@@ -8,3 +8,10 @@ export const setAssessmentDetail = (payload) => {
     payload: payload
   }
 }
+
+export const removeAssessmentDetail = (payload) => {
+  return{
+    type: actionTypes.REMOVE_ASSESSMENT_DETAIL,
+    payload: payload
+  }
+}

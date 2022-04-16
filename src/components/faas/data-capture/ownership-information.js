@@ -1,12 +1,27 @@
-import React, {useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import {
     CardContent,
     Divider,
     Grid,
     TextField
 } from '@mui/material';
-import {Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
+import Select from 'react-select'
+
+// component
 import OwnerSearchComponent from './owner-search-component';
+
+import InputErrorStyles from '../../../styles/error-text/InputErrorStyles.module.css';
+
+// styles for react select
+const selectStyles = {
+    control: provided => ({ ...provided, minWidth: 240, }),
+    menu: () => ({ boxShadow: 'inset 0 1px 0 rgba(0, 0, 0, 0.1)', opacity: 1, }),
+    menu: base => ({
+        ...base,
+        zIndex: 100
+    })
+};
 
 const OwnershipInformation = ({
     errors,
@@ -19,11 +34,10 @@ const OwnershipInformation = ({
     const methods = useFormContext();
 
     const setData = useCallback(() => {
+        methods.setValue("address", ownerData.address)
         methods.setValue("declaredOwner", ownerData.label) // settings the value of fields using method
-        methods.setValue("address", ownerData.address)
-        methods.setValue("address", ownerData.address)
         methods.setValue("declaredOwnerAddress", ownerData.address)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ownerData.address, ownerData.label]);
 
     useEffect(() => {
@@ -43,7 +57,39 @@ const OwnershipInformation = ({
                 <CardContent>
                     <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
-                            <OwnerSearchComponent entityList={entityList} setOwnerData={setOwnerData} />
+                            {/* <OwnerSearchComponent entityList={entityList} setOwnerData={setOwnerData} /> */}
+                            <Controller
+                                defaultValue={data?.owner}
+                                name={'owner'}
+                                control={control}
+                                rules={{
+                                    required: {
+                                        value: true,
+                                        message: 'Owner is required',
+                                    },
+                                    pattern: {
+                                        value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
+                                        message: 'Owner is required',
+                                    }
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <Select
+                                        name="owner"
+                                        options={entityList}
+                                        styles={selectStyles}
+                                        value={value}
+                                        // onChange={(e) => {
+                                        //     console.log(e)
+                                        // }}
+                                        onChange={(e) => {
+                                            onChange(e)
+                                            setOwnerData(e)
+                                        }}
+                                        onBlur={onBlur}
+                                    />
+                                )}
+                            />
+                            {errors.owner && (<div><p className={InputErrorStyles.errorText}>{errors.owner?.message}</p></div>)}
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <Controller

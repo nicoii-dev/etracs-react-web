@@ -15,9 +15,6 @@ import AssessmentDetail from "../../components/faas/data-capture/assessment-deta
 
 // redux
 import { fetchRevisionYearRedux } from "../../redux/revision-year/action";
-import { fetchIndividualRedux } from "../../redux/individual/actions";
-import { fetchJuridicalRedux } from "../../redux/juridical/actions";
-import { fetchMultipleRedux } from "../../redux/multiple/actions";
 
 const DataCapturePage = () => {
     const dispatch = useDispatch();
@@ -29,9 +26,6 @@ const DataCapturePage = () => {
     } = methods;
 
     // global states
-    const revisionYearList = useSelector((state) => state.revisionYearData.revisionYears);
-    const municipalityList = useSelector((state) => state.municipalityCityData.municipalityCity);
-    const barangayList = useSelector((state) => state.barangayData.barangay);
     const pin = useSelector((state) => state.pinData.pin.pin);
     const individualList = useSelector((state) => state.individualData.individuals);
     const juridicalList = useSelector((state) => state.juridicalData.juridicals);

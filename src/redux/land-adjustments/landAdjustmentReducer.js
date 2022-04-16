@@ -4,6 +4,7 @@ const initialState = {
     landAdjustment: [],
     addedClassification: [],
     showModal: false,
+    selectedAdjustment: [],
 }
 
 const LandAdjustmentReducer = (state = initialState, action) => {
@@ -49,6 +50,16 @@ const LandAdjustmentReducer = (state = initialState, action) => {
             return {
                 ...state,
                 addedClassification: []
+            }
+        case actionTypes.SET_SELECTED_ADJUSTMENT:
+            return {
+                ...state,
+                selectedAdjustment: action.payload
+            }
+        case actionTypes.REMOVE_SELECTED_ADJUSTMENT:
+            return {
+                ...state,
+                selectedAdjustment: []
             }
         default:
             return state;

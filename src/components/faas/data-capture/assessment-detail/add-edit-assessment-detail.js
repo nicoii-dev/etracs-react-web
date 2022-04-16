@@ -15,19 +15,23 @@ import TextInputController from '../../../input/text-input'
 // redux
 import { fetchSpecificClass, setSpecificClass } from '../../../../redux/specific-class/action';
 import { fetchSubClass, setSubClass } from '../../../../redux/sub-class/action';
+import { fetchClassificationRedux } from '../../../../redux/classification/actions';
+import { removeSelectedAdjustment } from '../../../../redux/land-adjustments/actions';
 
 const AddEditAssessmentDetail = (props) => {
     const { data, control, errors, setValue, handleSubmit, saveAssessmentDetail, assessmentDetail, setClassificationName,
-            rate, setRate,
-            areaType, setAreaType,
-            landArea, setLandArea,
-            unitValue, setUnitValue,
-            marketValue, setMarketValue,
-            totalLandAreaSqm, setTotalLandAreaSqm,
-            totalLandAreaHa, setTotalLandAreaHa,
-            landBaseMarketValue, setLandBaseMarketValue,
-            landMarketValue, setLandMarketValue,
-            landAssessedValue, setLandAssessedValue} = props;
+        rate, setRate,
+        areaType, setAreaType,
+        landArea, setLandArea,
+        unitValue, setUnitValue,
+        marketValue, setMarketValue,
+        totalLandAreaSqm, setTotalLandAreaSqm,
+        totalLandAreaHa, setTotalLandAreaHa,
+        landBaseMarketValue, setLandBaseMarketValue,
+        landMarketValue, setLandMarketValue,
+        landAssessedValue, setLandAssessedValue,
+        revisionYear, setShowAdjustmentsModal, showAdjustmentsModal,
+        setClassification_id, classification_id } = props;
     const dispatch = useDispatch();
     //const { control, handleSubmit, formState: { errors }, setValue } = useForm();
 
@@ -35,6 +39,19 @@ const AddEditAssessmentDetail = (props) => {
     const classificationList = useSelector((state) => state.classificationData.classification);
     const specificClassList = useSelector((state) => state.specificClassData.specificClass);
     const subClassList = useSelector((state) => state.subClassData.subClass);
+    const selectedAdjustment = useSelector((state) => state.landAdjustmentData.selectedAdjustment);
+
+    //local state
+    const [filteredClassificationList, setFilteredClassificationList] = useState();
+    const [adjustmentPercent, setAdjustmentPercent] = useState("");
+       // console.log(assessmentDetail)
+    // filtering classification based on revision year selected
+    useEffect(() => {
+        const filtered = classificationList.filter((classification) => {
+            return classification.year_tag === revisionYear
+        })
+        setFilteredClassificationList(filtered)
+    }, [classificationList, revisionYear, selectedAdjustment.expression])
 
     const setData = useCallback(() => {
         dispatch(setSpecificClass());
@@ -43,6 +60,7 @@ const AddEditAssessmentDetail = (props) => {
             dispatch(fetchSpecificClass(assessmentDetail.classification));
             dispatch(fetchSubClass(assessmentDetail.classification));
         }
+        setClassification_id(assessmentDetail.classification);
         setClassificationName(assessmentDetail.classification_name)
         setRate(assessmentDetail.rate)
         setAreaType(assessmentDetail.area_type)
@@ -54,16 +72,17 @@ const AddEditAssessmentDetail = (props) => {
         setLandBaseMarketValue(assessmentDetail.land_base_market_value)
         setLandMarketValue(assessmentDetail.land_market_value)
         setLandAssessedValue(assessmentDetail.land_assessed_value)
-    },[assessmentDetail.area_type, assessmentDetail.classification, assessmentDetail.classification_name, assessmentDetail.land_area, assessmentDetail.land_assessed_value, assessmentDetail.land_base_market_value, assessmentDetail.land_market_value, assessmentDetail.market_value, assessmentDetail.rate, assessmentDetail.total_land_area_ha, assessmentDetail.total_land_area_sqm, assessmentDetail.unit_value, dispatch, setAreaType, setClassificationName, setLandArea, setLandAssessedValue, setLandBaseMarketValue, setLandMarketValue, setMarketValue, setRate, setTotalLandAreaHa, setTotalLandAreaSqm, setUnitValue]);
+    }, [assessmentDetail.area_type, assessmentDetail.classification, assessmentDetail.classification_name, assessmentDetail.land_area, assessmentDetail.land_assessed_value, assessmentDetail.land_base_market_value, assessmentDetail.land_market_value, assessmentDetail.market_value, assessmentDetail.rate, assessmentDetail.total_land_area_ha, assessmentDetail.total_land_area_sqm, assessmentDetail.unit_value, dispatch, setAreaType, setClassificationName, setClassification_id, setLandArea, setLandAssessedValue, setLandBaseMarketValue, setLandMarketValue, setMarketValue, setRate, setTotalLandAreaHa, setTotalLandAreaSqm, setUnitValue]);
 
     useEffect(() => {
-        if(assessmentDetail.classification) setData()
+        if (assessmentDetail.classification) setData()
     }, [assessmentDetail, setData])
 
     const onClassificationChange = async (id) => {
-
+        setClassification_id(id);
         await dispatch(fetchSpecificClass(id));
         await dispatch(fetchSubClass(id));
+        await dispatch(removeSelectedAdjustment());
         // getting data of the selected id
         const filteredClassification = classificationList.filter((classification) => {
             return classification.id == id
@@ -73,6 +92,13 @@ const AddEditAssessmentDetail = (props) => {
         setLandAssessedValue(filteredClassification[0]?.rate ? Number(marketValue * (parseInt(filteredClassification[0]?.rate) / 100)).toFixed(2) : 0)
         setAreaType("")
         setUnitValue("")
+       // setLandArea(0);
+       // setTotalLandAreaHa(0);
+       // setTotalLandAreaSqm(0);
+       // setMarketValue(0);
+       // setLandBaseMarketValue(0);
+       // setLandMarketValue(0);
+       // setLandAssessedValue(0)
         setClassificationName(filteredClassification[0]?.classification)
     }
 
@@ -82,9 +108,20 @@ const AddEditAssessmentDetail = (props) => {
             return specific.id == id
         })
         setAreaType(filteredSpecicClass[0]?.area_type)
-        setLandArea("");
-        setTotalLandAreaHa("");
-        setTotalLandAreaSqm("");
+        //setLandArea(0);
+        //setTotalLandAreaHa(0);
+        //setTotalLandAreaSqm(0);
+        if (filteredSpecicClass[0]?.area_type === "SQM") {
+            let sqmValue = landArea * 1;
+            let haValue = landArea / 10000;
+            setTotalLandAreaSqm(Number(sqmValue).toFixed(6))
+            setTotalLandAreaHa(Number(haValue).toFixed(6))
+        } else {
+            let sqmValue = landArea * 10000;
+            let haValue = landArea * 1;
+            setTotalLandAreaSqm(Number(sqmValue).toFixed(6))
+            setTotalLandAreaHa(Number(haValue).toFixed(6))
+        }
     }
 
     const onSubClassChange = async (id) => {
@@ -112,33 +149,37 @@ const AddEditAssessmentDetail = (props) => {
 
     const onLandAreaBlur = (value) => {
         setLandArea(Number(value).toFixed(6))
-        // if(areaType === "SQM") {
-        //     let sqmValue = value * 1;
-        //     let haValue = value / 10000;
-        //     setTotalLandAreaSqm(Number(sqmValue).toFixed(6))
-        //     setTotalLandAreaHa(Number(haValue).toFixed(6))
-        // } else {
-        //     let sqmValue = value * 10000;
-        //     let haValue = value * 1;
-        //     setTotalLandAreaSqm(Number(sqmValue).toFixed(6))
-        //     setTotalLandAreaHa(Number(haValue).toFixed(6))
-        // }
-
     }
 
     const onMarketValueChange = async (value) => {
         setMarketValue(value)
         setLandBaseMarketValue(Number(value).toFixed(2))
         setLandMarketValue(Number(value).toFixed(2))
-        setLandAssessedValue(Number(value * (parseInt(rate) / 100)).toFixed(2))
+        
+        if(selectedAdjustment?.expression) {
+            setLandAssessedValue(Number(value * (parseInt(adjustmentPercent) / 100)).toFixed(2))
+        } else {
+            setLandAssessedValue(Number(value * (parseInt(rate) / 100)).toFixed(2))
+        }
+
     }
 
     const onMarketValueBlur = async (value) => {
         setMarketValue(Number(value).toFixed(2))
-        // setLandBaseMarketValue(Number(value).toFixed(2))
-        // setLandMarketValue(Number(value).toFixed(2))
-        // setLandAssessedValue(Number(value * (parseInt(rate)/100)).toFixed(2))
     }
+
+        
+    const calculateAdjustment = useCallback(() => {
+        if(selectedAdjustment?.expression){
+            const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
+            setAdjustmentPercent(expressionValue * 100)
+            setLandAssessedValue(Number(marketValue * (parseInt(expressionValue * 100) / 100)).toFixed(2))
+        }
+    }, [marketValue, selectedAdjustment?.expression, setLandAssessedValue])
+    
+    useEffect(() => {
+        calculateAdjustment()
+    }, [calculateAdjustment])
 
     return (
         <>
@@ -190,7 +231,7 @@ const AddEditAssessmentDetail = (props) => {
                                             <option key={'-Select-'} value={'-Select-'}>
                                                 -Select-
                                             </option>
-                                            {classificationList?.map((option) => (
+                                            {filteredClassificationList?.map((option) => (
                                                 <option key={option.code} value={option.id}>
                                                     {option.code}
                                                 </option>
@@ -333,6 +374,7 @@ const AddEditAssessmentDetail = (props) => {
                                             value: true,
                                             message: 'Land area is required',
                                         },
+                                        // validate: (landArea) => landArea > 0,
                                     }}
                                     render={({ field: { onChange, onBlur, value } }) => (
                                         <TextField
@@ -429,22 +471,37 @@ const AddEditAssessmentDetail = (props) => {
                         <Grid item md={4} xs={12}>
                             <Grid item md={12} xs={12}>
                                 <Button
+                                    style={{ marginTop: -100 }}
                                     color="primary"
                                     variant="contained"
                                     fullWidth
                                     onClick={() => {
-                                        //setShowAssessmentModal(!showAssessmentModal)
+                                        if (classification_id == "-Select-" || classification_id == "") {
+                                            Swal.fire('Please select a classification first')
+                                            return;
+                                        }
+                                        setShowAdjustmentsModal(true);
                                     }}
                                 >
                                     Actual use adjustments
                                 </Button>
                                 <TextField
                                     fullWidth
+                                    label="Actual Adjustment"
+                                    name="actualAdjustment"
+                                    size='small'
+                                    value={selectedAdjustment?.expression ? adjustmentPercent.toString()+"%" : 0}
+                                    style={{ marginTop: -24 }}
+                                    inputProps={{ style: { textAlign: "right" } }}
+                                    disabled
+                                />
+                                <TextField
+                                    fullWidth
                                     label="Land Market Value"
                                     name="landMarketValue"
                                     size='small'
                                     value={landMarketValue}
-                                    style={{ marginTop: 10 }}
+                                    style={{ marginTop: 2 }}
                                     inputProps={{ style: { textAlign: "right" } }}
                                     disabled
                                 />

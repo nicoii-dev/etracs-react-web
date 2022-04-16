@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 import React from 'react';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 // components
 import ReactToPrintComponent from '../../components/faasV2/react-to-print';
@@ -9,8 +10,12 @@ import FaasTable from '../../components/table/faas/faas-table';
 import InitialInfo from '../../components/faas/data-capture/initial-info';
 import DataCapturePage from '../faas/data-capture';
 
-const FaasPage = () => {
+// redux
+import { removeAssessmentDetail } from '../../redux/assessment-detail/actions';
+import { removeSelectedAdjustment } from '../../redux/land-adjustments/actions';
 
+const FaasPage = () => {
+    const dispatch = useDispatch();
     // global states
     const faasList = useSelector((state) => state.faasData.faas);
     const revisionYearList = useSelector((state) => state.revisionYearData.revisionYears);
@@ -98,9 +103,25 @@ const FaasPage = () => {
             {/* DATA CAPTURE */}
             <Modal
                 isOpen={showDataCaptureModal}
-                onRequestClose={() => { setShowDataCaptureModal(false) }}
+                onRequestClose={() => {
+                    Swal.fire({
+                        title: 'Discard changes?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        denyButtonText: `Cancel`,
+                    }).then(async (result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            await dispatch(removeAssessmentDetail([]))
+                            await dispatch(removeSelectedAdjustment([]))
+                            setShowDataCaptureModal(false);
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+                }}
                 contentLabel="Example Modal"
-                onClose={() => setShowDataCaptureModal(false)}
+                // onClose={() => setShowDataCaptureModal(false)}
                 ariaHideApp={false}
                 style={{
                     content: {

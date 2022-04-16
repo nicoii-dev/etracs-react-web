@@ -108,7 +108,7 @@ const LandRevision = () => {
                     marginLeft: '50%',
                     transform: 'translate(-50%, -50%)',
                     width: window.innerHeight > 900 ? '30%' : '30%',
-                    height: window.innerHeight > 900 ? '35%' : '45%',
+                    height: window.innerHeight > 900 ? '45%' : '50%',
                     overflow: 'hidden'
                     },
                     overlay: {

@@ -12,6 +12,12 @@ const AssessmentDetailReducer = (state = initialState, action) => {
                 assessmentDetail: action.payload
             }
 
+        case actionTypes.REMOVE_ASSESSMENT_DETAIL:
+            return {
+                ...state,
+                assessmentDetail: action.payload
+            }
+
         default:
             return state;
     }

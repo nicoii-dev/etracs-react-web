@@ -12,6 +12,7 @@ import { Checkbox } from '@mui/material';
 // components
 import AssessmentDetailTable from './assessment-detail-table';
 import AddEditAssessmentDetail from './add-edit-assessment-detail';
+import ActualAdjustmentsTable from '../actual-adjustments/adjustments-table';
 
 //redux
 import { setAssessmentDetail } from '../../../../redux/assessment-detail/actions';
@@ -19,23 +20,27 @@ import { setAssessmentDetail } from '../../../../redux/assessment-detail/actions
 const AssessmentDetail = (props) => {
     const { control, handleSubmit, formState: { errors }, setValue } = useForm();
     const dispatch = useDispatch();
-    
+
     const pin = useSelector((state) => state.pinData.pin.pin);
     const revisionYear = useSelector((state) => state.revisionYearData.currentRevision);
     const assessmentDetail = useSelector((state) => state.assessmentDetailData.assessmentDetail);
 
     //localstate
+    const [classification_id, setClassification_id] = useState("");
     const [classificationName, setClassificationName] = useState("");
     const [rate, setRate] = useState(0);
     const [areaType, setAreaType] = useState("");
     const [landArea, setLandArea] = useState(0);
-    const [unitValue, setUnitValue] = useState(0);
+    const [unitValue, setUnitValue] = useState("");
     const [marketValue, setMarketValue] = useState(0);
     const [totalLandAreaSqm, setTotalLandAreaSqm] = useState(0);
     const [totalLandAreaHa, setTotalLandAreaHa] = useState(0);
     const [landBaseMarketValue, setLandBaseMarketValue] = useState(0);
     const [landMarketValue, setLandMarketValue] = useState(0);
     const [landAssessedValue, setLandAssessedValue] = useState(0)
+
+    const [showAdjustmentsModal, setShowAdjustmentsModal] = useState(false);
+    const [selected, setSelected] = useState("");
 
     const saveAssessmentDetail = async (data) => {
         const payload = {
@@ -55,6 +60,7 @@ const AssessmentDetail = (props) => {
             land_assessed_value: landAssessedValue,
             taxable: data.taxable,
         }
+        console.log(payload)
         await dispatch(setAssessmentDetail(payload));
     }
 
@@ -95,44 +101,44 @@ const AssessmentDetail = (props) => {
                             </Grid>
                         </Grid>
                         <Grid item md={4} xs={12} >
-                            <Grid item md={12} xs={12} style={{marginTop:-20}}>
-                             <Controller
-                                defaultValue={assessmentDetail?.taxable == true ? true:false}
-                                name={'taxable'}
-                                control={control}
-                                render={({field: {onChange, onBlur, value}}) => (
-                                    <Grid
-                                        container
-                                        spacing={0}
-                                        alignItems="left"
-                                        justifyContent="left"
-                                        fontWeight={"bold"}
+                            <Grid item md={12} xs={12} style={{ marginTop: -20 }}>
+                                <Controller
+                                    defaultValue={assessmentDetail?.taxable == true ? true : false}
+                                    name={'taxable'}
+                                    control={control}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                        <Grid
+                                            container
+                                            spacing={0}
+                                            alignItems="left"
+                                            justifyContent="left"
+                                            fontWeight={"bold"}
 
-                                    >
-                                       <h4> TAXABLE?</h4>
-                                        <FormControlLabel 
-                                            label=""
-                                            control={
-                                                <Checkbox
-                                                    checked={value}
-                                                    name={'taxable'}
-                                                    onBlur={onBlur}
-                                                    onChange={onChange}
-                                                    value={value}
-                                                    size='medium'
+                                        >
+                                            <h4> TAXABLE?</h4>
+                                            <FormControlLabel
+                                                label=""
+                                                control={
+                                                    <Checkbox
+                                                        checked={value}
+                                                        name={'taxable'}
+                                                        onBlur={onBlur}
+                                                        onChange={onChange}
+                                                        value={value}
+                                                        size='medium'
                                                     //
-                                                />
-                                            }
-                                   
-                                        />
-                                    </Grid>
-                                )}
-                            />
+                                                    />
+                                                }
+
+                                            />
+                                        </Grid>
+                                    )}
+                                />
                             </Grid>
                         </Grid>
                         <Grid item md={12} xs={12}>
                             {/* <AssessmentDetailTable /> */}
-                            <AddEditAssessmentDetail 
+                            <AddEditAssessmentDetail
                                 data={assessmentDetail}
                                 control={control}
                                 errors={errors}
@@ -140,6 +146,7 @@ const AssessmentDetail = (props) => {
                                 handleSubmit={handleSubmit}
                                 saveAssessmentDetail={saveAssessmentDetail}
                                 assessmentDetail={assessmentDetail}
+                                classification_id={classification_id}
                                 rate={rate}
                                 areaType={areaType}
                                 landArea={landArea}
@@ -150,6 +157,7 @@ const AssessmentDetail = (props) => {
                                 landBaseMarketValue={landBaseMarketValue}
                                 landMarketValue={landMarketValue}
                                 landAssessedValue={landAssessedValue}
+                                setClassification_id={setClassification_id}
                                 setClassificationName={setClassificationName}
                                 setRate={setRate}
                                 setAreaType={setAreaType}
@@ -161,11 +169,43 @@ const AssessmentDetail = (props) => {
                                 setLandBaseMarketValue={setLandBaseMarketValue}
                                 setLandMarketValue={setLandMarketValue}
                                 setLandAssessedValue={setLandAssessedValue}
+                                revisionYear={revisionYear}
+                                showAdjustmentsModal={showAdjustmentsModal}
+                                setShowAdjustmentsModal={setShowAdjustmentsModal}
                             />
                         </Grid>
                     </Grid>
                 </Grid>
             </Grid>
+
+            {/* Actual use adjustments modal */}
+            <Modal
+                isOpen={showAdjustmentsModal}
+                onRequestClose={() => {
+                    setShowAdjustmentsModal(!showAdjustmentsModal);
+                }}
+                contentLabel="Example Modal"
+                onClose={() => setShowAdjustmentsModal(!showAdjustmentsModal)}
+                ariaHideApp={false}
+                style={{
+                    content: {
+                        top: "50%",
+                        marginLeft: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: "45%",
+                        height: "50%",
+                    },
+                    overlay: {
+                        zIndex: 1000,
+                    },
+                }}
+            >
+                <ActualAdjustmentsTable 
+                    classification_id={classification_id}
+                    selected={selected}
+                    setSelected={setSelected}
+                />
+            </Modal>
         </>
     )
 }

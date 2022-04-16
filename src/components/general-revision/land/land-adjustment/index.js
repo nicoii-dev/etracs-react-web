@@ -53,8 +53,8 @@ const LandAdjustment = (props) => {
             // getting all classification id added for this land adjustment
             let result = addedClassificationList.map(classification => classification.id);
             const payload = {
-                code: _data.code,
-                name: _data.name,
+                code: _data.code.toUpperCase(),
+                name: _data.name.toUpperCase(),
                 classification_id: result.toString(),
                 expression: expression,
                 year_tag: revisionYear,
@@ -69,8 +69,8 @@ const LandAdjustment = (props) => {
         // getting all classification id added for this land adjustment
         let result = addedClassificationList.map(classification => classification.id);
         const payload = {
-            code: _data.code,
-            name: _data.name,
+            code: _data.code.toUpperCase(),
+            name: _data.name.toUpperCase(),
             classification_id: result.toString(),
             expression: expression,
             year_tag: revisionYear,

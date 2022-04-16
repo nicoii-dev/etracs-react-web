@@ -2,6 +2,20 @@ import * as actionTypes from './actionTypes'
 import LandAdjustmentApi from '../../library/api/land-adjustment-api';
 import Swal from "sweetalert2";
 
+export const setSelectedAdjustment = (payload) => {
+  Swal.fire('Saved!', '', 'success');
+  return{
+    type: actionTypes.SET_SELECTED_ADJUSTMENT,
+    payload: payload
+  }
+}
+
+export const removeSelectedAdjustment = (payload) => {
+  return{
+    type: actionTypes.REMOVE_SELECTED_ADJUSTMENT,
+  }
+}
+
 export const updateModal = (payload) => {
   return{
     type: actionTypes.UPDATE_MODAL_LAND_ADJUSTMENT,

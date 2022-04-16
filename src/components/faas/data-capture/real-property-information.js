@@ -31,7 +31,7 @@ const RealPropertyInformation = ({
     useEffect(() => {
         methods.setValue("pinNumber", pin ? pin : "")
         methods.setValue("revisionYear", revisionYear ? revisionYear : "")
-    }, [methods, pin, revisionYear])
+    }, [assessmentDetail.classification, methods, pin, revisionYear])
     return (
         <Grid container spacing={3}>
             <Grid item md={8} xs={12} style={{ marginTop: 0 }}>
@@ -281,7 +281,7 @@ const RealPropertyInformation = ({
                                 label="Classification"
                                 name="classification"
                                 size='small'
-                                value={assessmentDetail.classification_name}
+                                value={assessmentDetail.classification ? assessmentDetail.classification_name : ""}
                                 disabled
                             />
                         </Grid>
@@ -291,56 +291,40 @@ const RealPropertyInformation = ({
                                 label="Market Value"
                                 name="marketValue"
                                 size='small'
-                                value={parseInt(assessmentDetail.market_value).toFixed(2)}
+                                value={assessmentDetail.market_value ? parseInt(assessmentDetail.market_value).toFixed(2) : 0}
                                 inputProps={{ style: { textAlign: "right" } }}
                                 disabled
                             />
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
-                        <TextField
+                            <TextField
                                 fullWidth
                                 label="Assessed Value"
                                 name="assessedValue"
                                 size='small'
-                                value={parseInt(assessmentDetail.land_assessed_value).toFixed(2)}
+                                value={assessmentDetail.land_assessed_value ? parseInt(assessmentDetail.land_assessed_value).toFixed(2) : 0}
                                 inputProps={{ style: { textAlign: "right" } }}
                                 disabled
                             />
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -35 }}>
-                            <Controller
-                                defaultValue={assessmentDetail.taxable ? assessmentDetail.taxable : ""}
-                                name={'taxable'}
-                                control={control}
-                                render={({ field: { onChange, onBlur, value } }) => (
-                                    <Grid
-                                        container
-                                        spacing={0}
-                                        alignItems="left"
-                                        justifyContent="left"
-                                        fontWeight={"bold"}
+                            <Grid
+                                container
+                                spacing={0}
+                                alignItems="left"
+                                justifyContent="left"
+                                fontWeight={"bold"}
 
-                                    >
-                                        <h4> TAXABLE?</h4>
-                                        <FormControlLabel
-                                            label=""
-                                            control={
-                                                <Checkbox
-                                                    disabled={true}
-                                                    checked={assessmentDetail.taxable}
-                                                    name={'taxable'}
-                                                    onBlur={onBlur}
-                                                    onChange={onChange}
-                                                    value={value}
-                                                    size='medium'
-                                                //
-                                                />
-                                            }
-
-                                        />
-                                    </Grid>
-                                )}
-                            />
+                            >
+                                <h4> TAXABLE?</h4>
+                                <Checkbox
+                                    disabled={true}
+                                    checked={assessmentDetail.taxable}
+                                    name={'taxable'}
+                                    size='medium'
+                                //
+                                />
+                            </Grid>
                         </Grid>
                     </Grid>
                 </CardContent>

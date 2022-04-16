@@ -1,3 +1,4 @@
+/* eslint-disable no-dupe-keys */
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import {
     Box,
@@ -7,7 +8,6 @@ import {
     Divider,
     Grid,
     TextField,
-    Paper
 } from '@mui/material';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
