@@ -324,7 +324,7 @@ const RealPropertyInformation = ({
                                 <h4> TAXABLE?</h4>
                                 <Checkbox
                                     disabled={true}
-                                    checked={assessmentDetail.taxable === true ? true:false}
+                                    checked={assessmentDetail.taxable === "1" ? true:false}
                                     name={'taxable'}
                                     size='medium'
                                 //

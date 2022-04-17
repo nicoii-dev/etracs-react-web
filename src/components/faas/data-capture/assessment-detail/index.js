@@ -58,7 +58,7 @@ const AssessmentDetail = (props) => {
             land_base_market_value: landBaseMarketValue,
             land_market_value: landMarketValue,
             land_assessed_value: landAssessedValue,
-            taxable: data.taxable,
+            taxable: data.taxable === true ? "1":"0",
         }
         console.log(payload)
         await dispatch(setAssessmentDetail(payload));

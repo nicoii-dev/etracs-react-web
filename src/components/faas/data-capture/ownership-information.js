@@ -33,6 +33,8 @@ const OwnershipInformation = ({
 }) => {
     const methods = useFormContext();
 
+    const [selectedOption, setSelectedOption] = React.useState(data?.owner_name ? data?.owner_name : ""); // for updates
+
     const setData = useCallback(() => {
         methods.setValue("address", ownerData.address)
         methods.setValue("declaredOwner", ownerData.label) // settings the value of fields using method
@@ -74,16 +76,14 @@ const OwnershipInformation = ({
                                 }}
                                 render={({ field: { onChange, onBlur, value } }) => (
                                     <Select
-                                        defaultValue={
-                                            entityList.filter(option =>
-                                                option.value === data?.owner_name)
-                                        }
                                         name="owner"
                                         options={entityList}
                                         styles={selectStyles}
                                         value={ 
-                                            entityList.filter(option =>
-                                            option.value === data?.owner_name)
+                                            entityList.filter((option) => {
+                                              return option.value === selectedOption
+                                            })
+                                           // value
                                         }
 
                                         // onChange={(e) => {
@@ -91,6 +91,7 @@ const OwnershipInformation = ({
                                         // }}
                                         onChange={(e) => {
                                             onChange(e)
+                                            setSelectedOption(e.value)
                                             setOwnerData(e)
                                         }}
                                         onBlur={onBlur}

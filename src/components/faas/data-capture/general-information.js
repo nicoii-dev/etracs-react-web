@@ -247,7 +247,7 @@ const GeneralInformation = ({
                                     errorStatus={errors.restriction ? true : false}
                                     rules={{
                                         required: {
-                                            value: false,
+                                            value: true,
                                             message: 'Quarter is required',
                                         },
                                     }}

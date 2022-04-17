@@ -6,7 +6,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import InputErrorStyles from '../../../styles/error-text/InputErrorStyles.module.css';
 
 const Remarks = (props) => {
-    const {errors, control} = props;
+    const {data, errors, control} = props;
     const methods = useFormContext();
 
     return (
@@ -15,7 +15,7 @@ const Remarks = (props) => {
                 <Grid item md={12} xs={12} style={{marginTop:-20}}>
                     <CardContent>
                         <Controller
-                            defaultValue=""
+                            defaultValue={data.remarks ? data.remarks : ""}
                             name={'remarks'}
                             control={control}
                             rules={{

@@ -115,7 +115,6 @@ const FaasTable = ({
 
   const updateFaas = async (rowData) => {
     setShowDataCaptureModal(true);
-    console.log(rowData)
     setData(rowData)
     const payload = {
       classification: rowData.classification_id,
@@ -132,7 +131,7 @@ const FaasTable = ({
       land_base_market_value: rowData.market_value,
       land_market_value: rowData.market_value,
       land_assessed_value: rowData.assessed_value,
-      taxable: rowData.taxable === "true" ? true : false,
+      taxable: rowData.taxable,
     }
     await dispatch(setAssessmentDetail(payload));
     await dispatch(setRevisionFaas(rowData.revision_year));
