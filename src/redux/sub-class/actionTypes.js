@@ -5,3 +5,5 @@ export const SET_SUB_CLASS = 'SET_SUB_CLASS';
 export const SAVE_SUB_CLASS = 'SAVE_SUB_CLASS';
 export const UPDATE_SUB_CLASS = 'UPDATE_SUB_CLASS';
 export const DELETE_SUB_CLASS = 'DELETE_SUB_CLASS';
+
+export const CLEAR_SUB_CLASS = 'CLEAR_SUB_CLASS';

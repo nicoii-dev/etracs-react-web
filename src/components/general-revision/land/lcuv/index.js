@@ -46,6 +46,7 @@ const LCUV = (props) => {
     const [data, setData] = useState([]); // for update purposes
     const [selected, setSelected] = useState(null); //for changing the color of table row
     const [selectedClassification, setSelectedClassification] = useState(null) // for adding classification
+    const classificationData = useSelector(state => state.classificationData.classificationData); //getting classification from redux
 
     // for table pagination
     const [page, setPage] = useState(0);
@@ -94,8 +95,8 @@ const LCUV = (props) => {
 
     // for changeing revision year
     useEffect(() => {
-        setSelected(null)
-    }, [revisionYear])
+        setSelected(classificationData.id)
+    }, [classificationData.id, revisionYear])
 
     return(
         <>

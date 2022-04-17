@@ -22,7 +22,7 @@ const AddEditSubClass = (props) => {
                 <Grid item md={12} xs={12}>
                     <Divider textAlign="center">
                         <p style={{fontSize:20}}>
-                            Specic Class
+                            Sub Class
                         </p>
                     </Divider>
                 </Grid>

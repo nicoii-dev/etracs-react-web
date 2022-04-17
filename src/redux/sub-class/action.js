@@ -15,6 +15,12 @@ export const setSubClass = () => {
   }
 }
 
+export const clearSubClass = () => {
+  return {
+    type: actionTypes.CLEAR_SUB_CLASS
+  }
+}
+
 export const fetchSubClass = (id) => {
     return async (dispatch) => {
         try {

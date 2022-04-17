@@ -13,14 +13,15 @@ import AddBox from '@mui/icons-material/AddBox';
 import { IconButton, Divider } from '@mui/material';
 import ModeEdit from '@mui/icons-material/ModeEdit';
 import Delete from '@mui/icons-material/Delete';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 const AssessmentTable = (props) => {
     const {open, setOpen, filteredAssessmentLevels, getMarketValues, selected, setSelected,
             setData, deleteData, checked, setAssessmentLevelID} = props;
 
     const dispatch = useDispatch();
-
+    const revisionYear = useSelector(state => state.revisionYearData.currentRevision)
     const updateAssessment = (rowData) => {
         setOpen(!open)
         setData(rowData)
@@ -47,6 +48,10 @@ const AssessmentTable = (props) => {
                         color="primary" 
                         variant="contained" 
                         onClick={() => {
+                            if(revisionYear === null) {
+                                Swal.fire('Select revision year to proceed')
+                                return;
+                            }
                             setOpen(!open)
                             setData(null)
                         }}>

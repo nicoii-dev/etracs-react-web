@@ -33,13 +33,19 @@ const SpecificClassReducer = (state = initialState, action) => {
                 ...state,
                 specificClass: action.payload,
                 showModal: false
-            }  
+            }
         case actionTypes.DELETE_SPECIFIC_CLASS:
             return {
                 ...state,
                 specificClass: action.payload,
                 showModal: false
-            }            
+            }
+
+        case actionTypes.REMOVE_SPECIFIC_CLASS:
+            return {
+                ...state,
+                specificClass: [],
+            }
         default:
             return state;
     }

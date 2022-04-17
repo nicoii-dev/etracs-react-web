@@ -40,7 +40,7 @@ const VariableTableV2 = (props) => {
                     </IconButton>
                 </Box>
                 <TableContainer sx={{ maxHeight: 240, height: 240, }}>
-                    <Table stickyHeader aria-label="sticky table">
+                    <Table stickyHeader aria-label="sticky table" size="small">
                         <TableHead>
                             <TableRow>
                                 {columns.map((column) => (

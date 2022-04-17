@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Modal from 'react-modal';
@@ -31,29 +31,29 @@ const LandRevision = () => {
 
     const tabData = [
         {
-            'id' : '1',
-            'title' : 'Assessment Levels',
-            'tab' : <AssessmentLevels revisionYear={revisionYear}/>
+            'id': '1',
+            'title': 'Assessment Levels',
+            'tab': <AssessmentLevels revisionYear={revisionYear} />
         },
         {
-            'id' : '2',
-            'title' : 'LCUV',
-            'tab' : <LCUV revisionYear={revisionYear}/>
+            'id': '2',
+            'title': 'LCUV',
+            'tab': <LCUV revisionYear={revisionYear} />
         },
         {
-            'id' : '3',
-            'title' : 'Land Adjustment',
-            'tab' : <LandAdjustment revisionYear={revisionYear}/>
+            'id': '3',
+            'title': 'Land Adjustment',
+            'tab': <LandAdjustment revisionYear={revisionYear} />
         },
         {
-            'id' : '4',
-            'title' : 'Applied to the following LGUs',
-            'tab' : <AppliedToTheFollowingLgus revisionYear={revisionYear}/>
+            'id': '4',
+            'title': 'Applied to the following LGUs',
+            'tab': <AppliedToTheFollowingLgus revisionYear={revisionYear} />
         },
     ]
 
     useEffect(() => {
-        if(revisionYear === undefined || revisionYear === null) {
+        if (revisionYear === undefined || revisionYear === null) {
             setShowModal(true);
         } else {
             setShowModal(false)
@@ -61,7 +61,7 @@ const LandRevision = () => {
     }, [revisionYear])
 
     // on reset data if revision year changed
-    const onHandleChange = async() => {
+    const onHandleChange = async () => {
         setShowModal(!showModal);
         await dispatch(setAssessmentLevelID(null))
         await dispatch(setMarketValue([]))
@@ -70,19 +70,21 @@ const LandRevision = () => {
         await dispatch(setSubClass())
         await dispatch(setStripping())
     }
-
+    
     return (
         <>
             <div>
                 <h1>
                     Land
                 </h1>
-                <h3 style={{flexDirection: 'row'}}>
-                    Revision Year : {revisionYear} 
-                    <Button color="primary" onClick={onHandleChange}> change</Button>
+                <h3 style={{ flexDirection: 'row' }}>
+                    Revision Year : {revisionYear}
+                    <Button color="primary" onClick={onHandleChange}>
+                        {revisionYear !== null ? "change" : "select"}
+                    </Button>
                 </h3>
 
-                
+
                 <Box sx={{ flexGrow: 1 }}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -96,23 +98,24 @@ const LandRevision = () => {
 
             <Modal
                 isOpen={showModal}
-                onRequestClose={() => {
-                    Swal.fire('Select revision year to proceed')
-                }}
+                // onRequestClose={() => {
+                //     Swal.fire('Select revision year to proceed')
+                // }}
+                onRequestClose={() => setShowModal(!showModal)}
                 contentLabel="Example Modal"
                 onClose={() => setShowModal(!showModal)}
                 ariaHideApp={false}
                 style={{
                     content: {
-                    top: '45%',
-                    marginLeft: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: window.innerHeight > 900 ? '30%' : '30%',
-                    height: window.innerHeight > 900 ? '45%' : '50%',
-                    overflow: 'hidden'
+                        top: '45%',
+                        marginLeft: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: window.innerHeight > 900 ? '30%' : '30%',
+                        height: window.innerHeight > 900 ? '45%' : '50%',
+                        overflow: 'hidden'
                     },
                     overlay: {
-                        zIndex:10
+                        zIndex: 10
                     }
                 }}
             >
@@ -127,16 +130,16 @@ const LandRevision = () => {
                         position: 'absolute'
                     }}
                 >
-                    <Button 
-                        color="primary" 
-                        variant="contained" 
-                        onClick={async() => {
-                            if(selectedYear === undefined || selectedYear === null){
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        onClick={async () => {
+                            if (selectedYear === undefined || selectedYear === null) {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Oops...',
                                     text: 'Please select a year!',
-                              }) 
+                                })
                             } else {
                                 await dispatch(setRevisionYearRedux(selectedYear.revision_year))
                                 setShowModal(!showModal)
@@ -145,7 +148,7 @@ const LandRevision = () => {
                     >
                         Open
                     </Button>
-                    
+
                 </Box>
             </Modal>
 

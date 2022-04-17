@@ -33,13 +33,19 @@ const SubClassReducer = (state = initialState, action) => {
                 ...state,
                 subClass: action.payload,
                 showModal: false
-            }  
+            }
         case actionTypes.DELETE_SUB_CLASS:
             return {
                 ...state,
                 subClass: action.payload,
                 showModal: false
-            }            
+            }
+
+        case actionTypes.CLEAR_SUB_CLASS:
+            return {
+                ...state,
+                subClass: [],
+            }
         default:
             return state;
     }

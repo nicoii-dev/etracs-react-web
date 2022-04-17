@@ -22,7 +22,8 @@ import { fetchBarangayRedux } from '../../../redux/barangay/action';
 import { setRevisionYearRedux } from '../../../redux/revision-year/action';
 import { setInitialInfo } from '../../../redux/initial-info/actions';
 import { setRevisionFaas } from '../../../redux/revision-year/action';
-
+import { clearSpecificClass } from '../../../redux/specific-class/action'; //for clearing specific class. after adding new specific class
+import { clearSubClass } from '../../../redux/sub-class/action'; //for clearing specific class. after adding new specific class
 
 const InitialInfo = (props) => {
     const { setShowInitialModal, setShowDataCaptureModal, revisionYearList, municipalityList, barangayList } = props;
@@ -35,6 +36,8 @@ const InitialInfo = (props) => {
     const faasInitialInformation = async (data) => {
         // getting municipality data based on selected
         await dispatch(setRevisionFaas(data.revisionYear))
+        await dispatch(clearSpecificClass());
+        await dispatch(clearSubClass());
         let municipalityData = municipalityList.find(obj => { return obj.id.toString() === data.municipality_name.toString() })
 
         // creating pin

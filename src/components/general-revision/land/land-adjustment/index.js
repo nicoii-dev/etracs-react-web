@@ -59,8 +59,9 @@ const LandAdjustment = (props) => {
                 expression: expression,
                 year_tag: revisionYear,
             }
-          await dispatch(updateModal(!showModal));
+          //await dispatch(updateModal(!showModal));
           await dispatch(storeLandAdjustmentRedux(payload));
+          setTimeout(await dispatch(updateModal(!showModal)), 1000)
         }
 
     }

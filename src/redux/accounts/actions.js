@@ -154,7 +154,7 @@ export const logoutRedux = () => {
               payload: response
             })
             window.location.reload();
-            sessionStorage.clear();
+            localStorage.clear();
           }
         } catch (error) {
           Swal.fire({

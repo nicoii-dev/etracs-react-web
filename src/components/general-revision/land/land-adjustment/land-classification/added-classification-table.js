@@ -103,8 +103,8 @@ const AddedClassificationTable = (props) => {
                     top: '55%',
                     marginLeft: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: '25%',
-                    height: window.innerHeight > 900 ? '60%' : '70%',
+                    width: '30%',
+                    height: window.innerHeight > 900 ? '45%' : '50%',
                     },
                     overlay: {
                         zIndex:10

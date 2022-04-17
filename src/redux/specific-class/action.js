@@ -15,6 +15,12 @@ export const setSpecificClass = () => {
   }
 }
 
+export const clearSpecificClass = () => {
+  return {
+    type: actionTypes.REMOVE_SPECIFIC_CLASS,
+  }
+}
+
 export const fetchSpecificClass = (id) => {
     return async (dispatch) => {
         try {

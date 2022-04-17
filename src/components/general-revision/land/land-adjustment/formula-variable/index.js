@@ -172,6 +172,7 @@ const FormulaVariable = (props) => {
 
                         } else {
                             dispatch(saveExpressionRedux(formula));
+                            Swal.fire('Save!', '', 'success')
                         }
                     }}
                 >

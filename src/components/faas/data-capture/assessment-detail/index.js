@@ -62,6 +62,7 @@ const AssessmentDetail = (props) => {
         }
         console.log(payload)
         await dispatch(setAssessmentDetail(payload));
+        Swal.fire('Saved!', '', 'success');
     }
 
     return (
