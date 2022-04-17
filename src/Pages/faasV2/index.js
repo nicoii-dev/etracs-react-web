@@ -15,6 +15,11 @@ import { removeAssessmentDetail } from '../../redux/assessment-detail/actions';
 import { removeSelectedAdjustment } from '../../redux/land-adjustments/actions';
 import { fetchFaasRedux } from '../../redux/faas/actions';
 
+import {
+    deleteFaasRedux,
+    deleteMultipleFaasRedux
+} from "../../redux/faas/actions";
+
 const FaasPage = () => {
     const dispatch = useDispatch();
     // global states
@@ -34,9 +39,27 @@ const FaasPage = () => {
     const [transaction, setTransaction] = React.useState("DC");
     const [status, setStatus] = React.useState("INTERIM");
 
+    const user = JSON.parse(localStorage.getItem("user"));
+    const personnel = user.personnel[0].firstname + " " + user.personnel[0].middlename.charAt(0) + ". " + user.personnel[0].lastname;
+
     React.useEffect(() => {
         dispatch(fetchFaasRedux())
     }, [dispatch])
+
+
+    // triggers for selected to delete/multiple delete
+    React.useEffect(() => {
+        setSelected([]);
+    }, [faasList]);
+
+    const deleteData = async () => {
+        if (selectedToDelete.length > 1) {
+            await dispatch(deleteMultipleFaasRedux({ ids: selectedToDelete.toString() })
+            );
+        } else {
+            await dispatch(deleteFaasRedux(selectedToDelete.toString()));
+        }
+    };
 
     return (
         <div>
@@ -75,6 +98,7 @@ const FaasPage = () => {
                     setSelected={setSelected}
                     setSelectedToDelete={setSelectedToDelete}
                     setShowDataCaptureModal={setShowDataCaptureModal}
+                    deleteData={deleteData}
                 />
             </div>
 
@@ -148,6 +172,7 @@ const FaasPage = () => {
                     transaction={transaction}
                     status={status}
                     setShowDataCaptureModal={setShowDataCaptureModal}
+                    personnel={personnel}
                 />
 
             </Modal>

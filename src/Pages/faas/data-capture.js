@@ -13,14 +13,17 @@ import OwnershipInformation from "../../components/faas/data-capture/ownership-i
 import RealPropertyInformation from "../../components/faas/data-capture/real-property-information";
 import Remarks from "../../components/faas/data-capture/remarks";
 import AssessmentDetail from "../../components/faas/data-capture/assessment-detail";
-import StatusTranction from "../../components/faas/data-capture/status-transaction";
+import StatusTransaction from "../../components/faas/data-capture/status-transaction";
 
 // redux
 import { fetchRevisionYearRedux } from "../../redux/revision-year/action";
-import { storeFaasRedux, updateFaasRedux } from "../../redux/faas/actions";
+import { 
+    storeFaasRedux, 
+    updateFaasRedux,
+} from "../../redux/faas/actions";
 
 const DataCapturePage = (props) => {
-    const { data, transaction, status, setShowDataCaptureModal } = props
+    const { data, transaction, status, setShowDataCaptureModal, personnel } = props
     const dispatch = useDispatch();
     const methods = useForm();
     const {
@@ -192,8 +195,8 @@ const DataCapturePage = (props) => {
         let newData = [];
         individualList.forEach(item => newData.push({
             "id": item.id,
-            "value": item.lastname + ", " + item.firstname + " " + item.middlename,
-            "label": item.lastname + ", " + item.firstname + " " + item.middlename,
+            "value": item.lastname + ", " + item.firstname + " " + item.middlename.charAt(0),
+            "label": item.lastname + ", " + item.firstname + " " + item.middlename.charAt(0),
             "address": (item.house_number?.length > 0 ? item.house_number + " " : "") + (item.street + ", " + item.barangay + ", " + item.city_municipality + ", " + item.zipcode)
         }));
         juridicalList.forEach(item => newData.push({
@@ -220,7 +223,7 @@ const DataCapturePage = (props) => {
             <h2 style={{ fontFamily: "-moz-initial" }}>F A A S</h2>
             <div>
                 <FormProvider {...methods}>
-                    <StatusTranction
+                    <StatusTransaction
                         errors={errors}
                         control={control}
                         transaction={transaction}
@@ -230,6 +233,7 @@ const DataCapturePage = (props) => {
                         data={data}
                         errors={errors}
                         control={control}
+                        personnel={personnel}
                     />
                     <OwnershipInformation
                         data={data}
@@ -250,9 +254,9 @@ const DataCapturePage = (props) => {
                         selectedAdjustment={selectedAdjustment}
                     />
 
-                    <Remarks 
+                    <Remarks
                         data={data}
-                        errors={errors} 
+                        errors={errors}
                         control={control}
                     />
 
@@ -268,7 +272,7 @@ const DataCapturePage = (props) => {
                             variant="contained"
                             onClick={handleSubmit(data ? updateDataCapture : addDataCapture)}
                         >
-                           {data ? "Update" : "Save"} 
+                            {data ? "Update" : "Save"}
                         </Button>
                     </Box>
                 </FormProvider>

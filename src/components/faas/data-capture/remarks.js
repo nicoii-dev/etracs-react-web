@@ -15,7 +15,7 @@ const Remarks = (props) => {
                 <Grid item md={12} xs={12} style={{marginTop:-20}}>
                     <CardContent>
                         <Controller
-                            defaultValue={data.remarks ? data.remarks : ""}
+                            defaultValue={data?.remarks ? data?.remarks : ""}
                             name={'remarks'}
                             control={control}
                             rules={{

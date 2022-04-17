@@ -5,19 +5,20 @@ import {
     Grid,
     TextField,
 } from '@mui/material';
-import { Controller } from "react-hook-form";
+
+import { Controller} from "react-hook-form";
 import FaasTextInputController from '../../input/faas-input';
 import Quarter from '../../../library/constants/quarter'
 
 const GeneralInformation = ({
     errors,
     control,
-    data
+    data,
+    personnel
 }) => {
-
+    
     return (
         <>
-
             <Grid container spacing={3} style={{ marginTop: -50 }}>
                 <Grid item md={12} xs={12}>
                     <Divider textAlign="left">
@@ -222,7 +223,7 @@ const GeneralInformation = ({
                                             onBlur={onBlur}
                                             onChange={onChange}
                                             size='small'
-                                            error={errors.quarter ? true:false}
+                                            error={errors.quarter ? true : false}
                                             value={value}
                                         >
                                             {Quarter.map((option) => (
@@ -325,12 +326,14 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={7} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.appraised_by}
+                                    defaultData={data?.appraised_by ? data?.appraised_by : personnel}
                                     label="Appraised by*"
                                     name="appraisedBy"
                                     variant="outlined"
                                     control={control}
+                                    disabled={true}
                                     errorStatus={errors.appraisedBy ? true : false}
+                                    //inputStyle={{ style: {fontWeight: "bold"}}}
                                     rules={{
                                         required: {
                                             value: true,

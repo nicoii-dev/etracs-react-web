@@ -19,7 +19,7 @@ import FaasTextInputController from '../../input/faas-input';
 
 // redux
 
-const StatusTranction = (props) => {
+const StatusTransaction = (props) => {
     const { control, transaction, status } = props;
 
     return (
@@ -77,4 +77,4 @@ const StatusTranction = (props) => {
     )
 }
 
-export default StatusTranction;
+export default StatusTransaction;
