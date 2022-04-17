@@ -9,6 +9,13 @@ export const setRevisionYearRedux = (data) => {
     }
 }
 
+export const setRevisionFaas = (data) => {
+  return {
+      type: actionTypes.SET_REVISION_YEAR_FAAS,
+      payload: data
+  }
+}
+
 export const fetchRevisionYearRedux = () => {
   return async (dispatch) => {
     try {

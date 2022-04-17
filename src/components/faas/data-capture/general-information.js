@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-  CardContent,
-  Divider,
-  Grid,
-  TextField,
+    CardContent,
+    Divider,
+    Grid,
+    TextField,
 } from '@mui/material';
 import { Controller } from "react-hook-form";
 import FaasTextInputController from '../../input/faas-input';
@@ -18,35 +18,35 @@ const GeneralInformation = ({
     return (
         <>
 
-            <Grid container spacing={3}>
+            <Grid container spacing={3} style={{ marginTop: -50 }}>
                 <Grid item md={12} xs={12}>
-                <Divider textAlign="left">
-                        <p style={{fontSize:20}}>
+                    <Divider textAlign="left">
+                        <p style={{ fontSize: 20 }}>
                             General Information
                         </p>
                     </Divider>
                 </Grid>
-                <Grid item md={6} xs={12} style={{marginTop:-50}}>
+                <Grid item md={6} xs={12} style={{ marginTop: -50 }}>
                     <CardContent>
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12}>
                                 <FaasTextInputController
-                                    defaultData={data?.tdNumber}
+                                    defaultData={data?.td_number}
                                     label="TD number* "
                                     name="tdNumber"
                                     variant="outlined"
                                     control={control}
-                                    errorStatus={errors.tdNumber ? true:false}
+                                    errorStatus={errors.tdNumber ? true : false}
                                     rules={{
                                         required: {
-                                        value: true,
-                                        message: 'TD Number is required',
+                                            value: true,
+                                            message: 'TD Number is required',
                                         },
                                     }}
                                 />
                             </Grid>
-                            <Grid item md={12} xs={12} style={{marginTop:-15}}>
-                                <FaasTextInputController
+                            <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
+                                {/* <FaasTextInputController
                                     defaultData={data?.titleType}
                                     label="Title type*"
                                     name="titleType"
@@ -59,57 +59,100 @@ const GeneralInformation = ({
                                         message: 'Title Type is required',
                                         },
                                     }}
-                                />
-                            </Grid>
-                            <Grid item md={6} xs={12} style={{marginTop:-15}}>
-                                <FaasTextInputController
-                                    defaultData={data?.titleNumber}
-                                    label="Title number"
-                                    name="titleNumber"
-                                    variant="outlined"
-                                    control={control}
-                                    errorStatus={errors.titleNumber ? true:false}
-                                    rules={{
-                                        required: {
-                                        value: false,
-                                        message: 'Middle name is required',
-                                        },
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item md={6} xs={12} style={{marginTop:-15}}>
+                                /> */}
                                 <Controller
-                                    defaultValue={data?.date ? data?.date : ""}
-                                    name='date'
+                                    defaultValue={data?.title_type ? data?.title_type : ""}
+                                    name={'titleType'}
                                     control={control}
                                     rules={{
                                         required: {
-                                            value: false,
-                                            message: 'Date is required',
+                                            value: true,
+                                            message: 'Appraised date is required',
                                         },
+                                        pattern: {
+                                            value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
+                                            message: 'Civil status is required',
+                                        }
                                     }}
-                                    render={({field: {onChange, onBlur, value}}) => (
-                                    <TextField
-                                        name="date"
-                                        label="Date"
-                                        type="date"
-                                        size='small'
-                                        error={errors?.date ? true:false}
-                                        fullWidth
-                                        onBlur={onBlur}
-                                        onChange={onChange}
-
-                                        value={data?.date ? data.date : value}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                        <TextField
+                                            fullWidth
+                                            label="Title type*"
+                                            name="titleType"
+                                            select
+                                            SelectProps={{ native: true }}
+                                            variant="outlined"
+                                            onBlur={onBlur}
+                                            onChange={onChange}
+                                            size='small'
+                                            error={errors.titleType ? true : false}
+                                            value={value}
+                                        >
+                                            <option key={'-Select-'} value={'-Select-'}>
+                                                -Select-
+                                            </option>
+                                            <option key={"OCT"} value={"OCT"}>
+                                                OCT
+                                            </option>
+                                            <option key={"TCT"} value={"TCT"}>
+                                                TCT
+                                            </option>
+                                            <option key={"CLOA"} value={"CLOA"}>
+                                                CLOA
+                                            </option>
+                                        </TextField>
                                     )}
                                 />
                             </Grid>
-                            <Grid item md={12} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
+                                <FaasTextInputController
+                                    defaultData={data?.title_number}
+                                    label="Title number*"
+                                    name="titleNumber"
+                                    variant="outlined"
+                                    control={control}
+                                    errorStatus={errors.titleNumber ? true : false}
+                                    rules={{
+                                        required: {
+                                            value: true,
+                                            message: 'Middle name is required',
+                                        },
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
-                                    defaultValue={data?.issueDate ? data?.issueDate : ""}
+                                    defaultValue={data?.title_date ? data?.title_date : ""}
+                                    name='titleDate'
+                                    control={control}
+                                    rules={{
+                                        required: {
+                                            value: true,
+                                            message: 'Date is required',
+                                        },
+                                    }}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                        <TextField
+                                            name="Date*"
+                                            label="Date"
+                                            type="date"
+                                            size='small'
+                                            error={errors?.titleDate ? true : false}
+                                            fullWidth
+                                            onBlur={onBlur}
+                                            onChange={onChange}
+
+                                            value={value}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
+                                    )}
+                                />
+                            </Grid>
+                            <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
+                                <Controller
+                                    defaultValue={data?.issue_date ? data?.issue_date : ""}
                                     name={'issueDate'}
                                     control={control}
                                     rules={{
@@ -118,89 +161,94 @@ const GeneralInformation = ({
                                             message: 'Issue Date is required',
                                         },
                                     }}
-                                    render={({field: {onChange, onBlur, value}}) => (
-                                    <TextField
-                                        name="issueDate"
-                                        label="Issue Date*"
-                                        type="date"
-                                        size='small'
-                                        error={errors?.issueDate ? true:false}
-                                        fullWidth
-                                        onBlur={onBlur}
-                                        onChange={onChange}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                        <TextField
+                                            name="issueDate"
+                                            label="Issue Date*"
+                                            type="date"
+                                            size='small'
+                                            error={errors?.issueDate ? true : false}
+                                            fullWidth
+                                            onBlur={onBlur}
+                                            onChange={onChange}
 
-                                        value={data?.issueDate ? data.issueDate : value}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
+                                            value={value}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
                                     )}
                                 />
                             </Grid>
-                            <Grid item md={6} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
                                     defaultData={data?.effectivity}
                                     label="Effectivity*"
                                     name="effectivity"
                                     variant="outlined"
                                     control={control}
-                                    errorStatus={errors.effectivity ? true:false}
+                                    errorStatus={errors.effectivity ? true : false}
                                     rules={{
                                         required: {
-                                        value: true,
-                                        message: 'Effectivity is required',
+                                            value: true,
+                                            message: 'Effectivity is required',
                                         },
                                     }}
                                 />
                             </Grid>
-                            <Grid item md={6} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
                                     defaultValue={data?.quarter ? data?.quarter : ""}
                                     name={'quarter'}
                                     control={control}
                                     rules={{
                                         required: {
-                                        value: false,
-                                        message: 'Citizenship is required',
+                                            value: true,
+                                            message: 'Citizenship is required',
                                         },
-                                    }}  
-                                    render={({field: {onChange, onBlur, value}}) => (
+                                        pattern: {
+                                            value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
+                                            message: 'Civil status is required',
+                                        }
+                                    }}
+                                    render={({ field: { onChange, onBlur, value } }) => (
                                         <TextField
-                                        fullWidth
-                                        label="Quarter"
-                                        name="quarter"
-                                        select
-                                        SelectProps={{ native: true }}
-                                        variant="outlined"
-                                        onBlur={onBlur}
-                                        onChange={onChange}
-                                        size='small'
-                                        value={value}
+                                            fullWidth
+                                            label="Quarter*"
+                                            name="quarter"
+                                            select
+                                            SelectProps={{ native: true }}
+                                            variant="outlined"
+                                            onBlur={onBlur}
+                                            onChange={onChange}
+                                            size='small'
+                                            error={errors.quarter ? true:false}
+                                            value={value}
                                         >
-                                        {Quarter.map((option) => (
-                                            <option
-                                                key={option.quarter}
-                                                value={option.quarter}
-                                            >
-                                                {option.quarter}
-                                            </option>
-                                        ))}
+                                            {Quarter.map((option) => (
+                                                <option
+                                                    key={option.quarter}
+                                                    value={option.quarter}
+                                                >
+                                                    {option.quarter}
+                                                </option>
+                                            ))}
                                         </TextField>
                                     )}
                                 />
                             </Grid>
-                            <Grid item md={12} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
                                     defaultData={data?.restriction}
                                     label="Restriction"
                                     name="restriction"
                                     variant="outlined"
                                     control={control}
-                                    errorStatus={errors.restriction ? true:false}
+                                    errorStatus={errors.restriction ? true : false}
                                     rules={{
                                         required: {
-                                        value: false,
-                                        message: 'Quarter is required',
+                                            value: false,
+                                            message: 'Quarter is required',
                                         },
                                     }}
                                 />
@@ -208,92 +256,92 @@ const GeneralInformation = ({
                         </Grid>
                     </CardContent>
                 </Grid>
-                <Grid item md={6} xs={12} style={{marginTop:-50}}>                    
+                <Grid item md={6} xs={12} style={{ marginTop: -50 }}>
                     <CardContent>
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12}>
                                 <FaasTextInputController
-                                    defaultData={data?.previousTdNumber}
+                                    defaultData={data?.previous_td_number}
                                     label="Previous TD number"
                                     name="previousTdNumber"
                                     variant="outlined"
                                     control={control}
-                                    errorStatus={errors.previousTdNumber ? true:false}
+                                    errorStatus={errors.previousTdNumber ? true : false}
                                     rules={{
                                         required: {
-                                        value: false,
-                                        message: 'Previous TD Number is required',
+                                            value: false,
+                                            message: 'Previous TD Number is required',
                                         },
                                     }}
                                 />
                             </Grid>
-                            <Grid item md={12} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.previousPin}
+                                    defaultData={data?.previous_pin}
                                     label="Previous PIN"
                                     name="previousPin"
                                     variant="outlined"
                                     control={control}
-                                    errorStatus={errors.previousPin ? true:false}
+                                    errorStatus={errors.previousPin ? true : false}
                                     rules={{
                                         required: {
-                                        value: false,
-                                        message: 'Previous PIN is required',
+                                            value: false,
+                                            message: 'Previous PIN is required',
                                         },
                                     }}
                                 />
                             </Grid>
-                            <Grid item md={6} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.previousMv}
+                                    defaultData={data?.previous_mv}
                                     label="Previous MV*"
                                     name="previousMv"
                                     variant="outlined"
                                     control={control}
-                                    errorStatus={errors.previousMv ? true:false}
+                                    errorStatus={errors.previousMv ? true : false}
                                     rules={{
                                         required: {
-                                        value: true,
-                                        message: 'Previous MV is required',
+                                            value: true,
+                                            message: 'Previous MV is required',
                                         },
                                     }}
                                 />
                             </Grid>
-                            <Grid item md={6} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.previousAv}
+                                    defaultData={data?.previous_av}
                                     label="Previous AV*"
                                     name="previousAv"
                                     variant="outlined"
                                     control={control}
-                                    errorStatus={errors.previousAv ? true:false}
+                                    errorStatus={errors.previousAv ? true : false}
                                     rules={{
                                         required: {
-                                        value: true,
-                                        message: 'Previous AV is required',
+                                            value: true,
+                                            message: 'Previous AV is required',
                                         },
                                     }}
                                 />
                             </Grid>
-                            <Grid item md={7} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={7} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.appraisedBy}
+                                    defaultData={data?.appraised_by}
                                     label="Appraised by*"
                                     name="appraisedBy"
                                     variant="outlined"
                                     control={control}
-                                    errorStatus={errors.appraisedBy ? true:false}
+                                    errorStatus={errors.appraisedBy ? true : false}
                                     rules={{
                                         required: {
-                                        value: true,
-                                        message: 'Appraised by is required',
+                                            value: true,
+                                            message: 'Appraised by is required',
                                         },
                                     }}
                                 />
                             </Grid>
-                            <Grid item md={5} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={5} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
-                                    defaultValue={data?.appraisedDate ? data?.appraisedDate : ""}
+                                    defaultValue={data?.appraised_date ? data?.appraised_date : ""}
                                     name={'appraisedDate'}
                                     control={control}
                                     rules={{
@@ -302,44 +350,44 @@ const GeneralInformation = ({
                                             message: 'Appraised date is required',
                                         },
                                     }}
-                                    render={({field: {onChange, onBlur, value}}) => (
-                                    <TextField
-                                        name="appraisedDate"
-                                        label="Appraised Date*"
-                                        type="date"
-                                        size='small'
-                                        error={errors?.appraisedDate ? true:false}
-                                        fullWidth
-                                        onBlur={onBlur}
-                                        onChange={onChange}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                        <TextField
+                                            name="appraisedDate"
+                                            label="Appraised Date*"
+                                            type="date"
+                                            size='small'
+                                            error={errors?.appraisedDate ? true : false}
+                                            fullWidth
+                                            onBlur={onBlur}
+                                            onChange={onChange}
 
-                                        value={value}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
+                                            value={value}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
                                     )}
                                 />
                             </Grid>
-                            <Grid item md={7} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={7} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.recommendBy}
+                                    defaultData={data?.recommended_by ? data.recommended_by : ""}
                                     label="Recommended by"
                                     name="recommendBy"
                                     variant="outlined"
                                     control={control}
-                                    errorStatus={errors.recommendBy ? true:false}
+                                    errorStatus={errors.recommendBy ? true : false}
                                     rules={{
                                         required: {
-                                        value: false,
-                                        message: 'Recommended by is required',
+                                            value: false,
+                                            message: 'Recommended by is required',
                                         },
                                     }}
                                 />
                             </Grid>
-                            <Grid item md={5} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={5} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
-                                    defaultValue={data?.recommendedDate ? data?.recommendedDate : ""}
+                                    defaultValue={data?.recommended_date ? data?.recommended_date : ""}
                                     name={'recommendedDate'}
                                     control={control}
                                     rules={{
@@ -348,43 +396,43 @@ const GeneralInformation = ({
                                             message: 'Recommended date is required',
                                         },
                                     }}
-                                    render={({field: {onChange, onBlur, value}}) => (
-                                    <TextField
-                                        name="recommendedDate"
-                                        label="Recommended Date"
-                                        type="date"
-                                        size='small'
-                                        error={errors?.recommendedDate ? true:false}
-                                        fullWidth
-                                        onBlur={onBlur}
-                                        onChange={onChange}
-                                        value={value}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                        <TextField
+                                            name="recommendedDate"
+                                            label="Recommended Date"
+                                            type="date"
+                                            size='small'
+                                            error={errors?.recommendedDate ? true : false}
+                                            fullWidth
+                                            onBlur={onBlur}
+                                            onChange={onChange}
+                                            value={value}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
                                     )}
                                 />
                             </Grid>
-                            <Grid item md={7} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={7} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.approveBy}
+                                    defaultData={data?.approve_by}
                                     label="Approve by*"
                                     name="approveBy"
                                     variant="outlined"
                                     control={control}
-                                    errorStatus={errors.approveBy ? true:false}
+                                    errorStatus={errors.approveBy ? true : false}
                                     rules={{
                                         required: {
-                                        value: true,
-                                        message: 'Approve by is required',
+                                            value: true,
+                                            message: 'Approve by is required',
                                         },
                                     }}
                                 />
                             </Grid>
-                            <Grid item md={5} xs={12} style={{marginTop:-15}}>
+                            <Grid item md={5} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
-                                    defaultValue={data?.approvedDate ? data?.approvedDate : ""}
+                                    defaultValue={data?.approve_date ? data?.approve_date : ""}
                                     name={'approvedDate'}
                                     control={control}
                                     rules={{
@@ -393,28 +441,28 @@ const GeneralInformation = ({
                                             message: 'Approved date is required',
                                         },
                                     }}
-                                    render={({field: {onChange, onBlur, value}}) => (
-                                    <TextField
-                                        name="approvedDate"
-                                        label="Approved Date*"
-                                        type="date"
-                                        size='small'
-                                        error={errors?.approvedDate ? true:false}
-                                        fullWidth
-                                        onBlur={onBlur}
-                                        onChange={onChange}
-                                        value={value}
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                    />
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                        <TextField
+                                            name="approvedDate"
+                                            label="Approved Date*"
+                                            type="date"
+                                            size='small'
+                                            error={errors?.approvedDate ? true : false}
+                                            fullWidth
+                                            onBlur={onBlur}
+                                            onChange={onChange}
+                                            value={value}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
                                     )}
                                 />
                             </Grid>
                         </Grid>
                     </CardContent>
                 </Grid>
-                
+
             </Grid>
         </>
     );

@@ -21,7 +21,7 @@ const VariableTableV2 = (props) => {
     return (
         <>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                {/* <Box
+                <Box
                     sx={{
                         display: 'flex',
                         justifyContent: 'flex-end',
@@ -38,7 +38,7 @@ const VariableTableV2 = (props) => {
                         }}>
                         <AddBox />
                     </IconButton>
-                </Box> */}
+                </Box>
                 <TableContainer sx={{ maxHeight: 240, height: 240, }}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>

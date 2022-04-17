@@ -13,6 +13,7 @@ import DataCapturePage from '../faas/data-capture';
 // redux
 import { removeAssessmentDetail } from '../../redux/assessment-detail/actions';
 import { removeSelectedAdjustment } from '../../redux/land-adjustments/actions';
+import { fetchFaasRedux } from '../../redux/faas/actions';
 
 const FaasPage = () => {
     const dispatch = useDispatch();
@@ -30,6 +31,12 @@ const FaasPage = () => {
     const [open, setOpen] = React.useState(false);
     const [selected, setSelected] = React.useState([]);
     const [selectedToDelete, setSelectedToDelete] = React.useState(false);
+    const [transaction, setTransaction] = React.useState("DC");
+    const [status, setStatus] = React.useState("INTERIM");
+
+    React.useEffect(() => {
+        dispatch(fetchFaasRedux())
+    }, [dispatch])
 
     return (
         <div>
@@ -61,13 +68,13 @@ const FaasPage = () => {
             <div>
                 <FaasTable
                     faasList={faasList}
-                    data={data}
                     setData={setData}
                     open={open}
                     setOpen={setOpen}
                     selected={selected}
                     setSelected={setSelected}
                     setSelectedToDelete={setSelectedToDelete}
+                    setShowDataCaptureModal={setShowDataCaptureModal}
                 />
             </div>
 
@@ -137,6 +144,9 @@ const FaasPage = () => {
                 }}
             >
                 <DataCapturePage
+                    data={data}
+                    transaction={transaction}
+                    status={status}
                     setShowDataCaptureModal={setShowDataCaptureModal}
                 />
 

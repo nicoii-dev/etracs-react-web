@@ -11,7 +11,8 @@ const FaasTextInputController = ({
     rules,
     placeholder,
     errorStatus=false,
-    disabled=false
+    disabled=false,
+    inputStyle,
 }) => {
     const methods = useFormContext();
     return (
@@ -34,6 +35,7 @@ const FaasTextInputController = ({
                         placeholder={placeholder}
                         error={errorStatus}
                         disabled={disabled}
+                        inputProps={inputStyle}
                         size='small'
                     />
 

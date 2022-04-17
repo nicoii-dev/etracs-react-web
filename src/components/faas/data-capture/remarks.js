@@ -2,6 +2,9 @@ import React from 'react';
 import { CardContent, Grid, TextareaAutosize} from '@mui/material';
 import { Controller, useFormContext } from "react-hook-form";
 
+
+import InputErrorStyles from '../../../styles/error-text/InputErrorStyles.module.css';
+
 const Remarks = (props) => {
     const {errors, control} = props;
     const methods = useFormContext();
@@ -15,6 +18,12 @@ const Remarks = (props) => {
                             defaultValue=""
                             name={'remarks'}
                             control={control}
+                            rules={{
+                                required: {
+                                    value: true,
+                                    message: 'Remarks is required',
+                                },
+                            }}
                             render={({field: {onChange, onBlur, value}}) => (
                                 <TextareaAutosize
                                     {...methods.register('remarks')}
@@ -30,6 +39,7 @@ const Remarks = (props) => {
                                 />
                             )}
                         />
+                        {errors.remarks && (<div><p className={InputErrorStyles.errorText}>{errors.remarks?.message}</p></div>)}
                     </CardContent>
                 </Grid>
             </Grid>

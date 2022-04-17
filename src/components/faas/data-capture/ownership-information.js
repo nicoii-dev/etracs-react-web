@@ -45,7 +45,7 @@ const OwnershipInformation = ({
     }, [setData])
 
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} style={{ marginTop: -50 }}>
             <Grid item md={12} xs={12}>
                 <Divider textAlign="left">
                     <p style={{ fontSize: 20 }}>
@@ -59,7 +59,7 @@ const OwnershipInformation = ({
                         <Grid item md={12} xs={12}>
                             {/* <OwnerSearchComponent entityList={entityList} setOwnerData={setOwnerData} /> */}
                             <Controller
-                                defaultValue={data?.owner}
+                                defaultValue={data?.owner_name ? data?.owner_name : ""}
                                 name={'owner'}
                                 control={control}
                                 rules={{
@@ -74,10 +74,18 @@ const OwnershipInformation = ({
                                 }}
                                 render={({ field: { onChange, onBlur, value } }) => (
                                     <Select
+                                        defaultValue={
+                                            entityList.filter(option =>
+                                                option.value === data?.owner_name)
+                                        }
                                         name="owner"
                                         options={entityList}
                                         styles={selectStyles}
-                                        value={value}
+                                        value={ 
+                                            entityList.filter(option =>
+                                            option.value === data?.owner_name)
+                                        }
+
                                         // onChange={(e) => {
                                         //     console.log(e)
                                         // }}
@@ -93,7 +101,7 @@ const OwnershipInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <Controller
-                                defaultValue=""
+                                defaultValue={data?.declared_owner ? data?.declared_owner : ""}
                                 name={'declaredOwner'}
                                 control={control}
                                 rules={{
@@ -131,7 +139,7 @@ const OwnershipInformation = ({
                     <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
                             <Controller
-                                defaultValue=""
+                                defaultValue={data?.owner_address ? data?.owner_address : ""}
                                 name={'address'}
                                 control={control}
                                 rules={{
@@ -164,7 +172,7 @@ const OwnershipInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <Controller
-                                defaultValue=""
+                                defaultValue={data?.declared_address ? data?.declared_address : ""}
                                 name={'declaredOwnerAddress'}
                                 control={control}
                                 rules={{

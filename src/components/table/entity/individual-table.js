@@ -156,7 +156,7 @@ function descendingComparator(a, b, orderBy) {
                                     key={row?.id}
                                     selected={isItemSelected}
                                 >
-                                <TableCell padding="checkbox">
+                                <TableCell style={{padding:0}}>
                                     <Checkbox
                                         color="primary"
                                         onClick={(event) => {handleClick(event, row?.id)}}
@@ -166,13 +166,7 @@ function descendingComparator(a, b, orderBy) {
                                         }}
                                     />
                                 </TableCell>
-                                <TableCell
-                                  component="th"
-                                  id={labelId}
-                                  scope="row"
-                                  padding="none"
-                                  align="center"
-                                >
+                                <TableCell style={{padding: 0}}>
                                   <IconButton onClick={() => {updateIndividual(row)}}>
                                     <Edit />
                                   </IconButton>

@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 import { TableHead } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 // redux
 import { fetchLandAdjustmentRedux } from '../../../../redux/land-adjustments/actions';
@@ -131,6 +132,7 @@ const ActualAdjustmentsTable = (props) => {
                     fullWidth
                     onClick={() => {
                         dispatch(setSelectedAdjustment(selected));
+                        Swal.fire('Saved!', '', 'success');
                     }}
                 >
                     select

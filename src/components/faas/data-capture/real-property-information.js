@@ -21,19 +21,21 @@ const RealPropertyInformation = ({
     pin,
     showAssessmentModal,
     setShowAssessmentModal,
-    assessmentDetail
+    assessmentDetail,
+    selectedAdjustment
 }) => {
     const methods = useFormContext();
     const dispatch = useDispatch();
     const status = useSelector((state) => state.navStatus.status);
-    const revisionYear = useSelector(state => state.revisionYearData.currentRevision);
+    const revisionYear = useSelector(state => state.revisionYearData.faasRevision);
 
     useEffect(() => {
         methods.setValue("pinNumber", pin ? pin : "")
         methods.setValue("revisionYear", revisionYear ? revisionYear : "")
-    }, [assessmentDetail.classification, methods, pin, revisionYear])
+    }, [assessmentDetail.classification, methods, pin, revisionYear, selectedAdjustment.classification])
+    
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} style={{marginTop: -50}}>
             <Grid item md={8} xs={12} style={{ marginTop: 0 }}>
                 <Grid item md={12} xs={12}>
                     <Divider textAlign="left">
@@ -55,6 +57,7 @@ const RealPropertyInformation = ({
                                         variant="outlined"
                                         control={control}
                                         errorStatus={false}
+                                        inputStyle={{style: {fontWeight: "bold"}}}
                                         rules={{
                                             required: {
                                                 value: false,
@@ -65,7 +68,7 @@ const RealPropertyInformation = ({
                                 </Grid>
                                 <Grid item md={5} xs={12}>
                                     <FaasTextInputController
-                                        defaultData={data?.houseNumber}
+                                        defaultData={data?.house_number ? data?.house_number : ""}
                                         label="House number"
                                         name="houseNumber"
                                         variant="outlined"
@@ -85,7 +88,7 @@ const RealPropertyInformation = ({
                             <Grid container spacing={3}>
                                 <Grid item md={7} xs={12}>
                                     <FaasTextInputController
-                                        defaultData={data?.cadastral}
+                                        defaultData={data?.cadastral ? data?.cadastral : ""}
                                         label="Cadastral*"
                                         name="cadastral"
                                         variant="outlined"
@@ -101,7 +104,7 @@ const RealPropertyInformation = ({
                                 </Grid>
                                 <Grid item md={5} xs={12}>
                                     <FaasTextInputController
-                                        defaultData={data?.street}
+                                        defaultData={data?.street ? data?.street : ""}
                                         label="Street"
                                         name="street"
                                         variant="outlined"
@@ -121,7 +124,7 @@ const RealPropertyInformation = ({
                             <Grid container spacing={3}>
                                 <Grid item md={4} xs={12}>
                                     <FaasTextInputController
-                                        defaultData={data?.blockNumber}
+                                        defaultData={data?.block_number ? data?.block_number : ""}
                                         label="Block number"
                                         name="blockNumber"
                                         variant="outlined"
@@ -137,7 +140,7 @@ const RealPropertyInformation = ({
                                 </Grid>
                                 <Grid item md={4} xs={12}>
                                     <FaasTextInputController
-                                        defaultData={data?.surveyNumber}
+                                        defaultData={data?.survey_number ? data?.survey_number : ""}
                                         label="Survey number"
                                         name="surveyNumber"
                                         variant="outlined"
@@ -153,7 +156,7 @@ const RealPropertyInformation = ({
                                 </Grid>
                                 <Grid item md={4} xs={12}>
                                     <FaasTextInputController
-                                        defaultData={data?.purokZone}
+                                        defaultData={data?.purok_zone ? data?.purok_zone : ""}
                                         label="Purok/Zone"
                                         name="purokZone"
                                         variant="outlined"
@@ -171,7 +174,7 @@ const RealPropertyInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <FaasTextInputController
-                                defaultData={data?.north}
+                                defaultData={data?.north ? data?.north : ""}
                                 label="North* "
                                 name="north"
                                 variant="outlined"
@@ -187,7 +190,7 @@ const RealPropertyInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <FaasTextInputController
-                                defaultData={data?.east}
+                                defaultData={data?.east ? data?.east : ""}
                                 label="East* "
                                 name="east"
                                 variant="outlined"
@@ -203,7 +206,7 @@ const RealPropertyInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <FaasTextInputController
-                                defaultData={data?.south}
+                                defaultData={data?.south ? data?.south : ""}
                                 label="South* "
                                 name="south"
                                 variant="outlined"
@@ -219,7 +222,7 @@ const RealPropertyInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <FaasTextInputController
-                                defaultData={data?.west}
+                                defaultData={data?.west ? data?.west : ""}
                                 label="West* "
                                 name="west"
                                 variant="outlined"
@@ -260,12 +263,13 @@ const RealPropertyInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <FaasTextInputController
-                                defaultData={data?.revisionYear ? data?.revisionYear : revisionYear}
+                                defaultData={revisionYear}
                                 label="Revision Year "
                                 name="revisionYear"
                                 variant="outlined"
                                 control={control}
                                 disabled={true}
+                                inputStyle={{style: {fontWeight: "bold"}}}
                                 errorStatus={errors.revisionYear ? true : false}
                                 rules={{
                                     required: {
@@ -283,6 +287,7 @@ const RealPropertyInformation = ({
                                 size='small'
                                 value={assessmentDetail.classification ? assessmentDetail.classification_name : ""}
                                 disabled
+                                inputProps={{style: {fontWeight: "bold"}}}
                             />
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
@@ -292,7 +297,7 @@ const RealPropertyInformation = ({
                                 name="marketValue"
                                 size='small'
                                 value={assessmentDetail.market_value ? parseInt(assessmentDetail.market_value).toFixed(2) : 0}
-                                inputProps={{ style: { textAlign: "right" } }}
+                                inputProps={{ style: { textAlign: "right", fontWeight: "bold" } }}
                                 disabled
                             />
                         </Grid>
@@ -303,7 +308,7 @@ const RealPropertyInformation = ({
                                 name="assessedValue"
                                 size='small'
                                 value={assessmentDetail.land_assessed_value ? parseInt(assessmentDetail.land_assessed_value).toFixed(2) : 0}
-                                inputProps={{ style: { textAlign: "right" } }}
+                                inputProps={{ style: { textAlign: "right", fontWeight: "bold" } }}
                                 disabled
                             />
                         </Grid>
@@ -319,7 +324,7 @@ const RealPropertyInformation = ({
                                 <h4> TAXABLE?</h4>
                                 <Checkbox
                                     disabled={true}
-                                    checked={assessmentDetail.taxable}
+                                    checked={assessmentDetail.taxable === true ? true:false}
                                     name={'taxable'}
                                     size='medium'
                                 //

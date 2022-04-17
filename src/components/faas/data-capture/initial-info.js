@@ -21,6 +21,7 @@ import Transactions from '../../../library/constants/faas/transactions';
 import { fetchBarangayRedux } from '../../../redux/barangay/action';
 import { setRevisionYearRedux } from '../../../redux/revision-year/action';
 import { setInitialInfo } from '../../../redux/initial-info/actions';
+import { setRevisionFaas } from '../../../redux/revision-year/action';
 
 
 const InitialInfo = (props) => {
@@ -31,22 +32,9 @@ const InitialInfo = (props) => {
 
     const pinAdded = useSelector(state => state.pinData.pin);
 
-    // const checkPinStatus = useCallback(() => {
-    //     if (pinAdded === null || pinAdded === undefined) {
-    //         setShowInitialModal(true)
-    //     } else {
-    //         setShowInitialModal(false)
-    //     }
-    // }, [pinAdded, setShowInitialModal])
-
-    // useEffect(() => {
-    //     checkPinStatus();
-    // }, [checkPinStatus]);
-
-
     const faasInitialInformation = async (data) => {
         // getting municipality data based on selected
-        await dispatch(setRevisionYearRedux(data.revisionYear))
+        await dispatch(setRevisionFaas(data.revisionYear))
         let municipalityData = municipalityList.find(obj => { return obj.id.toString() === data.municipality_name.toString() })
 
         // creating pin

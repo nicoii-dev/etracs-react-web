@@ -3,6 +3,7 @@ import * as actionTypes from './actionTypes'
 const initialState = {
     revisionYears: [],
     currentRevision: null,
+    faasRevision: null,
 }
 
 const RevisionYearReducer = (state = initialState, action) => {
@@ -31,6 +32,11 @@ const RevisionYearReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentRevision: action.payload
+            }
+        case actionTypes.SET_REVISION_YEAR_FAAS:
+            return {
+                ...state,
+                faasRevision: action.payload
             }
         default:
             return state;

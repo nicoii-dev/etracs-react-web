@@ -54,6 +54,21 @@ const FaasApi = {
       }
   },
 
+  multipleDeleteFaas: async (payload) => {
+    try {
+        const response = await axios.post("http://localhost:8000/api/faas/multipledelete", payload , {
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json'
+          }
+        });
+        const data = await response.data;
+        return data;
+      } catch (error) {
+        return error.message.substr(32, 3)
+      }
+  },
+
 }
 
 export default FaasApi;

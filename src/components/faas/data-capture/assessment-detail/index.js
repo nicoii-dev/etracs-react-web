@@ -22,7 +22,7 @@ const AssessmentDetail = (props) => {
     const dispatch = useDispatch();
 
     const pin = useSelector((state) => state.pinData.pin.pin);
-    const revisionYear = useSelector((state) => state.revisionYearData.currentRevision);
+    const revisionYear = useSelector(state => state.revisionYearData.faasRevision);
     const assessmentDetail = useSelector((state) => state.assessmentDetailData.assessmentDetail);
 
     //localstate
