@@ -10,7 +10,7 @@ const ReactToPrintComponent = () => {
     });
     return (
         <div>
-            <div style={{position: 'absolute', right: 15, top: 15}}>
+            <div style={{position: 'absolute', right: 50, top: 50}}>
                 <Button onClick={handlePrint} color="primary" variant="contained">PRINT</Button>
             </div>
             <DataToPrint ref={componentRef} />

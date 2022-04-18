@@ -54,29 +54,57 @@ const AdminRoutes = () => {
     React.useEffect(() => {
         fetchData()
     }, [fetchData])
-
+    
     return (
-        <Routes>
-            <Route path="/" element={<_Layout />} >
-                <Route path="/" element={<Dashboard />} />
-                <Route path="dashboard" element={<Dashboard />} />
-                <Route path="entity/individual" element={<IndividualPage />} />
-                <Route path="entity/juridical" element={<JuridicalPage />} />
-                <Route path="entity/multiple" element={<MultiplePage />} />
-                <Route path="entity/reconcile" element={<ReconcilePage />} />
-                
-                <Route path="faas" element={<FaasPage />} />
-                <Route path="faas/data-capture" element={<DataCapturePage />} />
-                
-                <Route path="generalrevision/land" element={<LandRevision />} />
-                <Route path="utilities/municipality-city" element={<MunicipalityCityPage />} />
-                <Route path="utilities/personnels" element={<PersonnelPage />} />
-                <Route path="utilities/accounts" element={<AccountsPage />} />
-                <Route path="utilities/job-position" element={<JobPositionPage />} />
+        <>
+            {JSON.parse(localStorage?.getItem("user")).user.role === "ADMIN" ?
+                <Routes>
+                    <Route path="/" element={<_Layout />} >
+                        <Route path="/" element={<Dashboard />} />
+                        <Route path="dashboard" element={<Dashboard />} />
+                        <Route path="entity/individual" element={<IndividualPage />} />
+                        <Route path="entity/juridical" element={<JuridicalPage />} />
+                        <Route path="entity/multiple" element={<MultiplePage />} />
+                        <Route path="entity/reconcile" element={<ReconcilePage />} />
 
-            </Route>
-            <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+                        <Route path="faas" element={<FaasPage />} />
+                        <Route path="faas/data-capture" element={<DataCapturePage />} />
+
+                        <Route path="generalrevision/land" element={<LandRevision />} />
+                        <Route path="utilities/municipality-city" element={<MunicipalityCityPage />} />
+                        <Route path="utilities/personnels" element={<PersonnelPage />} />
+                        <Route path="utilities/accounts" element={<AccountsPage />} />
+                        <Route path="utilities/job-position" element={<JobPositionPage />} />
+
+                    </Route>
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+
+                : JSON.parse(localStorage?.getItem("user")).user.role === "APPRAISER" ?
+                    <Routes>
+                        <Route path="/" element={<_Layout />} >
+                            <Route path="dashboard" element={<Dashboard />} />
+                        </Route>
+                        <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
+                    : JSON.parse(localStorage?.getItem("user")).user.role === "APPROVER" ?
+
+                        <Routes>
+                            <Route path="/" element={<_Layout />} >
+                            <Route path="generalrevision/land" element={<LandRevision />} />
+                            </Route>
+                            <Route path="*" element={<Navigate to="/" replace />} />
+                        </Routes>
+                        : 
+                        
+                        <Routes>
+                            <Route path="/" element={<_Layout />} >
+                                <Route path="utilities/job-position" element={<JobPositionPage />} />
+                            </Route>
+                            <Route path="*" element={<Navigate to="/" replace />} />
+                        </Routes>
+            }
+        </>
     )
 }
 

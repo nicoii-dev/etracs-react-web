@@ -36,39 +36,46 @@ const AdminPageList = ({ open }) => {
   const modalHandler = () => {
     console.log(1)
   }
+
+  const userRole = JSON.parse(localStorage?.getItem("user")).user.role
+
   return (
     <div style={{ backgroundColor: '#000033' }}>
       <List
         component="nav"
         aria-labelledby="nested-list-subheader"
       >
-        <div>
-          <ListItem button key={'Dashboard'} onClick={() => { navigate('dashboard') }}>
-            <ListItemIcon
-              style={{
-                color: currentLocation.includes('dashboard') ? '#66B2FF' : 'white',
-                fontWeight: 'bold',
-                fontSize: 50
-              }}
-            >
-              <Dashboard />
-            </ListItemIcon>
-            <p
-              style={{
-                color: currentLocation.includes('dashboard') ? '#66B2FF' : 'white',
-                fontWeight: 'bolder',
-                fontSize: 15,
-                fontFamily: 'revert',
-                marginTop: 0,
-                marginBottom: 0,
-                width: '100%'
-              }}>
-              Dashboard
-            </p>
-          </ListItem>
-        </div>
-        <EntityNav open={open} />
-        <FaasNav open={open} />
+        {userRole === "ADMIN" ?
+          <div>
+            <ListItem button key={'Dashboard'} onClick={() => { navigate('dashboard') }}>
+              <ListItemIcon
+                style={{
+                  color: currentLocation.includes('dashboard') ? '#66B2FF' : 'white',
+                  fontWeight: 'bold',
+                  fontSize: 50
+                }}
+              >
+                <Dashboard />
+              </ListItemIcon>
+              <p
+                style={{
+                  color: currentLocation.includes('dashboard') ? '#66B2FF' : 'white',
+                  fontWeight: 'bolder',
+                  fontSize: 15,
+                  fontFamily: 'revert',
+                  marginTop: 0,
+                  marginBottom: 0,
+                  width: '100%'
+                }}>
+                Dashboard
+              </p>
+            </ListItem>
+          </div>
+          : null
+        }
+        {userRole === "ADMIN" ? <EntityNav open={open} /> : null }
+
+        {/* <FaasNav open={open} /> */}
         <div>
           <ListItem button key={'FAASV2'} onClick={() => { navigate('faas') }}>
             <ListItemIcon
@@ -90,16 +97,19 @@ const AdminPageList = ({ open }) => {
                 marginBottom: 0,
                 width: '100%'
               }}>
-              FAASV2
+              FAAS
             </p>
           </ListItem>
         </div>
-        <GeneralRevisionNav open={open} />
+        {userRole === "ADMIN" ? <GeneralRevisionNav open={open} /> : null}
       </List>
       <Divider />
+      {userRole === "ADMIN" ? 
       <List>
         <UtilitiesNav open={open} />
       </List>
+      : 
+      null }
       <div style={{
         position: 'absolute',
         bottom: 20,

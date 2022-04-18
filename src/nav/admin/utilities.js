@@ -76,7 +76,7 @@ const UtilitiesNav = ({ open }) => {
 
     return (
         <div>
-            <ListItemButton onClick={() => { setExpand(!expand) }}>
+            <ListItemButton onClick={() => { setExpand(!expand) }} style={{color: 'white'}}>
                 <ListItemIcon
                     style={{
                         color: currentLocation.includes('utilities') ? '#66B2FF' : 'white',
