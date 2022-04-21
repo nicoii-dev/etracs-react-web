@@ -73,7 +73,7 @@ const AdminPageList = ({ open }) => {
           </div>
           : null
         }
-        {userRole === "ADMIN" ? <EntityNav open={open} /> : null }
+        {userRole === "ASSESSOR" ? null : <EntityNav open={open} />}
 
         {/* <FaasNav open={open} /> */}
         <div>

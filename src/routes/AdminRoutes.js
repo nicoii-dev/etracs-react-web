@@ -34,6 +34,7 @@ import { fetchClassificationRedux } from "../redux/classification/actions";
 import { fetchAssessmentLevelRedux } from "../redux/assessment-levels/actions";
 import { fetchPersonnelRedux } from "../redux/personnel/actions";
 import { fetchAccountsRedux } from '../redux/accounts/actions';
+import { fetchRevisionYearRedux } from '../redux/revision-year/action';
 
 
 const AdminRoutes = () => {
@@ -49,12 +50,13 @@ const AdminRoutes = () => {
         await dispatch(fetchClassificationRedux());
         await dispatch(fetchAssessmentLevelRedux());
         await dispatch(fetchAccountsRedux());
+        await dispatch(fetchRevisionYearRedux());
     }, [dispatch])
 
     React.useEffect(() => {
         fetchData()
     }, [fetchData])
-    
+
     return (
         <>
             {JSON.parse(localStorage?.getItem("user")).user.role === "ADMIN" ?
@@ -83,7 +85,13 @@ const AdminRoutes = () => {
                 : JSON.parse(localStorage?.getItem("user")).user.role === "APPRAISER" ?
                     <Routes>
                         <Route path="/" element={<_Layout />} >
-                            <Route path="dashboard" element={<Dashboard />} />
+                            <Route path="/" element={<FaasPage />} />
+                            <Route path="entity/individual" element={<IndividualPage />} />
+                            <Route path="entity/juridical" element={<JuridicalPage />} />
+                            <Route path="entity/multiple" element={<MultiplePage />} />
+                            <Route path="entity/reconcile" element={<ReconcilePage />} />
+                            <Route path="faas" element={<FaasPage />} />
+                            <Route path="faas/data-capture" element={<DataCapturePage />} />
                         </Route>
                         <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
@@ -91,15 +99,22 @@ const AdminRoutes = () => {
 
                         <Routes>
                             <Route path="/" element={<_Layout />} >
-                            <Route path="generalrevision/land" element={<LandRevision />} />
+                                <Route path="/" element={<FaasPage />} />
+                                <Route path="entity/individual" element={<IndividualPage />} />
+                                <Route path="entity/juridical" element={<JuridicalPage />} />
+                                <Route path="entity/multiple" element={<MultiplePage />} />
+                                <Route path="entity/reconcile" element={<ReconcilePage />} />
+                                <Route path="faas" element={<FaasPage />} />
+                                <Route path="faas/data-capture" element={<DataCapturePage />} />
                             </Route>
                             <Route path="*" element={<Navigate to="/" replace />} />
                         </Routes>
-                        : 
-                        
+                        :
+
                         <Routes>
                             <Route path="/" element={<_Layout />} >
-                                <Route path="utilities/job-position" element={<JobPositionPage />} />
+                                <Route path="faas" element={<FaasPage />} />
+                                <Route path="faas/data-capture" element={<DataCapturePage />} />
                             </Route>
                             <Route path="*" element={<Navigate to="/" replace />} />
                         </Routes>
