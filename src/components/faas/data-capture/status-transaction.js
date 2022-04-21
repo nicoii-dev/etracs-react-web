@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     Box,
     Button,
@@ -39,7 +39,7 @@ const StatusTransaction = (props) => {
                                             variant="outlined"
                                             control={control}
                                             errorStatus={false}
-                                            inputStyle={{style: {fontWeight: "bold"}}}
+                                            inputStyle={{ style: { fontWeight: "bold" } }}
                                             rules={{
                                                 required: {
                                                     value: false,
@@ -57,7 +57,7 @@ const StatusTransaction = (props) => {
                                             variant="outlined"
                                             control={control}
                                             errorStatus={false}
-                                            inputStyle={{style: {fontWeight: "bold"}}}
+                                            inputStyle={{ style: { fontWeight: "bold" } }}
                                             rules={{
                                                 required: {
                                                     value: false,
@@ -65,6 +65,8 @@ const StatusTransaction = (props) => {
                                                 },
                                             }}
                                         />
+                                    </Grid>
+                                    <Grid item md={4} xs={12} style={{}}>
                                     </Grid>
                                 </Grid>
                             </Grid>

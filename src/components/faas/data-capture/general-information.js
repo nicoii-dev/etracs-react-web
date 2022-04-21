@@ -5,6 +5,7 @@ import {
     Grid,
     TextField,
 } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 import { Controller} from "react-hook-form";
 import FaasTextInputController from '../../input/faas-input';
@@ -16,7 +17,9 @@ const GeneralInformation = ({
     data,
     personnel
 }) => {
+    const transaction = useSelector(state => state.transactionData.transaction)
     
+    console.log(data)
     return (
         <>
             <Grid container spacing={3} style={{ marginTop: -50 }}>
@@ -32,7 +35,7 @@ const GeneralInformation = ({
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12}>
                                 <FaasTextInputController
-                                    defaultData={data?.td_number}
+                                    defaultData=""
                                     label="TD number* "
                                     name="tdNumber"
                                     variant="outlined"
@@ -62,7 +65,7 @@ const GeneralInformation = ({
                                     }}
                                 /> */}
                                 <Controller
-                                    defaultValue={data?.title_type ? data?.title_type : ""}
+                                    defaultValue=""
                                     name={'titleType'}
                                     control={control}
                                     rules={{
@@ -107,7 +110,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.title_number}
+                                    defaultData=""
                                     label="Title number*"
                                     name="titleNumber"
                                     variant="outlined"
@@ -123,7 +126,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
-                                    defaultValue={data?.title_date ? data?.title_date : ""}
+                                    defaultValue=""
                                     name='titleDate'
                                     control={control}
                                     rules={{
@@ -153,7 +156,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
-                                    defaultValue={data?.issue_date ? data?.issue_date : ""}
+                                    defaultValue=""
                                     name={'issueDate'}
                                     control={control}
                                     rules={{
@@ -183,7 +186,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.effectivity}
+                                    defaultData=""
                                     label="Effectivity*"
                                     name="effectivity"
                                     variant="outlined"
@@ -199,7 +202,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
-                                    defaultValue={data?.quarter ? data?.quarter : ""}
+                                    defaultValue=""
                                     name={'quarter'}
                                     control={control}
                                     rules={{
@@ -240,7 +243,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.restriction}
+                                    defaultData=""
                                     label="Restriction"
                                     name="restriction"
                                     variant="outlined"
@@ -262,11 +265,12 @@ const GeneralInformation = ({
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12}>
                                 <FaasTextInputController
-                                    defaultData={data?.previous_td_number}
+                                    defaultData={data?.td_number}
                                     label="Previous TD number"
                                     name="previousTdNumber"
                                     variant="outlined"
                                     control={control}
+                                    disabled={true}
                                     errorStatus={errors.previousTdNumber ? true : false}
                                     rules={{
                                         required: {
@@ -278,11 +282,12 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.previous_pin}
+                                    defaultData={data?.pin}
                                     label="Previous PIN"
                                     name="previousPin"
                                     variant="outlined"
                                     control={control}
+                                    disabled={true}
                                     errorStatus={errors.previousPin ? true : false}
                                     rules={{
                                         required: {
@@ -294,11 +299,12 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.previous_mv}
+                                    defaultData={data?.market_value}
                                     label="Previous MV*"
                                     name="previousMv"
                                     variant="outlined"
                                     control={control}
+                                    disabled={true}
                                     errorStatus={errors.previousMv ? true : false}
                                     rules={{
                                         required: {
@@ -310,11 +316,12 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.previous_av}
+                                    defaultData={data?.assessed_value}
                                     label="Previous AV*"
                                     name="previousAv"
                                     variant="outlined"
                                     control={control}
+                                    disabled={true}
                                     errorStatus={errors.previousAv ? true : false}
                                     rules={{
                                         required: {
@@ -331,7 +338,6 @@ const GeneralInformation = ({
                                     name="appraisedBy"
                                     variant="outlined"
                                     control={control}
-                                    disabled={true}
                                     errorStatus={errors.appraisedBy ? true : false}
                                     //inputStyle={{ style: {fontWeight: "bold"}}}
                                     rules={{

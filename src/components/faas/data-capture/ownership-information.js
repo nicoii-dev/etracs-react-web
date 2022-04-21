@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select from 'react-select'
+import { useSelector } from 'react-redux';
 
 // component
 import OwnerSearchComponent from './owner-search-component';
@@ -34,6 +35,7 @@ const OwnershipInformation = ({
     const methods = useFormContext();
 
     const [selectedOption, setSelectedOption] = React.useState(data?.owner_name ? data?.owner_name : ""); // for updates
+    const transaction = useSelector(state => state.transactionData.transaction)
 
     const setData = useCallback(() => {
         methods.setValue("address", ownerData.address)
@@ -61,7 +63,7 @@ const OwnershipInformation = ({
                         <Grid item md={12} xs={12}>
                             {/* <OwnerSearchComponent entityList={entityList} setOwnerData={setOwnerData} /> */}
                             <Controller
-                                defaultValue={data?.owner_name ? data?.owner_name : ""}
+                                defaultValue={transaction === "Transfer of Ownership" ? "" : data?.owner_name}
                                 name={'owner'}
                                 control={control}
                                 rules={{
@@ -80,6 +82,7 @@ const OwnershipInformation = ({
                                         options={entityList}
                                         styles={selectStyles}
                                         value={ 
+                                            transaction === "Transfer of Ownership" ? selectedOption :
                                             entityList.filter((option) => {
                                               return option.value === selectedOption
                                             })
@@ -95,6 +98,7 @@ const OwnershipInformation = ({
                                             setOwnerData(e)
                                         }}
                                         onBlur={onBlur}
+                                        isDisabled={transaction === "Transfer of Ownership" ? false:true}
                                     />
                                 )}
                             />
@@ -102,7 +106,7 @@ const OwnershipInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <Controller
-                                defaultValue={data?.declared_owner ? data?.declared_owner : ""}
+                                defaultValue={transaction === "Transfer of Ownership" ? "" : data?.declared_owner}
                                 name={'declaredOwner'}
                                 control={control}
                                 rules={{
@@ -128,6 +132,7 @@ const OwnershipInformation = ({
                                         size='small'
                                         value={value}
                                         error={errors.declaredOwner ? true : false}
+                                        disabled={transaction === "Transfer of Ownership" ? false:true}
                                     />
                                 )}
                             />
@@ -140,7 +145,7 @@ const OwnershipInformation = ({
                     <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
                             <Controller
-                                defaultValue={data?.owner_address ? data?.owner_address : ""}
+                                defaultValue={transaction === "Transfer of Ownership" ? "" : data?.owner_address}
                                 name={'address'}
                                 control={control}
                                 rules={{
@@ -173,7 +178,7 @@ const OwnershipInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <Controller
-                                defaultValue={data?.declared_address ? data?.declared_address : ""}
+                                defaultValue={transaction === "Transfer of Ownership" ? "" : data?.declared_address}
                                 name={'declaredOwnerAddress'}
                                 control={control}
                                 rules={{
@@ -199,6 +204,7 @@ const OwnershipInformation = ({
                                         size='small'
                                         value={value}
                                         error={errors.declaredOwnerAddress ? true : false}
+                                        disabled={transaction === "Transfer of Ownership" ? false:true}
                                     />
                                 )}
                             />

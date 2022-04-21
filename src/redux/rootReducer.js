@@ -23,6 +23,7 @@ import LoaderReducer from "./loader/loaderReducer";
 import FaasReducer from "./faas/faasReducer";
 import InitialInfoReducer from "./initial-info/initialInfoReducer";
 import AssessmentDetailReducer from "./assessment-detail/assessmentDetailReducer";
+import TransactionReducer from "./transaction/specificClassReducer";
 
 const rootReducer = combineReducers({
     individualData: IndividualReducer,
@@ -49,6 +50,7 @@ const rootReducer = combineReducers({
     faasData: FaasReducer,
     initialInfoData: InitialInfoReducer,
     assessmentDetailData: AssessmentDetailReducer,
+    transactionData: TransactionReducer,
 });
 
 export default rootReducer;

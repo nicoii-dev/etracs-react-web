@@ -27,7 +27,8 @@ const EnhancedTableHead = (props) => {
     })
 
     for(let i = 0; i < PropertyNames.length; i++){
-      if(PropertyNames[i] === 'id'){
+      if(PropertyNames[i] === 'id' || PropertyNames[i] === 'owner_id' || PropertyNames[i] === 'created_at' || PropertyNames[i] === 'updated_at' || 
+      PropertyNames[i] === 'classification_id' || PropertyNames[i] === 'specific_class' || PropertyNames[i] === 'sub_class'){
 
       } else {
         newObject = {

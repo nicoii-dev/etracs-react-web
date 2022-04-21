@@ -28,14 +28,15 @@ const RealPropertyInformation = ({
     const dispatch = useDispatch();
     const status = useSelector((state) => state.navStatus.status);
     const revisionYear = useSelector(state => state.revisionYearData.faasRevision);
+    const transaction = useSelector(state => state.transactionData.transaction);
 
     useEffect(() => {
         methods.setValue("pinNumber", pin ? pin : "")
         methods.setValue("revisionYear", revisionYear ? revisionYear : "")
     }, [assessmentDetail.classification, methods, pin, revisionYear, selectedAdjustment.classification])
-    
+
     return (
-        <Grid container spacing={3} style={{marginTop: -50}}>
+        <Grid container spacing={3} style={{ marginTop: -50 }}>
             <Grid item md={8} xs={12} style={{ marginTop: 0 }}>
                 <Grid item md={12} xs={12}>
                     <Divider textAlign="left">
@@ -57,7 +58,7 @@ const RealPropertyInformation = ({
                                         variant="outlined"
                                         control={control}
                                         errorStatus={false}
-                                        inputStyle={{style: {fontWeight: "bold"}}}
+                                        inputStyle={{ style: { fontWeight: "bold" } }}
                                         rules={{
                                             required: {
                                                 value: false,
@@ -93,6 +94,7 @@ const RealPropertyInformation = ({
                                         name="cadastral"
                                         variant="outlined"
                                         control={control}
+                                        disabled={transaction === "Transfer with Correction" ? false : true}
                                         errorStatus={errors.cadastral ? true : false}
                                         rules={{
                                             required: {
@@ -109,6 +111,7 @@ const RealPropertyInformation = ({
                                         name="street"
                                         variant="outlined"
                                         control={control}
+                                        disabled={transaction === "Transfer with Correction" ? false : true}
                                         errorStatus={errors.street ? true : false}
                                         rules={{
                                             required: {
@@ -129,6 +132,7 @@ const RealPropertyInformation = ({
                                         name="blockNumber"
                                         variant="outlined"
                                         control={control}
+                                        disabled={transaction === "Transfer with Correction" ? false : true}
                                         errorStatus={errors.blockNumber ? true : false}
                                         rules={{
                                             required: {
@@ -145,6 +149,7 @@ const RealPropertyInformation = ({
                                         name="surveyNumber"
                                         variant="outlined"
                                         control={control}
+                                        disabled={transaction === "Transfer with Correction" ? false : true}
                                         errorStatus={errors.surveyNumber ? true : false}
                                         rules={{
                                             required: {
@@ -161,6 +166,7 @@ const RealPropertyInformation = ({
                                         name="purokZone"
                                         variant="outlined"
                                         control={control}
+                                        disabled={transaction === "Transfer with Correction" ? false : true}
                                         errorStatus={errors.purokZone ? true : false}
                                         rules={{
                                             required: {
@@ -179,6 +185,7 @@ const RealPropertyInformation = ({
                                 name="north"
                                 variant="outlined"
                                 control={control}
+                                disabled={transaction === "Transfer with Correction" ? false : true}
                                 errorStatus={errors.north ? true : false}
                                 rules={{
                                     required: {
@@ -195,6 +202,7 @@ const RealPropertyInformation = ({
                                 name="east"
                                 variant="outlined"
                                 control={control}
+                                disabled={transaction === "Transfer with Correction" ? false : true}
                                 errorStatus={errors.east ? true : false}
                                 rules={{
                                     required: {
@@ -211,6 +219,7 @@ const RealPropertyInformation = ({
                                 name="south"
                                 variant="outlined"
                                 control={control}
+                                disabled={transaction === "Transfer with Correction" ? false : true}
                                 errorStatus={errors.south ? true : false}
                                 rules={{
                                     required: {
@@ -227,6 +236,7 @@ const RealPropertyInformation = ({
                                 name="west"
                                 variant="outlined"
                                 control={control}
+                                disabled={transaction === "Transfer with Correction" ? false : true}
                                 errorStatus={errors.west ? true : false}
                                 rules={{
                                     required: {
@@ -254,6 +264,8 @@ const RealPropertyInformation = ({
                                 color="primary"
                                 variant="contained"
                                 fullWidth
+                                
+                                disabled={transaction === "Change Classification" || transaction === "Transfer with Reassessment" ? false : true}
                                 onClick={() => {
                                     setShowAssessmentModal(!showAssessmentModal)
                                 }}
@@ -269,7 +281,7 @@ const RealPropertyInformation = ({
                                 variant="outlined"
                                 control={control}
                                 disabled={true}
-                                inputStyle={{style: {fontWeight: "bold"}}}
+                                inputStyle={{ style: { fontWeight: "bold" } }}
                                 errorStatus={errors.revisionYear ? true : false}
                                 rules={{
                                     required: {
@@ -287,7 +299,7 @@ const RealPropertyInformation = ({
                                 size='small'
                                 value={assessmentDetail.classification ? assessmentDetail.classification_name : ""}
                                 disabled
-                                inputProps={{style: {fontWeight: "bold"}}}
+                                inputProps={{ style: { fontWeight: "bold" } }}
                             />
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
@@ -324,7 +336,7 @@ const RealPropertyInformation = ({
                                 <h4> TAXABLE?</h4>
                                 <Checkbox
                                     disabled={true}
-                                    checked={assessmentDetail.taxable === "1" ? true:false}
+                                    checked={assessmentDetail.taxable === "1" ? true : false}
                                     name={'taxable'}
                                     size='medium'
                                 //

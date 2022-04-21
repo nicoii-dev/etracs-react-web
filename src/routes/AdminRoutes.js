@@ -55,6 +55,7 @@ const AdminRoutes = () => {
 
     React.useEffect(() => {
         fetchData()
+        console.log("fetch execute")
     }, [fetchData])
 
     return (

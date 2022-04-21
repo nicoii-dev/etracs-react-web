@@ -3,17 +3,21 @@ import React from 'react';
 import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
+import { TextField } from '@mui/material';
+import { AddBox } from '@material-ui/icons';
 
 // components
 import ReactToPrintComponent from '../../components/faasV2/react-to-print';
 import FaasTable from '../../components/table/faas/faas-table';
 import InitialInfo from '../../components/faas/data-capture/initial-info';
 import DataCapturePage from '../faas/data-capture';
+import InputTdComponent from '../../components/faas/input-td-component';
 
 // redux
 import { removeAssessmentDetail } from '../../redux/assessment-detail/actions';
 import { removeSelectedAdjustment } from '../../redux/land-adjustments/actions';
 import { fetchFaasRedux } from '../../redux/faas/actions';
+import { setTransaction } from '../../redux/transaction/action';
 
 import {
     deleteFaasRedux,
@@ -27,16 +31,18 @@ const FaasPage = () => {
     const revisionYearList = useSelector((state) => state.revisionYearData.revisionYears);
     const municipalityList = useSelector((state) => state.municipalityCityData.municipalityCity);
     const barangayList = useSelector((state) => state.barangayData.barangay);
+    const transaction = useSelector(state => state.transactionData.transaction)
 
     //local states
     const [showPrintModal, setShowPrintModal] = React.useState(false);
     const [showInitialModal, setShowInitialModal] = React.useState(false);
     const [showDataCaptureModal, setShowDataCaptureModal] = React.useState(false);
+    const [showTdModal, setShowTdModal] = React.useState(false);
     const [data, setData] = React.useState([]);
     const [open, setOpen] = React.useState(false);
     const [selected, setSelected] = React.useState([]);
     const [selectedToDelete, setSelectedToDelete] = React.useState(false);
-    const [transaction, setTransaction] = React.useState("DC");
+    //const [transaction, setTransaction] = React.useState("Data Capture");
     const [status, setStatus] = React.useState("INTERIM");
 
     const user = JSON.parse(localStorage.getItem("user"));
@@ -61,6 +67,23 @@ const FaasPage = () => {
         }
     };
 
+    const onTransferChanged = async (data) => {
+        await dispatch(setTransaction(data))
+    }
+
+    const onStatusChanged = (data) => {
+        console.log(data)
+    }
+
+    const onAddFaas = () => {
+        if(transaction === "Data Capture"){
+            setShowInitialModal(true);
+            return;
+        }
+        setShowTdModal(true)
+        setData(null);
+    }
+
     return (
         <div>
             <h1>Faas V2</h1>
@@ -72,20 +95,99 @@ const FaasPage = () => {
                 style={{
                     width: "100%",
                     display: "flex",
-                    justifyContent: "flex-end",
+                    //justifyContent: "flex-end",
                     marginBottom: 10,
                 }}
             >
-                <Button
-                    variant="contained"
-                    style={{ color: "white" }}
-                    onClick={() => {
-                        setShowInitialModal(true);
-                        setData(null);
+                <div
+                    style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "flex-start",
+                        marginBottom: 10,
                     }}
                 >
-                    Data Capture
-                </Button>
+                    <TextField
+                        style={{ width: 350, alignSelf: 'flex-start', marginRight: 20 }}
+                        fullWidth
+                        label="Transfer FAAS Data"
+                        name="pinType"
+                        select
+                        SelectProps={{ native: true }}
+                        variant="outlined"
+                        onChange={(e) => {
+                            onStatusChanged(e.target.value);
+                        }}
+                        size='small'
+                        //value={value}
+                    >
+                        <option key={'INTERIM'} value={'INTERIM'}>
+                            INTERIM
+                        </option>
+                        <option key={"CURRENT"} value={"CURRENT"}>
+                            CURRENT
+                        </option>
+                        <option key={"APPROVED"} value={"APPROVED"}>
+                            APPROVED
+                        </option>
+                    </TextField>
+
+                </div>
+
+                <div
+                    style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "flex-end",
+                        marginBottom: 10,
+
+                    }}
+                >
+                    <TextField
+                        style={{ width: 350, alignSelf: 'flex-start', marginRight: 20 }}
+                        fullWidth
+                        label="Transfer FAAS Data"
+                        name="pinType"
+                        select
+                        SelectProps={{ native: true }}
+                        variant="outlined"
+                        onChange={(e) => {
+                            onTransferChanged(e.target.value);
+                        }}
+                        size='small'
+                        //value={transaction}
+                    >
+                        <option key={'DC'} value={'Data Capture'}>
+                            Data Capture
+                        </option>
+                        <option key={"Transfer of Ownership"} value={"Transfer of Ownership"}>
+                            Transfer of Ownership
+                        </option>
+                        <option key={"Transfer with Reassessment"} value={"Transfer with Reassessment"}>
+                            Transfer with Reassessment
+                        </option>
+                        <option key={"Transfer with Correction"} value={"Transfer with Correction"}>
+                            Transfer with Correction
+                        </option>
+                        <option key={"Change Classification"} value={"Change Classification"}>
+                            Change Classification
+                        </option>
+                        <option key={"Change Taxabilityt"} value={"Change Taxability"}>
+                            Change Taxability
+                        </option>
+                    </TextField>
+                    <Button
+                        variant="contained"
+                        style={{ color: "white", fontWeight: "bold" }}
+                        // onClick={() => {
+                        //     setShowInitialModal(true);
+                        //     setData(null);
+                        // }}
+                        onClick={onAddFaas}
+                    >
+                      <AddBox/> FAAS 
+                    </Button>
+                </div>
             </div>
 
             <div>
@@ -175,6 +277,39 @@ const FaasPage = () => {
                     personnel={personnel}
                 />
 
+            </Modal>
+
+            <Modal
+                isOpen={showTdModal}
+                onRequestClose={() => {
+                    setShowTdModal(!showTdModal)
+                }}
+                contentLabel="Example Modal"
+                onClose={() => {
+                    setShowTdModal(!showTdModal)
+                }}
+                ariaHideApp={false}
+                style={{
+                    content: {
+                        top: '50%',
+                        marginLeft: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '25%',
+                        maxWidth: '45%',
+                        height: '45%'
+                    },
+                    overlay: {
+                        zIndex: 9999
+                    }
+                }}
+            >
+                <InputTdComponent
+                    setShowTdModal={setShowTdModal}
+                    setShowDataCaptureModal={setShowDataCaptureModal}
+                    transaction={transaction}
+                    faasList={faasList}
+                    setData={setData}
+                />
             </Modal>
 
             <Modal

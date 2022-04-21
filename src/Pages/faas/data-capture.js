@@ -188,7 +188,6 @@ const DataCapturePage = (props) => {
         fetchData();
     }, [fetchData]);
 
-
     // after fetching data from api.
     const mergeEntity = useCallback(() => {
         // creating new array for owner search component selection data
