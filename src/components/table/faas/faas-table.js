@@ -14,6 +14,7 @@ import Switch from '@mui/material/Switch';
 import { IconButton } from '@mui/material';
 import Edit from '@mui/icons-material/Edit';
 import { useDispatch } from 'react-redux';
+import { Visibility } from '@mui/icons-material';
 
 // components
 import EnhancedTableHead from '../enhanced-table-head';
@@ -22,6 +23,7 @@ import { setAssessmentDetail } from '../../../redux/assessment-detail/actions';
 import { setSelectedAdjustment } from '../../../redux/land-adjustments/actions';
 import { setRevisionFaas } from '../../../redux/revision-year/action';
 import { setPin } from '../../../redux/pin/action';
+import { setTransaction } from '../../../redux/transaction/action';
 
 const FaasTable = ({
   faasList,
@@ -114,6 +116,7 @@ const FaasTable = ({
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const updateFaas = async (rowData) => {
+    await dispatch(setTransaction("Data Capture"))
     setShowDataCaptureModal(true);
     setData(rowData)
     const payload = {

@@ -27,7 +27,7 @@ const AddLandClassification = (props) => {
 
     // filtering, getting data based on revision year
     const filteredClassification = classificationList.filter((classification) => {
-        return classification.year_tag === revisionYear.toString();
+        return classification?.year_tag === revisionYear?.toString();
     })
 
     useEffect(() => {

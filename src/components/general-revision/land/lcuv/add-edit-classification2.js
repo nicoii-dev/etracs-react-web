@@ -29,7 +29,7 @@ const AddEditClassification2 = (props) => {
 
     // filtering, getting data based on revision year
     const fileteredAssessment = assessmentList.filter((assessment) => {
-        return assessment.year_tag === revisionYear.toString();
+        return assessment?.year_tag === revisionYear?.toString();
     })
     // filtering, removing the already selected classification
     const filteredClassification= fileteredAssessment.filter(({name: id1}) => !classificationList.some(({classification: id2}) => id1 === id2));

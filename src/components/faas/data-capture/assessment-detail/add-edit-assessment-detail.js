@@ -40,6 +40,7 @@ const AddEditAssessmentDetail = (props) => {
     const specificClassList = useSelector((state) => state.specificClassData.specificClass);
     const subClassList = useSelector((state) => state.subClassData.subClass);
     const selectedAdjustment = useSelector((state) => state.landAdjustmentData.selectedAdjustment);
+    const transaction = useSelector(state => state.transactionData.transaction);
 
     //local state
     const [filteredClassificationList, setFilteredClassificationList] = useState();
@@ -218,6 +219,7 @@ const AddEditAssessmentDetail = (props) => {
                                             SelectProps={{ native: true }}
                                             variant="outlined"
                                             onBlur={onBlur}
+                                            disabled={transaction === "Change Taxability" ? true : false}
                                             onChange={(e) => {
                                                 onChange(e.target.value)
                                                 onClassificationChange(e.target.value)
@@ -264,6 +266,7 @@ const AddEditAssessmentDetail = (props) => {
                                             SelectProps={{ native: true }}
                                             variant="outlined"
                                             onBlur={onBlur}
+                                            disabled={transaction === "Change Taxability" ? true : false}
                                             onChange={(e) => {
                                                 onChange(e.target.value)
                                                 onSpecificClassChange(e.target.value)
@@ -308,6 +311,7 @@ const AddEditAssessmentDetail = (props) => {
                                             SelectProps={{ native: true }}
                                             variant="outlined"
                                             onBlur={onBlur}
+                                            disabled={transaction === "Change Taxability" ? true : false}
                                             onChange={(e) => {
                                                 onChange(e.target.value)
                                                 onSubClassChange(e.target.value)
@@ -384,6 +388,7 @@ const AddEditAssessmentDetail = (props) => {
                                             variant="outlined"
                                             type="number"
                                             inputProps={{ style: { textAlign: "right" } }}
+                                            disabled={transaction === "Change Taxability" ? true : false}
                                             onBlur={e => {
                                                 onLandAreaBlur(e.target.value)
                                             }}
@@ -417,6 +422,7 @@ const AddEditAssessmentDetail = (props) => {
                                             variant="outlined"
                                             type="number"
                                             inputProps={{ style: { textAlign: "right" } }}
+                                            disabled={transaction === "Change Taxability" ? true : false}
                                             onBlur={e => {
                                                 onMarketValueBlur(e.target.value)
                                             }}
@@ -475,6 +481,7 @@ const AddEditAssessmentDetail = (props) => {
                                     color="primary"
                                     variant="contained"
                                     fullWidth
+                                    disabled={transaction === "Change Taxability" ? true : false}
                                     onClick={() => {
                                         if (classification_id == "-Select-" || classification_id == "") {
                                             Swal.fire('Please select a classification first')

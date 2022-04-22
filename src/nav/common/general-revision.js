@@ -48,7 +48,7 @@ const GeneralRevisionNav = ({open}) => {
                         marginBottom:0,
                         width:'100%'
                     }}>
-                        GeneralRevision
+                        General Revision Schedule
                 </p>
                 {expand ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>

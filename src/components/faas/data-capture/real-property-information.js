@@ -265,7 +265,8 @@ const RealPropertyInformation = ({
                                 variant="contained"
                                 fullWidth
                                 
-                                disabled={transaction === "Change Classification" || transaction === "Transfer with Reassessment" ? false : true}
+                                disabled={transaction === "Change Classification" || transaction === "Transfer with Reassessment" 
+                                            ||  transaction === "Change Taxability"? false : true}
                                 onClick={() => {
                                     setShowAssessmentModal(!showAssessmentModal)
                                 }}

@@ -35,12 +35,13 @@ const GeneralInformation = ({
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12}>
                                 <FaasTextInputController
-                                    defaultData=""
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? data.td_number : ""}
                                     label="TD number* "
                                     name="tdNumber"
                                     variant="outlined"
                                     control={control}
                                     errorStatus={errors.tdNumber ? true : false}
+                                    disabled={transaction === "Change Classification" || transaction === "Change Taxability" ? true : false}
                                     rules={{
                                         required: {
                                             value: true,
@@ -65,7 +66,7 @@ const GeneralInformation = ({
                                     }}
                                 /> */}
                                 <Controller
-                                    defaultValue=""
+                                    defaultValue={transaction === "Change Classification" || transaction === "Change Taxability" ? data.title_type : ""}
                                     name={'titleType'}
                                     control={control}
                                     rules={{
@@ -90,6 +91,7 @@ const GeneralInformation = ({
                                             onChange={onChange}
                                             size='small'
                                             error={errors.titleType ? true : false}
+                                            disabled={transaction === "Change Classification" || transaction === "Change Taxability" ? true : false}
                                             value={value}
                                         >
                                             <option key={'-Select-'} value={'-Select-'}>
@@ -110,12 +112,13 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData=""
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? data.title_number : ""}
                                     label="Title number*"
                                     name="titleNumber"
                                     variant="outlined"
                                     control={control}
                                     errorStatus={errors.titleNumber ? true : false}
+                                    disabled={transaction === "Change Classification" || transaction === "Change Taxability" ? true : false}
                                     rules={{
                                         required: {
                                             value: true,
@@ -126,7 +129,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
-                                    defaultValue=""
+                                    defaultValue={transaction === "Change Classification" || transaction === "Change Taxability" ? data.title_date : ""}
                                     name='titleDate'
                                     control={control}
                                     rules={{
@@ -145,7 +148,7 @@ const GeneralInformation = ({
                                             fullWidth
                                             onBlur={onBlur}
                                             onChange={onChange}
-
+                                            disabled={transaction === "Change Classification" || transaction === "Change Taxability" ? true : false}
                                             value={value}
                                             InputLabelProps={{
                                                 shrink: true,
@@ -156,7 +159,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
-                                    defaultValue=""
+                                    defaultValue={transaction === "Change Classification" || transaction === "Change Taxability" ? data.issue_date : ""}
                                     name={'issueDate'}
                                     control={control}
                                     rules={{
@@ -175,7 +178,7 @@ const GeneralInformation = ({
                                             fullWidth
                                             onBlur={onBlur}
                                             onChange={onChange}
-
+                                            disabled={transaction === "Change Classification" || transaction === "Change Taxability" ? true : false}
                                             value={value}
                                             InputLabelProps={{
                                                 shrink: true,
@@ -186,12 +189,13 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData=""
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? data.effectivity : ""}
                                     label="Effectivity*"
                                     name="effectivity"
                                     variant="outlined"
                                     control={control}
                                     errorStatus={errors.effectivity ? true : false}
+                                    disabled={transaction === "Change Classification" || transaction === "Change Taxability" ? true : false}
                                     rules={{
                                         required: {
                                             value: true,
@@ -202,7 +206,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
-                                    defaultValue=""
+                                    defaultValue={transaction === "Change Classification" || transaction === "Change Taxability" ? data.quarter : ""}
                                     name={'quarter'}
                                     control={control}
                                     rules={{
@@ -227,6 +231,7 @@ const GeneralInformation = ({
                                             onChange={onChange}
                                             size='small'
                                             error={errors.quarter ? true : false}
+                                            disabled={transaction === "Change Classification" || transaction === "Change Taxability" ? true : false}
                                             value={value}
                                         >
                                             {Quarter.map((option) => (
@@ -243,11 +248,12 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData=""
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? data.restriction : ""}
                                     label="Restriction"
                                     name="restriction"
                                     variant="outlined"
                                     control={control}
+                                    disabled={transaction === "Change Classification" || transaction === "Change Taxability" ? true : false}
                                     errorStatus={errors.restriction ? true : false}
                                     rules={{
                                         required: {
@@ -265,7 +271,7 @@ const GeneralInformation = ({
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12}>
                                 <FaasTextInputController
-                                    defaultData={data?.td_number}
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? "" : data.td_number}
                                     label="Previous TD number"
                                     name="previousTdNumber"
                                     variant="outlined"
@@ -282,7 +288,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.pin}
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? "" : data.pin}
                                     label="Previous PIN"
                                     name="previousPin"
                                     variant="outlined"
@@ -299,7 +305,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.market_value}
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? "" : data.market_value}
                                     label="Previous MV*"
                                     name="previousMv"
                                     variant="outlined"
@@ -308,7 +314,7 @@ const GeneralInformation = ({
                                     errorStatus={errors.previousMv ? true : false}
                                     rules={{
                                         required: {
-                                            value: true,
+                                            value: transaction === "Change Classification" || transaction === "Change Taxability" ? false : true,
                                             message: 'Previous MV is required',
                                         },
                                     }}
@@ -316,7 +322,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={data?.assessed_value}
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? "" : data.assessed_value}
                                     label="Previous AV*"
                                     name="previousAv"
                                     variant="outlined"
@@ -325,7 +331,7 @@ const GeneralInformation = ({
                                     errorStatus={errors.previousAv ? true : false}
                                     rules={{
                                         required: {
-                                            value: true,
+                                            value: transaction === "Change Classification" || transaction === "Change Taxability" ? false : true,
                                             message: 'Previous AV is required',
                                         },
                                     }}
