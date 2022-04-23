@@ -48,35 +48,35 @@ const AddEditAssessmentDetail = (props) => {
        // console.log(assessmentDetail)
     // filtering classification based on revision year selected
     useEffect(() => {
-        const filtered = classificationList.filter((classification) => {
+        const filtered = classificationList?.filter((classification) => {
             return classification.year_tag === revisionYear
         })
         setFilteredClassificationList(filtered)
-    }, [classificationList, revisionYear, selectedAdjustment.expression])
+    }, [classificationList, revisionYear, selectedAdjustment?.expression])
 
     const setData = useCallback(() => {
         dispatch(setSpecificClass());
         dispatch(setSubClass());
-        if (assessmentDetail.classification) {
-            dispatch(fetchSpecificClass(assessmentDetail.classification));
-            dispatch(fetchSubClass(assessmentDetail.classification));
+        if (assessmentDetail?.classification) {
+            dispatch(fetchSpecificClass(assessmentDetail?.classification));
+            dispatch(fetchSubClass(assessmentDetail?.classification));
         }
-        setClassification_id(assessmentDetail.classification);
-        setClassificationName(assessmentDetail.classification_name)
-        setRate(assessmentDetail.rate)
-        setAreaType(assessmentDetail.area_type)
-        setLandArea(assessmentDetail.land_area)
-        setUnitValue(assessmentDetail.unit_value)
-        setMarketValue(assessmentDetail.market_value)
-        setTotalLandAreaSqm(assessmentDetail.total_land_area_sqm)
-        setTotalLandAreaHa(assessmentDetail.total_land_area_ha)
-        setLandBaseMarketValue(assessmentDetail.land_base_market_value)
-        setLandMarketValue(assessmentDetail.land_market_value)
-        setLandAssessedValue(assessmentDetail.land_assessed_value)
-    }, [assessmentDetail.area_type, assessmentDetail.classification, assessmentDetail.classification_name, assessmentDetail.land_area, assessmentDetail.land_assessed_value, assessmentDetail.land_base_market_value, assessmentDetail.land_market_value, assessmentDetail.market_value, assessmentDetail.rate, assessmentDetail.total_land_area_ha, assessmentDetail.total_land_area_sqm, assessmentDetail.unit_value, dispatch, setAreaType, setClassificationName, setClassification_id, setLandArea, setLandAssessedValue, setLandBaseMarketValue, setLandMarketValue, setMarketValue, setRate, setTotalLandAreaHa, setTotalLandAreaSqm, setUnitValue]);
+        setClassification_id(assessmentDetail?.classification);
+        setClassificationName(assessmentDetail?.classification_name)
+        setRate(assessmentDetail?.rate)
+        setAreaType(assessmentDetail?.area_type)
+        setLandArea(assessmentDetail?.land_area)
+        setUnitValue(assessmentDetail?.unit_value)
+        setMarketValue(assessmentDetail?.market_value)
+        setTotalLandAreaSqm(assessmentDetail?.total_land_area_sqm)
+        setTotalLandAreaHa(assessmentDetail?.total_land_area_ha)
+        setLandBaseMarketValue(assessmentDetail?.land_base_market_value)
+        setLandMarketValue(assessmentDetail?.land_market_value)
+        setLandAssessedValue(assessmentDetail?.land_assessed_value)
+    }, [assessmentDetail?.area_type, assessmentDetail?.classification, assessmentDetail?.classification_name, assessmentDetail?.land_area, assessmentDetail?.land_assessed_value, assessmentDetail?.land_base_market_value, assessmentDetail?.land_market_value, assessmentDetail?.market_value, assessmentDetail?.rate, assessmentDetail?.total_land_area_ha, assessmentDetail?.total_land_area_sqm, assessmentDetail?.unit_value, dispatch, setAreaType, setClassificationName, setClassification_id, setLandArea, setLandAssessedValue, setLandBaseMarketValue, setLandMarketValue, setMarketValue, setRate, setTotalLandAreaHa, setTotalLandAreaSqm, setUnitValue]);
 
     useEffect(() => {
-        if (assessmentDetail.classification) setData()
+        if (assessmentDetail?.classification) setData()
     }, [assessmentDetail, setData])
 
     const onClassificationChange = async (id) => {
@@ -85,7 +85,7 @@ const AddEditAssessmentDetail = (props) => {
         await dispatch(fetchSubClass(id));
         await dispatch(removeSelectedAdjustment());
         // getting data of the selected id
-        const filteredClassification = classificationList.filter((classification) => {
+        const filteredClassification = classificationList?.filter((classification) => {
             return classification.id == id
         })
         setRate(filteredClassification[0]?.rate !== undefined ? filteredClassification[0]?.rate + "%" : "0%")
@@ -105,7 +105,7 @@ const AddEditAssessmentDetail = (props) => {
 
     const onSpecificClassChange = async (id) => {
         // getting data of the selected id
-        const filteredSpecicClass = specificClassList.filter((specific) => {
+        const filteredSpecicClass = specificClassList?.filter((specific) => {
             return specific.id == id
         })
         setAreaType(filteredSpecicClass[0]?.area_type)
@@ -197,7 +197,7 @@ const AddEditAssessmentDetail = (props) => {
                         <Grid item md={4} xs={12}>
                             <Grid item md={12} xs={12}>
                                 <Controller
-                                    defaultValue={assessmentDetail ? assessmentDetail.classification : ""}
+                                    defaultValue={assessmentDetail ? assessmentDetail?.classification : ""}
                                     name={'classification'}
                                     control={control}
                                     rules={{
@@ -244,7 +244,7 @@ const AddEditAssessmentDetail = (props) => {
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: 10 }}>
                                 <Controller
-                                    defaultValue={assessmentDetail ? assessmentDetail.specific_class : ""}
+                                    defaultValue={assessmentDetail ? assessmentDetail?.specific_class : ""}
                                     name="specificClass"
                                     control={control}
                                     rules={{
@@ -289,7 +289,7 @@ const AddEditAssessmentDetail = (props) => {
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: 10 }}>
                                 <Controller
-                                    defaultValue={assessmentDetail ? assessmentDetail.sub_class : ""}
+                                    defaultValue={assessmentDetail ? assessmentDetail?.sub_class : ""}
                                     name="subClass"
                                     control={control}
                                     rules={{
@@ -370,7 +370,7 @@ const AddEditAssessmentDetail = (props) => {
                         <Grid item md={4} xs={12}>
                             <Grid item md={12} xs={12}>
                                 <Controller
-                                    defaultValue={assessmentDetail.land_area ? assessmentDetail.land_area : ""}
+                                    defaultValue={assessmentDetail?.land_area ? assessmentDetail?.land_area : ""}
                                     name="landArea"
                                     control={control}
                                     rules={{
@@ -405,7 +405,7 @@ const AddEditAssessmentDetail = (props) => {
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: 10 }}>
                                 <Controller
-                                    defaultValue={assessmentDetail.market_value ? assessmentDetail.market_value : ""}
+                                    defaultValue={assessmentDetail?.market_value ? assessmentDetail?.market_value : ""}
                                     name="marketValue"
                                     control={control}
                                     rules={{
@@ -497,7 +497,7 @@ const AddEditAssessmentDetail = (props) => {
                                     label="Actual Adjustment"
                                     name="actualAdjustment"
                                     size='small'
-                                    value={selectedAdjustment?.expression ? adjustmentPercent.toString()+"%" : 0}
+                                    value={selectedAdjustment?.expression ? adjustmentPercent?.toString()+"%" : 0}
                                     style={{ marginTop: -24 }}
                                     inputProps={{ style: { textAlign: "right" } }}
                                     disabled

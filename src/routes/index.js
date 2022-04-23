@@ -18,7 +18,7 @@ const MainRoute = () => {
           :
           <AdminRoutes />
         }
-        {/* <LoaderComponent /> */}
+        <LoaderComponent />
       </Router>
     </>
   );

@@ -33,7 +33,7 @@ const RealPropertyInformation = ({
     useEffect(() => {
         methods.setValue("pinNumber", pin ? pin : "")
         methods.setValue("revisionYear", revisionYear ? revisionYear : "")
-    }, [assessmentDetail.classification, methods, pin, revisionYear, selectedAdjustment.classification])
+    }, [assessmentDetail?.classification, methods, pin, revisionYear, selectedAdjustment?.classification])
 
     return (
         <Grid container spacing={3} style={{ marginTop: -50 }}>
@@ -112,7 +112,7 @@ const RealPropertyInformation = ({
                                         name="street"
                                         variant="outlined"
                                         control={control}
-                                        disabled={transaction === "Transfer with Correction" ? false : true}
+                                        disabled={transaction === "Transfer with Correction" || transaction === "Data Capture" ? false : true}
                                         errorStatus={errors.street ? true : false}
                                         rules={{
                                             required: {
@@ -133,7 +133,7 @@ const RealPropertyInformation = ({
                                         name="blockNumber"
                                         variant="outlined"
                                         control={control}
-                                        disabled={transaction === "Transfer with Correction" ? false : true}
+                                        disabled={transaction === "Transfer with Correction" || transaction === "Data Capture" ? false : true}
                                         errorStatus={errors.blockNumber ? true : false}
                                         rules={{
                                             required: {
@@ -150,7 +150,7 @@ const RealPropertyInformation = ({
                                         name="surveyNumber"
                                         variant="outlined"
                                         control={control}
-                                        disabled={transaction === "Transfer with Correction" ? false : true}
+                                        disabled={transaction === "Transfer with Correction" || transaction === "Data Capture" ? false : true}
                                         errorStatus={errors.surveyNumber ? true : false}
                                         rules={{
                                             required: {
@@ -167,7 +167,7 @@ const RealPropertyInformation = ({
                                         name="purokZone"
                                         variant="outlined"
                                         control={control}
-                                        disabled={transaction === "Transfer with Correction" ? false : true}
+                                        disabled={transaction === "Transfer with Correction" || transaction === "Data Capture" ? false : true}
                                         errorStatus={errors.purokZone ? true : false}
                                         rules={{
                                             required: {
@@ -186,7 +186,7 @@ const RealPropertyInformation = ({
                                 name="north"
                                 variant="outlined"
                                 control={control}
-                                disabled={transaction === "Transfer with Correction" ? false : true}
+                                disabled={transaction === "Transfer with Correction" || transaction === "Data Capture" ? false : true}
                                 errorStatus={errors.north ? true : false}
                                 rules={{
                                     required: {
@@ -203,7 +203,7 @@ const RealPropertyInformation = ({
                                 name="east"
                                 variant="outlined"
                                 control={control}
-                                disabled={transaction === "Transfer with Correction" ? false : true}
+                                disabled={transaction === "Transfer with Correction" || transaction === "Data Capture" ? false : true}
                                 errorStatus={errors.east ? true : false}
                                 rules={{
                                     required: {
@@ -220,7 +220,7 @@ const RealPropertyInformation = ({
                                 name="south"
                                 variant="outlined"
                                 control={control}
-                                disabled={transaction === "Transfer with Correction" ? false : true}
+                                disabled={transaction === "Transfer with Correction" || transaction === "Data Capture" ? false : true}
                                 errorStatus={errors.south ? true : false}
                                 rules={{
                                     required: {
@@ -237,7 +237,7 @@ const RealPropertyInformation = ({
                                 name="west"
                                 variant="outlined"
                                 control={control}
-                                disabled={transaction === "Transfer with Correction" ? false : true}
+                                disabled={transaction === "Transfer with Correction" || transaction === "Data Capture" ? false : true}
                                 errorStatus={errors.west ? true : false}
                                 rules={{
                                     required: {
@@ -299,7 +299,7 @@ const RealPropertyInformation = ({
                                 label="Classification"
                                 name="classification"
                                 size='small'
-                                value={assessmentDetail.classification ? assessmentDetail.classification_name : ""}
+                                value={assessmentDetail?.classification ? assessmentDetail?.classification_name : ""}
                                 disabled
                                 inputProps={{ style: { fontWeight: "bold" } }}
                             />
@@ -310,7 +310,7 @@ const RealPropertyInformation = ({
                                 label="Market Value"
                                 name="marketValue"
                                 size='small'
-                                value={assessmentDetail.market_value ? parseInt(assessmentDetail.market_value).toFixed(2) : 0}
+                                value={assessmentDetail?.market_value ? parseInt(assessmentDetail?.market_value).toFixed(2) : 0}
                                 inputProps={{ style: { textAlign: "right", fontWeight: "bold" } }}
                                 disabled
                             />
@@ -321,7 +321,7 @@ const RealPropertyInformation = ({
                                 label="Assessed Value"
                                 name="assessedValue"
                                 size='small'
-                                value={assessmentDetail.land_assessed_value ? parseInt(assessmentDetail.land_assessed_value).toFixed(2) : 0}
+                                value={assessmentDetail?.land_assessed_value ? parseInt(assessmentDetail?.land_assessed_value).toFixed(2) : 0}
                                 inputProps={{ style: { textAlign: "right", fontWeight: "bold" } }}
                                 disabled
                             />
@@ -338,7 +338,7 @@ const RealPropertyInformation = ({
                                 <h4> TAXABLE?</h4>
                                 <Checkbox
                                     disabled={true}
-                                    checked={assessmentDetail.taxable === "1" ? true : false}
+                                    checked={assessmentDetail?.taxable === "1" ? true : false}
                                     name={'taxable'}
                                     size='medium'
                                 //

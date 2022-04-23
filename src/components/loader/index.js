@@ -4,6 +4,7 @@ import { css } from "@emotion/react";
 import ClipLoadersaa from "react-spinners/ClipLoader";
 import Modal from 'react-modal'
 import { Spinner } from 'react-bootstrap';
+import { CircularProgress } from '@mui/material';
 
 // Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`
@@ -14,7 +15,7 @@ const override = css`
 
 
 const LoaderComponent = () => {
-    const isLoading = useSelector(state => state.loaderData.isLoading);
+    const isLoading = false
     console.log(isLoading)
     if (!isLoading) return null;
 
@@ -23,6 +24,7 @@ const LoaderComponent = () => {
         <>
             <Modal
                 isOpen={isLoading}
+                transparent={true}
                 onRequestClose={() => {
                 }}
                 contentLabel="Example Modal"
@@ -30,15 +32,17 @@ const LoaderComponent = () => {
                 ariaHideApp={false}
                 style={{
                     content: {
-                        top: "35%",
-                        marginLeft: "53%",
+                        top: "40%",
+                        marginLeft: "50%",
                         transform: "translate(-50%, -50%)",
-                        width: "48%",
-                        height: "60%",
+                        width: "100%",
+                        height: "120%",
+                        backgroundColor: 'rgba(255,255,255,0.5)',
+                        zIndex:99999
                     },
                 }}
             >
-                <ClipLoadersaa color={"#ffffff"} loading={true} css={override} size={150} />
+                <CircularProgress disableShrink size={100} sx={{position: 'absolute', left: '50%', top: '35%'}}/>
             </Modal>
 
         </>

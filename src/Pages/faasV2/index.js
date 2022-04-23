@@ -75,9 +75,10 @@ const FaasPage = () => {
         console.log(data)
     }
 
-    const onAddFaas = () => {
+    const onAddFaas = async () => {
         if(transaction === "Data Capture"){
             setShowInitialModal(true);
+            await dispatch(removeAssessmentDetail());
             return;
         }
         setShowTdModal(true)
