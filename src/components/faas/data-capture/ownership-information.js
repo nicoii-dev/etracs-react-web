@@ -63,7 +63,7 @@ const OwnershipInformation = ({
                         <Grid item md={12} xs={12}>
                             {/* <OwnerSearchComponent entityList={entityList} setOwnerData={setOwnerData} /> */}
                             <Controller
-                                defaultValue={transaction === "Transfer of Ownership" ? "" : data?.owner_name}
+                                defaultValue={transaction === "Transfer of Ownership" || transaction === "Data Capture" ? "" : data?.owner_name}
                                 name={'owner'}
                                 control={control}
                                 rules={{
@@ -82,7 +82,7 @@ const OwnershipInformation = ({
                                         options={entityList}
                                         styles={selectStyles}
                                         value={ 
-                                            transaction === "Transfer of Ownership" ? selectedOption :
+                                            transaction === "Transfer of Ownership" || transaction === "Data Capture" ? value :
                                             entityList.filter((option) => {
                                               return option.value === selectedOption
                                             })
@@ -98,7 +98,7 @@ const OwnershipInformation = ({
                                             setOwnerData(e)
                                         }}
                                         onBlur={onBlur}
-                                        isDisabled={transaction === "Transfer of Ownership" ? false:true}
+                                        isDisabled={transaction === "Transfer of Ownership" || transaction === "Data Capture" ? false:true}
                                     />
                                 )}
                             />
@@ -106,7 +106,7 @@ const OwnershipInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <Controller
-                                defaultValue={transaction === "Transfer of Ownership" ? "" : data?.declared_owner}
+                                defaultValue={transaction === "Transfer of Ownership" || transaction === "Data Capture" ? "" : data?.declared_owner}
                                 name={'declaredOwner'}
                                 control={control}
                                 rules={{
@@ -132,7 +132,7 @@ const OwnershipInformation = ({
                                         size='small'
                                         value={value}
                                         error={errors.declaredOwner ? true : false}
-                                        disabled={transaction === "Transfer of Ownership" ? false:true}
+                                        disabled={transaction === "Transfer of Ownership" || transaction === "Data Capture" ? false:true}
                                     />
                                 )}
                             />
@@ -145,7 +145,7 @@ const OwnershipInformation = ({
                     <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
                             <Controller
-                                defaultValue={transaction === "Transfer of Ownership" ? "" : data?.owner_address}
+                                defaultValue={transaction === "Transfer of Ownership" || transaction === "Data Capture" ? "" : data?.owner_address}
                                 name={'address'}
                                 control={control}
                                 rules={{
@@ -178,7 +178,7 @@ const OwnershipInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <Controller
-                                defaultValue={transaction === "Transfer of Ownership" ? "" : data?.declared_address}
+                                defaultValue={transaction === "Transfer of Ownership" || transaction === "Data Capture" ? "" : data?.declared_address}
                                 name={'declaredOwnerAddress'}
                                 control={control}
                                 rules={{
@@ -204,7 +204,7 @@ const OwnershipInformation = ({
                                         size='small'
                                         value={value}
                                         error={errors.declaredOwnerAddress ? true : false}
-                                        disabled={transaction === "Transfer of Ownership" ? false:true}
+                                        disabled={transaction === "Transfer of Ownership" || transaction === "Data Capture" ? false:true}
                                     />
                                 )}
                             />
