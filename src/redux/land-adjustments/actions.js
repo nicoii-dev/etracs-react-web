@@ -3,7 +3,6 @@ import LandAdjustmentApi from '../../library/api/land-adjustment-api';
 import Swal from "sweetalert2";
 
 export const setSelectedAdjustment = (payload) => {
-  Swal.fire('Saved!', '', 'success');
   return{
     type: actionTypes.SET_SELECTED_ADJUSTMENT,
     payload: payload

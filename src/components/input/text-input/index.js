@@ -12,6 +12,7 @@ const TextInputController = ({
     placeholder,
     errorStatus=false,
     inputStyle,
+    disabled=false,
 }) => {
 
     return (
@@ -22,6 +23,7 @@ const TextInputController = ({
             rules={rules}
             render={({field: {onChange, onBlur, value}}) => (
                 <TextField
+                    disabled={disabled}
                     fullWidth
                     label={label}
                     name={name}

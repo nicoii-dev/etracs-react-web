@@ -1,0 +1,17 @@
+import { SET_LAND_VALUE_ADJUSTMENT, REMOVE_LAND_VALUE_ADJUSTMENT } from "./actionTypes"
+import Swal from "sweetalert2"
+
+export const setLandValueAdjustment = (payload) => {
+    Swal.fire('Saved!', '', 'success');
+    return {
+        type: SET_LAND_VALUE_ADJUSTMENT,
+        payload: payload
+    }
+}
+
+export const removeLandValueAdjustment = (payload) => {
+    Swal.fire('Removed!', '', 'success');
+    return {
+        type: REMOVE_LAND_VALUE_ADJUSTMENT,
+    }
+}

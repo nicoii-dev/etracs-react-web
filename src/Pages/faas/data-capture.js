@@ -23,7 +23,7 @@ import {
 } from "../../redux/faas/actions";
 
 const DataCapturePage = (props) => {
-    const { data, transaction, status, setShowDataCaptureModal, personnel } = props
+    const { data, status, setShowDataCaptureModal, personnel } = props
     const dispatch = useDispatch();
     const methods = useForm();
     const {
@@ -39,6 +39,8 @@ const DataCapturePage = (props) => {
     const multipleList = useSelector((state) => state.multipleData.multiples);
     const assessmentDetail = useSelector((state) => state.assessmentDetailData.assessmentDetail);
     const selectedAdjustment = useSelector((state) => state.landAdjustmentData.selectedAdjustment);
+    const transaction = useSelector(state => state.transactionData.transaction);
+    const landValueAdjustment = useSelector(state => state.landValueAdjustmentData.landValueAdjustment);
 
     // states
     const [showModal, setShowModal] = useState(true);
@@ -55,7 +57,7 @@ const DataCapturePage = (props) => {
         const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
         const payload = {
             status: _data.status,
-            transaction: _data.transaction,
+            transaction: transaction,
             revision_year: _data.revisionYear,
             td_number: _data.tdNumber,
             title_number: _data.titleNumber,
@@ -86,18 +88,21 @@ const DataCapturePage = (props) => {
             east: _data.east,
             south: _data.south,
             west: _data.west,
-            classification_id: assessmentDetail.classification,
-            classification_name: assessmentDetail.classification_name,
-            specific_class: assessmentDetail.specific_class,
-            sub_class: assessmentDetail.sub_class,
-            unit_value: assessmentDetail.unit_value,
-            area: assessmentDetail.land_area,
-            area_type: assessmentDetail.area_type,
-            market_value: assessmentDetail.market_value,
+            classification_id: assessmentDetail?.classification,
+            classification_name: assessmentDetail?.classification_name,
+            specific_class: assessmentDetail?.specific_class,
+            sub_class: assessmentDetail?.sub_class,
+            unit_value: assessmentDetail?.unit_value,
+            area: assessmentDetail?.land_area,
+            area_type: assessmentDetail?.area_type,
+            market_value: assessmentDetail?.market_value,
             actual_use: selectedAdjustment?.id ? selectedAdjustment?.id : null,
-            assessment_level: expressionValue !== undefined ? (expressionValue * 100).toString() + "%" : assessmentDetail?.rate,
-            assessed_value: assessmentDetail.land_assessed_value,
-            taxable: assessmentDetail.taxable,
+            actual_use_value: selectedAdjustment?.id ? selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) : null,
+            land_adjustment_type: landValueAdjustment.adjustmentType,
+            adjustment_value: landValueAdjustment.adjustment,
+            assessment_level: assessmentDetail?.rate,
+            assessed_value: assessmentDetail?.land_assessed_value,
+            taxable: assessmentDetail?.taxable,
             previous_mv: _data.previousMv,
             previous_av: _data.previousAv,
             appraised_by: _data.appraisedBy,
@@ -114,15 +119,15 @@ const DataCapturePage = (props) => {
     }
 
     const updateDataCapture = async (_data) => {
-        console.log(_data)
         if (assessmentDetail.length <= 0) {
             Swal.fire('Please fill out Assessment Detail')
             return;
         }
+        console.log(landValueAdjustment)
         const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
         const payload = {
             status: _data.status,
-            transaction: _data.transaction,
+            transaction: transaction,
             revision_year: _data.revisionYear,
             td_number: _data.tdNumber,
             title_number: _data.titleNumber,
@@ -153,18 +158,21 @@ const DataCapturePage = (props) => {
             east: _data.east,
             south: _data.south,
             west: _data.west,
-            classification_id: assessmentDetail.classification,
-            classification_name: assessmentDetail.classification_name,
-            specific_class: assessmentDetail.specific_class,
-            sub_class: assessmentDetail.sub_class,
-            unit_value: assessmentDetail.unit_value,
-            area: assessmentDetail.land_area,
-            area_type: assessmentDetail.area_type,
-            market_value: assessmentDetail.market_value,
+            classification_id: assessmentDetail?.classification,
+            classification_name: assessmentDetail?.classification_name,
+            specific_class: assessmentDetail?.specific_class,
+            sub_class: assessmentDetail?.sub_class,
+            unit_value: assessmentDetail?.unit_value,
+            area: assessmentDetail?.land_area,
+            area_type: assessmentDetail?.area_type,
+            market_value: assessmentDetail?.market_value,
             actual_use: selectedAdjustment?.id ? selectedAdjustment?.id : null,
-            assessment_level: expressionValue !== undefined ? (expressionValue * 100).toString() + "%" : assessmentDetail?.rate,
-            assessed_value: assessmentDetail.land_assessed_value,
-            taxable: assessmentDetail.taxable,
+            actual_use_value: selectedAdjustment?.expression ? expressionValue : null,
+            land_adjustment_type: landValueAdjustment?.adjustmentType,
+            adjustment_value: landValueAdjustment?.adjustment,
+            assessment_level: assessmentDetail?.rate,
+            assessed_value: assessmentDetail?.land_assessed_value,
+            taxable: assessmentDetail?.taxable,
             previous_mv: _data.previousMv,
             previous_av: _data.previousAv,
             appraised_by: _data.appraisedBy,

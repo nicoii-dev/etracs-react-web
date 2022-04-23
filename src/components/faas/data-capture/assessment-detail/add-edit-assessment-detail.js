@@ -11,6 +11,7 @@ import { useForm, Controller } from "react-hook-form";
 
 // components
 import TextInputController from '../../../input/text-input'
+import AssessmentSummary from './assessment-summary';
 
 // redux
 import { fetchSpecificClass, setSpecificClass } from '../../../../redux/specific-class/action';
@@ -31,6 +32,7 @@ const AddEditAssessmentDetail = (props) => {
         landMarketValue, setLandMarketValue,
         landAssessedValue, setLandAssessedValue,
         revisionYear, setShowAdjustmentsModal, showAdjustmentsModal,
+        showLandAdjustmentModal, setShowLandAdjustmentModal,
         setClassification_id, classification_id } = props;
     const dispatch = useDispatch();
     //const { control, handleSubmit, formState: { errors }, setValue } = useForm();
@@ -41,11 +43,12 @@ const AddEditAssessmentDetail = (props) => {
     const subClassList = useSelector((state) => state.subClassData.subClass);
     const selectedAdjustment = useSelector((state) => state.landAdjustmentData.selectedAdjustment);
     const transaction = useSelector(state => state.transactionData.transaction);
+    const landValueAdjustment = useSelector(state => state.landValueAdjustmentData.landValueAdjustment);
 
     //local state
     const [filteredClassificationList, setFilteredClassificationList] = useState();
     const [adjustmentPercent, setAdjustmentPercent] = useState("");
-       // console.log(assessmentDetail)
+    // console.log(assessmentDetail)
     // filtering classification based on revision year selected
     useEffect(() => {
         const filtered = classificationList?.filter((classification) => {
@@ -93,13 +96,13 @@ const AddEditAssessmentDetail = (props) => {
         setLandAssessedValue(filteredClassification[0]?.rate ? Number(marketValue * (parseInt(filteredClassification[0]?.rate) / 100)).toFixed(2) : 0)
         setAreaType("")
         setUnitValue("")
-       // setLandArea(0);
-       // setTotalLandAreaHa(0);
-       // setTotalLandAreaSqm(0);
-       // setMarketValue(0);
-       // setLandBaseMarketValue(0);
-       // setLandMarketValue(0);
-       // setLandAssessedValue(0)
+        // setLandArea(0);
+        // setTotalLandAreaHa(0);
+        // setTotalLandAreaSqm(0);
+        // setMarketValue(0);
+        // setLandBaseMarketValue(0);
+        // setLandMarketValue(0);
+        // setLandAssessedValue(0)
         setClassificationName(filteredClassification[0]?.classification)
     }
 
@@ -140,11 +143,17 @@ const AddEditAssessmentDetail = (props) => {
             let haValue = value / 10000;
             setTotalLandAreaSqm(Number(sqmValue).toFixed(6))
             setTotalLandAreaHa(Number(haValue).toFixed(6))
+            setLandBaseMarketValue(Number(unitValue * value).toFixed(2))
+            setLandMarketValue(Number(unitValue * value).toFixed(2))
+            setLandAssessedValue(Number((unitValue * value) * (parseInt(rate) / 100)).toFixed(2))
         } else {
             let sqmValue = value * 10000;
             let haValue = value * 1;
             setTotalLandAreaSqm(Number(sqmValue).toFixed(6))
             setTotalLandAreaHa(Number(haValue).toFixed(6))
+            setLandBaseMarketValue(Number(unitValue * value).toFixed(2))
+            setLandMarketValue(Number(unitValue * value).toFixed(2))
+            setLandAssessedValue(Number((unitValue * value) * (parseInt(rate) / 100)).toFixed(2))
         }
     }
 
@@ -154,10 +163,10 @@ const AddEditAssessmentDetail = (props) => {
 
     const onMarketValueChange = async (value) => {
         setMarketValue(value)
-        setLandBaseMarketValue(Number(value).toFixed(2))
+        setLandBaseMarketValue(Number(value * unitValue).toFixed(2))
         setLandMarketValue(Number(value).toFixed(2))
-        
-        if(selectedAdjustment?.expression) {
+
+        if (selectedAdjustment?.expression) {
             setLandAssessedValue(Number(value * (parseInt(adjustmentPercent) / 100)).toFixed(2))
         } else {
             setLandAssessedValue(Number(value * (parseInt(rate) / 100)).toFixed(2))
@@ -169,18 +178,41 @@ const AddEditAssessmentDetail = (props) => {
         setMarketValue(Number(value).toFixed(2))
     }
 
-        
+    // actual use adjustment
     const calculateAdjustment = useCallback(() => {
-        if(selectedAdjustment?.expression){
+        console.log(1)
+        if (selectedAdjustment?.expression) {
             const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
             setAdjustmentPercent(expressionValue * 100)
-            setLandAssessedValue(Number(marketValue * (parseInt(expressionValue * 100) / 100)).toFixed(2))
+            setLandAssessedValue(Number(parseInt(landMarketValue) * parseFloat(expressionValue)).toFixed(2))
+            return;
         }
-    }, [marketValue, selectedAdjustment?.expression, setLandAssessedValue])
-    
+        setLandAssessedValue(Number(landMarketValue * (parseInt(rate) / 100)).toFixed(2))
+       // setMarketValue(parseInt(landMarketValue).toFixed(2))
+    }, [landMarketValue, rate, selectedAdjustment?.expression, setLandAssessedValue, setMarketValue])
+
     useEffect(() => {
         calculateAdjustment()
     }, [calculateAdjustment])
+
+    // land value adjustment
+    const calculateLandValueAdjustment = useCallback(() => {
+        console.log(2)
+        if (landValueAdjustment?.adjustmentType === "ADD") {
+            const landAdjusted = (landValueAdjustment?.adjustment/100) * landBaseMarketValue
+            setLandMarketValue(Number(parseInt(landBaseMarketValue) + parseInt(landAdjusted)).toFixed(2))
+            setMarketValue(landValueAdjustment?.adjustment ? Number(parseInt(landBaseMarketValue) + parseInt(landAdjusted)).toFixed(2) : landBaseMarketValue)
+            return;
+        }
+        const landAdjusted = (landValueAdjustment?.adjustment/100) * landBaseMarketValue
+        setLandMarketValue(landValueAdjustment?.adjustmentType ? Number(parseInt(landBaseMarketValue) - parseInt(landAdjusted)).toFixed(2) : landBaseMarketValue)
+        setMarketValue(landValueAdjustment?.adjustment ? Number(parseInt(landBaseMarketValue) - parseInt(landAdjusted)).toFixed(2) : landBaseMarketValue)
+    }, [landBaseMarketValue, landValueAdjustment?.adjustment, landValueAdjustment?.adjustmentType, setLandMarketValue, setMarketValue])
+
+    useEffect(() => {
+        calculateLandValueAdjustment()
+    }, [calculateLandValueAdjustment]) 
+
 
     return (
         <>
@@ -403,7 +435,7 @@ const AddEditAssessmentDetail = (props) => {
                                     )}
                                 />
                             </Grid>
-                            <Grid item md={12} xs={12} style={{ marginTop: 10 }}>
+                            {/* <Grid item md={12} xs={12} style={{ marginTop: 10 }}>
                                 <Controller
                                     defaultValue={assessmentDetail?.market_value ? assessmentDetail?.market_value : ""}
                                     name="marketValue"
@@ -436,7 +468,7 @@ const AddEditAssessmentDetail = (props) => {
                                         />
                                     )}
                                 />
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                         <Grid item md={4} xs={12}></Grid>
                         <Grid item md={4} xs={12}></Grid>
@@ -447,7 +479,7 @@ const AddEditAssessmentDetail = (props) => {
                                     label="Total Land Area (SQM)"
                                     name="totalLandAreaSQM"
                                     size='small'
-                                    value={totalLandAreaSqm}
+                                    value={parseInt(totalLandAreaSqm).toFixed(6)}
                                     inputProps={{ style: { textAlign: "right" } }}
                                     disabled
                                 />
@@ -466,7 +498,7 @@ const AddEditAssessmentDetail = (props) => {
                                     label="Land Base Market Value"
                                     name="landBaseMarketValue"
                                     size='small'
-                                    value={landBaseMarketValue}
+                                    value={parseInt(landBaseMarketValue).toFixed(2)}
                                     style={{ marginTop: 10 }}
                                     inputProps={{ style: { textAlign: "right" } }}
                                     disabled
@@ -477,7 +509,7 @@ const AddEditAssessmentDetail = (props) => {
                         <Grid item md={4} xs={12}>
                             <Grid item md={12} xs={12}>
                                 <Button
-                                    style={{ marginTop: -100 }}
+                                    style={{ marginTop: -227 }}
                                     color="primary"
                                     variant="contained"
                                     fullWidth
@@ -497,8 +529,8 @@ const AddEditAssessmentDetail = (props) => {
                                     label="Actual Adjustment"
                                     name="actualAdjustment"
                                     size='small'
-                                    value={selectedAdjustment?.expression ? adjustmentPercent?.toString()+"%" : 0}
-                                    style={{ marginTop: -24 }}
+                                    value={selectedAdjustment?.expression ? adjustmentPercent?.toString() + "%" : 0}
+                                    style={{ marginTop: -95 }}
                                     inputProps={{ style: { textAlign: "right" } }}
                                     disabled
                                 />
@@ -507,8 +539,8 @@ const AddEditAssessmentDetail = (props) => {
                                     label="Land Market Value"
                                     name="landMarketValue"
                                     size='small'
-                                    value={landMarketValue}
-                                    style={{ marginTop: 2 }}
+                                    value={parseInt(landMarketValue).toFixed(2)}
+                                    style={{ marginTop: -48 }}
                                     inputProps={{ style: { textAlign: "right" } }}
                                     disabled
                                 />
@@ -518,15 +550,52 @@ const AddEditAssessmentDetail = (props) => {
                                     name="landAssessedValue"
                                     size='small'
                                     value={landAssessedValue}
-                                    style={{ marginTop: 10 }}
+                                    style={{ marginTop: -22 }}
                                     inputProps={{ style: { textAlign: "right" } }}
                                     disabled
                                 />
                             </Grid>
+                            <TextField
+                                fullWidth
+                                label="'Land Value Adjustments"
+                                name="landValueAdjustments"
+                                size='small'
+                                value={landValueAdjustment?.adjustmentType ? landValueAdjustment?.adjustmentType === "ADD" ? Number((landValueAdjustment?.adjustment/100) * landBaseMarketValue).toFixed(2) :
+                                    Number(((landValueAdjustment?.adjustment/100) * landBaseMarketValue)* -1).toFixed(2)  : 0}
+                                style={{ marginTop: 4 }}
+                                inputProps={{ style: { textAlign: "right" } }}
+                                disabled
+                            />
+                        </Grid>
+                        <Grid item md={4} xs={12}></Grid>
+                        <Grid item md={4} xs={12}>
+                            <Button
+                                style={{marginTop: -130, marginLeft: 20}}
+                                color="primary"
+                                variant="contained"
+                                fullWidth
+                                disabled={transaction === "Change Taxability" || landBaseMarketValue <= 0 ? true : false}
+                                onClick={() => {
+                                    if (landMarketValue.length < 0) {
+                                        Swal.fire('No Land market value')
+                                        return;
+                                    }
+                                    setShowLandAdjustmentModal(true);
+                                }}
+                            >
+                                Land Value Adjustments
+                            </Button>
                         </Grid>
                     </Grid>
                 </Grid>
+
             </Grid>
+            <AssessmentSummary 
+                control={control} 
+                marketValue={marketValue}
+                baseMarketValue={landBaseMarketValue}
+                assessedValue={landAssessedValue}
+            />
             <Box
                 sx={{
                     display: 'flex',

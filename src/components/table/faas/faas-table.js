@@ -19,6 +19,8 @@ import { Visibility } from '@mui/icons-material';
 // components
 import EnhancedTableHead from '../enhanced-table-head';
 import EnhancedTableToolbar from '../enhanced-table-toolbar';
+
+// redux
 import { setAssessmentDetail } from '../../../redux/assessment-detail/actions';
 import { setSelectedAdjustment } from '../../../redux/land-adjustments/actions';
 import { setRevisionFaas } from '../../../redux/revision-year/action';
@@ -116,7 +118,7 @@ const FaasTable = ({
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const updateFaas = async (rowData) => {
-    await dispatch(setTransaction("Data Capture"))
+    await dispatch(setTransaction(rowData.transaction))
     setShowDataCaptureModal(true);
     setData(rowData)
     const payload = {
@@ -131,7 +133,7 @@ const FaasTable = ({
       market_value: rowData.market_value,
       total_land_area_sqm: rowData.area_type === "SQM" ? parseFloat(rowData.area) * 1 : parseFloat(rowData.area) * 10000,
       total_land_area_ha: rowData.area_type === "SQM" ? parseFloat(rowData.area) / 10000 : parseFloat(rowData.area) * 1,
-      land_base_market_value: rowData.market_value,
+      land_base_market_value: rowData.area * rowData.unit_value,
       land_market_value: rowData.market_value,
       land_assessed_value: rowData.assessed_value,
       taxable: rowData.taxable,
@@ -139,7 +141,11 @@ const FaasTable = ({
     await dispatch(setAssessmentDetail(payload));
     await dispatch(setRevisionFaas(rowData.revision_year));
     await dispatch(setPin({pin: rowData.pin}))
-    //await dispatch(setSelectedAdjustment)
+    const adjustmentPayload = {
+      id: rowData.actual_use,
+      expression: rowData.actual_use_value
+    }
+    await dispatch(setSelectedAdjustment(adjustmentPayload))
   }
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -241,6 +247,8 @@ const FaasTable = ({
                           <TableCell align="right">{row?.area_type}</TableCell>
                           <TableCell align="right">{row?.market_value}</TableCell>
                           <TableCell align="right">{row?.actual_use}</TableCell>
+                          <TableCell align="right">{row?.land_adjustment_type}</TableCell>
+                          <TableCell align="right">{row?.adjustment_value}</TableCell>
                           <TableCell align="right">{row?.assessment_level}</TableCell>
                           <TableCell align="right">{row?.assessed_value}</TableCell>
                           <TableCell align="right">{row?.taxable}</TableCell>

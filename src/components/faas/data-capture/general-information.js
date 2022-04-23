@@ -51,20 +51,6 @@ const GeneralInformation = ({
                                 />
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
-                                {/* <FaasTextInputController
-                                    defaultData={data?.titleType}
-                                    label="Title type*"
-                                    name="titleType"
-                                    variant="outlined"
-                                    control={control}
-                                    errorStatus={errors.titleType ? true:false}
-                                    rules={{
-                                        required: {
-                                        value: true,
-                                        message: 'Title Type is required',
-                                        },
-                                    }}
-                                /> */}
                                 <Controller
                                     defaultValue={transaction === "Change Classification" || transaction === "Change Taxability" ? data.title_type : ""}
                                     name={'titleType'}

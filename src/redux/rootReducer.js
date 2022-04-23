@@ -24,6 +24,7 @@ import FaasReducer from "./faas/faasReducer";
 import InitialInfoReducer from "./initial-info/initialInfoReducer";
 import AssessmentDetailReducer from "./assessment-detail/assessmentDetailReducer";
 import TransactionReducer from "./transaction/specificClassReducer";
+import LandValueAdjustmentReducer from "./land-value-adjustment/landValueAdjustmentReducer";
 
 const rootReducer = combineReducers({
     individualData: IndividualReducer,
@@ -51,6 +52,7 @@ const rootReducer = combineReducers({
     initialInfoData: InitialInfoReducer,
     assessmentDetailData: AssessmentDetailReducer,
     transactionData: TransactionReducer,
+    landValueAdjustmentData: LandValueAdjustmentReducer,
 });
 
 export default rootReducer;

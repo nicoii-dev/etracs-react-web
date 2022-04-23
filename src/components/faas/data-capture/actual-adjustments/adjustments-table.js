@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 
 // redux
 import { fetchLandAdjustmentRedux } from '../../../../redux/land-adjustments/actions';
-import { setSelectedAdjustment } from '../../../../redux/land-adjustments/actions';
+import { setSelectedAdjustment, removeSelectedAdjustment } from '../../../../redux/land-adjustments/actions';
 
 // columns data
 const columns = [
@@ -23,11 +23,12 @@ const columns = [
 ]
 
 const ActualAdjustmentsTable = (props) => {
-    const { classification_id, selected, setSelected } = props;
+    const { classification_id, selected, setSelected, setShowAdjustmentsModal } = props;
     const dispatch = useDispatch();
 
     //global state
     const adjustmentsList = useSelector((state) => state.landAdjustmentData.landAdjustment);
+    const selectedAdjustment = useSelector((state) => state.landAdjustmentData.selectedAdjustment);
 
     // local state
     const [filteredAdjustments, setFilteredAdjustments] = React.useState([]);
@@ -93,7 +94,7 @@ const ActualAdjustmentsTable = (props) => {
                                                 setSelected(row);
                                             }}
                                             style={{
-                                                backgroundColor: selected.id === row.id ? '#CCE5FF' : null
+                                                backgroundColor: selected.id ? selected.id == row.id ? '#CCE5FF' : null : selectedAdjustment.id == row.id ? '#CCE5FF' : null
                                             }}
                                         >
                                             {columns.map((column) => {
@@ -122,7 +123,7 @@ const ActualAdjustmentsTable = (props) => {
             <Box
                 sx={{
                     position: 'absolute',
-                    right: 20,
+                    right: 120,
                     bottom: 20,
                 }}
             >
@@ -137,6 +138,30 @@ const ActualAdjustmentsTable = (props) => {
                 >
                     select
                 </Button>
+              
+            </Box>
+            <Box
+                sx={{
+                    position: 'absolute',
+                    right: 20,
+                    bottom: 20,
+                }}
+            >
+                <Button
+                    color="error"
+                    variant="contained"
+                    fullWidth
+                    disabled={selectedAdjustment.id ? false: true}
+                    onClick={() => {
+                        dispatch(removeSelectedAdjustment());
+                        Swal.fire('Removed!', '', 'success');
+                        setSelected([]);
+                        setShowAdjustmentsModal(false)
+                    }}
+                >
+                    remove
+                </Button>
+              
             </Box>
         </>
     )

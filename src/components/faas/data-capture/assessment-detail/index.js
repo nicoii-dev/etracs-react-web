@@ -13,6 +13,7 @@ import { Checkbox } from '@mui/material';
 import AssessmentDetailTable from './assessment-detail-table';
 import AddEditAssessmentDetail from './add-edit-assessment-detail';
 import ActualAdjustmentsTable from '../actual-adjustments/adjustments-table';
+import LandValueAdjustment from '../land-adjustment';
 
 //redux
 import { setAssessmentDetail } from '../../../../redux/assessment-detail/actions';
@@ -40,6 +41,7 @@ const AssessmentDetail = (props) => {
     const [landAssessedValue, setLandAssessedValue] = useState(0)
 
     const [showAdjustmentsModal, setShowAdjustmentsModal] = useState(false);
+    const [showLandAdjustmentModal, setShowLandAdjustmentModal] = useState(false)
     const [selected, setSelected] = useState("");
 
     const saveAssessmentDetail = async (data) => {
@@ -52,13 +54,13 @@ const AssessmentDetail = (props) => {
             sub_class: data.subClass,
             unit_value: unitValue,
             land_area: data.landArea,
-            market_value: data.marketValue,
+            market_value: marketValue,
             total_land_area_sqm: totalLandAreaSqm,
             total_land_area_ha: totalLandAreaHa,
             land_base_market_value: landBaseMarketValue,
             land_market_value: landMarketValue,
             land_assessed_value: landAssessedValue,
-            taxable: data.taxable === true ? "1":"0",
+            taxable: data.taxable === true ? "1" : "0",
         }
         console.log(payload)
         await dispatch(setAssessmentDetail(payload));
@@ -173,6 +175,7 @@ const AssessmentDetail = (props) => {
                                 revisionYear={revisionYear}
                                 showAdjustmentsModal={showAdjustmentsModal}
                                 setShowAdjustmentsModal={setShowAdjustmentsModal}
+                                setShowLandAdjustmentModal={setShowLandAdjustmentModal}
                             />
                         </Grid>
                     </Grid>
@@ -201,11 +204,37 @@ const AssessmentDetail = (props) => {
                     },
                 }}
             >
-                <ActualAdjustmentsTable 
+                <ActualAdjustmentsTable
                     classification_id={classification_id}
                     selected={selected}
                     setSelected={setSelected}
+                    setShowAdjustmentsModal={setShowAdjustmentsModal}
                 />
+            </Modal>
+
+            {/* Land value adjustments modal */}
+            <Modal
+                isOpen={showLandAdjustmentModal}
+                onRequestClose={() => {
+                    setShowLandAdjustmentModal(!showLandAdjustmentModal);
+                }}
+                contentLabel="Example Modal"
+                onClose={() => setShowLandAdjustmentModal(!showLandAdjustmentModal)}
+                ariaHideApp={false}
+                style={{
+                    content: {
+                        top: "50%",
+                        marginLeft: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: "25%",
+                        height: "35%",
+                    },
+                    overlay: {
+                        zIndex: 1000,
+                    },
+                }}
+            >
+                <LandValueAdjustment setShowLandAdjustmentModal = {setShowLandAdjustmentModal}/>
             </Modal>
         </>
     )
