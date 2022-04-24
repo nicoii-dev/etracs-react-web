@@ -26,6 +26,11 @@ const FaasReducer = (state = initialState, action) => {
                 ...state,
                 faas: action.payload
             }
+        case actionTypes.DELETE_MULTIPLE_FAAS:
+            return {
+                ...state,
+                faas: action.payload
+            }
         default:
             return state;
     }

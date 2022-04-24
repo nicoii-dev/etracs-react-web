@@ -69,7 +69,7 @@ const RealPropertyInformation = ({
                                 </Grid>
                                 <Grid item md={5} xs={12}>
                                     <FaasTextInputController
-                                        defaultData={transaction === "Data Capture" ? "" : data?.house_number}
+                                        defaultData={data?.location_house_number}
                                         label="House number"
                                         name="houseNumber"
                                         variant="outlined"
@@ -90,7 +90,7 @@ const RealPropertyInformation = ({
                             <Grid container spacing={3}>
                                 <Grid item md={7} xs={12}>
                                     <FaasTextInputController
-                                        defaultData={transaction === "Data Capture" ? "" : data?.cadastral}
+                                        defaultData={data?.cadastral}
                                         label="Cadastral*"
                                         name="cadastral"
                                         variant="outlined"
@@ -107,7 +107,7 @@ const RealPropertyInformation = ({
                                 </Grid>
                                 <Grid item md={5} xs={12}>
                                     <FaasTextInputController
-                                        defaultData={transaction === "Data Capture" ? "" : data?.street}
+                                        defaultData={data?.location_street}
                                         label="Street"
                                         name="street"
                                         variant="outlined"
@@ -128,7 +128,7 @@ const RealPropertyInformation = ({
                             <Grid container spacing={3}>
                                 <Grid item md={4} xs={12}>
                                     <FaasTextInputController
-                                        defaultData={transaction === "Data Capture" ? "" : data?.block_number}
+                                        defaultData={data?.block_number}
                                         label="Block number"
                                         name="blockNumber"
                                         variant="outlined"
@@ -145,7 +145,7 @@ const RealPropertyInformation = ({
                                 </Grid>
                                 <Grid item md={4} xs={12}>
                                     <FaasTextInputController
-                                        defaultData={transaction === "Data Capture" ? "" : data?.survey_number}
+                                        defaultData={data?.survey_number}
                                         label="Survey number"
                                         name="surveyNumber"
                                         variant="outlined"
@@ -162,7 +162,7 @@ const RealPropertyInformation = ({
                                 </Grid>
                                 <Grid item md={4} xs={12}>
                                     <FaasTextInputController
-                                        defaultData={transaction === "Data Capture" ? "" : data?.purok_zone}
+                                        defaultData={data?.purok_zone}
                                         label="Purok/Zone"
                                         name="purokZone"
                                         variant="outlined"
@@ -181,7 +181,7 @@ const RealPropertyInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <FaasTextInputController
-                                defaultData={transaction === "Data Capture" ? "" : data?.north}
+                                defaultData={data?.north}
                                 label="North* "
                                 name="north"
                                 variant="outlined"
@@ -198,7 +198,7 @@ const RealPropertyInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <FaasTextInputController
-                                defaultData={transaction === "Data Capture" ? "" : data?.east}
+                                defaultData={data?.east}
                                 label="East* "
                                 name="east"
                                 variant="outlined"
@@ -215,7 +215,7 @@ const RealPropertyInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <FaasTextInputController
-                                defaultData={transaction === "Data Capture" ? "" : data?.south}
+                                defaultData={data?.south}
                                 label="South* "
                                 name="south"
                                 variant="outlined"
@@ -232,7 +232,7 @@ const RealPropertyInformation = ({
                         </Grid>
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <FaasTextInputController
-                                defaultData={transaction === "Data Capture" ? "" : data?.west}
+                                defaultData={data?.west}
                                 label="West* "
                                 name="west"
                                 variant="outlined"

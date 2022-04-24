@@ -82,6 +82,7 @@ const FaasPage = () => {
             await dispatch(removeAssessmentDetail());
             await dispatch(removeSelectedAdjustment());
             await dispatch(removeLandValueAdjustment());
+            setData(null);
             return;
         }
         setShowTdModal(true)
@@ -164,6 +165,9 @@ const FaasPage = () => {
                         <option key={'DC'} value={'Data Capture'}>
                             Data Capture
                         </option>
+                        <option key={"Correction"} value={"Correction"}>
+                            Correction
+                        </option>
                         <option key={"Transfer of Ownership"} value={"Transfer of Ownership"}>
                             Transfer of Ownership
                         </option>
@@ -176,9 +180,10 @@ const FaasPage = () => {
                         <option key={"Change Classification"} value={"Change Classification"}>
                             Change Classification
                         </option>
-                        <option key={"Change Taxabilityt"} value={"Change Taxability"}>
+                        <option key={"Change Taxability"} value={"Change Taxability"}>
                             Change Taxability
                         </option>
+
                     </TextField>
                     <Button
                         variant="contained"

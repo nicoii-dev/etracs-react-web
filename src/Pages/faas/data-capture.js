@@ -41,12 +41,15 @@ const DataCapturePage = (props) => {
     const selectedAdjustment = useSelector((state) => state.landAdjustmentData.selectedAdjustment);
     const transaction = useSelector(state => state.transactionData.transaction);
     const landValueAdjustment = useSelector(state => state.landValueAdjustmentData.landValueAdjustment);
+    const personnelList = useSelector(state => state.personnelData.personnels)
+
 
     // states
     const [showModal, setShowModal] = useState(true);
     const [showAssessmentModal, setShowAssessmentModal] = useState(false);
     const [entityList, setEntityList] = useState([]);
     const [ownerData, setOwnerData] = useState([]);
+    const [newPersonnelList, setNewPersonnelList] = useState([]);
 
     const addDataCapture = async (_data) => {
         console.log(_data)
@@ -119,6 +122,7 @@ const DataCapturePage = (props) => {
     }
 
     const updateDataCapture = async (_data) => {
+        console.log(_data)
         if (assessmentDetail.length <= 0) {
             Swal.fire('Please fill out Assessment Detail')
             return;
@@ -148,8 +152,8 @@ const DataCapturePage = (props) => {
             beneficial_user: null,
             beneficial_tin: null,
             beneficial_address: null,
-            location_house_number: null,
-            location_street: null,
+            location_house_number: _data.houseNumber,
+            location_street: _data.street,
             cadastral: _data.cadastral,
             block_number: _data.blockNumber,
             survey_number: _data.surveyNumber,
@@ -225,6 +229,20 @@ const DataCapturePage = (props) => {
         mergeEntity();
     }, [mergeEntity]);
 
+    const createPersonnels = useCallback(() => {
+        let newData = [];
+        personnelList.forEach(item => newData.push({
+            "id": item.id,
+            "value": item.firstname + " " + item.middlename.charAt(0) + ". " + item.lastname,
+            "label": item.firstname + " " + item.middlename.charAt(0) + ". " + item.lastname,
+        }));
+        setNewPersonnelList(newData)
+    }, [personnelList])
+
+    useEffect(() => {
+        createPersonnels();
+    }, [createPersonnels]);
+
     return (
         <>
             <h2 style={{ fontFamily: "-moz-initial" }}>F A A S</h2>
@@ -241,6 +259,7 @@ const DataCapturePage = (props) => {
                         errors={errors}
                         control={control}
                         personnel={personnel}
+                        newPersonnelList={newPersonnelList}
                     />
                     <OwnershipInformation
                         data={data}

@@ -65,7 +65,7 @@ const FaasTable = ({
   // This method is created for cross-browser compatibility, if you don't
   // need to support IE11, you can use Array.prototype.sort() directly
   function stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
+    const stabilizedThis = array?.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
       const order = comparator(a[0], b[0]);
       if (order !== 0) {
@@ -118,9 +118,9 @@ const FaasTable = ({
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const updateFaas = async (rowData) => {
-    await dispatch(setTransaction(rowData.transaction))
-    setShowDataCaptureModal(true);
     setData(rowData)
+    await dispatch(setTransaction("Data Capture"))
+    setShowDataCaptureModal(true);
     const payload = {
       classification: rowData.classification_id,
       classification_name: rowData.classification_name,
@@ -182,7 +182,7 @@ const FaasTable = ({
                         rows.slice().sort(getComparator(order, orderBy)) */}
                   {stableSort(faasList, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, index) => {
+                    ?.map((row, index) => {
                       const isItemSelected = isSelected(row.id);
                       const labelId = `enhanced-table-checkbox-${index}`;
                       return (
@@ -247,6 +247,7 @@ const FaasTable = ({
                           <TableCell align="right">{row?.area_type}</TableCell>
                           <TableCell align="right">{row?.market_value}</TableCell>
                           <TableCell align="right">{row?.actual_use}</TableCell>
+                          <TableCell align="right">{row?.actual_use_value}</TableCell>
                           <TableCell align="right">{row?.land_adjustment_type}</TableCell>
                           <TableCell align="right">{row?.adjustment_value}</TableCell>
                           <TableCell align="right">{row?.assessment_level}</TableCell>
@@ -279,7 +280,7 @@ const FaasTable = ({
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={faasList.length}
+              count={faasList?.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

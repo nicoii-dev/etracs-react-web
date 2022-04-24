@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     CardContent,
     Divider,
@@ -6,20 +6,35 @@ import {
     TextField,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
-
-import { Controller} from "react-hook-form";
+import Select from 'react-select'
+import { Controller } from "react-hook-form";
 import FaasTextInputController from '../../input/faas-input';
 import Quarter from '../../../library/constants/quarter'
+
+import InputErrorStyles from '../../../styles/error-text/InputErrorStyles.module.css';
+// styles for react select
+const selectStyles = {
+    control: provided => ({ ...provided, minWidth: 240, }),
+    menu: () => ({ boxShadow: 'inset 0 1px 0 rgba(0, 0, 0, 0.1)', opacity: 1, }),
+    menu: base => ({
+        ...base,
+        zIndex: 100
+    })
+};
 
 const GeneralInformation = ({
     errors,
     control,
     data,
-    personnel
+    personnel,
+    newPersonnelList
 }) => {
     const transaction = useSelector(state => state.transactionData.transaction)
-    
-    console.log(data)
+
+    const [selectedAppraiser, setSelectedAppraiser] = useState(data?.appraised_by ? data?.appraised_by : "");
+    const [selectedRecommended, setSelectedRecommended] = useState(data?.recommended_by ? data?.recommended_by : "");
+    const [selectedApprove, setSelectedApprove] = useState(data?.approve_by ? data?.approve_by : "");
+
     return (
         <>
             <Grid container spacing={3} style={{ marginTop: -50 }}>
@@ -35,8 +50,7 @@ const GeneralInformation = ({
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? 
-                                                    (data?.td_number && transaction === "Data Capture") ? data.td_number : "" : ""}
+                                    defaultData={transaction === "Data Capture" || transaction.includes("Change") ? data?.td_number : ""}
                                     label="TD number* "
                                     name="tdNumber"
                                     variant="outlined"
@@ -67,7 +81,7 @@ const GeneralInformation = ({
                                     }}
                                 /> */}
                                 <Controller
-                                    defaultValue={transaction === "Change Classification" || transaction === "Change Taxability" ? data.title_type : ""}
+                                    defaultValue={data?.title_type}
                                     name={'titleType'}
                                     control={control}
                                     rules={{
@@ -113,7 +127,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? data.title_number : ""}
+                                    defaultData={data?.title_number}
                                     label="Title number*"
                                     name="titleNumber"
                                     variant="outlined"
@@ -130,7 +144,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
-                                    defaultValue={transaction === "Change Classification" || transaction === "Change Taxability" ? data.title_date : ""}
+                                    defaultValue={data?.title_date}
                                     name='titleDate'
                                     control={control}
                                     rules={{
@@ -160,7 +174,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
-                                    defaultValue={transaction === "Change Classification" || transaction === "Change Taxability" ? data.issue_date : ""}
+                                    defaultValue={data?.issue_date}
                                     name={'issueDate'}
                                     control={control}
                                     rules={{
@@ -190,7 +204,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? data.effectivity : ""}
+                                    defaultData={data?.effectivity}
                                     label="Effectivity*"
                                     name="effectivity"
                                     variant="outlined"
@@ -207,7 +221,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
-                                    defaultValue={transaction === "Change Classification" || transaction === "Change Taxability" ? data.quarter : ""}
+                                    defaultValue={data?.quarter}
                                     name={'quarter'}
                                     control={control}
                                     rules={{
@@ -249,7 +263,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? data.restriction : ""}
+                                    defaultData={data?.restriction}
                                     label="Restriction"
                                     name="restriction"
                                     variant="outlined"
@@ -272,7 +286,8 @@ const GeneralInformation = ({
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? "" : data.td_number}
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability"
+                                        || transaction === "Data Capture" ? "" : data.td_number}
                                     label="Previous TD number"
                                     name="previousTdNumber"
                                     variant="outlined"
@@ -289,7 +304,8 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? "" : data.pin}
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability"
+                                        || transaction === "Data Capture" ? "" : data.pin}
                                     label="Previous PIN"
                                     name="previousPin"
                                     variant="outlined"
@@ -306,7 +322,8 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? "" : data.market_value}
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability"
+                                        || transaction === "Data Capture" ? "" : data.market_value}
                                     label="Previous MV*"
                                     name="previousMv"
                                     variant="outlined"
@@ -315,7 +332,7 @@ const GeneralInformation = ({
                                     errorStatus={errors.previousMv ? true : false}
                                     rules={{
                                         required: {
-                                            value: transaction === "Change Classification" || transaction === "Change Taxability" ? false : true,
+                                            value: transaction === "Change Classification" || transaction === "Change Taxability" || transaction === "Data Capture" ? false : true,
                                             message: 'Previous MV is required',
                                         },
                                     }}
@@ -323,7 +340,8 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? "" : data.assessed_value}
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability"
+                                        || transaction === "Data Capture" ? "" : data.assessed_value}
                                     label="Previous AV*"
                                     name="previousAv"
                                     variant="outlined"
@@ -332,28 +350,43 @@ const GeneralInformation = ({
                                     errorStatus={errors.previousAv ? true : false}
                                     rules={{
                                         required: {
-                                            value: transaction === "Change Classification" || transaction === "Change Taxability" ? false : true,
+                                            value: transaction === "Change Classification" || transaction === "Change Taxability" || transaction === "Data Capture" ? false : true,
                                             message: 'Previous AV is required',
                                         },
                                     }}
                                 />
                             </Grid>
                             <Grid item md={7} xs={12} style={{ marginTop: -15 }}>
-                                <FaasTextInputController
-                                    defaultData={data?.appraised_by ? data?.appraised_by : personnel}
-                                    label="Appraised by*"
-                                    name="appraisedBy"
-                                    variant="outlined"
+                                <Controller
+                                    defaultValue={data?.appraised_by}
+                                    name={'appraisedBy'}
                                     control={control}
-                                    errorStatus={errors.appraisedBy ? true : false}
-                                    //inputStyle={{ style: {fontWeight: "bold"}}}
                                     rules={{
                                         required: {
                                             value: true,
                                             message: 'Appraised by is required',
                                         },
                                     }}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                        <Select
+                                            name="appraisedBy"
+                                            options={newPersonnelList}
+                                            styles={selectStyles}
+                                            value={
+                                                newPersonnelList.filter((option) => {
+                                                    return option.value === selectedAppraiser
+                                                })
+                                            }
+
+                                            onChange={(e) => {
+                                                onChange(e.label)
+                                                setSelectedAppraiser(e.value)
+                                            }}
+                                            onBlur={onBlur}
+                                        />
+                                    )}
                                 />
+                                {errors.appraisedBy && (<div><p className={InputErrorStyles.errorText}>{errors.appraisedBy?.message}</p></div>)}
                             </Grid>
                             <Grid item md={5} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
@@ -386,20 +419,36 @@ const GeneralInformation = ({
                                 />
                             </Grid>
                             <Grid item md={7} xs={12} style={{ marginTop: -15 }}>
-                                <FaasTextInputController
-                                    defaultData={data?.recommended_by ? data.recommended_by : ""}
-                                    label="Recommended by"
-                                    name="recommendBy"
-                                    variant="outlined"
+                                <Controller
+                                    defaultValue={data?.recommended_by}
+                                    name={'recommendBy'}
                                     control={control}
-                                    errorStatus={errors.recommendBy ? true : false}
                                     rules={{
                                         required: {
-                                            value: false,
+                                            value: true,
                                             message: 'Recommended by is required',
                                         },
                                     }}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                        <Select
+                                            name="recommendBy"
+                                            options={newPersonnelList}
+                                            styles={selectStyles}
+                                            value={
+                                                newPersonnelList.filter((option) => {
+                                                    return option.value === selectedRecommended
+                                                })
+                                            }
+
+                                            onChange={(e) => {
+                                                onChange(e.label)
+                                                setSelectedRecommended(e.value)
+                                            }}
+                                            onBlur={onBlur}
+                                        />
+                                    )}
                                 />
+                                {errors.recommendBy && (<div><p className={InputErrorStyles.errorText}>{errors.recommendBy?.message}</p></div>)}
                             </Grid>
                             <Grid item md={5} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
@@ -431,20 +480,40 @@ const GeneralInformation = ({
                                 />
                             </Grid>
                             <Grid item md={7} xs={12} style={{ marginTop: -15 }}>
-                                <FaasTextInputController
-                                    defaultData={data?.approve_by}
-                                    label="Approve by*"
-                                    name="approveBy"
-                                    variant="outlined"
+                            <Controller
+                                    defaultValue={data?.approve_by}
+                                    name={'approveBy'}
                                     control={control}
-                                    errorStatus={errors.approveBy ? true : false}
                                     rules={{
                                         required: {
                                             value: true,
-                                            message: 'Approve by is required',
+                                            message: 'Approved by is required',
                                         },
+                                        pattern: {
+                                            value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
+                                            message: 'Owner is required',
+                                        }
                                     }}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                        <Select
+                                            name="approveBy"
+                                            options={newPersonnelList}
+                                            styles={selectStyles}
+                                            value={
+                                                newPersonnelList.filter((option) => {
+                                                    return option.value === selectedApprove
+                                                })
+                                            }
+
+                                            onChange={(e) => {
+                                                onChange(e.label)
+                                                setSelectedApprove(e.value)
+                                            }}
+                                            onBlur={onBlur}
+                                        />
+                                    )}
                                 />
+                                {errors.approveBy && (<div><p className={InputErrorStyles.errorText}>{errors.approveBy?.message}</p></div>)}
                             </Grid>
                             <Grid item md={5} xs={12} style={{ marginTop: -15 }}>
                                 <Controller

@@ -18,6 +18,7 @@ const AuthRoutes = () => {
         <Routes>
             <Route path="/login" element={<LoginUser />} />
             <Route path="/createuser" element={<CreateUser />} />
+            <Route path="/forgotpass" element={<CreateUser />} />
             <Route path="*" element={<Navigate to="/login" state={{ from: location }} replace />} />
         </Routes>
     )
