@@ -16,6 +16,7 @@ import InputTdComponent from '../../components/faas/input-td-component';
 // redux
 import { removeAssessmentDetail } from '../../redux/assessment-detail/actions';
 import { removeSelectedAdjustment } from '../../redux/land-adjustments/actions';
+import { removeLandValueAdjustment } from '../../redux/land-value-adjustment/action';
 import { fetchFaasRedux } from '../../redux/faas/actions';
 import { setTransaction } from '../../redux/transaction/action';
 
@@ -79,6 +80,8 @@ const FaasPage = () => {
         if(transaction === "Data Capture"){
             setShowInitialModal(true);
             await dispatch(removeAssessmentDetail());
+            await dispatch(removeSelectedAdjustment());
+            await dispatch(removeLandValueAdjustment());
             return;
         }
         setShowTdModal(true)
@@ -156,7 +159,7 @@ const FaasPage = () => {
                             onTransferChanged(e.target.value);
                         }}
                         size='small'
-                        //value={transaction}
+                        value={transaction}
                     >
                         <option key={'DC'} value={'Data Capture'}>
                             Data Capture

@@ -8,6 +8,7 @@ import {
     TextField,
 } from '@mui/material';
 import { useForm, Controller } from "react-hook-form";
+import Swal from 'sweetalert2';
 
 import TextInputController from '../../../input/text-input';
 import { useSelector, useDispatch } from 'react-redux';
@@ -17,7 +18,7 @@ import { setLandValueAdjustment, removeLandValueAdjustment } from '../../../../r
 
 
 const LandValueAdjustment = (props) => {
-    const { data, storeMarketValue, updateMarketValue, setShowLandAdjustmentModal } = props;
+    const { setShowLandAdjustmentModal } = props;
     const { handleSubmit, control, formState: { errors } } = useForm();
     const dispatch = useDispatch();
 
@@ -123,6 +124,7 @@ const LandValueAdjustment = (props) => {
                     disabled={landValue?.adjustment ? false:true}
                     onClick={() => {
                         dispatch(removeLandValueAdjustment());
+                        Swal.fire('Removed!', '', 'success');
                         setShowLandAdjustmentModal(false)
                     }}
                     style={{ marginLeft: 10 }}>

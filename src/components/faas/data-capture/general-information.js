@@ -35,7 +35,8 @@ const GeneralInformation = ({
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? data.td_number : ""}
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? 
+                                                    (data?.td_number && transaction === "Data Capture") ? data.td_number : "" : ""}
                                     label="TD number* "
                                     name="tdNumber"
                                     variant="outlined"
@@ -51,6 +52,20 @@ const GeneralInformation = ({
                                 />
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
+                                {/* <FaasTextInputController
+                                    defaultData={data?.titleType}
+                                    label="Title type*"
+                                    name="titleType"
+                                    variant="outlined"
+                                    control={control}
+                                    errorStatus={errors.titleType ? true:false}
+                                    rules={{
+                                        required: {
+                                        value: true,
+                                        message: 'Title Type is required',
+                                        },
+                                    }}
+                                /> */}
                                 <Controller
                                     defaultValue={transaction === "Change Classification" || transaction === "Change Taxability" ? data.title_type : ""}
                                     name={'titleType'}
@@ -257,8 +272,7 @@ const GeneralInformation = ({
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability"
-                                                    || transaction === "Data Capture" ? "" : data.td_number}
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? "" : data.td_number}
                                     label="Previous TD number"
                                     name="previousTdNumber"
                                     variant="outlined"
@@ -275,8 +289,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability"
-                                                    || transaction === "Data Capture" ? "" : data.pin}
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? "" : data.pin}
                                     label="Previous PIN"
                                     name="previousPin"
                                     variant="outlined"
@@ -293,8 +306,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" 
-                                                    || transaction === "Data Capture" ? "" : data.market_value}
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? "" : data.market_value}
                                     label="Previous MV*"
                                     name="previousMv"
                                     variant="outlined"
@@ -311,8 +323,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" 
-                                                    || transaction === "Data Capture" ? "" : data.assessed_value}
+                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability" ? "" : data.assessed_value}
                                     label="Previous AV*"
                                     name="previousAv"
                                     variant="outlined"

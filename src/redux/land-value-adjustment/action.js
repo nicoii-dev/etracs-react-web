@@ -10,7 +10,6 @@ export const setLandValueAdjustment = (payload) => {
 }
 
 export const removeLandValueAdjustment = (payload) => {
-    Swal.fire('Removed!', '', 'success');
     return {
         type: REMOVE_LAND_VALUE_ADJUSTMENT,
     }
