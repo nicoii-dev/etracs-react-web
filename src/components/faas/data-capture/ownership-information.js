@@ -5,7 +5,7 @@ import {
     Grid,
     TextField
 } from '@mui/material';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, useFormContext, useForm } from 'react-hook-form';
 import Select from 'react-select'
 import { useSelector } from 'react-redux';
 
@@ -33,14 +33,15 @@ const OwnershipInformation = ({
     setOwnerData
 }) => {
     const methods = useFormContext();
-
+    console.log(data)
     const [selectedOption, setSelectedOption] = React.useState(data?.owner_name ? data?.owner_name : ""); // for updates
     const transaction = useSelector(state => state.transactionData.transaction)
 
     const setData = useCallback(() => {
-        methods.setValue("address", ownerData.address)
-        methods.setValue("declaredOwner", ownerData.label) // settings the value of fields using method
-        methods.setValue("declaredOwnerAddress", ownerData.address)
+        methods.setValue("address", ownerData?.address ? ownerData.address : data?.owner_address ? data?.owner_address : " ")
+        methods.setValue("declaredOwner", ownerData?.label ? ownerData.label : data?.declared_owner ? data?.declared_owner : " ") // settings the value of fields using method
+        methods.setValue("declaredOwnerAddress", ownerData?.address ? ownerData.address : data?.declared_address ? data?.declared_address : " ")
+        // useForm({defaultValues: {'address': 1}})
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ownerData.address, ownerData.label]);
 
@@ -107,7 +108,7 @@ const OwnershipInformation = ({
                         <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                             <Controller
                                 defaultValue={transaction === "Transfer of Ownership" ? "" : data?.declared_owner}
-                                name={'declaredOwner'}
+                                name='declaredOwner'
                                 control={control}
                                 rules={{
                                     required: {
@@ -146,17 +147,13 @@ const OwnershipInformation = ({
                         <Grid item md={12} xs={12}>
                             <Controller
                                 defaultValue={transaction === "Transfer of Ownership" ? "" : data?.owner_address}
-                                name={'address'}
+                                name='address'
                                 control={control}
                                 rules={{
                                     required: {
                                         value: true,
                                         //message: 'Appraised date is required',
                                     },
-                                    pattern: {
-                                        value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
-                                        // message: 'Civil status is required',
-                                    }
                                 }}
                                 render={({ field: { onChange, onBlur, value } }) => (
                                     <TextField

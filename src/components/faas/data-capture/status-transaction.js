@@ -22,6 +22,10 @@ import FaasTextInputController from '../../input/faas-input';
 const StatusTransaction = (props) => {
     const { control, transaction, status } = props;
 
+    const submitHandler = () => {
+
+    }
+
     return (
         <>
             <Grid container spacing={1}>

@@ -17,13 +17,14 @@ import StatusTransaction from "../../components/faas/data-capture/status-transac
 
 // redux
 import { fetchRevisionYearRedux } from "../../redux/revision-year/action";
-import { 
-    storeFaasRedux, 
+import {
+    storeFaasRedux,
     updateFaasRedux,
 } from "../../redux/faas/actions";
 
 const DataCapturePage = (props) => {
     const { data, status, setShowDataCaptureModal, personnel } = props
+    let statusForApproval = "";
     const dispatch = useDispatch();
     const methods = useForm();
     const {
@@ -53,7 +54,7 @@ const DataCapturePage = (props) => {
 
     const addDataCapture = async (_data) => {
         console.log(_data)
-        if (assessmentDetail.length <= 0) {
+        if (assessmentDetail?.length <= 0 || assessmentDetail === undefined) {
             Swal.fire('Please fill out Assessment Detail')
             return;
         }
@@ -123,14 +124,14 @@ const DataCapturePage = (props) => {
 
     const updateDataCapture = async (_data) => {
         console.log(_data)
-        if (assessmentDetail.length <= 0) {
+        if (assessmentDetail.length <= 0 || assessmentDetail === undefined) {
             Swal.fire('Please fill out Assessment Detail')
             return;
         }
         console.log(landValueAdjustment)
         const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
         const payload = {
-            status: _data.status,
+            status: statusForApproval === "CURRENT" ? "CURRENT" : _data.status,
             transaction: transaction,
             revision_year: _data.revisionYear,
             td_number: _data.tdNumber,
@@ -243,6 +244,145 @@ const DataCapturePage = (props) => {
         createPersonnels();
     }, [createPersonnels]);
 
+    const submitToCurrent = async (_data) => {
+        console.log(1)
+        if (assessmentDetail.length <= 0) {
+            Swal.fire('Please fill out Assessment Detail')
+            return;
+        }
+        const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
+        const payload = {
+            status: "CURRENT",
+            transaction: transaction,
+            revision_year: _data.revisionYear,
+            td_number: _data.tdNumber,
+            title_number: _data.titleNumber,
+            title_type: _data.titleType,
+            title_date: _data.titleDate,
+            issue_date: _data.issueDate,
+            effectivity: _data.effectivity,
+            quarter: _data.quarter,
+            restriction: _data.restriction,
+            previous_td_number: _data.previousTdNumber,
+            previous_pin: _data.previousPin,
+            owner_id: _data.owner.id !== undefined ? _data.owner.id : data.owner_id,
+            owner_name: _data.owner.value !== undefined ? _data.owner.value : data.owner_name,
+            owner_address: _data.owner.address !== undefined ? _data.owner.address : data.owner_address,
+            declared_owner: _data.declaredOwner,
+            declared_address: _data.declaredOwnerAddress,
+            pin: _data.pinNumber,
+            beneficial_user: null,
+            beneficial_tin: null,
+            beneficial_address: null,
+            location_house_number: _data.houseNumber,
+            location_street: _data.street,
+            cadastral: _data.cadastral,
+            block_number: _data.blockNumber,
+            survey_number: _data.surveyNumber,
+            purok_zone: _data.purokZone,
+            north: _data.north,
+            east: _data.east,
+            south: _data.south,
+            west: _data.west,
+            classification_id: assessmentDetail?.classification,
+            classification_name: assessmentDetail?.classification_name,
+            specific_class: assessmentDetail?.specific_class,
+            sub_class: assessmentDetail?.sub_class,
+            unit_value: assessmentDetail?.unit_value,
+            area: assessmentDetail?.land_area,
+            area_type: assessmentDetail?.area_type,
+            market_value: assessmentDetail?.market_value,
+            actual_use: selectedAdjustment?.id ? selectedAdjustment?.id : null,
+            actual_use_value: selectedAdjustment?.expression ? expressionValue : null,
+            land_adjustment_type: landValueAdjustment?.adjustmentType,
+            adjustment_value: landValueAdjustment?.adjustment,
+            assessment_level: assessmentDetail?.rate,
+            assessed_value: assessmentDetail?.land_assessed_value,
+            taxable: assessmentDetail?.taxable,
+            previous_mv: _data.previousMv,
+            previous_av: _data.previousAv,
+            appraised_by: _data.appraisedBy,
+            appraised_date: _data.appraisedDate,
+            recommended_by: _data.recommendBy,
+            recommended_date: _data.recommendedDate,
+            approve_by: _data.approveBy,
+            approve_date: _data.approvedDate,
+            remarks: _data.remarks,
+        }
+        console.log(payload)
+        await dispatch(updateFaasRedux(payload, data.id));
+        setTimeout(setShowDataCaptureModal(false), 1000)
+    }
+
+    const submitToApproval = async (_data) => {
+        if (assessmentDetail.length <= 0) {
+            Swal.fire('Please fill out Assessment Detail')
+            return;
+        }
+        const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
+        const payload = {
+            status: "FOR APPROVAL",
+            transaction: transaction,
+            revision_year: _data.revisionYear,
+            td_number: _data.tdNumber,
+            title_number: _data.titleNumber,
+            title_type: _data.titleType,
+            title_date: _data.titleDate,
+            issue_date: _data.issueDate,
+            effectivity: _data.effectivity,
+            quarter: _data.quarter,
+            restriction: _data.restriction,
+            previous_td_number: _data.previousTdNumber,
+            previous_pin: _data.previousPin,
+            owner_id: _data.owner.id !== undefined ? _data.owner.id : data.owner_id,
+            owner_name: _data.owner.value !== undefined ? _data.owner.value : data.owner_name,
+            owner_address: _data.owner.address !== undefined ? _data.owner.address : data.owner_address,
+            declared_owner: _data.declaredOwner,
+            declared_address: _data.declaredOwnerAddress,
+            pin: _data.pinNumber,
+            beneficial_user: null,
+            beneficial_tin: null,
+            beneficial_address: null,
+            location_house_number: _data.houseNumber,
+            location_street: _data.street,
+            cadastral: _data.cadastral,
+            block_number: _data.blockNumber,
+            survey_number: _data.surveyNumber,
+            purok_zone: _data.purokZone,
+            north: _data.north,
+            east: _data.east,
+            south: _data.south,
+            west: _data.west,
+            classification_id: assessmentDetail?.classification,
+            classification_name: assessmentDetail?.classification_name,
+            specific_class: assessmentDetail?.specific_class,
+            sub_class: assessmentDetail?.sub_class,
+            unit_value: assessmentDetail?.unit_value,
+            area: assessmentDetail?.land_area,
+            area_type: assessmentDetail?.area_type,
+            market_value: assessmentDetail?.market_value,
+            actual_use: selectedAdjustment?.id ? selectedAdjustment?.id : null,
+            actual_use_value: selectedAdjustment?.expression ? expressionValue : null,
+            land_adjustment_type: landValueAdjustment?.adjustmentType,
+            adjustment_value: landValueAdjustment?.adjustment,
+            assessment_level: assessmentDetail?.rate,
+            assessed_value: assessmentDetail?.land_assessed_value,
+            taxable: assessmentDetail?.taxable,
+            previous_mv: _data.previousMv,
+            previous_av: _data.previousAv,
+            appraised_by: _data.appraisedBy,
+            appraised_date: _data.appraisedDate,
+            recommended_by: _data.recommendBy,
+            recommended_date: _data.recommendedDate,
+            approve_by: _data.approveBy,
+            approve_date: _data.approvedDate,
+            remarks: _data.remarks,
+        }
+        console.log(payload)
+        await dispatch(updateFaasRedux(payload, data.id));
+        setTimeout(setShowDataCaptureModal(false), 1000)
+    }
+
     return (
         <>
             <h2 style={{ fontFamily: "-moz-initial" }}>F A A S</h2>
@@ -293,14 +433,53 @@ const DataCapturePage = (props) => {
                             p: 2,
                         }}
                     >
-                        <Button
-                            color="primary"
-                            variant="contained"
-                            onClick={handleSubmit(data ? updateDataCapture : addDataCapture)}
-                        >
-                            {data ? "Update" : "Save"}
-                        </Button>
+                        {data?.status === "FOR APPROVAL" ?
+                            <>
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    style={{ marginRight: 20 }}
+                                    onClick={handleSubmit(data ? updateDataCapture : addDataCapture)}
+                                >
+                                    APPROVE
+                                </Button>
+                                <Button
+                                    color="error"
+                                    variant="contained"
+                                    onClick={handleSubmit(data ? updateDataCapture : addDataCapture)}
+                                >
+                                    CANCEL
+                                </Button>
+                            </>
+                            :
+                            <>
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    onClick={handleSubmit(data ? updateDataCapture : addDataCapture)}
+                                >
+                                    {data ? "Update" : "Save"}
+                                </Button>
+                            </>
+                        }
                     </Box>
+
+                    {data?.status === "INTERIM" || data?.status === "CURRENT" ?
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                right: 40,
+                                top: 30,
+                                p: 2,
+                                marginBottom: -3
+                            }}
+                        >
+                            <Button color="primary" variant="contained"
+                                onClick={handleSubmit(data?.status === "INTERIM" ? submitToCurrent : submitToApproval)}
+                            >{data?.status === "INTERIM" ? "Submit to current" : "submit for approval"}</Button>
+                        </Box>
+                        : null
+                    }
                 </FormProvider>
             </div>
 

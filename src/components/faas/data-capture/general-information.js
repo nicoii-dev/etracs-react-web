@@ -155,7 +155,7 @@ const GeneralInformation = ({
                                     }}
                                     render={({ field: { onChange, onBlur, value } }) => (
                                         <TextField
-                                            name="Date*"
+                                            name="titleDate"
                                             label="Date"
                                             type="date"
                                             size='small'
@@ -457,7 +457,7 @@ const GeneralInformation = ({
                                     control={control}
                                     rules={{
                                         required: {
-                                            value: false,
+                                            value: true,
                                             message: 'Recommended date is required',
                                         },
                                     }}

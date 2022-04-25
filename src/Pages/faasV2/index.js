@@ -89,6 +89,10 @@ const FaasPage = () => {
         setData(null);
     }
 
+    React.useEffect(() => {
+        setStatus(data?.status ? data.status : "INTERIM")
+    }, [data?.status]);
+
     return (
         <div>
             <h1>Faas V2</h1>
@@ -132,8 +136,14 @@ const FaasPage = () => {
                         <option key={"CURRENT"} value={"CURRENT"}>
                             CURRENT
                         </option>
+                        <option key={"FOR APPROVAL"} value={"FOR APPROVAL"}>
+                            FOR APPROVAL
+                        </option>
                         <option key={"APPROVED"} value={"APPROVED"}>
                             APPROVED
+                        </option>
+                        <option key={"CANCELLED"} value={"CANCELLED"}>
+                            CANCELLED
                         </option>
                     </TextField>
 
