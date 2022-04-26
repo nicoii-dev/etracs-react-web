@@ -121,6 +121,7 @@ const AssessmentDetail = (props) => {
                                             <h4> TAXABLE?</h4>
                                             <FormControlLabel
                                                 label=""
+                                                disabled={{ pointerEvents: JSON.parse(localStorage?.getItem("user")).user.role === "ASSESSOR" ? true : false}}
                                                 control={
                                                     <Checkbox
                                                         checked={value}

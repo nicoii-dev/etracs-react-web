@@ -140,7 +140,7 @@ const FaasTable = ({
     }
     await dispatch(setAssessmentDetail(payload));
     await dispatch(setRevisionFaas(rowData.revision_year));
-    await dispatch(setPin({pin: rowData.pin}))
+    await dispatch(setPin({ pin: rowData.pin }))
     const adjustmentPayload = {
       id: rowData.actual_use,
       expression: rowData.actual_use_value
@@ -206,9 +206,15 @@ const FaasTable = ({
                             />
                           </TableCell>
                           <TableCell style={{ padding: 0 }}>
-                            <IconButton onClick={() => { updateFaas(row) }}>
-                              <Edit />
-                            </IconButton>
+                            {row?.status === "APPROVED" ?
+                              <IconButton onClick={() => { updateFaas(row) }}>
+                                <Visibility />
+                              </IconButton>
+                              :
+                              <IconButton onClick={() => { updateFaas(row) }}>
+                                <Edit />
+                              </IconButton>
+                            }
                           </TableCell>
                           <TableCell align="right">{row?.status}</TableCell>
                           <TableCell align="right">{row?.transaction}</TableCell>

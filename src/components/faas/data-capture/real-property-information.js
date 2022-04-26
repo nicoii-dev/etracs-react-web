@@ -45,7 +45,7 @@ const RealPropertyInformation = ({
                         </p>
                     </Divider>
                 </Grid>
-                <CardContent>
+                <CardContent style={{ pointerEvents: JSON.parse(localStorage?.getItem("user")).user.role === "ASSESSOR" ? 'none' : 'auto'}}>
                     <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
                             <Grid container spacing={3}>

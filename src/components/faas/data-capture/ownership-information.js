@@ -50,7 +50,7 @@ const OwnershipInformation = ({
     }, [setData])
 
     return (
-        <Grid container spacing={3} style={{ marginTop: -50 }}>
+        <Grid container spacing={3} style={{ marginTop: -50, pointerEvents: JSON.parse(localStorage?.getItem("user")).user.role === "ASSESSOR" ? 'none' : 'auto'}}>
             <Grid item md={12} xs={12}>
                 <Divider textAlign="left">
                     <p style={{ fontSize: 20 }}>
