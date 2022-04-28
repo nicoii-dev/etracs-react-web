@@ -42,7 +42,6 @@ const InitialInfo = (props) => {
 
         // creating pin
         let PIN = "";
-        console.log(municipalityData)
         if (data.pinType === 'new') {
             PIN = municipalityData.parent_id + '-' + String(data.barangay).padStart(4, '0') + '-' +
                 String(data.section).padStart(3, '0') + "-" + String(data.parcel).padStart(2, '0')
@@ -50,7 +49,6 @@ const InitialInfo = (props) => {
             PIN = municipalityData.parent_id + '-' + String(data.barangay).padStart(4, '0') + '-' +
                 String(data.parcel).padStart(2, '0') + '-' + String(data.section).padStart(3, '0')
         }
-
         const payload = {
             pin: PIN,
             lgu_id: municipalityData.id,
@@ -58,6 +56,7 @@ const InitialInfo = (props) => {
             lgu: municipalityData.lgu_name
         }
         console.log(payload)
+        console.log(municipalityList)
         await dispatch(setPin(payload))
         setShowInitialModal(false)
         setShowDataCaptureModal(true);

@@ -52,7 +52,7 @@ const RealPropertyInformation = ({
                                 <Grid item md={7} xs={12}>
                                     <FaasTextInputController
                                         disabled={true}
-                                        defaultData={pin}
+                                        defaultData={pin?.pin}
                                         label="PIN number*"
                                         name="pinNumber"
                                         variant="outlined"
@@ -76,6 +76,38 @@ const RealPropertyInformation = ({
                                         control={control}
                                         disabled={transaction === "Transfer with Correction" || transaction === "Data Capture" ? false : true}
                                         errorStatus={errors.houseNumber ? true : false}
+                                        rules={{
+                                            required: {
+                                                value: false,
+                                                message: 'House number is required',
+                                            },
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item md={5} xs={12} display={{ md: "none" }}>
+                                    <FaasTextInputController
+                                        defaultData={data?.barangay_lgu ? data?.barangay_lgu : pin.lgu}
+                                        label="barangay"
+                                        name="barangay"
+                                        variant="outlined"
+                                        control={control}
+                                        errorStatus={errors.barangay ? true : false}
+                                        rules={{
+                                            required: {
+                                                value: false,
+                                                message: 'House number is required',
+                                            },
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item md={5} xs={12} display={{ md: "none" }}>
+                                    <FaasTextInputController
+                                        defaultData={data?.city_municipality ? data?.city_municipality : pin.municipality}
+                                        label="city municipality"
+                                        name="city_municipality"
+                                        variant="outlined"
+                                        control={control}
+                                        errorStatus={errors.city_municipality ? true : false}
                                         rules={{
                                             required: {
                                                 value: false,

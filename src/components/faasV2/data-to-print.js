@@ -13,9 +13,11 @@ import {
 } from '@mui/material';
 import './data-to-print.css';
 import Logo from '../../assets/image/mis-or-logo.png'
+import { useSelector } from 'react-redux';
 
 const DataToPrint = React.forwardRef((props, ref) => {
     const { data } = props;
+    const pinData = useSelector((state) => state.pinData.pin);
 
         let a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
         let b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
@@ -91,8 +93,10 @@ const DataToPrint = React.forwardRef((props, ref) => {
                 <Typography style={{ marginLeft: 70, marginTop: 5, fontSize: 12 }}>
                     Location of Property:
                     <input type={"text"} style={{ width: 200, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1, textAlign: 'center' }} value={data?.location_street} />
-                    <input type={"text"} style={{ width: 179, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, marginLeft: 25, borderBottomWidth: 1, textAlign: 'center' }} />
-                    <input type={"text"} style={{ width: 175, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, marginLeft: 25, borderBottomWidth: 1, textAlign: 'center' }} />
+                    <input type={"text"} 
+                     style={{ width: 179, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, marginLeft: 25, borderBottomWidth: 1, textAlign: 'center' }} />
+                    <input type={"text"}
+                    style={{ width: 175, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, marginLeft: 25, borderBottomWidth: 1, textAlign: 'center' }} />
                 </Typography>
 
                 <Typography style={{ marginLeft: 240, marginTop: 0, fontSize: 10, fontFamily: "initial" }}>

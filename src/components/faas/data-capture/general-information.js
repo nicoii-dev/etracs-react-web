@@ -27,17 +27,20 @@ const GeneralInformation = ({
     control,
     data,
     personnel,
-    newPersonnelList
+    newPersonnelList,
+    status
 }) => {
     const transaction = useSelector(state => state.transactionData.transaction)
-
+    const userData = JSON.parse(localStorage?.getItem("user"));
+    console.log(userData
+    )
     const [selectedAppraiser, setSelectedAppraiser] = useState(data?.appraised_by ? data?.appraised_by : "");
     const [selectedRecommended, setSelectedRecommended] = useState(data?.recommended_by ? data?.recommended_by : "");
     const [selectedApprove, setSelectedApprove] = useState(data?.approve_by ? data?.approve_by : "");
 
     return (
         <>
-            <Grid container spacing={3} style={{ marginTop: -50, pointerEvents: JSON.parse(localStorage?.getItem("user")).user.role === "ASSESSOR" ? 'none' : 'auto'}}>
+            <Grid container spacing={3} style={{ marginTop: -50, pointerEvents: JSON.parse(localStorage?.getItem("user")).user.role === "ASSESSOR" ? 'none' : 'auto' }}>
                 <Grid item md={12} xs={12}>
                     <Divider textAlign="left">
                         <p style={{ fontSize: 20 }}>
@@ -357,36 +360,39 @@ const GeneralInformation = ({
                                 />
                             </Grid>
                             <Grid item md={7} xs={12} style={{ marginTop: -15 }}>
-                                <Controller
-                                    defaultValue={data?.appraised_by}
-                                    name={'appraisedBy'}
+                                <FaasTextInputController
+                                    defaultData={data?.appraised_by ? data?.appraised_by :
+                                        userData?.personnel[0]?.firstname + " " + userData?.personnel[0]?.middlename.charAt(0) + ". " + userData?.personnel[0]?.lastname}
+                                    label="Appraised By*"
+                                    name="appraisedBy"
+                                    variant="outlined"
                                     control={control}
+                                    disabled={true}
+                                    errorStatus={errors.appraisedBy ? true : false}
                                     rules={{
                                         required: {
                                             value: true,
                                             message: 'Appraised by is required',
                                         },
                                     }}
-                                    render={({ field: { onChange, onBlur, value } }) => (
-                                        <Select
-                                            name="appraisedBy"
-                                            options={newPersonnelList}
-                                            styles={selectStyles}
-                                            value={
-                                                newPersonnelList.filter((option) => {
-                                                    return option.value === selectedAppraiser
-                                                })
-                                            }
-
-                                            onChange={(e) => {
-                                                onChange(e.label)
-                                                setSelectedAppraiser(e.value)
-                                            }}
-                                            onBlur={onBlur}
-                                        />
-                                    )}
                                 />
-                                {errors.appraisedBy && (<div><p className={InputErrorStyles.errorText}>{errors.appraisedBy?.message}</p></div>)}
+                            </Grid>
+                            <Grid item md={7} xs={12} style={{ marginTop: -15 }} display={{ md: "none" }}>
+                                <FaasTextInputController
+                                    defaultData={data?.appraised_position ? data?.appraised_position : userData?.job[0]?.code}
+                                    label="Appraised Position*"
+                                    name="appraisedPosition"
+                                    variant="outlined"
+                                    control={control}
+                                    disabled={true}
+                                    errorStatus={errors.appraisedPosition ? true : false}
+                                    rules={{
+                                        required: {
+                                            value: false,
+                                            message: 'appraisedPosition is required',
+                                        },
+                                    }}
+                                />
                             </Grid>
                             <Grid item md={5} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
@@ -409,7 +415,7 @@ const GeneralInformation = ({
                                             fullWidth
                                             onBlur={onBlur}
                                             onChange={onChange}
-
+                                            disabled={status === "CURRENT" || status === "FOR APPROVAL" || status === "APPROVED"  || status === "CANCELLED" ? true : false}
                                             value={value}
                                             InputLabelProps={{
                                                 shrink: true,
@@ -419,36 +425,42 @@ const GeneralInformation = ({
                                 />
                             </Grid>
                             <Grid item md={7} xs={12} style={{ marginTop: -15 }}>
-                                <Controller
-                                    defaultValue={data?.recommended_by}
-                                    name={'recommendBy'}
+                                <FaasTextInputController
+                                    defaultData={data?.recommended_by ? data?.recommended_by : (userData.user.role === "APPROVER" && status === "CURRENT")
+                                        || (userData.user.role === "ADMIN" && status === "CURRENT") ?
+                                        userData?.personnel[0]?.firstname + " " + userData?.personnel[0]?.middlename.charAt(0) + ". " + userData?.personnel[0]?.lastname : ""}
+                                    label="Recommended By*"
+                                    name="recommendedBy"
+                                    variant="outlined"
                                     control={control}
+                                    disabled={true}
+                                    errorStatus={errors.recommendedBy ? true : false}
                                     rules={{
                                         required: {
-                                            value: true,
-                                            message: 'Recommended by is required',
+                                            value: status === "INTERIM" ? false : true,
+                                            message: 'Recommend by is required',
                                         },
                                     }}
-                                    render={({ field: { onChange, onBlur, value } }) => (
-                                        <Select
-                                            name="recommendBy"
-                                            options={newPersonnelList}
-                                            styles={selectStyles}
-                                            value={
-                                                newPersonnelList.filter((option) => {
-                                                    return option.value === selectedRecommended
-                                                })
-                                            }
-
-                                            onChange={(e) => {
-                                                onChange(e.label)
-                                                setSelectedRecommended(e.value)
-                                            }}
-                                            onBlur={onBlur}
-                                        />
-                                    )}
                                 />
-                                {errors.recommendBy && (<div><p className={InputErrorStyles.errorText}>{errors.recommendBy?.message}</p></div>)}
+                            </Grid>
+                            <Grid item md={7} xs={12} style={{ marginTop: -15 }} display={{ md: "none" }}>
+                                <FaasTextInputController
+                                    // defaultData={data?.recommended_position ? data?.recommended_position : userData?.job[0]?.code}
+                                    defaultData={data?.recommended_position ? data?.recommended_position : (userData.user.role === "APPROVER" && status === "CURRENT")
+                                        || (userData.user.role === "ADMIN" && status === "CURRENT") ? userData?.job[0]?.code : ""}
+                                    label="Recommended Position*"
+                                    name="recommendedPosition"
+                                    variant="outlined"
+                                    control={control}
+                                    disabled={true}
+                                    errorStatus={errors.recommendedPosition ? true : false}
+                                    rules={{
+                                        required: {
+                                            value: false,
+                                            message: 'recommendedPosition is required',
+                                        },
+                                    }}
+                                />
                             </Grid>
                             <Grid item md={5} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
@@ -457,7 +469,7 @@ const GeneralInformation = ({
                                     control={control}
                                     rules={{
                                         required: {
-                                            value: true,
+                                            value: status === "INTERIM" ? false : true,
                                             message: 'Recommended date is required',
                                         },
                                     }}
@@ -469,6 +481,7 @@ const GeneralInformation = ({
                                             size='small'
                                             error={errors?.recommendedDate ? true : false}
                                             fullWidth
+                                            disabled={status === "INTERIM" || status === "FOR APPROVAL" || status === "APPROVED"  || status === "CANCELLED"  ? true : false}
                                             onBlur={onBlur}
                                             onChange={onChange}
                                             value={value}
@@ -480,40 +493,43 @@ const GeneralInformation = ({
                                 />
                             </Grid>
                             <Grid item md={7} xs={12} style={{ marginTop: -15 }}>
-                            <Controller
-                                    defaultValue={data?.approve_by}
-                                    name={'approveBy'}
+                                <FaasTextInputController
+                                    // defaultData={status === "INTERIM" || status === "CURRENT" ? data?.approve_by :
+                                    //     userData?.personnel[0]?.firstname + " " + userData?.personnel[0]?.middlename.charAt(0) + ". " + userData?.personnel[0]?.lastname}
+                                    defaultData={data?.approve_by ? data?.approve_by : (userData.user.role === "ASSESSOR" && status === "FOR APPROVAL")
+                                        || (userData.user.role === "ADMIN" && status === "FOR APPROVAL") ?
+                                        userData?.personnel[0]?.firstname + " " + userData?.personnel[0]?.middlename.charAt(0) + ". " + userData?.personnel[0]?.lastname : ""}
+                                    label="Approved By*"
+                                    name="approveBy"
+                                    variant="outlined"
                                     control={control}
+                                    disabled={true}
+                                    errorStatus={errors.approveBy ? true : false}
                                     rules={{
                                         required: {
-                                            value: true,
+                                            value: status === "INTERIM" || status === "CURRENT" ? false : true,
                                             message: 'Approved by is required',
                                         },
-                                        pattern: {
-                                            value: /^[^-]+(?!.*--)/, // regex for not allowing (-)
-                                            message: 'Owner is required',
-                                        }
                                     }}
-                                    render={({ field: { onChange, onBlur, value } }) => (
-                                        <Select
-                                            name="approveBy"
-                                            options={newPersonnelList}
-                                            styles={selectStyles}
-                                            value={
-                                                newPersonnelList.filter((option) => {
-                                                    return option.value === selectedApprove
-                                                })
-                                            }
-
-                                            onChange={(e) => {
-                                                onChange(e.label)
-                                                setSelectedApprove(e.value)
-                                            }}
-                                            onBlur={onBlur}
-                                        />
-                                    )}
                                 />
-                                {errors.approveBy && (<div><p className={InputErrorStyles.errorText}>{errors.approveBy?.message}</p></div>)}
+                            </Grid>
+                            <Grid item md={7} xs={12} style={{ marginTop: -15 }} display={{ md: "none" }}>
+                                <FaasTextInputController
+                                    defaultData={data?.approve_by ? data?.approve_by : (userData.user.role === "ASSESSOR" && status === "FOR APPROVAL")
+                                        || (userData.user.role === "ADMIN" && status === "FOR APPROVAL") ? userData?.job[0]?.code : ""}
+                                    label="Approved Position*"
+                                    name="approvedPosition"
+                                    variant="outlined"
+                                    control={control}
+                                    disabled={true}
+                                    errorStatus={errors.approvedPosition ? true : false}
+                                    rules={{
+                                        required: {
+                                            value: false,
+                                            message: 'approvedPosition is required',
+                                        },
+                                    }}
+                                />
                             </Grid>
                             <Grid item md={5} xs={12} style={{ marginTop: -15 }}>
                                 <Controller
@@ -522,7 +538,7 @@ const GeneralInformation = ({
                                     control={control}
                                     rules={{
                                         required: {
-                                            value: true,
+                                            value: status === "INTERIM" || status === "CURRENT" ? false : true,
                                             message: 'Approved date is required',
                                         },
                                     }}
@@ -534,6 +550,7 @@ const GeneralInformation = ({
                                             size='small'
                                             error={errors?.approvedDate ? true : false}
                                             fullWidth
+                                            disabled={status === "INTERIM" || status === "CURRENT" || status === "APPROVED"  || status === "CANCELLED" ?  true : false}
                                             onBlur={onBlur}
                                             onChange={onChange}
                                             value={value}

@@ -81,6 +81,7 @@ export const loginRedux = (payload) => {
     // dispatch(loadingStart());
     // try {
     const response = await AccountsApi.login(payload);
+    console.log(response)
     switch (response) {
       case "422" || "500" || "404":
         Swal.fire({
@@ -101,6 +102,13 @@ export const loginRedux = (payload) => {
           icon: 'error',
           title: 'Oops...',
           text: "You're not allowed to login. Please contact administrator",
+        })
+        return;
+      case "Please ask for your job description":
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: "You dont have job description. Please contact administrator",
         })
         return;
       default:

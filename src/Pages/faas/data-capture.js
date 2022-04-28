@@ -35,7 +35,7 @@ const DataCapturePage = (props) => {
     } = methods;
 
     // global states
-    const pin = useSelector((state) => state.pinData.pin.pin);
+    const pin = useSelector((state) => state.pinData.pin);
     const individualList = useSelector((state) => state.individualData.individuals);
     const juridicalList = useSelector((state) => state.juridicalData.juridicals);
     const multipleList = useSelector((state) => state.multipleData.multiples);
@@ -45,15 +45,15 @@ const DataCapturePage = (props) => {
     const landValueAdjustment = useSelector(state => state.landValueAdjustmentData.landValueAdjustment);
     const personnelList = useSelector(state => state.personnelData.personnels)
 
-
-    // states
-        //local states
+    //local states
     const [showPrintModal, setShowPrintModal] = useState(false);
     const [showAssessmentModal, setShowAssessmentModal] = useState(false);
     const [entityList, setEntityList] = useState([]);
     const [ownerData, setOwnerData] = useState([]);
     const [newPersonnelList, setNewPersonnelList] = useState([]);
     const [printData, setPrintData] = useState([]);
+
+    const userData = JSON.parse(localStorage?.getItem("user"));
 
     const addDataCapture = async (_data) => {
         console.log(_data)
@@ -85,6 +85,8 @@ const DataCapturePage = (props) => {
             beneficial_user: null,
             beneficial_tin: null,
             beneficial_address: null,
+            barangay_lgu: _data.barangay,
+            city_municipality: _data.city_municipality,
             location_house_number: null,
             location_street: null,
             cadastral: _data.cadastral,
@@ -104,7 +106,7 @@ const DataCapturePage = (props) => {
             area_type: assessmentDetail?.area_type,
             market_value: assessmentDetail?.market_value,
             actual_use: selectedAdjustment?.id ? selectedAdjustment?.id : null,
-            actual_use_value: selectedAdjustment?.id ? selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) : null,
+            actual_use_value: selectedAdjustment?.id ? expressionValue : null,
             land_adjustment_type: landValueAdjustment.adjustmentType,
             adjustment_value: landValueAdjustment.adjustment,
             assessment_level: assessmentDetail?.rate,
@@ -113,11 +115,14 @@ const DataCapturePage = (props) => {
             previous_mv: _data.previousMv,
             previous_av: _data.previousAv,
             appraised_by: _data.appraisedBy,
+            appraised_position: _data.appraisedPosition,
             appraised_date: _data.appraisedDate,
-            recommended_by: _data.recommendBy,
+            recommended_by: _data.recommendedBy,
+            recommended_position: _data.recommendedPosition,
             recommended_date: _data.recommendedDate,
             approve_by: _data.approveBy,
             approve_date: _data.approvedDate,
+            approved_position: _data.approvedPosition,
             remarks: _data.remarks,
         }
         console.log(payload)
@@ -156,6 +161,8 @@ const DataCapturePage = (props) => {
             beneficial_user: null,
             beneficial_tin: null,
             beneficial_address: null,
+            barangay_lgu: _data.barangay,
+            city_municipality: _data.city_municipality,
             location_house_number: _data.houseNumber,
             location_street: _data.street,
             cadastral: _data.cadastral,
@@ -184,11 +191,14 @@ const DataCapturePage = (props) => {
             previous_mv: _data.previousMv,
             previous_av: _data.previousAv,
             appraised_by: _data.appraisedBy,
+            appraised_position: _data.appraisedPosition,
             appraised_date: _data.appraisedDate,
-            recommended_by: _data.recommendBy,
+            recommended_by: _data.recommendedBy,
+            recommended_position: _data.recommendedPosition,
             recommended_date: _data.recommendedDate,
             approve_by: _data.approveBy,
             approve_date: _data.approvedDate,
+            approved_position: _data.approvedPosition,
             remarks: _data.remarks,
         }
         console.log(payload)
@@ -277,6 +287,8 @@ const DataCapturePage = (props) => {
             beneficial_user: null,
             beneficial_tin: null,
             beneficial_address: null,
+            barangay_lgu: _data.barangay,
+            city_municipality: _data.city_municipality,
             location_house_number: _data.houseNumber,
             location_street: _data.street,
             cadastral: _data.cadastral,
@@ -306,7 +318,7 @@ const DataCapturePage = (props) => {
             previous_av: _data.previousAv,
             appraised_by: _data.appraisedBy,
             appraised_date: _data.appraisedDate,
-            recommended_by: _data.recommendBy,
+            recommended_by: _data.recommendedBy,
             recommended_date: _data.recommendedDate,
             approve_by: _data.approveBy,
             approve_date: _data.approvedDate,
@@ -346,6 +358,8 @@ const DataCapturePage = (props) => {
             beneficial_user: null,
             beneficial_tin: null,
             beneficial_address: null,
+            barangay_lgu: _data.barangay,
+            city_municipality: _data.city_municipality,
             location_house_number: _data.houseNumber,
             location_street: _data.street,
             cadastral: _data.cadastral,
@@ -374,8 +388,10 @@ const DataCapturePage = (props) => {
             previous_mv: _data.previousMv,
             previous_av: _data.previousAv,
             appraised_by: _data.appraisedBy,
+            appraised_position: _data.appraisedPosition,
             appraised_date: _data.appraisedDate,
-            recommended_by: _data.recommendBy,
+            recommended_by: _data.recommendedBy,
+            recommended_position: _data.recommendedPosition,
             recommended_date: _data.recommendedDate,
             approve_by: _data.approveBy,
             approve_date: _data.approvedDate,
@@ -415,6 +431,8 @@ const DataCapturePage = (props) => {
             beneficial_user: null,
             beneficial_tin: null,
             beneficial_address: null,
+            barangay_lgu: _data.barangay,
+            city_municipality: _data.city_municipality,
             location_house_number: _data.houseNumber,
             location_street: _data.street,
             cadastral: _data.cadastral,
@@ -443,11 +461,14 @@ const DataCapturePage = (props) => {
             previous_mv: _data.previousMv,
             previous_av: _data.previousAv,
             appraised_by: _data.appraisedBy,
+            appraised_position: _data.appraisedPosition,
             appraised_date: _data.appraisedDate,
-            recommended_by: _data.recommendBy,
+            recommended_by: _data.recommendedBy,
+            recommended_position: _data.recommendedPosition,
             recommended_date: _data.recommendedDate,
             approve_by: _data.approveBy,
             approve_date: _data.approvedDate,
+            approved_position: _data.approvedPosition,
             remarks: _data.remarks,
         }
         console.log(payload)
@@ -484,6 +505,8 @@ const DataCapturePage = (props) => {
             beneficial_user: null,
             beneficial_tin: null,
             beneficial_address: null,
+            barangay_lgu: _data.barangay,
+            city_municipality: _data.city_municipality,
             location_house_number: _data.houseNumber,
             location_street: _data.street,
             cadastral: _data.cadastral,
@@ -512,11 +535,14 @@ const DataCapturePage = (props) => {
             previous_mv: _data.previousMv,
             previous_av: _data.previousAv,
             appraised_by: _data.appraisedBy,
+            appraised_position: _data.appraisedPosition,
             appraised_date: _data.appraisedDate,
-            recommended_by: _data.recommendBy,
+            recommended_by: _data.recommendedBy,
+            recommended_position: _data.recommendedPosition,
             recommended_date: _data.recommendedDate,
             approve_by: _data.approveBy,
             approve_date: _data.approvedDate,
+            approved_position: _data.approvedPosition,
             remarks: _data.remarks,
         }
         console.log(payload)
@@ -554,6 +580,8 @@ const DataCapturePage = (props) => {
             beneficial_user: null,
             beneficial_tin: null,
             beneficial_address: null,
+            barangay_lgu: _data.barangay,
+            city_municipality: _data.city_municipality,
             location_house_number: _data.houseNumber,
             location_street: _data.street,
             cadastral: _data.cadastral,
@@ -612,6 +640,7 @@ const DataCapturePage = (props) => {
                         control={control}
                         personnel={personnel}
                         newPersonnelList={newPersonnelList}
+                        status={status}
                     />
                     <OwnershipInformation
                         data={data}
@@ -645,7 +674,7 @@ const DataCapturePage = (props) => {
                             p: 2,
                         }}
                     >
-                        {data.status === "APPROVED" || data.status === "CANCELLED" ?
+                        {data?.status === "APPROVED" || data?.status === "CANCELLED" ?
                             null :
                             <>
                                 {data?.status === "FOR APPROVAL" ?
@@ -680,7 +709,7 @@ const DataCapturePage = (props) => {
                             </>
                         }
                     </Box>
-                    {data.status === "APPROVED" || data.status === "CANCELLED" ?
+                    {data?.status === "APPROVED" || data?.status === "CANCELLED" ?
                         <Box
                             sx={{
                                 position: 'absolute',
