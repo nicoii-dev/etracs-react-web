@@ -32,15 +32,20 @@ const GeneralInformation = ({
 }) => {
     const transaction = useSelector(state => state.transactionData.transaction)
     const userData = JSON.parse(localStorage?.getItem("user"));
-    console.log(userData
-    )
-    const [selectedAppraiser, setSelectedAppraiser] = useState(data?.appraised_by ? data?.appraised_by : "");
-    const [selectedRecommended, setSelectedRecommended] = useState(data?.recommended_by ? data?.recommended_by : "");
-    const [selectedApprove, setSelectedApprove] = useState(data?.approve_by ? data?.approve_by : "");
+
+    // const [selectedAppraiser, setSelectedAppraiser] = useState(data?.appraised_by ? data?.appraised_by : "");
+    // const [selectedRecommended, setSelectedRecommended] = useState(data?.recommended_by ? data?.recommended_by : "");
+    // const [selectedApprove, setSelectedApprove] = useState(data?.approve_by ? data?.approve_by : "");
 
     return (
         <>
-            <Grid container spacing={3} style={{ marginTop: -50, pointerEvents: JSON.parse(localStorage?.getItem("user")).user.role === "ASSESSOR" ? 'none' : 'auto' }}>
+            <Grid container spacing={3}
+                style={{
+                    marginTop: -50,
+                    pointerEvents: (userData.user.role === "ASSESSOR" && status === "FOR APPROVAL")
+                        || (userData.user.role === "ADMIN" && status === "FOR APPROVAL") 
+                        || (transaction === "Data Capture" && status === "CURRENT") ? 'none' : 'auto'
+                }}>
                 <Grid item md={12} xs={12}>
                     <Divider textAlign="left">
                         <p style={{ fontSize: 20 }}>
@@ -289,8 +294,10 @@ const GeneralInformation = ({
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability"
-                                        || transaction === "Data Capture" ? "" : data.td_number}
+                                    defaultData={data?.previous_td_number && transaction.includes("Transfer") ? data?.td_number :
+                                        (transaction === "Change Classification" && data?.previous_td_number) || (transaction === "Change Taxability" && data?.previous_td_number) ||
+                                            (transaction === "Data Capture" && data?.previous_td_number) ?
+                                            data?.previous_td_number : ""}
                                     label="Previous TD number"
                                     name="previousTdNumber"
                                     variant="outlined"
@@ -307,8 +314,13 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability"
-                                        || transaction === "Data Capture" ? "" : data.pin}
+                                    // defaultData={transaction === "Change Classification" || transaction === "Change Taxability"
+                                    //     || transaction === "Data Capture" ? "" : data.pin}
+                                    defaultData={data?.pin && transaction.includes("Transfer") ? data?.pin :
+                                        (transaction === "Change Classification" && data?.previous_td_number) || (transaction === "Change Taxability" && data?.previous_td_number) ||
+                                            (transaction === "Data Capture" && data?.previous_td_number) ?
+                                            data?.previous_td_number : ""}
+
                                     label="Previous PIN"
                                     name="previousPin"
                                     variant="outlined"
@@ -325,8 +337,13 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability"
-                                        || transaction === "Data Capture" ? "" : data.market_value}
+                                    // defaultData={transaction === "Change Classification" || transaction === "Change Taxability"
+                                    //     || transaction === "Data Capture" ? "" : data.market_value}
+                                    defaultData={data?.previous_mv && transaction.includes("Transfer") ? data?.market_value :
+                                        (transaction === "Change Classification" && data?.previous_mv) || (transaction === "Change Taxability" && data?.previous_mv) ||
+                                            (transaction === "Data Capture" && data?.previous_mv) ?
+                                            data?.previous_mv : ""}
+
                                     label="Previous MV*"
                                     name="previousMv"
                                     variant="outlined"
@@ -343,8 +360,13 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={6} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    defaultData={transaction === "Change Classification" || transaction === "Change Taxability"
-                                        || transaction === "Data Capture" ? "" : data.assessed_value}
+                                    // defaultData={transaction === "Change Classification" || transaction === "Change Taxability"
+                                    //     || transaction === "Data Capture" ? "" : data.assessed_value}
+                                    defaultData={data?.previous_av && transaction.includes("Transfer") ? data?.assessed_value :
+                                        (transaction === "Change Classification" && data?.previous_av) || (transaction === "Change Taxability" && data?.previous_av) ||
+                                            (transaction === "Data Capture" && data?.previous_av) ?
+                                            data?.previous_av : ""}
+
                                     label="Previous AV*"
                                     name="previousAv"
                                     variant="outlined"
@@ -415,7 +437,7 @@ const GeneralInformation = ({
                                             fullWidth
                                             onBlur={onBlur}
                                             onChange={onChange}
-                                            disabled={status === "CURRENT" || status === "FOR APPROVAL" || status === "APPROVED"  || status === "CANCELLED" ? true : false}
+                                            disabled={status === "CURRENT" || status === "FOR APPROVAL" || status === "APPROVED" || status === "CANCELLED" ? true : false}
                                             value={value}
                                             InputLabelProps={{
                                                 shrink: true,
@@ -481,7 +503,7 @@ const GeneralInformation = ({
                                             size='small'
                                             error={errors?.recommendedDate ? true : false}
                                             fullWidth
-                                            disabled={status === "INTERIM" || status === "FOR APPROVAL" || status === "APPROVED"  || status === "CANCELLED"  ? true : false}
+                                            disabled={status === "INTERIM" || status === "FOR APPROVAL" || status === "APPROVED" || status === "CANCELLED" ? true : false}
                                             onBlur={onBlur}
                                             onChange={onChange}
                                             value={value}
@@ -515,7 +537,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={7} xs={12} style={{ marginTop: -15 }} display={{ md: "none" }}>
                                 <FaasTextInputController
-                                    defaultData={data?.approve_by ? data?.approve_by : (userData.user.role === "ASSESSOR" && status === "FOR APPROVAL")
+                                    defaultData={data?.approved_position ? data?.approved_position : (userData.user.role === "ASSESSOR" && status === "FOR APPROVAL")
                                         || (userData.user.role === "ADMIN" && status === "FOR APPROVAL") ? userData?.job[0]?.code : ""}
                                     label="Approved Position*"
                                     name="approvedPosition"
@@ -550,7 +572,7 @@ const GeneralInformation = ({
                                             size='small'
                                             error={errors?.approvedDate ? true : false}
                                             fullWidth
-                                            disabled={status === "INTERIM" || status === "CURRENT" || status === "APPROVED"  || status === "CANCELLED" ?  true : false}
+                                            disabled={status === "INTERIM" || status === "CURRENT" || status === "APPROVED" || status === "CANCELLED" ? true : false}
                                             onBlur={onBlur}
                                             onChange={onChange}
                                             value={value}

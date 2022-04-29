@@ -22,16 +22,17 @@ const RealPropertyInformation = ({
     showAssessmentModal,
     setShowAssessmentModal,
     assessmentDetail,
-    selectedAdjustment
+    selectedAdjustment,
+    status
 }) => {
     const methods = useFormContext();
     const dispatch = useDispatch();
-    const status = useSelector((state) => state.navStatus.status);
     const revisionYear = useSelector(state => state.revisionYearData.faasRevision);
     const transaction = useSelector(state => state.transactionData.transaction);
+    const userData = JSON.parse(localStorage?.getItem("user"));
 
     useEffect(() => {
-        methods.setValue("pinNumber", pin ? pin : "")
+        methods.setValue("pinNumber", pin?.pin ? pin?.pin : "")
         methods.setValue("revisionYear", revisionYear ? revisionYear : "")
     }, [assessmentDetail?.classification, methods, pin, revisionYear, selectedAdjustment?.classification])
 
@@ -45,7 +46,11 @@ const RealPropertyInformation = ({
                         </p>
                     </Divider>
                 </Grid>
-                <CardContent style={{ pointerEvents: JSON.parse(localStorage?.getItem("user")).user.role === "ASSESSOR" ? 'none' : 'auto'}}>
+                <CardContent style={{
+                    pointerEvents: (userData.user.role === "ASSESSOR" && status === "FOR APPROVAL")
+                        || (userData.user.role === "ADMIN" && status === "FOR APPROVAL")
+                        || (transaction === "Data Capture" && status === "CURRENT") ? 'none' : 'auto'
+                }}>
                     <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
                             <Grid container spacing={3}>
@@ -290,16 +295,20 @@ const RealPropertyInformation = ({
                         </p>
                     </Divider>
                 </Grid>
-                <CardContent>
+                <CardContent style={{
+                    pointerEvents: (userData.user.role === "ASSESSOR" && status === "FOR APPROVAL")
+                        || (userData.user.role === "ADMIN" && status === "FOR APPROVAL")
+                        || (transaction === "Data Capture" && status === "CURRENT") ? 'none' : 'auto'
+                }}>
                     <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
                             <Button
                                 color="primary"
                                 variant="contained"
                                 fullWidth
-                                
-                                disabled={transaction === "Change Classification" || transaction === "Transfer with Reassessment" 
-                                            ||  transaction === "Change Taxability" || transaction === "Data Capture" ? false : true}
+
+                                disabled={transaction === "Change Classification" || transaction === "Transfer with Reassessment"
+                                    || transaction === "Change Taxability" || transaction === "Data Capture" ? false : true}
                                 onClick={() => {
                                     setShowAssessmentModal(!showAssessmentModal)
                                 }}

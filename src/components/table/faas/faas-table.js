@@ -206,13 +206,13 @@ const FaasTable = ({
                             />
                           </TableCell>
                           <TableCell style={{ padding: 0 }}>
-                            {row?.status === "APPROVED" ?
+                            {row?.status === "INTERIM" ?
                               <IconButton onClick={() => { updateFaas(row) }}>
-                                <Visibility />
+                                <Edit />
                               </IconButton>
                               :
                               <IconButton onClick={() => { updateFaas(row) }}>
-                                <Edit />
+                                <Visibility />
                               </IconButton>
                             }
                           </TableCell>
@@ -231,12 +231,16 @@ const FaasTable = ({
                           <TableCell align="right">{row?.previous_pin}</TableCell>
                           <TableCell align="right">{row?.owner_name}</TableCell>
                           <TableCell align="right">{row?.owner_address}</TableCell>
+                          <TableCell align="right">{row?.owner_tin}</TableCell>
+                          <TableCell align="right">{row?.owner_telephone}</TableCell>
                           <TableCell align="right">{row?.declared_owner}</TableCell>
                           <TableCell align="right">{row?.declared_address}</TableCell>
                           <TableCell align="right">{row?.pin}</TableCell>
                           <TableCell align="right">{row?.beneficial_user}</TableCell>
                           <TableCell align="right">{row?.beneficial_tin}</TableCell>
                           <TableCell align="right">{row?.beneficial_address}</TableCell>
+                          <TableCell align="right">{row?.barangay}</TableCell>
+                          <TableCell align="right">{row?.city_municipality}</TableCell>
                           <TableCell align="right">{row?.location_house_number}</TableCell>
                           <TableCell align="right">{row?.location_street}</TableCell>
                           <TableCell align="right">{row?.cadastral}</TableCell>
@@ -262,10 +266,13 @@ const FaasTable = ({
                           <TableCell align="right">{row?.previous_mv}</TableCell>
                           <TableCell align="right">{row?.previous_av}</TableCell>
                           <TableCell align="right">{row?.appraised_by}</TableCell>
+                          <TableCell align="right">{row?.appraised_position}</TableCell>
                           <TableCell align="right">{row?.appraised_date}</TableCell>
                           <TableCell align="right">{row?.recommended_by}</TableCell>
+                          <TableCell align="right">{row?.recommended_position}</TableCell>
                           <TableCell align="right">{row?.recommended_date}</TableCell>
                           <TableCell align="right">{row?.approve_by}</TableCell>
+                          <TableCell align="right">{row?.approved_position}</TableCell>
                           <TableCell align="right">{row?.approve_date}</TableCell>
                           <TableCell align="right">{row?.remarks}</TableCell>
                         </TableRow>

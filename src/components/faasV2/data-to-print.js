@@ -19,25 +19,26 @@ const DataToPrint = React.forwardRef((props, ref) => {
     const { data } = props;
     const pinData = useSelector((state) => state.pinData.pin);
 
-        let a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
-        let b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+    let a = ['', 'one ', 'two ', 'three ', 'four ', 'five ', 'six ', 'seven ', 'eight ', 'nine ', 'ten ', 'eleven ', 'twelve ', 'thirteen ', 'fourteen ', 'fifteen ', 'sixteen ', 'seventeen ', 'eighteen ', 'nineteen '];
+    let b = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
 
-        const inWords = useCallback((num) => {
-            if ((num = num.toString()).length > 9) return 'overflow';
-            let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
-            if (!n) return; var str = '';
-            str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
-            str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
-            str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
-            str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
-            str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'only ' : '';
-            return str;
-        }, [a, b])
+    const inWords = useCallback((num) => {
+        if ((num = num.toString()).length > 9) return 'overflow';
+        let n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+        if (!n) return; var str = '';
+        str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+        str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+        str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+        str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+        str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'only ' : '';
+        return str;
+    }, [a, b])
 
     React.useEffect(() => {
         console.log(inWords(1430))
         console.log(inWords(1430).replace('only', ''))
     }, [inWords])
+
     return (
         <>
             <Grid container spacing={3} ref={ref}>
@@ -92,20 +93,20 @@ const DataToPrint = React.forwardRef((props, ref) => {
 
                 <Typography style={{ marginLeft: 70, marginTop: 5, fontSize: 12 }}>
                     Location of Property:
-                    <input type={"text"} style={{ width: 200, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1, textAlign: 'center' }} value={data?.location_street} />
-                    <input type={"text"} 
-                     style={{ width: 179, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, marginLeft: 25, borderBottomWidth: 1, textAlign: 'center' }} />
-                    <input type={"text"}
-                    style={{ width: 175, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, marginLeft: 25, borderBottomWidth: 1, textAlign: 'center' }} />
+                    <input type={"text"} style={{ width: 150, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1, textAlign: 'center' }} value={data?.location_street} />
+                    <input type={"text"} value={data?.barangay_lgu}
+                        style={{ width: 200, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, marginLeft: 15, borderBottomWidth: 1, textAlign: 'center' }} />
+                    <input type={"text"} value={"MUNICIPALITY OF BALINGASAG"}
+                        style={{ width: 228, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, marginLeft: 15, borderBottomWidth: 1, textAlign: 'center' }} />
                 </Typography>
 
-                <Typography style={{ marginLeft: 240, marginTop: 0, fontSize: 10, fontFamily: "initial" }}>
+                <Typography style={{ marginLeft: 215, marginTop: 0, fontSize: 10, fontFamily: "initial" }}>
                     (Number and Street)
                 </Typography>
-                <Typography style={{ marginLeft: 140, marginTop: 0, fontSize: 10, fontFamily: "initial" }}>
+                <Typography style={{ marginLeft: 108, marginTop: 0, fontSize: 10, fontFamily: "initial" }}>
                     (Barangay/District)
                 </Typography>
-                <Typography style={{ marginLeft: 95, marginTop: 0, fontSize: 10, fontFamily: "initial" }}>
+                <Typography style={{ marginLeft: 125, marginTop: 0, fontSize: 10, fontFamily: "initial" }}>
                     {'(Municipality & Province/City)'}
                 </Typography>
 
@@ -213,11 +214,11 @@ const DataToPrint = React.forwardRef((props, ref) => {
                     </table>
                 </div>
 
-                <Typography style={{ marginLeft: 150, fontSize: 14, marginTop: 30 }}>
+                <Typography style={{ marginLeft: 150, fontSize: 14, marginTop: 15 }}>
                     Total Market Value: <input type={"text"} value={`P ${data?.market_value}`}
                         style={{ width: 200, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1, textAlign: 'center' }} />
                 </Typography>
-                <Typography style={{ marginLeft: 20, fontSize: 14, marginTop: 30 }}>
+                <Typography style={{ marginLeft: 20, fontSize: 14, marginTop: 15 }}>
                     Total Assessed Value: <input type={"text"} value={`P ${data?.assessed_value}`}
                         style={{ width: 153, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1, textAlign: 'center' }} />
                 </Typography>
@@ -247,7 +248,7 @@ const DataToPrint = React.forwardRef((props, ref) => {
                     </Typography>
                 </Grid>
                 <Typography style={{ marginLeft: 600, fontSize: 14, marginTop: 0 }}>
-                    Position
+                    {data?.recommended_position}
                 </Typography>
 
                 <Grid item md={12} xs={12} style={{ display: 'flex', marginTop: -10 }}>
@@ -259,13 +260,13 @@ const DataToPrint = React.forwardRef((props, ref) => {
                     </Typography>
                 </Grid>
                 <Typography style={{ marginLeft: 290, fontSize: 14, marginTop: 0 }}>
-                    Position
+                    {data?.approved_position}
                 </Typography>
                 <Typography style={{ marginLeft: 180, fontSize: 14, marginTop: 0 }}>
                     Date
                 </Typography>
 
-                <Typography style={{ marginLeft: 160, marginTop: 5, fontSize: 12 }}>
+                <Typography style={{ marginLeft: 170, marginTop: 5, fontSize: 12 }}>
                     This declaration cancels
                 </Typography>
                 <Typography style={{ marginLeft: 155, marginTop: 5, fontSize: 12 }}>

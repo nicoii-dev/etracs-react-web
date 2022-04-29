@@ -580,7 +580,7 @@ const DataCapturePage = (props) => {
             beneficial_user: null,
             beneficial_tin: null,
             beneficial_address: null,
-            barangay_lgu: _data.barangay,
+            barangay_lgu: _data.barangay_lgu,
             city_municipality: _data.city_municipality,
             location_house_number: _data.houseNumber,
             location_street: _data.street,
@@ -610,11 +610,14 @@ const DataCapturePage = (props) => {
             previous_mv: _data.previousMv,
             previous_av: _data.previousAv,
             appraised_by: _data.appraisedBy,
+            appraised_position: _data.appraisedPosition,
             appraised_date: _data.appraisedDate,
-            recommended_by: _data.recommendBy,
+            recommended_by: _data.recommendedBy,
+            recommended_position: _data.recommendedPosition,
             recommended_date: _data.recommendedDate,
             approve_by: _data.approveBy,
             approve_date: _data.approvedDate,
+            approved_position: _data.approvedPosition,
             remarks: _data.remarks,
         }
         console.log(payload)
@@ -633,6 +636,7 @@ const DataCapturePage = (props) => {
                         control={control}
                         transaction={transaction}
                         status={status}
+                        data={data}
                     />
                     <GeneralInformation
                         data={data}
@@ -649,6 +653,7 @@ const DataCapturePage = (props) => {
                         entityList={entityList}
                         ownerData={ownerData}
                         setOwnerData={setOwnerData}
+                        status={status}
                     />
                     <RealPropertyInformation
                         data={data}
@@ -659,12 +664,14 @@ const DataCapturePage = (props) => {
                         setShowAssessmentModal={setShowAssessmentModal}
                         assessmentDetail={assessmentDetail}
                         selectedAdjustment={selectedAdjustment}
+                        status={status}
                     />
 
                     <Remarks
                         data={data}
                         errors={errors}
                         control={control}
+                        status={status}
                     />
 
                     <Box
@@ -701,9 +708,17 @@ const DataCapturePage = (props) => {
                                             color="primary"
                                             variant="contained"
                                             onClick={handleSubmit(data ? updateDataCapture : addDataCapture)}
+                                            style={{ marginRight: 20 }}
                                         >
                                             {data ? "Update" : "Save"}
                                         </Button>
+
+                                        {data?.status === "INTERIM" || data?.status === "CURRENT" ?
+                                            <Button color="primary" variant="contained"
+                                                onClick={handleSubmit(data?.status === "INTERIM" ? submitToCurrent : submitToApproval)}
+                                            >{data?.status === "INTERIM" ? "Submit to current" : "submit for approval"}</Button>
+                                            : null
+                                        }
                                     </>
                                 }
                             </>
@@ -723,25 +738,25 @@ const DataCapturePage = (props) => {
                                 onClick={handleSubmit(printHandler)}
                             >PRINT</Button>
                         </Box>
-                        :
-                        <>
-                            {data?.status === "INTERIM" || data?.status === "CURRENT" ?
-                                <Box
-                                    sx={{
-                                        position: 'absolute',
-                                        right: 40,
-                                        top: 30,
-                                        p: 2,
-                                        marginBottom: -3
-                                    }}
-                                >
-                                    <Button color="primary" variant="contained"
-                                        onClick={handleSubmit(data?.status === "INTERIM" ? submitToCurrent : submitToApproval)}
-                                    >{data?.status === "INTERIM" ? "Submit to current" : "submit for approval"}</Button>
-                                </Box>
-                                : null
-                            }
-                        </>
+                        : null
+                        // <>
+                        //     {data?.status === "INTERIM" || data?.status === "CURRENT" ?
+                        //         <Box
+                        //             sx={{
+                        //                 position: 'absolute',
+                        //                 right: 40,
+                        //                 top: 30,
+                        //                 p: 2,
+                        //                 marginBottom: -3
+                        //             }}
+                        //         >
+                        //             <Button color="primary" variant="contained"
+                        //                 onClick={handleSubmit(data?.status === "INTERIM" ? submitToCurrent : submitToApproval)}
+                        //             >{data?.status === "INTERIM" ? "Submit to current" : "submit for approval"}</Button>
+                        //         </Box>
+                        //         : null
+                        //     }
+                        // </>
                     }
                 </FormProvider>
             </div>
@@ -799,7 +814,7 @@ const DataCapturePage = (props) => {
                     }
                 }}
             >
-                <ReactToPrintComponent 
+                <ReactToPrintComponent
                     printData={printData}
                 />
             </Modal>

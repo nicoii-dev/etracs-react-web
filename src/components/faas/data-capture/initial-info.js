@@ -55,8 +55,6 @@ const InitialInfo = (props) => {
             municipality: municipalityData.municipality_name,
             lgu: municipalityData.lgu_name
         }
-        console.log(payload)
-        console.log(municipalityList)
         await dispatch(setPin(payload))
         setShowInitialModal(false)
         setShowDataCaptureModal(true);

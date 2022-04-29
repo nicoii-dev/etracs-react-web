@@ -66,7 +66,7 @@ const AssessmentDetail = (props) => {
         await dispatch(setAssessmentDetail(payload));
         Swal.fire('Saved!', '', 'success');
     }
-
+    console.log(JSON.parse(localStorage?.getItem("user")).user.role)
     return (
         <>
             <Grid container spacing={3}>
@@ -121,7 +121,7 @@ const AssessmentDetail = (props) => {
                                             <h4> TAXABLE?</h4>
                                             <FormControlLabel
                                                 label=""
-                                                disabled={{ pointerEvents: JSON.parse(localStorage?.getItem("user")).user.role === "ASSESSOR" ? true : false}}
+                                                disabled={JSON.parse(localStorage?.getItem("user")).user.role === "ASSESSOR" ? true : false}
                                                 control={
                                                     <Checkbox
                                                         checked={value}

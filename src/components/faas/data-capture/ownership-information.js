@@ -30,12 +30,13 @@ const OwnershipInformation = ({
     data,
     entityList,
     ownerData,
-    setOwnerData
+    setOwnerData,
+    status
 }) => {
     const methods = useFormContext();
-    console.log(data)
     const [selectedOption, setSelectedOption] = React.useState(data?.owner_name ? data?.owner_name : ""); // for updates
     const transaction = useSelector(state => state.transactionData.transaction)
+    const userData = JSON.parse(localStorage?.getItem("user"));
 
     const setData = useCallback(() => {
         methods.setValue("address", ownerData?.address ? ownerData.address : data?.owner_address ? data?.owner_address : " ")
@@ -50,7 +51,13 @@ const OwnershipInformation = ({
     }, [setData])
 
     return (
-        <Grid container spacing={3} style={{ marginTop: -50, pointerEvents: JSON.parse(localStorage?.getItem("user")).user.role === "ASSESSOR" ? 'none' : 'auto'}}>
+        <Grid container spacing={3}
+            style={{
+                marginTop: -50,
+                pointerEvents: (userData.user.role === "ASSESSOR" && status === "FOR APPROVAL")
+                    || (userData.user.role === "ADMIN" && status === "FOR APPROVAL")
+                    || (transaction === "Data Capture" && status === "CURRENT") ? 'none' : 'auto'
+            }}>
             <Grid item md={12} xs={12}>
                 <Divider textAlign="left">
                     <p style={{ fontSize: 20 }}>
@@ -82,12 +89,12 @@ const OwnershipInformation = ({
                                         name="owner"
                                         options={entityList}
                                         styles={selectStyles}
-                                        value={ 
+                                        value={
                                             transaction === "Transfer of Ownership" ? value :
-                                            entityList.filter((option) => {
-                                              return option.value === selectedOption
-                                            })
-                                           // value
+                                                entityList.filter((option) => {
+                                                    return option.value === selectedOption
+                                                })
+                                            // value
                                         }
 
                                         // onChange={(e) => {
@@ -99,7 +106,7 @@ const OwnershipInformation = ({
                                             setOwnerData(e)
                                         }}
                                         onBlur={onBlur}
-                                        isDisabled={transaction === "Transfer of Ownership" || transaction === "Data Capture" ? false:true}
+                                        isDisabled={transaction === "Transfer of Ownership" || transaction === "Data Capture" ? false : true}
                                     />
                                 )}
                             />
@@ -133,7 +140,7 @@ const OwnershipInformation = ({
                                         size='small'
                                         value={value}
                                         error={errors.declaredOwner ? true : false}
-                                        disabled={transaction === "Transfer of Ownership" || transaction === "Data Capture" ? false:true}
+                                        disabled={transaction === "Transfer of Ownership" || transaction === "Data Capture" ? false : true}
                                     />
                                 )}
                             />
@@ -201,7 +208,7 @@ const OwnershipInformation = ({
                                         size='small'
                                         value={value}
                                         error={errors.declaredOwnerAddress ? true : false}
-                                        disabled={transaction === "Transfer of Ownership" || transaction === "Data Capture" ? false:true}
+                                        disabled={transaction === "Transfer of Ownership" || transaction === "Data Capture" ? false : true}
                                     />
                                 )}
                             />
