@@ -704,6 +704,8 @@ const DataCapturePage = (props) => {
                                     </>
                                     :
                                     <>
+                                    {transaction === "Data Capture" && data?.status === "CURRENT" ?
+                                        null :
                                         <Button
                                             color="primary"
                                             variant="contained"
@@ -712,9 +714,9 @@ const DataCapturePage = (props) => {
                                         >
                                             {data ? "Update" : "Save"}
                                         </Button>
-
-                                        {data?.status === "INTERIM" || data?.status === "CURRENT" ?
-                                            <Button color="primary" variant="contained"
+                                    }
+                                        {(data?.status === "INTERIM" ) || data?.status === "CURRENT" ?
+                                            <Button color="success" variant="contained"
                                                 onClick={handleSubmit(data?.status === "INTERIM" ? submitToCurrent : submitToApproval)}
                                             >{data?.status === "INTERIM" ? "Submit to current" : "submit for approval"}</Button>
                                             : null

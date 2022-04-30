@@ -31,10 +31,16 @@ const InputTdComponent = (props) => {
     const [tdSelected, setTdSelected] = useState("");
 
     console.log(faasList)
+
+
     const createTdList = useCallback(() => {
+        // filtering faasList based on status === CURRENT
+        const filteredFaas = faasList.filter((faas) => {
+            return faas.status === "CURRENT"
+        })
         // creating new array for owner search component selection data
         let newData = [];
-        faasList.forEach(item => newData.push({
+        filteredFaas.forEach(item => newData.push({
             "id": item.id,
             "value": item.td_number,
             "label": item.td_number,
@@ -48,7 +54,6 @@ const InputTdComponent = (props) => {
 
     const onTdSelected = (data) => {
         setTdSelected(data)
-        console.log(data)
     }
 
     const nextButtonHandler = async () => {

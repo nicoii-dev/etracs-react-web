@@ -156,6 +156,11 @@ const FaasTable = ({
       {faasList ?
         <div>
           <Paper sx={{ width: '100%', mb: 2 }}>
+          {/* <SearchBar
+          value={searched}
+          onChange={(searchVal) => requestSearch(searchVal)}
+          onCancelSearch={() => cancelSearch()}
+        /> */}
             <EnhancedTableToolbar
               numSelected={selected.length}
               selected={selected}

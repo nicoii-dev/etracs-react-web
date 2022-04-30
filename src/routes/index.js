@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AdminRoutes from "./AdminRoutes";
 import UserRoutes from "./UserRoutes";
 import AuthRoutes from "./AuthRoutes";
 import LoaderComponent from "../components/loader";
+import ResetPassword from "../pages/auth/ResetPass";
 
 const MainRoute = () => {
 
@@ -18,7 +19,8 @@ const MainRoute = () => {
           :
           <AdminRoutes />
         }
-        <LoaderComponent />
+        {/* <LoaderComponent /> */}
+
       </Router>
     </>
   );

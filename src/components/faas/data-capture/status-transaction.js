@@ -21,7 +21,7 @@ import FaasTextInputController from '../../input/faas-input';
 
 const StatusTransaction = (props) => {
     const { control, transaction, status, data } = props;
-    
+
     return (
         <>
             <Grid container spacing={1}>
@@ -51,7 +51,7 @@ const StatusTransaction = (props) => {
                                     <Grid item md={4} xs={12} display={{md: transaction === "Data Capture" ? 'auto' : 'none'}}>
                                         <FaasTextInputController
                                             disabled={true}
-                                            defaultData={data?.transaction}
+                                            defaultData={data?.transaction ? data?.transaction : transaction}
                                             label="Transaction*"
                                             name="transaction2"
                                             variant="outlined"
