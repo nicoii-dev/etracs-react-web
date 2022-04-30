@@ -23,6 +23,7 @@ import AccountsPage from '../pages/accounts';
 import PersonnelPage from '../pages/personnel';
 import JobPositionPage from '../pages/job-position';
 import FaasPage from '../pages/faasV2';
+import ProfilePage from '../pages/profile/ProfilePage';
 
 // redux
 import { fetchIndividualRedux } from "../redux/individual/actions";
@@ -78,7 +79,7 @@ const AdminRoutes = () => {
                         <Route path="utilities/personnels" element={<PersonnelPage />} />
                         <Route path="utilities/accounts" element={<AccountsPage />} />
                         <Route path="utilities/job-position" element={<JobPositionPage />} />
-
+                        <Route path="profile" element={<ProfilePage />} />
                     </Route>
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
@@ -93,6 +94,7 @@ const AdminRoutes = () => {
                             <Route path="entity/reconcile" element={<ReconcilePage />} />
                             <Route path="faas" element={<FaasPage />} />
                             <Route path="faas/data-capture" element={<DataCapturePage />} />
+                            <Route path="profile" element={<ProfilePage />} />
                         </Route>
                         <Route path="*" element={<Navigate to="/" replace />} />
                     </Routes>
@@ -107,6 +109,7 @@ const AdminRoutes = () => {
                                 <Route path="entity/reconcile" element={<ReconcilePage />} />
                                 <Route path="faas" element={<FaasPage />} />
                                 <Route path="faas/data-capture" element={<DataCapturePage />} />
+                                <Route path="profile" element={<ProfilePage />} />
                             </Route>
                             <Route path="*" element={<Navigate to="/" replace />} />
                         </Routes>
@@ -116,6 +119,7 @@ const AdminRoutes = () => {
                             <Route path="/" element={<_Layout />} >
                                 <Route path="faas" element={<FaasPage />} />
                                 <Route path="faas/data-capture" element={<DataCapturePage />} />
+                                <Route path="profile" element={<ProfilePage />} />
                             </Route>
                             <Route path="*" element={<Navigate to="/" replace />} />
                         </Routes>

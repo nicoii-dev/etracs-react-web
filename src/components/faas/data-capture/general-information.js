@@ -32,18 +32,30 @@ const GeneralInformation = ({
 }) => {
     const transaction = useSelector(state => state.transactionData.transaction)
     const userData = JSON.parse(localStorage?.getItem("user"));
+    const faasList = useSelector((state) => state.faasData.faas);
+    const [tdInUsed, setTdInUsed] = useState(false);
+    console.log(faasList)
 
     // const [selectedAppraiser, setSelectedAppraiser] = useState(data?.appraised_by ? data?.appraised_by : "");
     // const [selectedRecommended, setSelectedRecommended] = useState(data?.recommended_by ? data?.recommended_by : "");
     // const [selectedApprove, setSelectedApprove] = useState(data?.approve_by ? data?.approve_by : "");
 
+    const onTdChange = (e) => {
+        let a = []
+        a = faasList;
+        console.log(a)
+        faasList.map(faas => faas.td_number == e ? 
+            setTdInUsed(true)
+     : setTdInUsed(false)) 
+    }
+    console.log(tdInUsed)
     return (
         <>
             <Grid container spacing={3}
                 style={{
                     marginTop: -50,
                     pointerEvents: (userData.user.role === "ASSESSOR" && status === "FOR APPROVAL")
-                        || (userData.user.role === "ADMIN" && status === "FOR APPROVAL") 
+                        || (userData.user.role === "ADMIN" && status === "FOR APPROVAL")
                         || (transaction === "Data Capture" && status === "CURRENT") ? 'none' : 'auto'
                 }}>
                 <Grid item md={12} xs={12}>
@@ -71,6 +83,37 @@ const GeneralInformation = ({
                                             message: 'TD Number is required',
                                         },
                                     }}
+                                />
+                                <Controller
+                                    defaultData={transaction === "Data Capture" || transaction.includes("Change") ? data?.td_number : ""}
+                                    name='tdNumber'
+                                    control={control}
+                                    rules={{
+                                        required: {
+                                            value: true,
+                                            message: 'Date is required',
+                                        },
+                                    }}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                        <TextField
+                                            name="tdNumber"
+                                            label="td"
+                                            size='small'
+                                            error={errors?.tdNumber ? true : false}
+                                            fullWidth
+                                            onBlur={onBlur}
+                                            onChange={(e) => {
+                                                onChange(e.target.value)
+                                                onTdChange(e.target.value)
+                                            }}
+
+                                            disabled={transaction === "Change Classification" || transaction === "Change Taxability" ? true : false}
+                                            value={value}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
+                                    )}
                                 />
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>

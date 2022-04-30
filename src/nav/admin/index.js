@@ -104,12 +104,39 @@ const AdminPageList = ({ open }) => {
         {userRole === "ADMIN" ? <GeneralRevisionNav open={open} /> : null}
       </List>
       <Divider />
-      {userRole === "ADMIN" ? 
-      <List>
-        <UtilitiesNav open={open} />
-      </List>
-      : 
-      null }
+      {userRole === "ADMIN" ?
+        <List>
+          <UtilitiesNav open={open} />
+        </List>
+        :
+        null}
+
+      <div>
+        <ListItem button key={'Profile'} onClick={() => { navigate('profile') }}>
+          <ListItemIcon
+            style={{
+              color: currentLocation.includes('profile') ? '#66B2FF' : 'white',
+              fontWeight: 'bold',
+              fontSize: 50
+            }}
+          >
+            <ManageAccounts />
+          </ListItemIcon>
+          <p
+            style={{
+              color: currentLocation.includes('profile') ? '#66B2FF' : 'white',
+              fontWeight: 'bolder',
+              fontSize: 15,
+              fontFamily: 'revert',
+              marginTop: 0,
+              marginBottom: 0,
+              width: '100%'
+            }}>
+            Profile
+          </p>
+        </ListItem>
+      </div>
+
       <div style={{
         position: 'absolute',
         bottom: 20,

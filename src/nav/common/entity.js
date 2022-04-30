@@ -6,7 +6,7 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ListItemButton from '@mui/material/ListItemButton';
-import { PeopleAlt, AccountBox, AssignmentInd, AccountCircle, CoPresent } from '@mui/icons-material';
+import { PeopleAlt, AccountBox, AssignmentInd, AccountCircle, CoPresent, FolderShared } from '@mui/icons-material';
 
 import {useLocation} from 'react-router-dom';
 
@@ -37,7 +37,7 @@ const EntityNav = ({open}) => {
                     fontWeight:'bold',
                     fontSize:50
                     }}>
-                    <AccountBox />
+                    <FolderShared />
                 </ListItemIcon>
                 <p             
                     style={{

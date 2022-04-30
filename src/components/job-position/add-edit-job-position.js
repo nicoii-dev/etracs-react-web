@@ -15,7 +15,7 @@ import TextInputController from '../input/text-input';
 import InputErrorStyles from '../../styles/error-text/InputErrorStyles.module.css';
 
 const AddEditJobPosition = (props) => {
-    const { data, addData, updateData, filteredUsers } = props;
+    const { data, addData, updateData, filteredUsers, userList } = props;
     const { control, handleSubmit, formState: { errors } } = useForm();
 
     const addJobPosition = (_data) => {
@@ -159,7 +159,7 @@ const AddEditJobPosition = (props) => {
                                             <option key={"-Select-"} value={"-Select-"}>
                                                 {"-Select-"}
                                             </option>
-                                            {filteredUsers.map((option) => (
+                                            {userList.map((option) => (
                                                 <option
                                                     key={option.id}
                                                     value={option.id}

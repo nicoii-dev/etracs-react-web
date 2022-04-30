@@ -6,7 +6,7 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ListItemButton from '@mui/material/ListItemButton';
-import { Timeline, LocationCity, Work, Settings, ManageAccounts, SupervisorAccount } from '@mui/icons-material';
+import { Timeline, LocationCity, Work, Settings, ManageAccounts, SupervisorAccount, PersonAdd } from '@mui/icons-material';
 import { useLocation } from 'react-router-dom';
 import Modal from 'react-modal';
 import { useSelector, useDispatch } from 'react-redux';
@@ -114,7 +114,7 @@ const UtilitiesNav = ({ open }) => {
                     />
                     <NavItem
                         link={'utilities/accounts'}
-                        icon={<ManageAccounts style={{ color: 'white' }} />}
+                        icon={<PersonAdd style={{ color: 'white' }} />}
                         title={'Accounts'}
                     />
                     <NavItem

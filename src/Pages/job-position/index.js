@@ -146,6 +146,7 @@ const JobPositionPage = () => {
                     updateData={updateData}
                     data={data}
                     filteredUsers={filteredUsers}
+                    userList={userList}
                 />
             </Modal>
         </>

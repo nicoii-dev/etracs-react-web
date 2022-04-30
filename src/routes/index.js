@@ -9,7 +9,6 @@ import ResetPassword from "../pages/auth/ResetPass";
 const MainRoute = () => {
 
   const userType = JSON.parse(localStorage?.getItem("user"))?.user?.role;
-    console.log(userType)
 
   return (
     <>
