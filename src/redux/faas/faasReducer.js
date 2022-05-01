@@ -11,6 +11,11 @@ const FaasReducer = (state = initialState, action) => {
                 ...state,
                 faas: action.payload
             }
+        case actionTypes.FETCH_BASED_STATUS:
+            return {
+                ...state,
+                faas: action.payload
+            }
         case actionTypes.STORE_FAAS:
             return {
                 ...state,

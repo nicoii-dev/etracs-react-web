@@ -51,16 +51,17 @@ const GeneralInformation = ({
 
     const materialDateInput = `${year}-${month}-${date}`; // combining to format for defaultValue or value attribute of material <TextField>
 
-
+    // check if the td number is already used
     const onTdChange = (e) => {
-        let a = []
-        a = faasList;
-        console.log(a)
-        faasList.map(faas => faas.td_number == e ?
-            setTdInUsed(true)
-            : setTdInUsed(false))
+        let faasCopy = []
+        faasCopy = faasList;
+        const check = faasCopy.some(item => item.td_number === e)
+        if(check) {
+            setTdInUsed(true);
+            return;
+        }
+        setTdInUsed(false)
     }
-    console.log(tdInUsed)
     console.log(transaction)
     return (
         <>
@@ -83,7 +84,7 @@ const GeneralInformation = ({
                     <CardContent>
                         <Grid container spacing={3}>
                             <Grid item md={12} xs={12}>
-                                <FaasTextInputController
+                                {/* <FaasTextInputController
                                     defaultData={transaction === "Data Capture" || transaction.includes("Change") ? data?.td_number : ""}
                                     label="TD number* "
                                     name="tdNumber"
@@ -97,9 +98,9 @@ const GeneralInformation = ({
                                             message: 'TD Number is required',
                                         },
                                     }}
-                                />
+                                /> */}
                                 <Controller
-                                    defaultData={transaction === "Data Capture" || transaction.includes("Change") ? data?.td_number : ""}
+                                    defaultValue={transaction === "Data Capture" || transaction.includes("Change") ? data?.td_number : ""}
                                     name='tdNumber'
                                     control={control}
                                     rules={{
@@ -111,9 +112,9 @@ const GeneralInformation = ({
                                     render={({ field: { onChange, onBlur, value } }) => (
                                         <TextField
                                             name="tdNumber"
-                                            label="td"
+                                            label="TD Number*"
                                             size='small'
-                                            error={errors?.tdNumber ? true : false}
+                                            error={errors?.tdNumber || tdInUsed === true ? true : false}
                                             fullWidth
                                             onBlur={onBlur}
                                             onChange={(e) => {

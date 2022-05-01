@@ -12,6 +12,22 @@ const FaasApi = {
     }
   },
 
+  fetchStatusBased: async (payload) => {
+    try {
+      const json = JSON.stringify(payload);
+      const response = await axios.post("http://localhost:8000/api/faas/status", json , {
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type':'application/json'
+          }
+        });
+      const data = await response.data;
+      return data;
+    } catch (error) {
+      return error.message.substr(32, 3)
+    }
+  },
+
   storeFaas: async (payload) => {
     try {
         const json = JSON.stringify(payload);

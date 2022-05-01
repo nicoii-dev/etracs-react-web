@@ -25,6 +25,29 @@ export const fetchFaasRedux = () => {
   }
 }
 
+export const fetchStatusBasedRedux = (payload) => {
+  return async (dispatch) => {
+    try {
+      const response = await FaasApi.fetchStatusBased(payload);
+      if(response === '422' || response === '500' || response === '404'){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'No database connection!',
+        })
+        return;
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_BASED_STATUS, 
+          payload: response
+        })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 export const storeFaasRedux = (payload) => {
   return async (dispatch) => {
     try {

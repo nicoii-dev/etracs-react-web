@@ -22,7 +22,8 @@ import { setTransaction } from '../../redux/transaction/action';
 
 import {
     deleteFaasRedux,
-    deleteMultipleFaasRedux
+    deleteMultipleFaasRedux,
+    fetchStatusBasedRedux,
 } from "../../redux/faas/actions";
 
 const FaasPage = () => {
@@ -48,7 +49,7 @@ const FaasPage = () => {
     const [status, setStatus] = React.useState("INTERIM");
 
     const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user)
+
     const personnel = user.personnel[0].firstname + " " + user.personnel[0].middlename.charAt(0) + ". " + user.personnel[0].lastname;
 
     React.useEffect(() => {
@@ -74,8 +75,11 @@ const FaasPage = () => {
         await dispatch(setTransaction(data))
     }
 
-    const onStatusChanged = (data) => {
-        console.log(data)
+    const onStatusChanged = async (data) => {
+        const payload = {
+            status: data
+        }
+        await dispatch(fetchStatusBasedRedux(payload))
     }
 
     const onAddFaas = async () => {
@@ -100,7 +104,7 @@ const FaasPage = () => {
         setStatus(data?.status ? data.status : "INTERIM")
     }, [data?.status]);
 
-    const updateFaasList = React.useCallback( async () => {
+    const updateFaasList = React.useCallback(async () => {
         if (user.user.role === "APPRAISER") {
             const filtered = faasList?.filter((faas) => {
                 return faas.status === "INTERIM";
@@ -114,7 +118,7 @@ const FaasPage = () => {
             setFilteredFaas(filtered)
         } else if (user.user.role === "ASSESSOR") {
             const filtered = faasList?.filter((faas) => {
-                return faas.status === "FOR APPROVAL" || faas.status === "APPROVED" || faas.status === "CANCELLED" ;
+                return faas.status === "FOR APPROVAL" || faas.status === "APPROVED" || faas.status === "CANCELLED";
             })
             setFilteredFaas(filtered)
         } else {
@@ -153,7 +157,7 @@ const FaasPage = () => {
                         <TextField
                             style={{ width: 350, alignSelf: 'flex-start', marginRight: 20 }}
                             fullWidth
-                            label="Transfer FAAS Data"
+                            label="STATUS"
                             name="pinType"
                             select
                             SelectProps={{ native: true }}
@@ -164,6 +168,9 @@ const FaasPage = () => {
                             size='small'
                         //value={value}
                         >
+                            <option key={"-SELECT-"} value={"-SELECT-"}>
+                                -SELECT-
+                            </option>
                             {user.user.role === "ASSESSOR" ?
                                 null :
                                 <>
