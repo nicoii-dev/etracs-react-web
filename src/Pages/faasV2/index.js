@@ -35,6 +35,7 @@ const FaasPage = () => {
     const transaction = useSelector(state => state.transactionData.transaction)
 
     //local states
+    const [filteredFaas, setFilteredFaas] = React.useState([]);
     const [showPrintModal, setShowPrintModal] = React.useState(false);
     const [showInitialModal, setShowInitialModal] = React.useState(false);
     const [showDataCaptureModal, setShowDataCaptureModal] = React.useState(false);
@@ -47,6 +48,7 @@ const FaasPage = () => {
     const [status, setStatus] = React.useState("INTERIM");
 
     const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user)
     const personnel = user.personnel[0].firstname + " " + user.personnel[0].middlename.charAt(0) + ". " + user.personnel[0].lastname;
 
     React.useEffect(() => {
@@ -77,7 +79,12 @@ const FaasPage = () => {
     }
 
     const onAddFaas = async () => {
-        if(transaction === "Data Capture"){
+        // if(userData.user.role === "APPRAISER") {
+        //     await dispatch(setTransaction("Data Capture"))
+        //   } else {
+        //     await dispatch(setTransaction("Transfer of Ownership"))
+        //   }
+        if (transaction === "Data Capture") {
             setShowInitialModal(true);
             await dispatch(removeAssessmentDetail());
             await dispatch(removeSelectedAdjustment());
@@ -93,12 +100,38 @@ const FaasPage = () => {
         setStatus(data?.status ? data.status : "INTERIM")
     }, [data?.status]);
 
+    const updateFaasList = React.useCallback( async () => {
+        if (user.user.role === "APPRAISER") {
+            const filtered = faasList?.filter((faas) => {
+                return faas.status === "INTERIM";
+            })
+            setFilteredFaas(filtered)
+        } else if (user.user.role === "APPROVER") {
+            await dispatch(setTransaction("Transfer of Ownership"))
+            const filtered = faasList?.filter((faas) => {
+                return faas.status === "CURRENT";
+            })
+            setFilteredFaas(filtered)
+        } else if (user.user.role === "ASSESSOR") {
+            const filtered = faasList?.filter((faas) => {
+                return faas.status === "FOR APPROVAL" || faas.status === "APPROVED" || faas.status === "CANCELLED" ;
+            })
+            setFilteredFaas(filtered)
+        } else {
+            setFilteredFaas(faasList)
+        }
+    }, [dispatch, faasList, user.user.role]);
+
+    React.useEffect(() => {
+        updateFaasList();
+    }, [updateFaasList])
+
     return (
         <div>
-            <h1>Faas V2</h1>
-            <Button onClick={() => { setShowPrintModal(!showPrintModal) }}>
+            <h1>F A A S</h1>
+            {/* <Button onClick={() => { setShowPrintModal(!showPrintModal) }}>
                 <h6>Print</h6>
-            </Button>
+            </Button> */}
 
             <div
                 style={{
@@ -116,37 +149,44 @@ const FaasPage = () => {
                         marginBottom: 10,
                     }}
                 >
-                    <TextField
-                        style={{ width: 350, alignSelf: 'flex-start', marginRight: 20 }}
-                        fullWidth
-                        label="Transfer FAAS Data"
-                        name="pinType"
-                        select
-                        SelectProps={{ native: true }}
-                        variant="outlined"
-                        onChange={(e) => {
-                            onStatusChanged(e.target.value);
-                        }}
-                        size='small'
+                    {user.user.role === "ADMIN" || user.user.role === "ASSESSOR" ?
+                        <TextField
+                            style={{ width: 350, alignSelf: 'flex-start', marginRight: 20 }}
+                            fullWidth
+                            label="Transfer FAAS Data"
+                            name="pinType"
+                            select
+                            SelectProps={{ native: true }}
+                            variant="outlined"
+                            onChange={(e) => {
+                                onStatusChanged(e.target.value);
+                            }}
+                            size='small'
                         //value={value}
-                    >
-                        <option key={'INTERIM'} value={'INTERIM'}>
-                            INTERIM
-                        </option>
-                        <option key={"CURRENT"} value={"CURRENT"}>
-                            CURRENT
-                        </option>
-                        <option key={"FOR APPROVAL"} value={"FOR APPROVAL"}>
-                            FOR APPROVAL
-                        </option>
-                        <option key={"APPROVED"} value={"APPROVED"}>
-                            APPROVED
-                        </option>
-                        <option key={"CANCELLED"} value={"CANCELLED"}>
-                            CANCELLED
-                        </option>
-                    </TextField>
-
+                        >
+                            {user.user.role === "ASSESSOR" ?
+                                null :
+                                <>
+                                    <option key={'INTERIM'} value={'INTERIM'}>
+                                        INTERIM
+                                    </option>
+                                    <option key={"CURRENT"} value={"CURRENT"}>
+                                        CURRENT
+                                    </option>
+                                </>
+                            }
+                            <option key={"FOR APPROVAL"} value={"FOR APPROVAL"}>
+                                FOR APPROVAL
+                            </option>
+                            <option key={"APPROVED"} value={"APPROVED"}>
+                                APPROVED
+                            </option>
+                            <option key={"CANCELLED"} value={"CANCELLED"}>
+                                CANCELLED
+                            </option>
+                        </TextField>
+                        : null
+                    }
                 </div>
 
                 <div
@@ -158,60 +198,67 @@ const FaasPage = () => {
 
                     }}
                 >
-                    <TextField
-                        style={{ width: 350, alignSelf: 'flex-start', marginRight: 20 }}
-                        fullWidth
-                        label="Transfer FAAS Data"
-                        name="pinType"
-                        select
-                        SelectProps={{ native: true }}
-                        variant="outlined"
-                        onChange={(e) => {
-                            onTransferChanged(e.target.value);
-                        }}
-                        size='small'
-                        value={transaction}
-                    >
-                        <option key={'DC'} value={'Data Capture'}>
-                            Data Capture
-                        </option>
-                        <option key={"Correction"} value={"Correction"}>
-                            Correction
-                        </option>
-                        <option key={"Transfer of Ownership"} value={"Transfer of Ownership"}>
-                            Transfer of Ownership
-                        </option>
-                        <option key={"Transfer with Reassessment"} value={"Transfer with Reassessment"}>
-                            Transfer with Reassessment
-                        </option>
-                        <option key={"Transfer with Correction"} value={"Transfer with Correction"}>
-                            Transfer with Correction
-                        </option>
-                        <option key={"Change Classification"} value={"Change Classification"}>
-                            Change Classification
-                        </option>
-                        <option key={"Change Taxability"} value={"Change Taxability"}>
-                            Change Taxability
-                        </option>
-
-                    </TextField>
-                    <Button
-                        variant="contained"
-                        style={{ color: "white", fontWeight: "bold" }}
-                        // onClick={() => {
-                        //     setShowInitialModal(true);
-                        //     setData(null);
-                        // }}
-                        onClick={onAddFaas}
-                    >
-                      <AddBox/> FAAS 
-                    </Button>
+                    {user.user.role === "APPROVER" || user.user.role === "ADMIN" ?
+                        <TextField
+                            style={{ width: 350, alignSelf: 'flex-start', marginRight: 20 }}
+                            fullWidth
+                            label="Transfer FAAS Data"
+                            name="pinType"
+                            select
+                            SelectProps={{ native: true }}
+                            variant="outlined"
+                            onChange={(e) => {
+                                onTransferChanged(e.target.value);
+                            }}
+                            size='small'
+                            value={transaction}
+                        >
+                            {user.user.role === "APPROVER" ?
+                                null :
+                                <>
+                                    <option key={'DC'} value={'Data Capture'}>
+                                        Data Capture
+                                    </option>
+                                </>
+                            }
+                            <option key={"Transfer of Ownership"} value={"Transfer of Ownership"}>
+                                Transfer of Ownership
+                            </option>
+                            <option key={"Transfer with Reassessment"} value={"Transfer with Reassessment"}>
+                                Transfer with Reassessment
+                            </option>
+                            <option key={"Transfer with Correction"} value={"Transfer with Correction"}>
+                                Transfer with Correction
+                            </option>
+                            <option key={"Change Classification"} value={"Change Classification"}>
+                                Change Classification
+                            </option>
+                            <option key={"Change Taxability"} value={"Change Taxability"}>
+                                Change Taxability
+                            </option>
+                        </TextField>
+                        : null
+                    }
+                    {user.user.role === "ASSESSOR" ?
+                        null :
+                        <Button
+                            variant="contained"
+                            style={{ color: "white", fontWeight: "bold" }}
+                            // onClick={() => {
+                            //     setShowInitialModal(true);
+                            //     setData(null);
+                            // }}
+                            onClick={onAddFaas}
+                        >
+                            <AddBox /> FAAS
+                        </Button>
+                    }
                 </div>
             </div>
 
             <div>
                 <FaasTable
-                    faasList={faasList}
+                    faasList={filteredFaas}
                     setData={setData}
                     open={open}
                     setOpen={setOpen}

@@ -18,7 +18,7 @@ const AccountProfileDetails = (props) => {
     const firstname = userdata?.personnel[0]?.firstname;
     const lastname = userdata?.personnel[0]?.lastname;
     const email = userdata?.user?.email;
-    const phoneNumber = userdata?.personnel[0]?.phone_number ? userdata?.personnel[0]?.phone_number : " ";
+    const phoneNumber = userdata?.personnel[0]?.phone_number ? userdata?.personnel[0]?.phone_number : "";
 
 
     const handleChange = (event) => {

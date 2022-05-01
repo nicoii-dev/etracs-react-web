@@ -46,11 +46,14 @@ const RealPropertyInformation = ({
                         </p>
                     </Divider>
                 </Grid>
-                <CardContent style={{
-                    pointerEvents: (userData.user.role === "ASSESSOR" && status === "FOR APPROVAL")
-                        || (userData.user.role === "ADMIN" && status === "FOR APPROVAL")
-                        || (transaction === "Data Capture" && status === "CURRENT") ? 'none' : 'auto'
-                }}>
+                <CardContent
+                    style={{
+                        marginTop: -20,
+                        pointerEvents: (userData.user.role === "ASSESSOR" && status === "FOR APPROVAL")
+                            || (userData.user.role === "ADMIN" && status === "FOR APPROVAL")
+                            || (transaction === "Data Capture" && status === "CURRENT")
+                            || (status === "APPROVED") || (status === "CANCELLED") ? 'none' : 'auto'
+                    }}>
                     <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
                             <Grid container spacing={3}>
@@ -295,11 +298,14 @@ const RealPropertyInformation = ({
                         </p>
                     </Divider>
                 </Grid>
-                <CardContent style={{
-                    pointerEvents: (userData.user.role === "ASSESSOR" && status === "FOR APPROVAL")
-                        || (userData.user.role === "ADMIN" && status === "FOR APPROVAL")
-                        || (transaction === "Data Capture" && status === "CURRENT") ? 'none' : 'auto'
-                }}>
+                <CardContent
+                    style={{
+                        marginTop: -20,
+                        pointerEvents: (userData.user.role === "ASSESSOR" && status === "FOR APPROVAL")
+                            || (userData.user.role === "ADMIN" && status === "FOR APPROVAL")
+                            || (transaction === "Data Capture" && status === "CURRENT")
+                            || (status === "APPROVED") || (status === "CANCELLED") ? 'none' : 'auto'
+                    }}>
                     <Grid container spacing={3}>
                         <Grid item md={12} xs={12}>
                             <Button

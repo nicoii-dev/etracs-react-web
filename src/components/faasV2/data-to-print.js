@@ -34,19 +34,44 @@ const DataToPrint = React.forwardRef((props, ref) => {
         return str;
     }, [a, b])
 
-    React.useEffect(() => {
-        console.log(inWords(1430))
-        console.log(inWords(1430).replace('only', ''))
-    }, [inWords])
+    // React.useEffect(() => {
+    //     console.log(inWords(data?.assessed_value))
+    //     console.log(inWords(1430).replace('only', ''))
+    // }, [inWords])
 
     return (
         <>
-            <Grid container spacing={3} ref={ref}>
+            <Grid container spacing={3} ref={ref} style={{ pointerEvents: 'none'}}>
                 <Grid item md={12} xs={12}>
                     <Typography style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 12, marginTop: 15 }}>PROVINCE OF MISAMIS ORIENTAL</Typography>
                     <Typography style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 18, marginTop: 25 }}>TAX DECLARTION OF REAL PROPERTY</Typography>
                     <img src={Logo} alt="logo" style={{ height: 100, width: 100, position: 'absolute', left: 100, top: 15 }}></img>
                 </Grid>
+                {data?.status === "CANCELLED" ?
+                    <div style={{
+                        width: '100%',
+                        height: 100,
+                        position: 'absolute',
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        margin: 'auto',
+                        alignContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <Typography align="center" style={{
+                            fontWeight: 'bold',
+                            width: '100%',
+                            fontSize: 120,
+                            zIndex: -10,
+                            color: 'rgba(0,0,0,0.4',
+                        }}>
+                            CANCELLED
+                        </Typography>
+                    </div>
+                    : null
+                }
                 <Typography style={{ marginLeft: 70, marginTop: 40, fontWeight: 'bold', fontSize: 12 }}>
                     TD No.: <input type={"text"} value={data?.td_number}
                         style={{ width: 250, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1, textAlign: 'center' }} />
@@ -93,10 +118,11 @@ const DataToPrint = React.forwardRef((props, ref) => {
 
                 <Typography style={{ marginLeft: 70, marginTop: 5, fontSize: 12 }}>
                     Location of Property:
-                    <input type={"text"} style={{ width: 150, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1, textAlign: 'center' }} value={data?.location_street} />
+                    <input type={"text"} value={data?.location_street} 
+                    style={{ width: 150, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1, textAlign: 'center' }} />
                     <input type={"text"} value={data?.barangay_lgu}
                         style={{ width: 200, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, marginLeft: 15, borderBottomWidth: 1, textAlign: 'center' }} />
-                    <input type={"text"} value={"MUNICIPALITY OF BALINGASAG"}
+                    <input type={"text"} value={data?.city_municipality}
                         style={{ width: 228, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, marginLeft: 15, borderBottomWidth: 1, textAlign: 'center' }} />
                 </Typography>
 
@@ -224,7 +250,7 @@ const DataToPrint = React.forwardRef((props, ref) => {
                 </Typography>
 
                 <Typography style={{ marginLeft: 70, fontSize: 14, marginTop: 0 }}>
-                    Total Assessed: <input type={"text"}
+                    Total Assessed: <input type={"text"} value={inWords(parseInt(data?.assessed_value))}
                         style={{ width: 618, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1, textAlign: 'center' }} />
                 </Typography>
 
@@ -266,28 +292,28 @@ const DataToPrint = React.forwardRef((props, ref) => {
                     Date
                 </Typography>
 
-                <Typography style={{ marginLeft: 170, marginTop: 5, fontSize: 12 }}>
+                <Typography style={{ marginLeft: 180, marginTop: 5, fontSize: 12 }}>
                     This declaration cancels
                 </Typography>
                 <Typography style={{ marginLeft: 155, marginTop: 5, fontSize: 12 }}>
 
                     TD No.: <input type={"text"} value={data?.previous_td_number}
-                        style={{ width: 589, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1, textAlign: 'center' }} />
+                        style={{ width: 589, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1}} />
                 </Typography>
                 <Typography style={{ marginLeft: 123, marginTop: 5, fontSize: 12 }}>
                     Previous PIN: <input type={"text"} value={data?.previous_pin}
-                        style={{ width: 589, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1, textAlign: 'center' }} />
+                        style={{ width: 589, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1 }} />
                 </Typography>
                 <Typography style={{ marginLeft: 108, marginTop: 5, fontSize: 12 }}>
                     Previous Owner: <input type={"text"} value={data?.previous_owner}
-                        style={{ width: 589, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1, textAlign: 'center' }} />
+                        style={{ width: 589, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1 }} />
                 </Typography>
                 <Typography style={{ marginLeft: 97, marginTop: 5, fontSize: 12 }}>
-                    Previous M.V Php: <input type={"text"} value={data?.previous_mv}
-                        style={{ width: 250, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1, textAlign: 'center' }} />
+                    Previous M.V Php: <input type={"text"} value={`P ${data?.previous_mv}`}
+                        style={{ width: 250, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1 , textAlign: 'center'}} />
                 </Typography>
                 <Typography style={{ marginLeft: 10, marginTop: 5, fontSize: 12 }}>
-                    Previous A.V Php: <input type={"text"} value={data?.previous_av}
+                    Previous A.V Php: <input type={"text"} value={`P ${data?.previous_av}`}
                         style={{ width: 227, borderTopWidth: 0, borderLeftWidth: 0, borderRight: 0, borderBottomWidth: 1, textAlign: 'center' }} />
                 </Typography>
 
