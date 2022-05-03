@@ -24,6 +24,7 @@ import PersonnelPage from '../pages/personnel';
 import JobPositionPage from '../pages/job-position';
 import FaasPage from '../pages/faasV2';
 import ProfilePage from '../pages/profile/ProfilePage';
+import DashboardV2 from '../pages/admin/DashboardV2';
 
 // redux
 import { fetchIndividualRedux } from "../redux/individual/actions";
@@ -64,8 +65,8 @@ const AdminRoutes = () => {
             {JSON.parse(localStorage?.getItem("user")).user.role === "ADMIN" ?
                 <Routes>
                     <Route path="/" element={<_Layout />} >
-                        <Route path="/" element={<Dashboard />} />
-                        <Route path="dashboard" element={<Dashboard />} />
+                        <Route path="/" element={<DashboardV2 />} />
+                        <Route path="dashboard" element={<DashboardV2 />} />
                         <Route path="entity/individual" element={<IndividualPage />} />
                         <Route path="entity/juridical" element={<JuridicalPage />} />
                         <Route path="entity/multiple" element={<MultiplePage />} />
