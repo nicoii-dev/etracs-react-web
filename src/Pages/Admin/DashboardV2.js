@@ -14,12 +14,13 @@ import { TotalIndividual } from '../../components/dashboard/total-individual';
 import { TotalJuridical } from '../../components/dashboard/total-juridical';
 import { TotalMultiple } from '../../components/dashboard/total-multiple';
 import { TotalPersonnel } from '../../components/dashboard/total-personnel';
-import { TotalAppraised } from '../../components/dashboard/total-appraised';
 import { TotalInterim } from '../../components/dashboard/total-interim';
 import { TotalCurrent } from '../../components/dashboard/total-current';
 import { TotalForApproval } from '../../components/dashboard/total-for-approval';
 import { TotalApproved } from '../../components/dashboard/total-approved';
 import { TotalCancelled } from '../../components/dashboard/total-cancelled';
+
+import BarChartComponent from '../../components/dashboard/BarChart';
 
 // redux actions
 import { fetchIndividualRedux } from '../../redux/individual/actions';
@@ -88,8 +89,6 @@ const DashboardV2 = () => {
         setApproved(_approved);
         setCancelled(_cancelled);
     }, [faasList])
-    console.log(faasList)
-    console.log(interim)
 
     useEffect(() => {
         faasHandler();
@@ -97,10 +96,10 @@ const DashboardV2 = () => {
 
     return (
         <Card>
-            <CardHeader
+            {/* <CardHeader
                 subheader="The information can be edited"
                 title="Personal Infomation"
-            />
+            /> */}
             <Divider />
             <CardContent>
                 <Grid
@@ -141,20 +140,10 @@ const DashboardV2 = () => {
                 </Grid>
             </CardContent>
             <Divider />
-            {/* <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    p: 2
-                }}
-            >
-                <Button
-                    color="primary"
-                    variant="contained"
-                >
-                    Save details
-                </Button>
-            </Box> */}
+
+            <CardContent>
+                <BarChartComponent faaslist={faasList} />
+            </CardContent>
         </Card>
     );
 };
