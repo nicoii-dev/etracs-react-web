@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
 import Modal  from 'react-modal';
 import { useSelector, useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 
 // components
 import BarangayTable from './barangay-table';
@@ -26,6 +27,15 @@ const Barangay = () => {
     },[dispatch])
 
     const addBarangay = async (_data) => {
+        const inLguList = barangayList.some(item => item.index_number === _data.indexNumber);
+        if (inLguList) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Index number is already in use!',
+            })
+            return;
+        }
         const payload = {
             municipality_id: municipalityData.id,
             lgu_name: _data.lguName.toUpperCase(),
@@ -38,6 +48,18 @@ const Barangay = () => {
     }
 
     const updateBarangay = async (_data) => {
+        const filtered = barangayList?.filter((barangay) => {
+            return barangay.id !== data.id
+        })
+        const inLguList = filtered.some(item => item.index_number === _data.indexNumber);
+        if (inLguList) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Index number is already in use!',
+            })
+            return;
+        }
         const payload = {
             municipality_id: municipalityData.id,
             lgu_name: _data.lguName.toUpperCase(),

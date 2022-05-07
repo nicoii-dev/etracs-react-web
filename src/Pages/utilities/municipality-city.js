@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import Grid from '@mui/material/Grid';
+import Swal from 'sweetalert2';
 
 // components
 import MunicipalityCityTable from '../../components/municipality-city-barangay/municipality-city/municipality-city-table';
@@ -8,12 +9,12 @@ import AddEditMunicipalityCity from '../../components/municipality-city-barangay
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
-import { 
-    updateModal, 
-    fetchMunicipalityCity, 
-    saveMunicipalityCity, 
-    updateMunicipalityCityRedux, 
-    deleteMunicipalityCityRedux 
+import {
+    updateModal,
+    fetchMunicipalityCity,
+    saveMunicipalityCity,
+    updateMunicipalityCityRedux,
+    deleteMunicipalityCityRedux
 } from '../../redux/municipality-city/actions';
 import { fetchBarangayRedux } from '../../redux/barangay/action';
 import Barangay from '../../components/municipality-city-barangay/barangay';
@@ -21,25 +22,48 @@ import Barangay from '../../components/municipality-city-barangay/barangay';
 const MunicipalityCityPage = () => {
     const dispatch = useDispatch();
     const showModal = useSelector(state => state.municipalityCityData.showModal);
+    const municipalityList = useSelector(state => state.municipalityCityData.municipalityCity);
+
     const [data, setData] = useState([]); // for selected data to update
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    
+
     useEffect(() => {
         dispatch(fetchMunicipalityCity())
     }, [dispatch])
 
     const addMunicipalityCity = async (_data) => {
+        const inLguList = municipalityList.some(item => item.index_number === _data.indexNumber);
+        if (inLguList) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Index number is already in use!',
+            })
+            return;
+        }
         const payload = {
             municipality_name: _data.municipalityCity.toUpperCase(),
             lgu_name: _data.lgu.toUpperCase(),
             index_number: _data.indexNumber,
-            parent_id:  _data.indexNumber > 9 ? "052-" + _data.indexNumber.toString() : "052-0" + _data.indexNumber.toString(),
+            parent_id: _data.indexNumber > 9 ? "052-" + _data.indexNumber.toString() : "052-0" + _data.indexNumber.toString(),
         }
         await dispatch(saveMunicipalityCity(payload));
     }
 
     const updateMunicipalityCity = async (_data) => {
+        const filtered = municipalityList?.filter((municipality) => {
+            return municipality.id !== data.id
+        })
+        const inLguList = filtered.some(item => item.index_number === _data.indexNumber);
+        if (inLguList) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Index number is already in use!',
+            })
+            return;
+        }
         const payload = {
             municipality_name: _data.municipalityCity.toUpperCase(),
             lgu_name: _data.lgu.toUpperCase(),
@@ -65,7 +89,7 @@ const MunicipalityCityPage = () => {
                 <Grid item md={12} xs={12}>
                     <Grid container spacing={3}>
                         <Grid item md={6} xs={12}>
-                            <MunicipalityCityTable 
+                            <MunicipalityCityTable
                                 showModal={showModal}
                                 setData={setData}
                                 page={page}
@@ -77,7 +101,7 @@ const MunicipalityCityPage = () => {
                             />
                         </Grid>
                         <Grid item md={6} xs={12} >
-                            <Grid item md={12} xs={12} style={{position:'fixed'}}>
+                            <Grid item md={12} xs={12} style={{ position: 'fixed' }}>
                                 <Barangay />
                             </Grid>
                         </Grid>
@@ -87,20 +111,20 @@ const MunicipalityCityPage = () => {
 
             <Modal
                 isOpen={showModal}
-                onRequestClose={() => {dispatch(updateModal(!showModal))}}
+                onRequestClose={() => { dispatch(updateModal(!showModal)) }}
                 contentLabel="Example Modal"
                 onClose={() => dispatch(updateModal(!showModal))}
                 ariaHideApp={false}
                 style={{
                     content: {
-                    top: '55%',
-                    marginLeft: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: '30%',
-                    height: window.innerHeight > 900 ? '40%' : '45%',
+                        top: '55%',
+                        marginLeft: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '30%',
+                        height: window.innerHeight > 900 ? '40%' : '45%',
                     },
                     overlay: {
-                        zIndex:10
+                        zIndex: 10
                     }
                 }}
             >

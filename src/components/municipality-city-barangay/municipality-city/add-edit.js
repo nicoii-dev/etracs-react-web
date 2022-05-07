@@ -8,7 +8,7 @@ import {
     TextField
   } from '@mui/material';
 import { useForm, Controller } from "react-hook-form";
-
+import { useSelector } from 'react-redux';
 import TextInputController from '../../input/text-input';
 
 
@@ -19,7 +19,6 @@ const AddEditMunicipalityCity = ({
 }) => {
     //console.log(data)
     const {handleSubmit, control, formState: { errors } } = useForm();
-
     const update = (_data) => {
         updateMunicipalityCity({..._data, id: data.id}) //inserting id in the object
     }
