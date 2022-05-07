@@ -18,6 +18,7 @@ import { fetchSpecificClass, setSpecificClass } from '../../../../redux/specific
 import { fetchSubClass, setSubClass } from '../../../../redux/sub-class/action';
 import { fetchClassificationRedux } from '../../../../redux/classification/actions';
 import { removeSelectedAdjustment } from '../../../../redux/land-adjustments/actions';
+import { fetchAppliedToLguRedux } from '../../../../redux/applied-to-lgu/actions';
 
 const AddEditAssessmentDetail = (props) => {
     const { data, control, errors, setValue, handleSubmit, saveAssessmentDetail, assessmentDetail, setClassificationName,
@@ -44,18 +45,29 @@ const AddEditAssessmentDetail = (props) => {
     const selectedAdjustment = useSelector((state) => state.landAdjustmentData.selectedAdjustment);
     const transaction = useSelector(state => state.transactionData.transaction);
     const landValueAdjustment = useSelector(state => state.landValueAdjustmentData.landValueAdjustment);
+    const appliedToLguList = useSelector(state => state.appliedToLguData.appliedToLgu)
+    const pin = useSelector((state) => state.pinData.pin);
 
     //local state
     const [filteredClassificationList, setFilteredClassificationList] = useState();
     const [adjustmentPercent, setAdjustmentPercent] = useState("");
-    // console.log(assessmentDetail)
-    // filtering classification based on revision year selected
+
     useEffect(() => {
-        const filtered = classificationList?.filter((classification) => {
+        dispatch(fetchAppliedToLguRedux(revisionYear));
+    }, [dispatch, revisionYear])
+
+    // filtering classification based on revision year selected and Applied to LGU
+    useEffect(() => {
+        const filteredByYear = classificationList?.filter((classification) => {
             return classification.year_tag === revisionYear
         })
-        setFilteredClassificationList(filtered)
-    }, [classificationList, revisionYear, selectedAdjustment?.expression])
+        const inLguList = appliedToLguList.some(item => item.lgu === pin.lgu);
+        if(inLguList) {
+            setFilteredClassificationList(filteredByYear)
+            return;
+        }
+        setFilteredClassificationList([])
+    }, [appliedToLguList, classificationList, pin.lgu, revisionYear, selectedAdjustment.expression])
 
     const setData = useCallback(() => {
         dispatch(setSpecificClass());
@@ -96,13 +108,6 @@ const AddEditAssessmentDetail = (props) => {
         setLandAssessedValue(filteredClassification[0]?.rate ? Number(marketValue * (parseInt(filteredClassification[0]?.rate) / 100)).toFixed(2) : 0)
         setAreaType("")
         setUnitValue("")
-        // setLandArea(0);
-        // setTotalLandAreaHa(0);
-        // setTotalLandAreaSqm(0);
-        // setMarketValue(0);
-        // setLandBaseMarketValue(0);
-        // setLandMarketValue(0);
-        // setLandAssessedValue(0)
         setClassificationName(filteredClassification[0]?.classification)
     }
 

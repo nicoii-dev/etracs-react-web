@@ -39,7 +39,8 @@ const InitialInfo = (props) => {
         await dispatch(clearSpecificClass());
         await dispatch(clearSubClass());
         let municipalityData = municipalityList.find(obj => { return obj.id.toString() === data.municipality_name.toString() })
-
+        let barangayData = barangayList.find(obj => { return obj.id.toString() === data.barangay.toString() })
+        
         // creating pin
         let PIN = "";
         if (data.pinType === 'new') {
@@ -53,7 +54,8 @@ const InitialInfo = (props) => {
             pin: PIN,
             lgu_id: municipalityData.id,
             municipality: municipalityData.municipality_name,
-            lgu: municipalityData.lgu_name
+            municipality_lgu: municipalityData.lgu_name,
+            lgu: barangayData.lgu_name
         }
         await dispatch(setPin(payload))
         setShowInitialModal(false)

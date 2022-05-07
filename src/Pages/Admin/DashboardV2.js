@@ -43,18 +43,18 @@ const DashboardV2 = () => {
     const [approved, setApproved] = useState(0);
     const [cancelled, setCancelled] = useState(0);
 
-    const fetchData = useCallback(async () => {
-        await dispatch(fetchPersonnelRedux());
-        await dispatch(fetchIndividualRedux());
-        await dispatch(fetchJuridicalRedux());
-        await dispatch(fetchMultipleRedux());
-        await dispatch(fetchFaasRedux());
+    // const fetchData = useCallback(async () => {
+    //     await dispatch(fetchPersonnelRedux());
+    //     await dispatch(fetchIndividualRedux());
+    //     await dispatch(fetchJuridicalRedux());
+    //     await dispatch(fetchMultipleRedux());
+    //     await dispatch(fetchFaasRedux());
 
-    }, [dispatch])
+    // }, [dispatch])
 
-    useEffect(() => {
-        fetchData();
-    }, [fetchData])
+    // useEffect(() => {
+    //     fetchData();
+    // }, [fetchData])
 
     const faasHandler = useCallback(() => {
         let _interim = 0;

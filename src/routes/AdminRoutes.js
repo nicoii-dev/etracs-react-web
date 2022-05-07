@@ -37,6 +37,7 @@ import { fetchAssessmentLevelRedux } from "../redux/assessment-levels/actions";
 import { fetchPersonnelRedux } from "../redux/personnel/actions";
 import { fetchAccountsRedux } from '../redux/accounts/actions';
 import { fetchRevisionYearRedux } from '../redux/revision-year/action';
+import { fetchFaasRedux } from '../redux/faas/actions';
 
 
 const AdminRoutes = () => {
@@ -53,6 +54,8 @@ const AdminRoutes = () => {
         await dispatch(fetchAssessmentLevelRedux());
         await dispatch(fetchAccountsRedux());
         await dispatch(fetchRevisionYearRedux());
+        await dispatch(fetchRevisionYearRedux());
+        await dispatch(fetchFaasRedux());
     }, [dispatch])
 
     React.useEffect(() => {
