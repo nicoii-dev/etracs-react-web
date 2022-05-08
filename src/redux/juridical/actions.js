@@ -29,7 +29,14 @@ export const storeJuridicalRedux = (payload) => {
   return async (dispatch) => {
     try {
       const response = await JuridicalApi.storeJuridical(payload);
-      if(response === '422' || response === '500' || response === '404'){
+      if(response?.status === 422){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Account number or Juridical name is already taken!',
+        })
+        return;
+      } else if(response?.status === 500) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -42,6 +49,7 @@ export const storeJuridicalRedux = (payload) => {
           type: actionTypes.STORE_JURIDICALS, 
           payload: response
         })
+        return 200;
       }
 
     } catch (error) {
@@ -54,7 +62,14 @@ export const updateJuridicalRedux = (payload, id) => {
   return async (dispatch) => {
     try {
       const response = await JuridicalApi.updateJuridical(payload, id);
-      if(response === '422' || response === '500' || response === '404'){
+      if(response?.status === 422){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Account number or Juridical name is already taken!',
+        })
+        return;
+      } else if(response?.status === 500) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -71,6 +86,7 @@ export const updateJuridicalRedux = (payload, id) => {
           type: actionTypes.UPDATE_JURIDICALS, 
           payload: response
         })
+        return 200;
       }
     } catch (error) {
       Swal.fire({

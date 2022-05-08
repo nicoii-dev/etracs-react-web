@@ -6,7 +6,7 @@ export const fetchMultipleRedux = () => {
   return async (dispatch) => {
     try {
       const response = await MultipleApi.getMultiple();
-      if(response === '422' || response === '500' || response === '404'){
+      if (response === '422' || response === '500' || response === '404') {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -15,7 +15,7 @@ export const fetchMultipleRedux = () => {
         return;
       } else {
         dispatch({
-          type: actionTypes.FETCH_MULTIPLE, 
+          type: actionTypes.FETCH_MULTIPLE,
           payload: response
         })
       }
@@ -29,7 +29,14 @@ export const storeMultipleRedux = (payload) => {
   return async (dispatch) => {
     try {
       const response = await MultipleApi.storeMultiple(payload);
-      if(response === '422' || response === '500' || response === '404'){
+      if (response?.status === 422) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Account number or Juridical name is already taken!',
+        })
+        return;
+      } else if (response?.status === 500) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -39,9 +46,10 @@ export const storeMultipleRedux = (payload) => {
       } else {
         Swal.fire('Saved!', '', 'success');
         dispatch({
-          type: actionTypes.STORE_MULTIPLE, 
+          type: actionTypes.STORE_MULTIPLE,
           payload: response
         })
+        return 200;
       }
 
     } catch (error) {
@@ -54,7 +62,14 @@ export const updateMultipleRedux = (payload, id) => {
   return async (dispatch) => {
     try {
       const response = await MultipleApi.updateMultiple(payload, id);
-      if(response === '422' || response === '500' || response === '404'){
+      if (response?.status === 422) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Account number or Juridical name is already taken!',
+        })
+        return;
+      } else if (response?.status === 500) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -68,9 +83,10 @@ export const updateMultipleRedux = (payload, id) => {
           'success'
         );
         dispatch({
-          type: actionTypes.UPDATE_MULTIPLE, 
+          type: actionTypes.UPDATE_MULTIPLE,
           payload: response
         })
+        return 200;
       }
     } catch (error) {
       Swal.fire({
@@ -96,7 +112,7 @@ export const deleteMultipleRedux = (id) => {
       if (result.isConfirmed) {
         try {
           const response = await MultipleApi.deleteMultiple(id)
-          if(response === '422' || response === '500' || response === '404'){
+          if (response === '422' || response === '500' || response === '404') {
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
@@ -110,7 +126,7 @@ export const deleteMultipleRedux = (id) => {
               'success'
             )
             dispatch({
-              type: actionTypes.DELETE_MULTIPLE, 
+              type: actionTypes.DELETE_MULTIPLE,
               payload: response
             })
           }
@@ -140,7 +156,7 @@ export const deleteMultipleMultipleRedux = (payload) => {
       if (result.isConfirmed) {
         try {
           const response = await MultipleApi.multipleDeleteMultiple(payload)
-          if(response === '422' || response === '500' || response === '404'){
+          if (response === '422' || response === '500' || response === '404') {
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
@@ -154,7 +170,7 @@ export const deleteMultipleMultipleRedux = (payload) => {
               'success'
             )
             dispatch({
-              type: actionTypes.DELETE_MULTIPLE_MULTIPLE, 
+              type: actionTypes.DELETE_MULTIPLE_MULTIPLE,
               payload: response
             })
           }

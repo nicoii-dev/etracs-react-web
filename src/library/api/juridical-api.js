@@ -13,7 +13,6 @@ const JuridicalApi = {
 
   storeJuridical: async (payload) => {
     try {
-      console.log(payload)
         const json = JSON.stringify(payload);
         const response = await axios.post("http://localhost:8000/api/juridical", json , {
             headers: {
@@ -24,7 +23,7 @@ const JuridicalApi = {
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message.substr(32, 3)
+        return error.response
       }
   },
 
@@ -50,7 +49,7 @@ const JuridicalApi = {
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message.substr(32, 3)
+        return error.response
       }
   },
   

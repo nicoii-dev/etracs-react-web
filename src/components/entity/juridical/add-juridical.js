@@ -55,7 +55,7 @@ const AddJuridical = ({
                       rules={{
                         required: {
                           value: true,
-                          message: 'Juridical name is required',
+                          message: 'Account number is required',
                         },
                       }}
                     />

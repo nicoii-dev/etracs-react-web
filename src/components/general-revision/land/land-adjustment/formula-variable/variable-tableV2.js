@@ -36,7 +36,7 @@ const VariableTableV2 = (props) => {
                         onClick={() => {
                             setShowModal(!showModal)
                         }}>
-                        <AddBox />
+                        {/* <AddBox /> */}
                     </IconButton>
                 </Box>
                 <TableContainer sx={{ maxHeight: 240, height: 240, }}>

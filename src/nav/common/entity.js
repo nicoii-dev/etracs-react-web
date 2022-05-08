@@ -70,11 +70,11 @@ const EntityNav = ({open}) => {
                         icon={<PeopleAlt style={{color: 'white'}}/>}
                         title={'Multiple'}
                     />
-                    <NavItem 
+                    {/* <NavItem 
                         link={'entity/reconcile'}
                         icon={<CoPresent style={{color: 'white'}}/>}
                         title={'Reconcile'}
-                    />
+                    /> */}
                 </List>
             </Collapse>
         </div>

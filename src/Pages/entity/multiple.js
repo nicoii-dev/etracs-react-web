@@ -48,35 +48,31 @@ const MultiplePage = () => {
       zipcode: _data.zipCode,
       remarks: _data.remarks,
     };
-    await dispatch(storeMultipleRedux(payload));
-    setOpen(!open);
+    const response = await dispatch(storeMultipleRedux(payload));
+    if (response !== 200) {
+      return;
+    }
+    setOpen(!open)
   };
 
-  const updateData = (_data) => {
-    Swal.fire({
-      title: "Do you want to update this data?",
-      //showDenyButton: true,
-      showCancelButton: true,
-      confirmButtonText: "Update",
-    }).then(async (result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        const payload = {
-          account_number: _data.accountNumber,
-          multiple_name: _data.multipleName,
-          email: _data.email,
-          contact_number: _data.contactNumber,
-          house_number: _data.houseNumber,
-          street: _data.street,
-          barangay: _data.barangay,
-          city_municipality: _data.cityMunicipality,
-          zipcode: _data.zipCode,
-          remarks: _data.remarks,
-        };
-        await dispatch(updateMultipleRedux(payload, _data.id));
-        setOpen(!open);
-      }
-    });
+  const updateData = async (_data) => {
+    const payload = {
+      account_number: _data.accountNumber,
+      multiple_name: _data.multipleName,
+      email: _data.email,
+      contact_number: _data.contactNumber,
+      house_number: _data.houseNumber,
+      street: _data.street,
+      barangay: _data.barangay,
+      city_municipality: _data.cityMunicipality,
+      zipcode: _data.zipCode,
+      remarks: _data.remarks,
+    };
+    const response = await dispatch(updateMultipleRedux(payload, _data.id));
+    if (response !== 200) {
+      return;
+    }
+    setOpen(!open)
   };
 
   const deleteData = async () => {

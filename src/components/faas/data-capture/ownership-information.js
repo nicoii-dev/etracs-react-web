@@ -57,7 +57,7 @@ const OwnershipInformation = ({
                 pointerEvents: (userData.user.role === "ASSESSOR" && status === "FOR APPROVAL")
                     || (userData.user.role === "ADMIN" && status === "FOR APPROVAL")
                     || (transaction === "Data Capture" && status === "CURRENT")
-                    || (status === "APPROVED") || (status === "APPROVED") ? 'none' : 'auto'
+                    || (status === "APPROVED") || (status === "CANCELLED") ? 'none' : 'auto'
             }}>
             <Grid item md={12} xs={12}>
                 <Divider textAlign="left">
