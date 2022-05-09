@@ -29,7 +29,14 @@ export const storeIndividualRedux = (payload) => {
   return async (dispatch) => {
     try {
       const response = await IndividualApi.storeIndividual(payload);
-      if(response === '422' || response === '500' || response === '404'){
+      if(response === 422){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'This entity is already registered!',
+        })
+        return;
+      } else if(response?.status === 500) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -42,6 +49,7 @@ export const storeIndividualRedux = (payload) => {
           type: actionTypes.STORE_INDIVIDUALS, 
           payload: response
         })
+        return 200;
       }
 
     } catch (error) {
@@ -54,7 +62,14 @@ export const updateIndividualRedux = (payload, id) => {
   return async (dispatch) => {
     try {
       const response = await IndividualApi.updateIndividual(payload, id);
-      if(response === '422' || response === '500' || response === '404'){
+      if(response === 422){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'This entity is already registered!',
+        })
+        return;
+      } else if(response?.status === 500) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -71,6 +86,7 @@ export const updateIndividualRedux = (payload, id) => {
           type: actionTypes.UPDATE_INDIVIDUALS, 
           payload: response
         })
+        return 200;
       }
     } catch (error) {
       Swal.fire({

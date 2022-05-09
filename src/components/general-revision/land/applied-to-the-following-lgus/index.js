@@ -41,7 +41,7 @@ const AppliedToTheFollowingLgus = (props) => {
 
     const addLgu = async () => {
         const payload = {
-            lgu: selected.lgu_name,
+            lgu: selected?.lgu_name,
             year_tag: revisionYear
         }
         setSelected(null)

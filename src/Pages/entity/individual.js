@@ -61,7 +61,10 @@ const IndividualPage = () => {
       height: _data.height,
       weight: _data.weight,
     };
-    await dispatch(storeIndividualRedux(payload))
+    const response = await dispatch(storeIndividualRedux(payload))
+    if (response !== 200) {
+      return;
+    }
     setOpen(!open)
   };
 
@@ -97,12 +100,11 @@ const IndividualPage = () => {
           height: _data.height,
           weight: _data.weight,
         };
-        try {
-          await dispatch(updateIndividualRedux(payload, _data.id));
-          setOpen(!open)
-        } catch (error) {
-          console.log(error.message);
+        const response = await dispatch(updateIndividualRedux(payload, _data.id));
+        if (response !== 200) {
+          return;
         }
+        setOpen(!open)
       }
     });
   };

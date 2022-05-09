@@ -449,23 +449,14 @@ const AddIndividual = ({
                           fullWidth
                           label="Profession"
                           name="profession"
-                          select
-                          SelectProps={{ native: true }}
+                          // select
+                          // SelectProps={{ native: true }}
                           variant="outlined"
                           onBlur={onBlur}
                           onChange={onChange}
                           size='small'
-                          value={data?.profession ? data?.profession : value}
-                        >
-                          {Professions.map((option) => (
-                              <option
-                                  key={option}
-                                  value={option}
-                              >
-                                  {option}
-                              </option>
-                          ))}
-                        </TextField>
+                          value={value}
+                        />
                       )}
                     />
                     {errors.profession && (<div><p className={InputErrorStyles.errorText}>{errors.profession?.message}</p></div>)}

@@ -467,7 +467,7 @@ const GeneralInformation = ({
                             <Grid item md={7} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
                                     defaultData={data?.appraised_by ? data?.appraised_by :
-                                        userData?.personnel[0]?.firstname + " " + userData?.personnel[0]?.middlename.charAt(0) + ". " + userData?.personnel[0]?.lastname}
+                                        userData?.personnel[0]?.firstname + " " + userData?.personnel[0]?.middlename?.charAt(0) + ". " + userData?.personnel[0]?.lastname}
                                     label="Appraised By*"
                                     name="appraisedBy"
                                     variant="outlined"

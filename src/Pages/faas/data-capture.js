@@ -249,8 +249,8 @@ const DataCapturePage = (props) => {
         let newData = [];
         personnelList.forEach(item => newData.push({
             "id": item.id,
-            "value": item.firstname + " " + item.middlename.charAt(0) + ". " + item.lastname,
-            "label": item.firstname + " " + item.middlename.charAt(0) + ". " + item.lastname,
+            "value": item?.firstname + " " + item?.middlename?.charAt(0) + ". " + item?.lastname,
+            "label": item?.firstname + " " + item?.middlename?.charAt(0) + ". " + item?.lastname,
         }));
         setNewPersonnelList(newData)
     }, [personnelList])
@@ -320,8 +320,10 @@ const DataCapturePage = (props) => {
             previous_mv: _data.previousMv,
             previous_av: _data.previousAv,
             appraised_by: _data.appraisedBy,
+            appraised_position: _data.appraisedPosition,
             appraised_date: _data.appraisedDate,
             recommended_by: _data.recommendedBy,
+            recommended_position: _data.recommendedPosition,
             recommended_date: _data.recommendedDate,
             approve_by: _data.approveBy,
             approve_date: _data.approvedDate,

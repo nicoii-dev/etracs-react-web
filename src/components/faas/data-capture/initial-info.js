@@ -359,6 +359,7 @@ const InitialInfo = (props) => {
                                                 onBlur={onBlur}
                                                 onChange={onChange}
                                                 value={value}
+                                                disabled
                                                 InputLabelProps={{
                                                     shrink: true,
                                                 }}

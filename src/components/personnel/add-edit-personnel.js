@@ -94,6 +94,10 @@ const AddEditPersonnel = (props) => {
                                     inputStyle={{ style: { textTransform: 'capitalize' } }}
                                     control={control}
                                     rules={{
+                                        required: {
+                                            value: true,
+                                            message: 'Middle name is required',
+                                        },
                                         minLength: {
                                             value: 2,
                                             message: 'Middle name must be atleast 2 characters.',

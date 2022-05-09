@@ -50,7 +50,7 @@ const FaasPage = () => {
 
     const user = JSON.parse(localStorage.getItem("user"));
 
-    const personnel = user.personnel[0].firstname + " " + user.personnel[0].middlename.charAt(0) + ". " + user.personnel[0].lastname;
+    const personnel = user?.personnel[0]?.firstname + " " + user?.personnel[0]?.middlename?.charAt(0) + ". " + user?.personnel[0]?.lastname;
 
     React.useEffect(() => {
         dispatch(fetchFaasRedux())

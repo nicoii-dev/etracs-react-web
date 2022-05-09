@@ -23,7 +23,7 @@ const IndividualApi = {
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message.substr(32, 3)
+        return error.response
       }
   },
 
@@ -49,7 +49,7 @@ const IndividualApi = {
         const data = await response.data;
         return data;
       } catch (error) {
-        return error.message.substr(32, 3)
+        return error.response
       }
   },
   
