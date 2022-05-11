@@ -80,7 +80,7 @@ const ProfilePage = () => {
                         marginLeft: !status ? "45%" : "53%",
                         transform: "translate(-50%, -50%)",
                         width: !status ? "25%" : "25%",
-                        height: "50%",
+                        height: "55%",
                     },
                     overlay: {
                         zIndex: 1,

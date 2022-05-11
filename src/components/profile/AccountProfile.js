@@ -22,7 +22,7 @@ const user = {
 const AccountProfile = (props) => {
     const {userdata, setShowModal} = props;
 
-    const fullName = userdata?.personnel[0]?.firstname + " " + userdata?.personnel[0]?.middlename.charAt(0) + ". " + userdata?.personnel[0]?.lastname;
+    const fullName = userdata?.personnel[0]?.firstname + " " + userdata?.personnel[0]?.middlename?.charAt(0) + ". " + userdata?.personnel[0]?.lastname;
     const email = userdata?.user?.email;
     const phoneNumber = userdata?.personnel[0]?.phone_number;
 

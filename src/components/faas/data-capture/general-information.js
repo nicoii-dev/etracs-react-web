@@ -62,7 +62,7 @@ const GeneralInformation = ({
         }
         setTdInUsed(false)
     }
-    console.log(transaction)
+    
     return (
         <>
             <Grid container spacing={3}

@@ -66,7 +66,7 @@ const AssessmentDetail = (props) => {
         await dispatch(setAssessmentDetail(payload));
         Swal.fire('Saved!', '', 'success');
     }
-    console.log(JSON.parse(localStorage?.getItem("user")).user.role)
+
     return (
         <>
             <Grid container spacing={3}>

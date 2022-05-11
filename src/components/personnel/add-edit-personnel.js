@@ -44,7 +44,7 @@ const AddEditPersonnel = (props) => {
                             <Grid item md={4} xs={12}>
                                 <TextInputController
                                     defaultData={data?.staff_number}
-                                    label="Staff number*"
+                                    label="Employee number*"
                                     name="staffNumber"
                                     variant="outlined"
                                     inputStyle={{ style: { textTransform: 'uppercase' } }}
@@ -246,7 +246,7 @@ const AddEditPersonnel = (props) => {
                                 />
                                 {errors.gender && (<div><p className={InputErrorStyles.errorText}>{errors.gender?.message}</p></div>)}
                             </Grid>
-                            <Grid item md={4} xs={12}>
+                            {/* <Grid item md={4} xs={12}>
                                 <TextInputController
                                     defaultData={data?.txn_code}
                                     label="TXN code"
@@ -255,7 +255,7 @@ const AddEditPersonnel = (props) => {
                                     control={control}
                                 />
                                 {errors.txnCode && (<div><p className={InputErrorStyles.errorText}>{errors.txnCode?.message}</p></div>)}
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                     </CardContent>
                 </Grid>

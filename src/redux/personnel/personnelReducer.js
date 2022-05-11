@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes'
 
 const initialState = {
     personnels: [],
+    personnel: [],
 }
 
 const PersonnelReducer = (state = initialState, action) => {
@@ -15,6 +16,11 @@ const PersonnelReducer = (state = initialState, action) => {
             return {
                 ...state,
                 personnels: action.payload
+            }
+        case actionTypes.SHOW_PERSONNEL:
+            return {
+                ...state,
+                personnel: action.payload
             }
         case actionTypes.UPDATE_PERSONNEL:
             return {

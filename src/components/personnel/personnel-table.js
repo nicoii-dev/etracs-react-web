@@ -16,13 +16,13 @@ import Delete from '@mui/icons-material/Delete';
 // columns data
 const columns = [
     { id: "action", label: "Action", minWidth: 100 },
-    { id: "staff_number", label: "Staff no.", minWidth: 100 },
+    { id: "staff_number", label: "Employee no.", minWidth: 100 },
     { id: "lastname", label: "Last name", minWidth: 100 },
     { id: "firstname", label: "First name", minWidth: 100 },
     { id: "middlename", label: "Middle name", minWidth: 100 },
-    // { id: "phone_number", label: "Contact no.", minWidth: 100 },
+    { id: "phone_number", label: "Contact no.", minWidth: 100 },
     // { id: "email", label: "Email", minWidth: 100 },
-    { id: "txn_code", label: "TXN code", minWidth: 100 },
+    //{ id: "txn_code", label: "TXN code", minWidth: 100 },
 ]
 
 const PersonnelTable = (props) => {
@@ -77,7 +77,7 @@ const PersonnelTable = (props) => {
                         <TableBody>
                             {personnelList
                                 ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, index) => {
+                                ?.map((row, index) => {
                                     return (
                                         <TableRow
                                             hover

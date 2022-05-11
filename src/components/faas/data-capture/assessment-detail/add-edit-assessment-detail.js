@@ -54,6 +54,7 @@ const AddEditAssessmentDetail = (props) => {
 
     useEffect(() => {
         dispatch(fetchAppliedToLguRedux(revisionYear));
+        dispatch(fetchClassificationRedux());
     }, [dispatch, revisionYear])
 
     // filtering classification based on revision year selected and Applied to LGU
@@ -61,13 +62,14 @@ const AddEditAssessmentDetail = (props) => {
         const filteredByYear = classificationList?.filter((classification) => {
             return classification.year_tag === revisionYear
         })
-        const inLguList = appliedToLguList.some(item => item.lgu === pin.lgu);
+        const inLguList = appliedToLguList.some(item => item.lgu === pin.municipality);
+
         if(inLguList) {
             setFilteredClassificationList(filteredByYear)
             return;
         }
         setFilteredClassificationList([])
-    }, [appliedToLguList, classificationList, pin.lgu, revisionYear, selectedAdjustment.expression])
+    }, [appliedToLguList, classificationList, pin.municipality, revisionYear, selectedAdjustment.expression])
 
     const setData = useCallback(() => {
         dispatch(setSpecificClass());
@@ -185,7 +187,6 @@ const AddEditAssessmentDetail = (props) => {
 
     // actual use adjustment
     const calculateAdjustment = useCallback(() => {
-        console.log(1)
         if (selectedAdjustment?.expression) {
             const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
             setAdjustmentPercent(expressionValue * 100)
@@ -202,7 +203,6 @@ const AddEditAssessmentDetail = (props) => {
 
     // land value adjustment
     const calculateLandValueAdjustment = useCallback(() => {
-        console.log(2)
         if (landValueAdjustment?.adjustmentType === "ADD") {
             const landAdjusted = (landValueAdjustment?.adjustment/100) * landBaseMarketValue
             setLandMarketValue(Number(parseInt(landBaseMarketValue) + parseInt(landAdjusted)).toFixed(2))

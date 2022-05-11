@@ -26,6 +26,16 @@ const PersonnelApi = {
         }
     },
 
+    showPersonnel: async (id) => {
+        try {
+            const response = await axios.post("http://localhost:8000/api/personnel/"+id)
+            const data = await response.data;
+            return data;
+        } catch (error) {
+            return error.message.substr(32, 3)
+        }
+    },
+
     updatePersonnel: async (payload, id) => {
         try {
             const json = JSON.stringify(payload);

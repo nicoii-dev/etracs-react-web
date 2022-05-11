@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Box,
     Button,
@@ -9,21 +9,48 @@ import {
     Grid,
     TextField
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm, Controller } from "react-hook-form";
+import InputErrorStyles from '../../styles/error-text/InputErrorStyles.module.css'
+import {showPersonnelRedux, updatePersonnelRedux} from '../../redux/personnel/actions';
 
 const AccountProfileDetails = (props) => {
     const { userdata } = props;
+    const { control, handleSubmit, formState: { errors } } = useForm();
+    const dispatch = useDispatch();
 
     const organization = userdata?.job[0].org;
     const position = userdata?.user?.role;
+    const staffId = userdata?.personnel[0]?.id;
+    const staffNumber = userdata?.personnel[0]?.staff_number;
     const firstname = userdata?.personnel[0]?.firstname;
+    const middlename = userdata?.personnel[0]?.middlename;
     const lastname = userdata?.personnel[0]?.lastname;
+    const birthDate = userdata?.personnel[0]?.birth_date;
+    const gender = userdata?.personnel[0]?.gender;
     const email = userdata?.user?.email;
     const phoneNumber = userdata?.personnel[0]?.phone_number ? userdata?.personnel[0]?.phone_number : "";
 
+    const personnel = useSelector(state => state.personnelData.personnel)
 
-    const handleChange = (event) => {
-        
+    const updateHandler = async (data) => {
+        const payload = {
+            staff_number: staffNumber,
+            firstname: firstname,
+            middlename: middlename,
+            lastname: lastname,
+            birth_date: birthDate,
+            gender: gender,
+            email: email,
+            phone_number: data.phoneNumber,
+        }
+        await dispatch(updatePersonnelRedux(payload, staffId))
+        await dispatch(showPersonnelRedux(staffId))
     };
+
+    useEffect(() => {
+        dispatch(showPersonnelRedux(staffId))
+    }, [dispatch, staffId]);
 
     return (
         <form
@@ -125,15 +152,37 @@ const AccountProfileDetails = (props) => {
                             md={6}
                             xs={12}
                         >
-                            <TextField
-                                fullWidth
-                                label="Phone Number"
-                                name="phone"
-                                onChange={handleChange}
-                                type="number"
-                                value={phoneNumber}
-                                variant="outlined"
+                            <Controller
+                                defaultValue={personnel.phone_number ? personnel.phone_number : phoneNumber}
+                                name={'phoneNumber'}
+                                control={control}
+                                rules={{
+                                    required: {
+                                        value: true,
+                                        message: 'Phone number is required',
+                                    },
+                                    minLength: {
+                                        value: 11,
+                                        message: 'Phone number must be atleast 11 numbers',
+                                    },
+                                    maxLength: {
+                                        value: 11,
+                                        message: 'Phone number must be 11 numbers only',
+                                    }
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextField
+                                        fullWidth
+                                        label="Phone Number"
+                                        name="phoneNumber"
+                                        variant="outlined"
+                                        onBlur={onBlur}
+                                        onChange={onChange}
+                                        value={value}
+                                    />
+                                )}
                             />
+                            {errors.phoneNumber && (<div><p className={InputErrorStyles.errorText}>{errors.phoneNumber?.message}</p></div>)}
                         </Grid>
                     </Grid>
                 </CardContent>
@@ -148,6 +197,7 @@ const AccountProfileDetails = (props) => {
                     <Button
                         color="primary"
                         variant="contained"
+                        onClick={handleSubmit(updateHandler)}
                     >
                         Save details
                     </Button>

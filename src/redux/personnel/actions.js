@@ -50,6 +50,30 @@ export const storePersonnelRedux= (payload) => {
   }
 }
 
+export const showPersonnelRedux = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await PersonnelApi.showPersonnel(id);
+      if(response === '422' || response === '500' || response === '404'){
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+        })
+        return;
+      } else {
+        dispatch({
+          type: actionTypes.SHOW_PERSONNEL, 
+          payload: response
+        })
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 export const updatePersonnelRedux = (payload, id) => {
   return async (dispatch) => {
     try {
