@@ -158,8 +158,13 @@ const DataCapturePage = (props) => {
             remarks: _data.remarks,
         }
         console.log(payload)
-        await dispatch(storeFaasRedux(payload));
-        setTimeout(setShowDataCaptureModal(false), 1000)
+        const response = await dispatch(storeFaasRedux(payload));
+        console.log(response)
+        if (response !== 200) {
+            return;
+          }
+        setShowDataCaptureModal(false);
+        //setTimeout(setShowDataCaptureModal(false), 1000)
     }
 
     const updateDataCapture = async (_data) => {
@@ -168,7 +173,6 @@ const DataCapturePage = (props) => {
             Swal.fire('Please fill out Assessment Detail')
             return;
         }
-        console.log(landValueAdjustment)
         const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
         const payload = {
             status: statusForApproval === "CURRENT" ? "CURRENT" : _data.status,
@@ -235,8 +239,11 @@ const DataCapturePage = (props) => {
             remarks: _data.remarks,
         }
         console.log(payload)
-        await dispatch(updateFaasRedux(payload, data.id));
-        setTimeout(setShowDataCaptureModal(false), 1000)
+        const response = await dispatch(updateFaasRedux(payload, data.id));
+        if (response !== 200) {
+            return;
+          }
+        setShowDataCaptureModal(false);
     }
 
     const fetchData = useCallback(async () => {

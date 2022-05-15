@@ -119,7 +119,7 @@ const GeneralInformation = ({
                                             onBlur={onBlur}
                                             onChange={(e) => {
                                                 onChange(e.target.value)
-                                                onTdChange(e.target.value)
+                                               // onTdChange(e.target.value)
                                             }}
 
                                             disabled={transaction === "Change Classification" || transaction === "Change Taxability" ? true : false}

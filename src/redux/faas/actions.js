@@ -52,7 +52,14 @@ export const storeFaasRedux = (payload) => {
   return async (dispatch) => {
     try {
       const response = await FaasApi.storeFaas(payload);
-      if(response === '422' || response === '500' || response === '404'){
+      if (response?.status === 422) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'TD Number is already in use.',
+        })
+        return;
+      } else if (response?.status === 500) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -65,6 +72,7 @@ export const storeFaasRedux = (payload) => {
           type: actionTypes.STORE_FAAS, 
           payload: response
         })
+        return 200;
       }
 
     } catch (error) {
@@ -77,7 +85,14 @@ export const updateFaasRedux = (payload, id) => {
   return async (dispatch) => {
     try {
       const response = await FaasApi.updateFaas(payload, id);
-      if(response === '422' || response === '500' || response === '404'){
+      if (response?.status === 422) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'TD number has already been taken!',
+        })
+        return;
+      } else if (response?.status === 500) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
@@ -91,9 +106,10 @@ export const updateFaasRedux = (payload, id) => {
           'success'
         );
         dispatch({
-          type: actionTypes.UPDATE_FAAS, 
+          type: actionTypes.UPDATE_FAAS,
           payload: response
         })
+        return 200;
       }
     } catch (error) {
       Swal.fire({

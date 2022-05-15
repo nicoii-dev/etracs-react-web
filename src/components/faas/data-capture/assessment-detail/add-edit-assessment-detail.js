@@ -62,14 +62,14 @@ const AddEditAssessmentDetail = (props) => {
         const filteredByYear = classificationList?.filter((classification) => {
             return classification.year_tag === revisionYear
         })
-        const inLguList = appliedToLguList.some(item => item.lgu === pin.municipality);
+        const inLguList = appliedToLguList?.some(item => item.lgu === pin?.municipality ? pin.municipality : pin.pinPayload.municipality);
 
         if(inLguList) {
             setFilteredClassificationList(filteredByYear)
             return;
         }
         setFilteredClassificationList([])
-    }, [appliedToLguList, classificationList, pin.municipality, revisionYear, selectedAdjustment.expression])
+    }, [appliedToLguList, classificationList, pin.municipality, pin.pinPayload.municipality, revisionYear, selectedAdjustment.expression])
 
     const setData = useCallback(() => {
         dispatch(setSpecificClass());
@@ -234,7 +234,7 @@ const AddEditAssessmentDetail = (props) => {
                         <Grid item md={4} xs={12}>
                             <Grid item md={12} xs={12}>
                                 <Controller
-                                    defaultValue={assessmentDetail ? assessmentDetail?.classification : ""}
+                                    defaultValue={assessmentDetail?.classification ? assessmentDetail?.classification : ""}
                                     name={'classification'}
                                     control={control}
                                     rules={{
