@@ -76,6 +76,10 @@ const FaasPage = () => {
     }
 
     const onStatusChanged = async (data) => {
+        if(data === '-SELECT-') {
+            await dispatch(fetchFaasRedux())
+            return;
+        }
         const payload = {
             status: data
         }

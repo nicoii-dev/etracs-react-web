@@ -2,7 +2,6 @@ import { SET_LAND_VALUE_ADJUSTMENT, REMOVE_LAND_VALUE_ADJUSTMENT } from "./actio
 import Swal from "sweetalert2"
 
 export const setLandValueAdjustment = (payload) => {
-    Swal.fire('Saved!', '', 'success');
     return {
         type: SET_LAND_VALUE_ADJUSTMENT,
         payload: payload

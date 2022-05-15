@@ -14,7 +14,7 @@ import Switch from '@mui/material/Switch';
 import { IconButton } from '@mui/material';
 import Edit from '@mui/icons-material/Edit';
 import { useDispatch } from 'react-redux';
-import { Visibility } from '@mui/icons-material';
+import { Visibility, PictureAsPdf, Print } from '@mui/icons-material';
 
 // components
 import EnhancedTableHead from '../enhanced-table-head';
@@ -26,6 +26,7 @@ import { setSelectedAdjustment } from '../../../redux/land-adjustments/actions';
 import { setRevisionFaas } from '../../../redux/revision-year/action';
 import { setPin } from '../../../redux/pin/action';
 import { setTransaction } from '../../../redux/transaction/action';
+import { setLandValueAdjustment } from '../../../redux/land-value-adjustment/action';
 
 const FaasTable = ({
   faasList,
@@ -146,6 +147,11 @@ const FaasTable = ({
       expression: rowData.actual_use_value
     }
     await dispatch(setSelectedAdjustment(adjustmentPayload))
+    const landAdjustmentPayload = {
+      adjustmentType: rowData.land_adjustment_type,
+      adjustment: rowData.adjustment_value,
+    }
+    await dispatch(setLandValueAdjustment(landAdjustmentPayload))
   }
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -156,7 +162,7 @@ const FaasTable = ({
       {faasList ?
         <div>
           <Paper sx={{ width: '100%', mb: 2 }}>
-          {/* <SearchBar
+            {/* <SearchBar
           value={searched}
           onChange={(searchVal) => requestSearch(searchVal)}
           onCancelSearch={() => cancelSearch()}
@@ -216,9 +222,18 @@ const FaasTable = ({
                                 <Edit />
                               </IconButton>
                               :
-                              <IconButton onClick={() => { updateFaas(row) }}>
-                                <Visibility />
-                              </IconButton>
+                              <>
+                                <IconButton onClick={() => { updateFaas(row) }}>
+                                  <Visibility />
+                                </IconButton>
+                                {/* <IconButton onClick={() => { updateFaas(row) }}>
+                                  <Print />
+                                </IconButton>
+                                <IconButton onClick={() => { updateFaas(row) }}>
+                                  <PictureAsPdf />
+                                </IconButton> */}
+                              </>
+
                             }
                           </TableCell>
                           <TableCell align="right">{row?.status}</TableCell>
@@ -234,6 +249,7 @@ const FaasTable = ({
                           <TableCell align="right">{row?.restriction}</TableCell>
                           <TableCell align="right">{row?.previous_td_number}</TableCell>
                           <TableCell align="right">{row?.previous_pin}</TableCell>
+                          <TableCell align="right">{row?.previous_owner}</TableCell>
                           <TableCell align="right">{row?.owner_name}</TableCell>
                           <TableCell align="right">{row?.owner_address}</TableCell>
                           <TableCell align="right">{row?.owner_tin}</TableCell>
@@ -244,7 +260,7 @@ const FaasTable = ({
                           <TableCell align="right">{row?.beneficial_user}</TableCell>
                           <TableCell align="right">{row?.beneficial_tin}</TableCell>
                           <TableCell align="right">{row?.beneficial_address}</TableCell>
-                          <TableCell align="right">{row?.barangay}</TableCell>
+                          <TableCell align="right">{row?.barangay_lgu}</TableCell>
                           <TableCell align="right">{row?.city_municipality}</TableCell>
                           <TableCell align="right">{row?.location_house_number}</TableCell>
                           <TableCell align="right">{row?.location_street}</TableCell>
@@ -262,12 +278,12 @@ const FaasTable = ({
                           <TableCell align="right">{row?.area_type}</TableCell>
                           <TableCell align="right">{row?.market_value}</TableCell>
                           <TableCell align="right">{row?.actual_use}</TableCell>
-                          <TableCell align="right">{row?.actual_use_value}</TableCell>
+                          <TableCell align="right">{row?.actual_use_value * 100 + "%"}</TableCell>
                           <TableCell align="right">{row?.land_adjustment_type}</TableCell>
                           <TableCell align="right">{row?.adjustment_value}</TableCell>
                           <TableCell align="right">{row?.assessment_level}</TableCell>
                           <TableCell align="right">{row?.assessed_value}</TableCell>
-                          <TableCell align="right">{row?.taxable}</TableCell>
+                          <TableCell align="right">{row?.taxable === "0" ? "No" : "Yes"}</TableCell>
                           <TableCell align="right">{row?.previous_mv}</TableCell>
                           <TableCell align="right">{row?.previous_av}</TableCell>
                           <TableCell align="right">{row?.appraised_by}</TableCell>

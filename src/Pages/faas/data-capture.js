@@ -5,6 +5,9 @@ import { useForm, FormProvider } from "react-hook-form";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Swal from "sweetalert2";
+import { Visibility, PictureAsPdf, Print } from '@mui/icons-material';
+import { IconButton } from "@mui/material";
+import { makeStyles } from '@material-ui/core/styles';
 
 // components
 import InitialInfo from "../../components/faas/data-capture/initial-info";
@@ -22,6 +25,30 @@ import {
     storeFaasRedux,
     updateFaasRedux,
 } from "../../redux/faas/actions";
+import ReactToPdf from "../../components/faasV2/react-to-pdf";
+
+const useStyles = makeStyles((theme) => ({
+    iconSize1: {
+      '& svg': {
+        fontSize: 25
+      }
+    },
+    iconSize2: {
+      '& svg': {
+        fontSize: 40
+      }
+    },
+    iconSize3: {
+      '& svg': {
+        fontSize: 75
+      }
+    },
+    iconSize4: {
+      '& svg': {
+        fontSize: 100
+      }
+    }
+  }));
 
 const DataCapturePage = (props) => {
     const { data, status, setShowDataCaptureModal, personnel } = props
@@ -33,6 +60,8 @@ const DataCapturePage = (props) => {
         control,
         formState: { errors },
     } = methods;
+
+    const classes = useStyles();
 
     // global states
     const pin = useSelector((state) => state.pinData.pin);
@@ -47,11 +76,13 @@ const DataCapturePage = (props) => {
 
     //local states
     const [showPrintModal, setShowPrintModal] = useState(false);
+    const [showRpaFormModal, setShowRpaFormModal] = useState(false);
     const [showAssessmentModal, setShowAssessmentModal] = useState(false);
     const [entityList, setEntityList] = useState([]);
     const [ownerData, setOwnerData] = useState([]);
     const [newPersonnelList, setNewPersonnelList] = useState([]);
     const [printData, setPrintData] = useState([]);
+    const [rpaFormData, setRpaFormData] = useState([]);
 
     const userData = JSON.parse(localStorage?.getItem("user"));
 
@@ -560,10 +591,6 @@ const DataCapturePage = (props) => {
 
     const printHandler = async (_data) => {
         setShowPrintModal(true);
-        if (assessmentDetail.length <= 0) {
-            Swal.fire('Please fill out Assessment Detail')
-            return;
-        }
         const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
         const payload = {
             status: _data.status,
@@ -631,9 +658,78 @@ const DataCapturePage = (props) => {
         }
         console.log(payload)
         setPrintData(payload)
-
     }
 
+    const rpaFormHandler = async (_data) => {
+        setShowRpaFormModal(true);
+        const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
+        const payload = {
+            status: _data.status,
+            transaction: transaction,
+            revision_year: _data.revisionYear,
+            td_number: _data.tdNumber,
+            title_number: _data.titleNumber,
+            title_type: _data.titleType,
+            title_date: _data.titleDate,
+            issue_date: _data.issueDate,
+            effectivity: _data.effectivity,
+            quarter: _data.quarter,
+            restriction: _data.restriction,
+            previous_td_number: _data.previousTdNumber,
+            previous_pin: _data.previousPin,
+            previous_owner: _data.previousOwner,
+            owner_id: _data.owner.id !== undefined ? _data.owner.id : data.owner_id,
+            owner_name: _data.owner.value !== undefined ? _data.owner.value : data.owner_name,
+            owner_address: _data.owner.address !== undefined ? _data.owner.address : data.owner_address,
+            declared_owner: _data.declaredOwner,
+            declared_address: _data.declaredOwnerAddress,
+            pin: _data.pinNumber,
+            beneficial_user: null,
+            beneficial_tin: null,
+            beneficial_address: null,
+            barangay_lgu: _data.barangay,
+            city_municipality: _data.city_municipality,
+            location_house_number: _data.houseNumber,
+            location_street: _data.street,
+            cadastral: _data.cadastral,
+            block_number: _data.blockNumber,
+            survey_number: _data.surveyNumber,
+            purok_zone: _data.purokZone,
+            north: _data.north,
+            east: _data.east,
+            south: _data.south,
+            west: _data.west,
+            classification_id: assessmentDetail?.classification,
+            classification_name: assessmentDetail?.classification_name,
+            specific_class: assessmentDetail?.specific_class,
+            sub_class: assessmentDetail?.sub_class,
+            unit_value: assessmentDetail?.unit_value,
+            area: assessmentDetail?.land_area,
+            area_type: assessmentDetail?.area_type,
+            market_value: assessmentDetail?.market_value,
+            actual_use: selectedAdjustment?.id ? selectedAdjustment?.id : null,
+            actual_use_value: selectedAdjustment?.expression ? expressionValue : null,
+            land_adjustment_type: landValueAdjustment?.adjustmentType,
+            adjustment_value: landValueAdjustment?.adjustment,
+            assessment_level: assessmentDetail?.rate,
+            assessed_value: assessmentDetail?.land_assessed_value,
+            taxable: assessmentDetail?.taxable,
+            previous_mv: _data.previousMv,
+            previous_av: _data.previousAv,
+            appraised_by: _data.appraisedBy,
+            appraised_position: _data.appraisedPosition,
+            appraised_date: _data.appraisedDate,
+            recommended_by: _data.recommendedBy,
+            recommended_position: _data.recommendedPosition,
+            recommended_date: _data.recommendedDate,
+            approve_by: _data.approveBy,
+            approve_date: _data.approvedDate,
+            approved_position: _data.approvedPosition,
+            remarks: _data.remarks,
+        }
+        console.log(payload)
+        setRpaFormData(payload)
+    }
 
     return (
         <>
@@ -713,18 +809,18 @@ const DataCapturePage = (props) => {
                                     </>
                                     :
                                     <>
-                                    {transaction === "Data Capture" && data?.status === "CURRENT" ?
-                                        null :
-                                        <Button
-                                            color="primary"
-                                            variant="contained"
-                                            onClick={handleSubmit(data ? updateDataCapture : addDataCapture)}
-                                            style={{ marginRight: 20 }}
-                                        >
-                                            {data ? "Update" : "Save"}
-                                        </Button>
-                                    }
-                                        {(data?.status === "INTERIM" ) || data?.status === "CURRENT" ?
+                                        {transaction === "Data Capture" && data?.status === "CURRENT" ?
+                                            null :
+                                            <Button
+                                                color="primary"
+                                                variant="contained"
+                                                onClick={handleSubmit(data ? updateDataCapture : addDataCapture)}
+                                                style={{ marginRight: 20 }}
+                                            >
+                                                {data ? "Update" : "Save"}
+                                            </Button>
+                                        }
+                                        {(data?.status === "INTERIM") || data?.status === "CURRENT" ?
                                             <Button color="success" variant="contained"
                                                 onClick={handleSubmit(data?.status === "INTERIM" ? submitToCurrent : submitToApproval)}
                                             >{data?.status === "INTERIM" ? "Submit to current" : "submit for approval"}</Button>
@@ -745,9 +841,21 @@ const DataCapturePage = (props) => {
                                 marginBottom: -3
                             }}
                         >
-                            <Button color="primary" variant="contained"
+                            {/* <Button color="primary" variant="contained"
                                 onClick={handleSubmit(printHandler)}
-                            >PRINT</Button>
+                            >PRINT</Button> */}
+                            <IconButton 
+                                className={classes.iconSize1}
+                                onClick={handleSubmit(printHandler)}
+                            >
+                            Tax Declaration <Print />
+                            </IconButton>
+                            <IconButton 
+                                className={classes.iconSize1}
+                                onClick={handleSubmit(rpaFormHandler)}
+                            >
+                            RPA Form <Print />
+                            </IconButton>
                         </Box>
                         : null
                         // <>
@@ -827,6 +935,37 @@ const DataCapturePage = (props) => {
             >
                 <ReactToPrintComponent
                     printData={printData}
+                />
+            </Modal>
+
+                {/* pdf modal */}
+            <Modal
+                isOpen={showRpaFormModal}
+                onRequestClose={() => {
+                    setShowRpaFormModal(!showRpaFormModal)
+                }}
+                contentLabel="Example Modal"
+                onClose={() => {
+                    setShowRpaFormModal(!showRpaFormModal)
+                }}
+                ariaHideApp={false}
+                style={{
+                    content: {
+                        top: '50%',
+                        marginLeft: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: '45%',
+                        maxWidth: '45%',
+                        minWidth: '45%',
+                        height: '95%'
+                    },
+                    overlay: {
+                        zIndex: 9999
+                    }
+                }}
+            >
+                <ReactToPdf
+                    rpaFormData={rpaFormData}
                 />
             </Modal>
         </>

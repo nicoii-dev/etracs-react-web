@@ -233,7 +233,7 @@ const DataToPrint = React.forwardRef((props, ref) => {
                             <td className='td'>{data?.area}</td>
                             <td className='td'>{data?.area_type}</td>
                             <td className='td'>{data?.market_value}</td>
-                            <td className='td'>{data?.actual_use_value}</td>
+                            <td className='td'>{(data?.actual_use_value * 100) + "%"}</td>
                             <td className='td'>{data?.assessment_level}</td>
                             <td className='td'>{data?.assessed_value}</td>
                         </tr>

@@ -28,6 +28,7 @@ const LandValueAdjustment = (props) => {
 
     const adjustmentHandler = async (data) => {
         await dispatch(setLandValueAdjustment(data))
+        Swal.fire('Saved!', '', 'success');
     }
 
     return (
