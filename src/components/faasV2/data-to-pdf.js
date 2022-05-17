@@ -9,11 +9,13 @@ import {
     TextField,
     Typography
 } from '@mui/material';
-
+import { useSelector } from 'react-redux';
 import { useForm, Controller } from "react-hook-form";
 
 const DataToPdf = React.forwardRef((props, ref) => {
     const { data } = props;
+    const pin = useSelector((state) => state.pinData.pin);
+    console.log(pin)
     return (
         <>
             <div ref={ref}>
@@ -39,7 +41,7 @@ const DataToPdf = React.forwardRef((props, ref) => {
                             ARP No. : <div style={{ marginLeft: 30 }}>{data?.pin}</div>
                         </div>
                         <div style={{ marginLeft: 200, display: 'flex', fontSize: 12 }}>
-                            PIN : <div style={{ marginLeft: 30 }}>{data?.pin}</div>
+                            PIN : <div style={{ marginLeft: 30 }}>{pin.pin}</div>
                         </div>
                     </div>
                 </div>
@@ -83,6 +85,33 @@ const DataToPdf = React.forwardRef((props, ref) => {
                         </div>
                     </div>
                 </div>
+
+                {data?.status === "CANCELLED" ?
+                    <div style={{
+                        width: '100%',
+                        height: 100,
+                        position: 'absolute',
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        margin: 'auto',
+                        marginTop: 400,
+                        alignContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <Typography align="center" style={{
+                            fontWeight: 'bold',
+                            width: '100%',
+                            fontSize: 120,
+                            zIndex: -10,
+                            color: 'rgba(0,0,0,0.4',
+                        }}>
+                            CANCELLED
+                        </Typography>
+                    </div>
+                    : null
+                }
 
                 <h5 style={{ marginLeft: 50 }}>PROPERTY LOCATION</h5>
                 <div style={{ marginTop: -20, marginLeft: 50, border: '1px solid', display: 'flex', width: 725, height: 40 }}>
@@ -253,6 +282,31 @@ const DataToPdf = React.forwardRef((props, ref) => {
                     </table>
                 </div>
 
+                {data?.status === "CANCELLED" ?
+                    <div style={{
+                        width: '100%',
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        margin: 'auto',
+                        alignContent: 'center',
+                        alignItems: 'center',
+                    }}>
+                        <Typography align="center" style={{
+                            fontWeight: 'bold',
+                            width: '100%',
+                            fontSize: 120,
+                            zIndex: -10,
+                            color: 'rgba(0,0,0,0.4',
+                            position: 'absolute'
+                        }}>
+                            CANCELLED
+                        </Typography>
+                    </div>
+                    : null
+                }
+
                 <h5 style={{ marginLeft: 50, }}>VALUE ADJUSTMENT FACTOR - LAND</h5>
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: -20, marginLeft: 15 }}>
                     <table className='table' style={{ width: 725 }}>
@@ -422,6 +476,31 @@ const DataToPdf = React.forwardRef((props, ref) => {
                     UNDER OR NO. 10418378 DATED 01/30/2020, REALTY TAX CLEARANCE FOR 2020, ON FILE.
                 </div>
 
+                {data?.status === "CANCELLED" ?
+                    <div style={{
+                        width: '100%',
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        margin: 'auto',
+                        alignContent: 'center',
+                        alignItems: 'center',
+                    }}>
+                        <Typography align="center" style={{
+                            fontWeight: 'bold',
+                            width: '100%',
+                            fontSize: 120,
+                            zIndex: -10,
+                            color: 'rgba(0,0,0,0.4',
+                            position: 'absolute'
+                        }}>
+                            CANCELLED
+                        </Typography>
+                    </div>
+                    : null
+                }
+                
                 <h5 style={{ marginLeft: 50, }}>REFERENCE AND POSTING</h5>
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: -20, marginLeft: 15 }}>
                     <table className='table' style={{ width: 725 }}>
@@ -440,7 +519,7 @@ const DataToPdf = React.forwardRef((props, ref) => {
                         <tbody>
                             <tr>
                                 <td className='td' style={{ height: 30, }}>PIN</td>
-                                <td className='td'>{data?.pin}</td>
+                                <td className='td'>{pin.pin}</td>
                                 <td className='td'></td>
                                 <td className='td'></td>
                                 <td className='td'></td>

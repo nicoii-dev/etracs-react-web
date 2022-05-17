@@ -32,7 +32,7 @@ const RealPropertyInformation = ({
     const userData = JSON.parse(localStorage?.getItem("user"));
 
     useEffect(() => {
-        methods.setValue("pinNumber", pin?.pin ? pin?.pin : "")
+        methods.setValue("pinNumber", pin ? pin.pin : "")
         methods.setValue("revisionYear", revisionYear ? revisionYear : "")
     }, [assessmentDetail?.classification, methods, pin, revisionYear, selectedAdjustment?.classification])
 

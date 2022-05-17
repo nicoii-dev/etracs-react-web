@@ -53,16 +53,13 @@ const GeneralInformation = ({
 
     // check if the td number is already used
     const onTdChange = (e) => {
-        let faasCopy = []
-        faasCopy = faasList;
-        const check = faasCopy.some(item => item.td_number === e)
-        if(check) {
+        if (data?.td_number === e) {
             setTdInUsed(true);
             return;
         }
         setTdInUsed(false)
     }
-    
+
     return (
         <>
             <Grid container spacing={3}
@@ -119,7 +116,7 @@ const GeneralInformation = ({
                                             onBlur={onBlur}
                                             onChange={(e) => {
                                                 onChange(e.target.value)
-                                               // onTdChange(e.target.value)
+                                                onTdChange(e.target.value)
                                             }}
 
                                             disabled={transaction === "Change Classification" || transaction === "Change Taxability" ? true : false}
@@ -397,11 +394,7 @@ const GeneralInformation = ({
                             </Grid>
                             <Grid item md={12} xs={12} style={{ marginTop: -15 }}>
                                 <FaasTextInputController
-                                    // defaultData={data?.previous_owner && transaction.includes("Transfer") ? data?.owner_name :
-                                    //     (transaction === "Change Classification" && data?.previous_owner) || (transaction === "Change Taxability" && data?.previous_owner) ||
-                                    //         (transaction === "Data Capture" && data?.previous_owner) ?
-                                    //         data?.previous_owner : data?.owner_name}
-                                    defaultData={data?.previous_owner && transaction.includes("Transfer") ? data?.owner_name :
+                                    defaultData={data?.previous_owner && transaction.includes("Transfer of Ownership") ? data?.owner_name :
                                         data?.previous_owner ? data?.previous_owner : data?.owner_name && transaction.includes("Transfer") ? data?.owner_name : ""}
 
                                     label="Previous Owner"

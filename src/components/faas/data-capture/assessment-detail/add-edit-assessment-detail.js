@@ -62,14 +62,14 @@ const AddEditAssessmentDetail = (props) => {
         const filteredByYear = classificationList?.filter((classification) => {
             return classification.year_tag === revisionYear
         })
-        const inLguList = appliedToLguList?.some(item => item.lgu === pin?.municipality ? pin.municipality : pin.pinPayload.municipality);
+        const inLguList = appliedToLguList?.some(item => item.lgu === pin?.municipality_lgu ? pin.municipality_lgu : pin?.pinPayload?.municipality);
 
         if(inLguList) {
             setFilteredClassificationList(filteredByYear)
             return;
         }
         setFilteredClassificationList([])
-    }, [appliedToLguList, classificationList, pin.municipality, pin.pinPayload.municipality, revisionYear, selectedAdjustment.expression])
+    }, [appliedToLguList, classificationList, pin?.municipality, pin?.pinPayload?.municipality, revisionYear])
 
     const setData = useCallback(() => {
         dispatch(setSpecificClass());

@@ -29,26 +29,26 @@ import ReactToPdf from "../../components/faasV2/react-to-pdf";
 
 const useStyles = makeStyles((theme) => ({
     iconSize1: {
-      '& svg': {
-        fontSize: 25
-      }
+        '& svg': {
+            fontSize: 25
+        }
     },
     iconSize2: {
-      '& svg': {
-        fontSize: 40
-      }
+        '& svg': {
+            fontSize: 40
+        }
     },
     iconSize3: {
-      '& svg': {
-        fontSize: 75
-      }
+        '& svg': {
+            fontSize: 75
+        }
     },
     iconSize4: {
-      '& svg': {
-        fontSize: 100
-      }
+        '& svg': {
+            fontSize: 100
+        }
     }
-  }));
+}));
 
 const DataCapturePage = (props) => {
     const { data, status, setShowDataCaptureModal, personnel } = props
@@ -159,10 +159,9 @@ const DataCapturePage = (props) => {
         }
         console.log(payload)
         const response = await dispatch(storeFaasRedux(payload));
-        console.log(response)
         if (response !== 200) {
             return;
-          }
+        }
         setShowDataCaptureModal(false);
         //setTimeout(setShowDataCaptureModal(false), 1000)
     }
@@ -171,6 +170,16 @@ const DataCapturePage = (props) => {
         console.log(_data)
         if (assessmentDetail.length <= 0 || assessmentDetail === undefined) {
             Swal.fire('Please fill out Assessment Detail')
+            return;
+        }
+        console.log(data.td_number)
+        console.log(_data.tdNumber)
+        if (_data.tdNumber === data?.td_number) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'TD Number is already in use1.',
+            })
             return;
         }
         const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
@@ -242,7 +251,7 @@ const DataCapturePage = (props) => {
         const response = await dispatch(updateFaasRedux(payload, data.id));
         if (response !== 200) {
             return;
-          }
+        }
         setShowDataCaptureModal(false);
     }
 
@@ -368,8 +377,11 @@ const DataCapturePage = (props) => {
             remarks: _data.remarks,
         }
         console.log(payload)
-        await dispatch(updateFaasRedux(payload, data.id));
-        setTimeout(setShowDataCaptureModal(false), 1000)
+        const response = await dispatch(updateFaasRedux(payload, data.id));
+        if (response !== 200) {
+            return;
+        }
+        setShowDataCaptureModal(false);
     }
 
     const submitToApproval = async (_data) => {
@@ -380,7 +392,7 @@ const DataCapturePage = (props) => {
         const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
         const payload = {
             status: "FOR APPROVAL",
-            transaction: transaction,
+            transaction: _data.transaction2,
             revision_year: _data.revisionYear,
             td_number: _data.tdNumber,
             title_number: _data.titleNumber,
@@ -442,8 +454,11 @@ const DataCapturePage = (props) => {
             remarks: _data.remarks,
         }
         console.log(payload)
-        await dispatch(updateFaasRedux(payload, data.id));
-        setTimeout(setShowDataCaptureModal(false), 1000)
+        const response = await dispatch(updateFaasRedux(payload, data.id));
+        if (response !== 200) {
+            return;
+        }
+        setShowDataCaptureModal(false);
     }
 
     const approveHandler = async (_data) => {
@@ -454,7 +469,7 @@ const DataCapturePage = (props) => {
         const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
         const payload = {
             status: "APPROVED",
-            transaction: transaction,
+            transaction: _data.transaction2,
             revision_year: _data.revisionYear,
             td_number: _data.tdNumber,
             title_number: _data.titleNumber,
@@ -517,8 +532,11 @@ const DataCapturePage = (props) => {
             remarks: _data.remarks,
         }
         console.log(payload)
-        await dispatch(updateFaasRedux(payload, data.id));
-        setTimeout(setShowDataCaptureModal(false), 1000)
+        const response = await dispatch(updateFaasRedux(payload, data.id));
+        if (response !== 200) {
+            return;
+        }
+        setShowDataCaptureModal(false);
     }
 
     const cancelHandler = async (_data) => {
@@ -529,7 +547,7 @@ const DataCapturePage = (props) => {
         const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
         const payload = {
             status: "CANCELLED",
-            transaction: transaction,
+            transaction: _data.transaction2,
             revision_year: _data.revisionYear,
             td_number: _data.tdNumber,
             title_number: _data.titleNumber,
@@ -592,8 +610,11 @@ const DataCapturePage = (props) => {
             remarks: _data.remarks,
         }
         console.log(payload)
-        await dispatch(updateFaasRedux(payload, data.id));
-        setTimeout(setShowDataCaptureModal(false), 1000)
+        const response = await dispatch(updateFaasRedux(payload, data.id));
+        if (response !== 200) {
+            return;
+        }
+        setShowDataCaptureModal(false);
     }
 
     const printHandler = async (_data) => {
@@ -601,7 +622,7 @@ const DataCapturePage = (props) => {
         const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
         const payload = {
             status: _data.status,
-            transaction: transaction,
+            transaction: _data.transaction2,
             revision_year: _data.revisionYear,
             td_number: _data.tdNumber,
             title_number: _data.titleNumber,
@@ -672,7 +693,7 @@ const DataCapturePage = (props) => {
         const expressionValue = selectedAdjustment?.expression?.slice(selectedAdjustment?.expression?.lastIndexOf('*') + 1) // getting the number in expression
         const payload = {
             status: _data.status,
-            transaction: transaction,
+            transaction: _data.transaction2,
             revision_year: _data.revisionYear,
             td_number: _data.tdNumber,
             title_number: _data.titleNumber,
@@ -851,17 +872,17 @@ const DataCapturePage = (props) => {
                             {/* <Button color="primary" variant="contained"
                                 onClick={handleSubmit(printHandler)}
                             >PRINT</Button> */}
-                            <IconButton 
+                            <IconButton
                                 className={classes.iconSize1}
                                 onClick={handleSubmit(printHandler)}
                             >
-                            Tax Declaration <Print />
+                                Tax Declaration <Print />
                             </IconButton>
-                            <IconButton 
+                            <IconButton
                                 className={classes.iconSize1}
                                 onClick={handleSubmit(rpaFormHandler)}
                             >
-                            RPA Form <Print />
+                                RPA Form <Print />
                             </IconButton>
                         </Box>
                         : null
@@ -945,7 +966,7 @@ const DataCapturePage = (props) => {
                 />
             </Modal>
 
-                {/* pdf modal */}
+            {/* pdf modal */}
             <Modal
                 isOpen={showRpaFormModal}
                 onRequestClose={() => {

@@ -45,6 +45,8 @@ const FaasApi = {
   },
 
   updateFaas: async (payload, id) => {
+    console.log(payload)
+    console.log(id)
     try {
         const json = JSON.stringify(payload);
         const response = await axios.put("http://localhost:8000/api/faas/"+id, json , {
