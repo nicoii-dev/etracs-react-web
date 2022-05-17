@@ -65,25 +65,31 @@ const InputTdComponent = (props) => {
         setShowTdModal(false);
         setShowDataCaptureModal(true)
         const payload = {
-            classification: filteredFaas[0].classification_id,
-            classification_name: filteredFaas[0].classification_name,
-            rate: filteredFaas[0].assessment_level,
-            specific_class: filteredFaas[0].specific_class,
-            area_type: filteredFaas[0].area_type,
-            sub_class: filteredFaas[0].sub_class,
-            unit_value: filteredFaas[0].unit_value,
-            land_area: filteredFaas[0].area,
-            market_value: filteredFaas[0].market_value,
-            total_land_area_sqm: filteredFaas[0].area_type === "SQM" ? parseFloat(filteredFaas[0].area) * 1 : parseFloat(filteredFaas[0].area) * 10000,
-            total_land_area_ha: filteredFaas[0].area_type === "SQM" ? parseFloat(filteredFaas[0].area) / 10000 : parseFloat(filteredFaas[0].area) * 1,
-            land_base_market_value: filteredFaas[0].market_value,
-            land_market_value: filteredFaas[0].market_value,
-            land_assessed_value: filteredFaas[0].assessed_value,
-            taxable: filteredFaas[0].taxable,
+            classification: filteredFaas[0]?.classification_id,
+            classification_name: filteredFaas[0]?.classification_name,
+            rate: filteredFaas[0]?.assessment_level,
+            specific_class: filteredFaas[0]?.specific_class,
+            area_type: filteredFaas[0]?.area_type,
+            sub_class: filteredFaas[0]?.sub_class,
+            unit_value: filteredFaas[0]?.unit_value,
+            land_area: filteredFaas[0]?.area,
+            market_value: filteredFaas[0]?.market_value,
+            total_land_area_sqm: filteredFaas[0]?.area_type === "SQM" ? parseFloat(filteredFaas[0]?.area) * 1 : parseFloat(filteredFaas[0]?.area) * 10000,
+            total_land_area_ha: filteredFaas[0]?.area_type === "SQM" ? parseFloat(filteredFaas[0]?.area) / 10000 : parseFloat(filteredFaas[0]?.area) * 1,
+            land_base_market_value: filteredFaas[0]?.market_value,
+            land_market_value: filteredFaas[0]?.market_value,
+            land_assessed_value: filteredFaas[0]?.assessed_value,
+            taxable: filteredFaas[0]?.taxable,
         }
         await dispatch(setAssessmentDetail(payload));
-        await dispatch(setRevisionFaas(filteredFaas[0].revision_year));
-        await dispatch(setPin({ pin: filteredFaas[0].pin }))
+        await dispatch(setRevisionFaas(filteredFaas[0]?.revision_year));
+       // await dispatch(setPin({ pin: filteredFaas[0].pin }))
+       await dispatch(setPin({
+        pin: filteredFaas[0]?.pin,
+        municipality: filteredFaas[0]?.city_municipality,
+        municipality_lgu: filteredFaas[0]?.city_municipality,
+        lgu: filteredFaas[0]?.barangay_lgu
+      }))
     }
 
     return (

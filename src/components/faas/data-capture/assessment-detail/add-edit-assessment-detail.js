@@ -59,17 +59,18 @@ const AddEditAssessmentDetail = (props) => {
 
     // filtering classification based on revision year selected and Applied to LGU
     useEffect(() => {
+        console.log(pin)
         const filteredByYear = classificationList?.filter((classification) => {
             return classification.year_tag === revisionYear
         })
-        const inLguList = appliedToLguList?.some(item => item.lgu === pin?.municipality_lgu ? pin.municipality_lgu : pin?.pinPayload?.municipality);
+        const inLguList = appliedToLguList?.some(item => item.lgu === pin?.municipality_lgu);
 
         if(inLguList) {
             setFilteredClassificationList(filteredByYear)
             return;
         }
         setFilteredClassificationList([])
-    }, [appliedToLguList, classificationList, pin?.municipality, pin?.pinPayload?.municipality, revisionYear])
+    }, [appliedToLguList, classificationList, pin.municipality, pin.municipality_lgu, pin?.pinPayload?.municipality, revisionYear])
 
     const setData = useCallback(() => {
         dispatch(setSpecificClass());

@@ -85,6 +85,7 @@ const DataCapturePage = (props) => {
     const [rpaFormData, setRpaFormData] = useState([]);
 
     const userData = JSON.parse(localStorage?.getItem("user"));
+    console.log(pin)
 
     const addDataCapture = async (_data) => {
         console.log(_data)
