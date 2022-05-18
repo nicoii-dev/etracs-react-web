@@ -153,14 +153,24 @@ const AdminPageList = ({ open }) => {
           backgroundColor: "#66B2FF",
           width: "90%",
         }}>
-          <Face style={{ height: 50, width: 50 }} />
-          <div style={{ marginLeft: 5 }}>
-            <h5 style={{ color: 'white', }}>{user?.personnel[0]?.firstname.toUpperCase() + " " + user?.personnel[0]?.lastname.toUpperCase()}</h5>
-            <h6 style={{ marginTop: -25, color: '#606060' }}>{user?.user?.email}</h6>
-          </div>
-          <IconButton style={{ marginLeft: 20 }} onClick={logoutHandler}>
-            <Logout style={{ height: 30, width: 30, }} />
-          </IconButton>
+          {open ?
+            <>
+              <Face style={{ height: 50, width: 50 }} />
+              <div style={{ marginLeft: 5 }}>
+                <h5 style={{ color: 'white', }}>{user?.personnel[0]?.firstname.toUpperCase() + " " + user?.personnel[0]?.lastname.toUpperCase()}</h5>
+                <h6 style={{ marginTop: -25, color: '#606060' }}>{user?.user?.email}</h6>
+              </div>
+              <IconButton style={{ marginLeft: 20 }} onClick={logoutHandler}>
+                <Logout style={{ height: 30, width: 30, }} />
+              </IconButton>
+            </>
+            :
+            <>
+              <IconButton style={{ marginLeft: 0 }} onClick={logoutHandler}>
+                <Logout style={{ height: 30, width: 30, }} />
+              </IconButton>
+            </>
+          }
         </Paper>
       </div>
     </div>

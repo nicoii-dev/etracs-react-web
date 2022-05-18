@@ -11,6 +11,8 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 import AdminPageList from './admin';
 import MenuListComposition from '../components/header/drop-down-menu';
@@ -91,6 +93,7 @@ import { updateNav } from '../redux/nav/action';
     setExpanded
   }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const theme = useTheme();
     const status = useSelector((state) => state.navStatus.status);
     const [open, setOpen] = React.useState(true);
@@ -126,10 +129,17 @@ import { updateNav } from '../redux/nav/action';
           </AppBar> */}
         <Drawer variant="permanent" open={open} style={{zIndex: 99, backgroundColor:'#202020'}}>
           <DrawerHeader style={{ alignItems: 'center', justifyContent: 'center'}}>
+
+          <Button onClick={() => { navigate('/') }} style={{marginLeft: 0}}>
+
             <Typography variant="h4" noWrap component="div" style={{width:'100%', color: 'white', marginLeft: 20, fontFamily: 'Manrope-Extrabold'}}>
+              
             {open ? "ETRACS" : null}
+
             </Typography>
-            <IconButton onClick={handleDrawer} style={{color: 'white', marginRight: 20}}>
+            </Button>
+
+            <IconButton onClick={handleDrawer} style={{color: 'white', marginRight: open ? 0 : 70, marginLeft: open ? 70 : 0}}>
               {open ? <ChevronLeftIcon /> : <MenuIcon />}
             </IconButton>
           </DrawerHeader>
