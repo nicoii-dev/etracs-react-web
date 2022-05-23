@@ -65,11 +65,11 @@ const EntityNav = ({open}) => {
                         icon={<AssignmentInd style={{color: 'white'}}/>}
                         title={'Juridical'}
                     />
-                    <NavItem 
+                    {/* <NavItem 
                         link={'entity/multiple'}
                         icon={<PeopleAlt style={{color: 'white'}}/>}
                         title={'Multiple'}
-                    />
+                    /> */}
                     {/* <NavItem 
                         link={'entity/reconcile'}
                         icon={<CoPresent style={{color: 'white'}}/>}

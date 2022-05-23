@@ -141,12 +141,6 @@ const FaasTable = ({
     }
     await dispatch(setAssessmentDetail(payload));
     await dispatch(setRevisionFaas(rowData.revision_year));
-    const pinPayload = {
-      pin: rowData.pin,
-      municipality: rowData.city_municipality,
-      municipality_lgu: rowData.city_municipality,
-      lgu: rowData.barangay_lgu
-    }
     await dispatch(setPin({
       pin: rowData.pin,
       municipality: rowData.city_municipality,

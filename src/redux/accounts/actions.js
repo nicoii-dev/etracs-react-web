@@ -113,7 +113,7 @@ export const loginRedux = (payload) => {
         return;
       default:
         localStorage.setItem("user", JSON.stringify(response));
-        let personnel = response.personnel[0].firstname + " " + response.personnel[0].lastname
+        let personnel = response?.personnel[0]?.firstname + " " + response?.personnel[0]?.lastname
         Swal.fire(
           'Wecome!',
           personnel,

@@ -175,11 +175,11 @@ const DataCapturePage = (props) => {
         }
         console.log(data.td_number)
         console.log(_data.tdNumber)
-        if (_data.tdNumber === data?.td_number) {
+        if (_data.tdNumber === data?.td_number && _data.transaction.includes("transfer")) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'TD Number is already in use1.',
+                text: 'TD Number is already in use.',
             })
             return;
         }

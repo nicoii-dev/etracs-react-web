@@ -92,7 +92,7 @@ const AddIndividual = ({
                         },
                         minLength: {
                           value: 2,
-                          message: 'First name must be atleast 2 characters.',
+                          message: 'Middle name must be atleast 2 characters.',
                         },
                         pattern: {
                           value: /^[a-zA-Z ]*$/,
@@ -116,7 +116,7 @@ const AddIndividual = ({
                         },
                         minLength: {
                           value: 2,
-                          message: 'First name must be atleast 2 characters.',
+                          message: 'Last name must be atleast 2 characters.',
                         },
                         pattern: {
                           value: /^[a-zA-Z ]*$/,

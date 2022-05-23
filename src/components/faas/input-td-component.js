@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import {setAssessmentDetail} from '../../redux/assessment-detail/actions';
 import { setRevisionFaas } from '../../redux/revision-year/action';
 import { setPin } from '../../redux/pin/action';
+import { setSelectedAdjustment } from '../../redux/land-adjustments/actions';
 
 import InputErrorStyles from '../../styles/error-text/InputErrorStyles.module.css';
 // styles for react select
@@ -90,6 +91,12 @@ const InputTdComponent = (props) => {
         municipality_lgu: filteredFaas[0]?.city_municipality,
         lgu: filteredFaas[0]?.barangay_lgu
       }))
+      console.log(filteredFaas[0])
+      const adjustmentPayload = {
+        id: filteredFaas[0].actual_use,
+        expression: filteredFaas[0].actual_use_value
+      }
+      await dispatch(setSelectedAdjustment(adjustmentPayload))
     }
 
     return (
