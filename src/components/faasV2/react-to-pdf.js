@@ -4,7 +4,6 @@ import DataToPdf from './data-to-pdf';
 import { Button } from '@mui/material';
 import { PictureAsPdf, Print } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
-import Pdf from "react-to-pdf";
 
 const ReactToPdf = (props) => {
 
